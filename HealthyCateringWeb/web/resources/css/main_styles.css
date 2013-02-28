@@ -1,0 +1,16 @@
+/* 
+    Document   : main_styles
+    Created on : Feb 28, 2013, 1:10:33 PM
+    Author     : Karl
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+html {
+    background-color: red;
+}
+
+root { 
+    display: block;
+}
+
