@@ -5,13 +5,20 @@
     xmlns:ui="http://java.sun.com/jsf/facelets">
     
     <header id="primary_header">
-        <h1>Lol header</h1>
+        <h1>HealthyStuff™</h1>
     </header>
     
     <nav id="primary_nav">
-        <h2>This is amenu</h2>
-    </nav>
-    
+        <h:form>
+        <ul id="navul">
+            <li><h:commandLink action="index.xhtml">Nyheter</h:commandLink></li>
+            <li><h:commandLink action="order.xhtml">Bestilling</h:commandLink></li>
+            <li><h:commandLink action="menu.xhtml">Meny</h:commandLink></li>
+            <li><h:commandLink action="about.xhtml">Om oss</h:commandLink></li>
+            <li><h:commandLink action="contact.xhtml">Kontakt</h:commandLink></li>
+        </ul>
+        </h:form>
+    </nav>    
 
     
 </ui:composition>
