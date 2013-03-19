@@ -7,16 +7,14 @@
         primary elements that are not unique to one or two sites.
 */
 
-* {
-    color: #333333;
-    font-family: ‘Lucida Sans Unicode’, ‘Lucida Grande’, sans-serif;
+header#primary_header {
+    background-color: green;
 }
 
-html {
-    background-image:url('img/kitten.jpg'); 
+nav#primary_nav {
+    background-color: yellow;
 }
 
-root { 
-    display: block;
+article#primary_content {
+    background-color: burlywood;
 }
-

@@ -4,14 +4,12 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:ui="http://java.sun.com/jsf/facelets">
     
-    <header id="primary_header">
-        <h1>Lol header</h1>
-    </header>
+    <article id="primary_content">
     
-    <nav id="primary_nav">
-        <h2>This is amenu</h2>
-    </nav>
-    
+        <ui:insert name="subsite_header" />
 
+        <ui:insert name="subsite_content"/>
+        
+    </article>
     
 </ui:composition>
