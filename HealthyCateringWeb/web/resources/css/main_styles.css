@@ -3,11 +3,24 @@
     Created on : Feb 28, 2013, 1:10:33 PM
     Author     : Karl
     Description:
-        Purpose of the stylesheet follows.
+        This is the primary style sheet, meaing it styles
+        primary elements that are not unique to one or two sites.
 */
 
+@font-face {
+    font-family: 'deliciousroman';
+    src: url('fonts/delicious-roman.eot');
+    src: url('fonts/delicious-roman.eot?#iefix') format('embedded-opentype'),
+         url('fonts/delicious-roman.woff') format('woff'),
+         url('fonts/delicious-roman.ttf') format('truetype'),
+         url('fonts/delicious-roman.svg#deliciousroman') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
 html {
-    background-color: red;
+    background-image:url('img/kitten.jpg'); 
 }
 
 root { 
