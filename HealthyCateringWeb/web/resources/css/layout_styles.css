@@ -3,24 +3,25 @@
     Created on : Feb 28, 2013, 1:10:33 PM
     Author     : Karl
     Description:
-        This is the primary style sheet, meaing it styles
-        primary elements that are not unique to one or two sites.
+        This style sheet is related to placement and sub-styling of elements.
+        If you want to add something new to this file, first add a section
+        (via comments) as done previously. Keep it clean.
+
+        IMPORTANT: If what you're adding here is global to the entire site you
+        should add it to main_styles.css'
 */
 
 /* Main chunks of the site*/
 header#primary_header {
     background-color: green;
-    margin: 0;
 }
 
 nav#primary_nav {
     background-color: yellow;
-    margin: 0;
 }
 
 article#primary_content {
     background-color: burlywood;
-    margin: 0;
     float: left;
     width: 80%
 }
