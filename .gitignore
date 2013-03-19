@@ -2,3 +2,6 @@
 /HealthyCateringWeb/build/
 /HealthyCateringWeb/dist/
 /HealthyCateringWeb/build.xml
+
+# Mac crap
+.DS_Store
