@@ -1,0 +1,29 @@
+﻿Merge branch 'master' of https://github.com/hermith/mclak_healthy_catering_project
+
+Conflicts:
+	HealthyCateringWeb/web/index.xhtml
+#
+# It looks like you may be committing a merge.
+# If this is not correct, please remove the file
+#	.git/MERGE_HEAD
+# and try again.
+
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch and 'origin/master' have diverged,
+# and have 2 and 3 different commits each, respectively.
+#
+# All conflicts fixed but you are still merging.
+#   (use "git commit" to conclude merge)
+#
+# Changes to be committed:
+#
+#	modified:   HealthyCateringWeb/nbproject/ant-deploy.xml
+#	modified:   HealthyCateringWeb/nbproject/build-impl.xml
+#	modified:   HealthyCateringWeb/nbproject/genfiles.properties
+#	modified:   HealthyCateringWeb/nbproject/project.properties
+#	modified:   HealthyCateringWeb/web/index.xhtml
+#
+
