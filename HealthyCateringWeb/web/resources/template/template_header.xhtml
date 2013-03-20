@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <ui:composition
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:f="http://java.sun.com/jsf/core"
@@ -14,4 +15,41 @@
     
 
     
+=======
+<!--
+template_header.xhtml
+
+Contains:
+    Contains things related to the top header and navigation (top menu).
+
+    For any global stuff add it ti template_master.xhtml
+
+@author Karl
+-->
+
+
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    
+    <header id="primary_header">
+        <h1>HealthyStuff™</h1>
+    </header>
+    
+    <nav id="primary_nav">
+        <h:form>
+        <ul id="navul">
+            <li><h:commandLink action="index.xhtml">Nyheter</h:commandLink></li>
+            <li><h:commandLink action="order.xhtml">Bestilling</h:commandLink></li>
+            <li><h:commandLink action="menu.xhtml">Meny</h:commandLink></li>
+            <li><h:commandLink action="about.xhtml">Om oss</h:commandLink></li>
+            <li><h:commandLink action="contact.xhtml">Kontakt</h:commandLink></li>
+        </ul>
+        </h:form>
+    </nav>    
+
+    
+>>>>>>> 0763eacc450b5d500185c51db0a3aa1ec914acbf
 </ui:composition>

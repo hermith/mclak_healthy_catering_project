@@ -1,3 +1,15 @@
+<!--
+template_content.xhtml
+
+Contains:
+    Contains primary content such as the main part of the side and any potential
+    side bar that is required.
+
+    For any global stuff add it ti template_master.xhtml
+
+@author Karl
+-->
+
 <ui:composition
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:f="http://java.sun.com/jsf/core"
@@ -11,5 +23,13 @@
         <ui:insert name="subsite_content"/>
         
     </article>
+    
+    <aside id="sidebar">
+        
+        <ui:insert name="subsite_sidebar">
+            Sidebar yo!
+        </ui:insert>
+        
+    </aside>
     
 </ui:composition>

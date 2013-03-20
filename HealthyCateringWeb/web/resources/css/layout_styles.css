@@ -3,10 +3,15 @@
     Created on : Feb 28, 2013, 1:10:33 PM
     Author     : Karl
     Description:
-        This is the primary style sheet, meaing it styles
-        primary elements that are not unique to one or two sites.
+        This style sheet is related to placement and sub-styling of elements.
+        If you want to add something new to this file, first add a section
+        (via comments) as done previously. Keep it clean.
+
+        IMPORTANT: If what you're adding here is global to the entire site you
+        should add it to main_styles.css'
 */
 
+/* Main chunks of the site*/
 header#primary_header {
     background-color: green;
 }
@@ -17,4 +22,44 @@ nav#primary_nav {
 
 article#primary_content {
     background-color: burlywood;
+    float: left;
+    width: 80%
+}
+
+aside#sidebar {
+    float: right;
+    background-color: lightskyblue;
+    width: 20%;
+}
+
+footer#footer {
+    background-color: magenta;
+    float: left;
+    width: 100%;
+}
+
+/* Navigation */
+ul#navul {
+    display: block;
+    list-style-position: inside;
+    list-style-type: none;
+}
+
+ul#navul li {
+    -webkit-transition: 0.1s ease-in;
+    float: left;
+    background: red;
+}
+
+ul#navul li:hover {
+    background-color: darkred;
+    -webkit-transform: scale(1.05);
+}
+
+#navul a:link, a:visited {
+    padding: 8px 20px;
+    font-weight: bold;
+    font-size: 14px;
+    text-decoration: none;
+    display: block;
 }
