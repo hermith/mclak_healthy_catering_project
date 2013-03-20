@@ -1,42 +1,3 @@
-<<<<<<< HEAD
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
-    <h:head>
-        <title>Facelet Title</title>
-    </h:head>
-    <h:body>
-        <ui:composition template="resources/template/template_master.xhtml">
-            <ui:define name="subsite_header">
-                <h1>Index.hml hello</h1>
-            </ui:define>
-
-            <ui:define name="subsite_content">
-                    <h:dataTable value="#{shopping.items}" var="i">
-                        <h:column>
-                            <f:facet name="header">ID</f:facet>
-                            #{i.id};
-                        </h:column>
-
-                        <h:column>
-                            <f:facet name="header">Name</f:facet>
-                            #{i.name};
-                        </h:column>
-
-                        <h:column>
-                            <f:facet name="header">Price</f:facet>
-                            #{i.price};
-                        </h:column>
-
-                    </h:dataTable>
-                </ui:define>
-        </ui:composition>
-    </h:body>
-</html>
-=======
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
@@ -61,4 +22,3 @@
         </ui:composition>
     </h:body>
 </html>
->>>>>>> 0763eacc450b5d500185c51db0a3aa1ec914acbf
