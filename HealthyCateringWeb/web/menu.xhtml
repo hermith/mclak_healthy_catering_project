@@ -2,6 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets">
 
     <h:body>
@@ -9,11 +10,26 @@
             <ui:define name="subsite_header">
                 <h1>Meny</h1>
             </ui:define>
-            
+
             <ui:define name="subsite_content">
-                <p>Meny.</p>
+                <h:dataTable value="#{shopping.items}" var="item">
+                    <h:column>
+                        <f:facet name="header">ID</f:facet>
+                        #{item.id}
+                    </h:column>
+                    
+                    <h:column>
+                        <f:facet name="header">Name</f:facet>
+                        #{item.name}
+                    </h:column>
+                    
+                    <h:column>
+                        <f:facet name="header">Price</f:facet>
+                        #{item.price}
+                    </h:column>
+                </h:dataTable>
             </ui:define>
-            
+
             <!-- Optional!
             <ui:define name="subsite_sidebar">
                 Sidebar from main file.
