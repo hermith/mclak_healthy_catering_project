@@ -7,3 +7,30 @@
 */
 
 /* Remember to group by area, f.eks "lol.html" */
+
+
+
+/* Menu.xhtml */
+
+.menu-table{   
+	border-collapse:collapse;
+}
+ 
+.menu-table-header{
+	text-align:center;
+	background:none repeat scroll 0 0 #B5B5B5;
+	border-bottom:1px solid #BBBBBB;
+	padding:16px;
+}
+ 
+.menu-table-odd-row{
+	text-align:center;
+	background:none repeat scroll 0 0 #FFFFFF;
+	border-top:1px solid #BBBBBB;
+}
+ 
+.menu-table-even-row{
+	text-align:center;
+	background:none repeat scroll 0 0 #F9F9F9;
+	border-top:1px solid #BBBBBB;
+}
