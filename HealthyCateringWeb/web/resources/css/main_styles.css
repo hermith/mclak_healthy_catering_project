@@ -14,6 +14,14 @@
     padding: 0;
 }
 
+p {
+    padding: 8px;
+}
+
+h1, h2, h3, h4, h5 {
+    padding: 8px;
+}
+
 #site_width_constraint {
     margin: 0 auto;
     width: 990px;

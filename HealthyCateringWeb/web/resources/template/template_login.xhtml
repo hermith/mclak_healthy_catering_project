@@ -15,7 +15,7 @@ Contains:
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:ui="http://java.sun.com/jsf/facelets">
-    
+
     <div id="top_bar_span_login">
 
         <h:form styleClass="login_form">
@@ -26,11 +26,11 @@ Contains:
         </h:form>
 
     </div>
-    
+
     <div id="top_bar_span_login_always_show" >
         <h:outputText rendered="#{!userBean.loggedIn}" value="#{texts.login_click_here}." />
         <h:outputText rendered="#{userBean.loggedIn}" value="#{texts.login_logged_in_as}: #{userBean.username}"/>
     </div>
-    
+
     <div id="site_opaque" />
 </ui:composition>
