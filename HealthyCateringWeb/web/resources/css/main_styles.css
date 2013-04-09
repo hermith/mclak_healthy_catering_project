@@ -14,6 +14,11 @@
     padding: 0;
 }
 
+#site_width_constraint {
+    margin: 0 auto;
+    width: 990px;
+}
+
 body {
     /* Width should be limited here e.g:
     width: 1024px;

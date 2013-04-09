@@ -21,24 +21,31 @@ Contains:
         <h:outputStylesheet library="css" name="/main_styles.css"  />
         <h:outputStylesheet library="css" name="/layout_styles.css"  />
         <h:outputStylesheet library="css" name="/component_styles.css"  />
-        
+
+        <h:outputScript library="js" name="/jquery-1.9.1.js" />
+        <h:outputScript library="js" name="/login_jq.js" />
+
         <!-- Example JS-script:
         <h:outputScript library="js" name="/menuhandler.js" />
         Do NOT add just any script. Only GLOBAL scripts to be added here. -->
-        
+
         <!-- Global title, if you want overwrite it in any subfiles, create a new <head> tag there -->
-         <title>HealthyStuff™ Catering</title>
+        <title>HealthyStuff™ Catering</title>
     </h:head>
 
     <h:body>
 
-        <ui:include src="template_header.xhtml" />
-        
-        <ui:include src="template_content.xhtml" />
-        
-        <!-- The foote ris primarily the same on all websites, and is not meant
-        to be replaced by subsites -->
-        <footer id="footer">This is a footer, it is very nice</footer>
+        <ui:include src="template_login.xhtml"/>
 
+        <div id="site_width_constraint">
+
+            <ui:include src="template_header.xhtml" />
+
+            <ui:include src="template_content.xhtml" />
+
+            <!-- The foote ris primarily the same on all websites, and is not meant
+            to be replaced by subsites -->
+            <footer id="footer">This is a footer, it is very nice</footer>
+        </div>
     </h:body>
 </html>
