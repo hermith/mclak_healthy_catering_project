@@ -1,6 +1,9 @@
 package user;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.bean.ApplicationScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 /**
@@ -9,21 +12,35 @@ import javax.inject.Named;
 @Named
 @ApplicationScoped
 public class UserRoleHandler {
-    private final static String ROLE_ID_CUSTOMER = "Customer";
-    private final static String ROLE_ID_EMPLOYEE = "Employee";
-    private final static String ROLE_ID_SYSTEM = "System";
+    private final static String USER_ROLE_ID_PRIVATE_CUSTOMER = "private_customer";
+    private final static String USER_ROLE_ID_CORPORATE_CUSTOMER = "corporate_customer";
+    private final static String USER_ROLE_ID_EMPLOYEE = "employee";
+    private final static String USER_ROLE_ID_SYSTEM = "system";
+    private final static String USER_ROLE_ID_NOT_FOUND = "###";
     
-    public synchronized String getRoleIdCustomer() {
-        return ROLE_ID_CUSTOMER;
+    public synchronized String getUserRoleIdPrivateCustomer() {
+        return USER_ROLE_ID_PRIVATE_CUSTOMER;
     }
     
-    public String getRoleIdEmployee() {
-        return ROLE_ID_EMPLOYEE;
+    public synchronized String getUserRoleIdCorporateCustomer() {
+        return USER_ROLE_ID_CORPORATE_CUSTOMER;
     }
     
-    public String getRoleIdSystem() {
-        return ROLE_ID_SYSTEM;
+    public String getUserRoleIdEmployee() {
+        return USER_ROLE_ID_EMPLOYEE;
     }
     
-    // TODO
+    public String getUserRoleIdSystem() {
+        return USER_ROLE_ID_SYSTEM;
+    }
+    
+    public String getUserRoleNameById(String userRoleId) {
+        FacesContext context = FacesContext.getCurrentInstance();
+        String name = context.getApplication().evaluateExpressionGet(context, "#{texts.user_role" + userRoleId + "}", String.class);
+        if (name == null || name.equals("")) {
+            Logger.getLogger(UserRoleHandler.class.getName()).log(Level.SEVERE, "Failed to find category name for category id {0}!", userRoleId);
+            return context.getApplication().evaluateExpressionGet(context, "#{texts." + USER_ROLE_ID_NOT_FOUND + "}", String.class);
+        }
+        return name;
+    }
 }
