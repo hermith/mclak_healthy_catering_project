@@ -22,7 +22,7 @@ public class DatabaseHandler {
     private static final String STM_CHANGE_PASSWORD = "UPDATE User_Table SET password = ? WHERE username = ?";
     private static final String COLUMN_USERNAME = "username";
     private static final String COLUMN_PASSWORD = "password";
-    private static final String COLUMN_Role = "user_role";
+    private static final String COLUMN_ROLE = "user_role";
     private DataSource dataSource;
 
     /**
@@ -39,6 +39,11 @@ public class DatabaseHandler {
     }
     
     public void testDatabaseHandler() {
-        Logger.getLogger(DatabaseHandler.class.getSimpleName()).log(Level.INFO, "The database handler is working...");
+        Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "The database handler is working...");
+    }
+    
+    public synchronized boolean registerNewUser(String username, String password, String role) {
+        // TODO
+        return false;
     }
 }
