@@ -17,7 +17,8 @@ Contains:
     xmlns:ui="http://java.sun.com/jsf/facelets">
 
     <div id="login_button">
-        <h:inputText value="#{userBean.username}" />
-        <h:commandButton value="login"/>
+        #{texts.login_username}: <h:inputText value="#{userBean.username}" /><br/>
+        #{texts.login_password}: <h:inputText value="#{userBean.password}" /><br/>
+        <h:commandButton value="#{texts.login_login}" action="#{userBean.login()}"/>
     </div>
 </ui:composition>
