@@ -17,7 +17,8 @@ Contains:
     xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:form>
         #{texts.login_username}: <h:inputText value="#{userBean.username}" /><br/>
-        #{texts.login_password}: <h:inputText value="#{userBean.password}" /><br/>
-        <h:commandButton value="#{texts.login_login}" action="#{userBean.login()}"/>
+        #{texts.login_password}: <h:inputSecret value="#{userBean.password}" /><br/>
+        <h:commandButton value="#{texts.login_login}" action="#{userBean.login()}" rendered="#{!userBean.loggedIn}"/>
+        <h:commandButton value="#{texts.login_logout}" action="#{userBean.logout()}" rendered="#{userBean.loggedIn}"/>
     </h:form>
 </ui:composition>

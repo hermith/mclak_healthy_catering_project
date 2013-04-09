@@ -17,14 +17,13 @@
             <var>texts</var>
         </resource-bundle>
     </application>
-    
+    <!--
     <navigation-rule>
-        <!-- Navigation cases goes here... Example below!
         <navigation-case>
-            <from-outcome>CONFIRM_SESSION</from-outcome>
-            <to-view-id>/protected/confirmSession.xhtml</to-view-id>
+            <from-outcome>testprot</from-outcome>
+            <to-view-id>/protected/template.xhtml</to-view-id>
         </navigation-case>
-        -->
+       
     </navigation-rule>
-
+    -->
 </faces-config>
