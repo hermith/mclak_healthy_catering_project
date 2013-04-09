@@ -63,3 +63,6 @@ ul#navul li:hover {
     text-decoration: none;
     display: block;
 }
+div#login_button {
+    float: right;
+}

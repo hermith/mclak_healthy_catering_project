@@ -1,0 +1,23 @@
+<!--
+template_header.xhtml
+
+Contains:
+    Contains things related to the top header and navigation (top menu).
+
+    For any global stuff add it ti template_master.xhtml
+
+@author Karl
+-->
+
+
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <div id="login_button">
+        <h:inputText value="#{userBean.username}" />
+        <h:commandButton value="login"/>
+    </div>
+</ui:composition>
