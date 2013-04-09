@@ -15,25 +15,26 @@ Contains:
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:ui="http://java.sun.com/jsf/facelets">
-    
+
     <header id="primary_header">
         <h1>HealthyStuff™</h1>
-    </header>
-    <div id="login_button">
-        <ui:include src="template_login.xhtml"/>
-    </div>
-    <nav id="primary_nav">
-        <h:form>
-        <ul id="navul">
-            <li><h:commandLink action="index.xhtml">Nyheter</h:commandLink></li>
-            <li><h:commandLink action="order.xhtml">Bestilling</h:commandLink></li>
-            <li><h:commandLink action="menu.xhtml">Meny</h:commandLink></li>
-            <li><h:commandLink action="about.xhtml">Om oss</h:commandLink></li>
-            <li><h:commandLink action="contact.xhtml">Kontakt</h:commandLink></li>
-            <li><h:commandLink action="register.xhtml">Registrer</h:commandLink></li>
-        </ul>
-        </h:form>
-    </nav>    
 
-    
+        <div id="login_button">
+            <ui:include src="template_login.xhtml"/>
+        </div>
+        <nav id="primary_nav">
+            <h:form>
+                <ul id="navul">
+                    <li><h:commandLink action="index.xhtml">Nyheter</h:commandLink></li>
+                    <li><h:commandLink action="order.xhtml">Bestilling</h:commandLink></li>
+                    <li><h:commandLink action="menu.xhtml">Meny</h:commandLink></li>
+                    <li><h:commandLink action="about.xhtml">Om oss</h:commandLink></li>
+                    <li><h:commandLink action="contact.xhtml">Kontakt</h:commandLink></li>
+                    <li><h:commandLink action="register.xhtml">Registrer</h:commandLink></li>
+                </ul>
+            </h:form>
+        </nav>   
+    </header>
+
+
 </ui:composition>

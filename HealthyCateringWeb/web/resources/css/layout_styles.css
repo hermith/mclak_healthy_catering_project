@@ -13,27 +13,31 @@
 
 /* Main chunks of the site*/
 header#primary_header {
-    background-color: green;
+    background-color: lightblue;
+}
+
+header#primary_header h1 {
+    font-size: 50px;
+    display: inline;
 }
 
 nav#primary_nav {
-    background-color: yellow;
 }
 
 article#primary_content {
-    background-color: burlywood;
+    background-color: lightblue;
     float: left;
     width: 80%
 }
 
 aside#sidebar {
     float: right;
-    background-color: lightskyblue;
+    background-color: lightblue;
     width: 20%;
 }
 
 footer#footer {
-    background-color: magenta;
+    background-color: lightblue;
     float: left;
     width: 100%;
 }
@@ -48,11 +52,11 @@ ul#navul {
 ul#navul li {
     -webkit-transition: 0.1s ease-in;
     float: left;
-    background: red;
+    background: lightblue;
 }
 
 ul#navul li:hover {
-    background-color: darkred;
+    background-color: blue;
     -webkit-transform: scale(1.05);
 }
 
