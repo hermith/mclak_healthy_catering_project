@@ -1,8 +1,8 @@
 <!--
-template_header.xhtml
+template_login.xhtml
 
 Contains:
-    Contains things related to the top header and navigation (top menu).
+    Contains a login form.
 
     For any global stuff add it ti template_master.xhtml
 
@@ -15,10 +15,9 @@ Contains:
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:ui="http://java.sun.com/jsf/facelets">
-
-    <div id="login_button">
+    <h:form>
         #{texts.login_username}: <h:inputText value="#{userBean.username}" /><br/>
         #{texts.login_password}: <h:inputText value="#{userBean.password}" /><br/>
         <h:commandButton value="#{texts.login_login}" action="#{userBean.login()}"/>
-    </div>
+    </h:form>
 </ui:composition>
