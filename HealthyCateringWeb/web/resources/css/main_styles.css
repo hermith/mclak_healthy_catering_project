@@ -21,7 +21,7 @@ body {
 }
 
 html {
-    background-image:url('img/kitten.jpg');
+    background-color: skyblue;
     margin: 0;
     padding: 0;
 }
