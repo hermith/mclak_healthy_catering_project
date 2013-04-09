@@ -32,7 +32,7 @@ public class UserBean implements Serializable{
         } catch (ServletException ex) {
             Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-        Logger.getLogger(UserBean.class.getName()).log(Level.OFF, username + ", " + password);
+        Logger.getLogger(UserBean.class.getName()).log(Level.OFF, username + ", ny " + password);
         return "";
     }
 
