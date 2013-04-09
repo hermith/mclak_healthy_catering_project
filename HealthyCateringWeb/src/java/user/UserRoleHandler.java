@@ -12,28 +12,29 @@ import javax.inject.Named;
 @Named
 @ApplicationScoped
 public class UserRoleHandler {
-    private final static String USER_ROLE_ID_PRIVATE_CUSTOMER = "private_customer";
-    private final static String USER_ROLE_ID_CORPORATE_CUSTOMER = "corporate_customer";
-    private final static String USER_ROLE_ID_EMPLOYEE = "employee";
-    private final static String USER_ROLE_ID_SYSTEM = "system";
-    private final static String USER_ROLE_ID_NOT_FOUND = "###";
-    
+
+    public final static String USER_ROLE_ID_PRIVATE_CUSTOMER = "private_customer";
+    public final static String USER_ROLE_ID_CORPORATE_CUSTOMER = "corporate_customer";
+    public final static String USER_ROLE_ID_EMPLOYEE = "employee";
+    public final static String USER_ROLE_ID_SYSTEM = "system";
+    public final static String USER_ROLE_ID_NOT_FOUND = "###";
+
     public synchronized String getUserRoleIdPrivateCustomer() {
         return USER_ROLE_ID_PRIVATE_CUSTOMER;
     }
-    
+
     public synchronized String getUserRoleIdCorporateCustomer() {
         return USER_ROLE_ID_CORPORATE_CUSTOMER;
     }
-    
+
     public String getUserRoleIdEmployee() {
         return USER_ROLE_ID_EMPLOYEE;
     }
-    
+
     public String getUserRoleIdSystem() {
         return USER_ROLE_ID_SYSTEM;
     }
-    
+
     public String getUserRoleNameById(String userRoleId) {
         FacesContext context = FacesContext.getCurrentInstance();
         String name = context.getApplication().evaluateExpressionGet(context, "#{texts.user_role" + userRoleId + "}", String.class);
