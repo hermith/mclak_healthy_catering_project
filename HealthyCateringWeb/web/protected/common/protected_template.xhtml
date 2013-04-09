@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+
+<!--
+template.xhtml
+
+Contains:
+    Copy this when you want to create a new subsite and replace any content.
+
+@author Karl
+-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <h:body>
+        <ui:composition template="/resources/template/template_master.xhtml">
+            <ui:define name="subsite_header">
+                <h1>This is the subpage header, keep the h1</h1>
+            </ui:define>
+            
+            <ui:define name="subsite_content">
+                <p>Content goes here, use the paragraph
+                    tag to make text pretty.</p>
+                
+                <!-- Some filler text -->
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
