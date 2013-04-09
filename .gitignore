@@ -1,6 +1,6 @@
-/HealthyCateringWeb/nbproject/
-/HealthyCateringWeb/build/
-/HealthyCateringWeb/dist/
+/HealthyCateringWeb/nbproject/*
+/HealthyCateringWeb/build/*
+/HealthyCateringWeb/dist/*
 /HealthyCateringWeb/build.xml
 
 # Mac crap
