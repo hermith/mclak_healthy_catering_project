@@ -14,17 +14,20 @@ import javax.servlet.http.HttpServletRequest;
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author linnk
  */
 @Named
 @SessionScoped
-public class UserBean implements Serializable{
-    String username="";
-    String password="";
+public class UserBean implements Serializable {
+
+    String username = "";
+    String password = "";
+    String role_id = "";
     
+    User user;
+
     public String login() {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
@@ -62,6 +65,10 @@ public class UserBean implements Serializable{
             }
         }
         return false;
+    }
+
+    public void createUser(String username, String password, String role_id) {
+        this.user = new User(username, password, role_id);
     }
 
     public String getUsername() {

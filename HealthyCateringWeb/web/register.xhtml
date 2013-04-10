@@ -11,6 +11,14 @@
         <ui:composition template="resources/template/template_master.xhtml">
             <ui:define name="subsite_header">
                 <h1>Register new user</h1>
+                <p>
+                    Private user or business user?
+
+                    <h:selectOneRadio value="#{userBean.favColor1}">
+                        
+                    </h:selectOneRadio>
+
+                </p>
             </ui:define>
         </ui:composition>
     </h:body>
