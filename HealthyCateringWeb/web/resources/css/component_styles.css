@@ -33,3 +33,45 @@
 	background:none repeat scroll 0 0 #F9F9F9;
 	border-top:1px solid #BBBBBB;
 }
+
+/* common/control_panel.xhtml */
+
+.control_panel_section {
+    display: block;
+    background-color: orange;
+    margin: 16px;
+}
+
+.control_panel_header {
+    width: 100%;
+    background-color: orangered;
+    margin-bottom: 16px;
+}
+
+.control_panel_button_section {
+    margin-left: 16px;
+    margin-bottom: 16px;
+    width: 120px;
+    height: 120px;
+    display: inline-block;
+    background-color: red;
+}
+
+.control_panel_button {
+    width: 120px;
+    height: 120px;
+    display: block;
+    background-color: yellow;
+}
+
+.control_panel_label {
+    text-align: center;
+    font-weight: bold;
+    position: relative;
+    bottom: 20px;
+    width: 120px;
+    display: block;
+    height: 20px;
+    background-color: rgba(255, 255, 255, 0.5);
+    pointer-events: none;
+    }
