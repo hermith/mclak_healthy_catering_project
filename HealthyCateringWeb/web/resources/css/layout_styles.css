@@ -117,6 +117,7 @@ nav#primary_nav {
 }
 
 article#primary_content {
+    padding: 8px;
     margin-top: 10px;
     background-color: #666666;
     float: left;
