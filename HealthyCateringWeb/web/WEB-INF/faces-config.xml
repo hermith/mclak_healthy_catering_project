@@ -17,13 +17,13 @@
             <var>texts</var>
         </resource-bundle>
     </application>
-    <!--
+    
     <navigation-rule>
         <navigation-case>
-            <from-outcome>testprot</from-outcome>
-            <to-view-id>/protected/template.xhtml</to-view-id>
+            <from-outcome>return_frontpage</from-outcome>
+            <to-view-id>/index.xhtml</to-view-id>
         </navigation-case>
        
     </navigation-rule>
-    -->
+    
 </faces-config>

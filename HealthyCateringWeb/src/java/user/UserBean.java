@@ -82,7 +82,7 @@ public class UserBean implements Serializable {
         } catch (ServletException ex) {
             Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return "";
+        return "return_frontpage";
     }
 
     public boolean isLoggedIn() {

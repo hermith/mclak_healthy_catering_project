@@ -21,82 +21,87 @@ Contains:
             </ui:define>
 
             <ui:define name="subsite_content">
-                <h:panelGroup class="control_panel_section"> <!-- Only to be rendered for admins -->
+                <h:panelGroup class="control_panel_section"
+                              rendered="#{userBean.loggedInAsSystem}"> <!-- Only to be rendered for admins -->
                     <div class="control_panel_header"><h3>System panel</h3></div>
                     <div class="control_panel_button_section">  
                         <h:commandButton
                             styleClass="control_panel_button"
-                            image="/resources/img/kitten.jpg"
+                            image="/resources/img/control_panel_icons/kitten.jpg"
                             action="#"/>
                         <label class="control_panel_label">Add new user</label>
                     </div>
                     <div class="control_panel_button_section">
                         <h:commandButton
                             styleClass="control_panel_button"
-                            image="/resources/img/kitten.jpg"
+                            image="/resources/img/control_panel_icons/kitten.jpg"
                             action="#"/>
-                        <label class="control_panel_label">Edit users</label>
-                    </div>
-                    <div class="control_panel_button_section">  
-                        <h:commandButton
-                            styleClass="control_panel_button"
-                            image="/resources/img/kitten.jpg"
-                            action="#"/>
-                        <label class="control_panel_label">Kill kittens</label>
-                    </div>
-                    <div class="control_panel_button_section">
-                        <h:commandButton
-                            styleClass="control_panel_button"
-                            image="/resources/img/kitten.jpg"
-                            action="#"/>
-                        <label class="control_panel_label">Kill kittens</label>
-                    </div>
-                    <div class="control_panel_button_section">
-                        <h:commandButton
-                            styleClass="control_panel_button"
-                            image="/resources/img/kitten.jpg"
-                            action="#"/>
-                        <label class="control_panel_label">Kill kittens</label>
+                        <label class="control_panel_label">Edit user</label>
                     </div>
                 </h:panelGroup>
-                
-                
-                <h:panelGroup class="control_panel_section"> <!-- Only to be rendered for employees -->
+
+                <h:panelGroup class="control_panel_section"
+                              rendered="#{userBean.loggedInAsEmployee or userBean.loggedInAsSystem}"> <!-- Only to be rendered for employees and above -->
                     <div class="control_panel_header"><h3>Employee panel</h3></div>
                     <div class="control_panel_button_section">  
                         <h:commandButton
                             styleClass="control_panel_button"
-                            image="/resources/img/kitten.jpg"
+                            image="/resources/img/control_panel_icons/kitten.jpg"
                             action="#"/>
-                        <label class="control_panel_label">Add new user</label>
+                        <label class="control_panel_label">Active orders</label>
                     </div>
                     <div class="control_panel_button_section">
                         <h:commandButton
                             styleClass="control_panel_button"
-                            image="/resources/img/kitten.jpg"
+                            image="/resources/img/control_panel_icons/kitten.jpg"
                             action="#"/>
-                        <label class="control_panel_label">Edit users</label>
+                        <label class="control_panel_label">Order history</label>
                     </div>
                     <div class="control_panel_button_section">  
                         <h:commandButton
                             styleClass="control_panel_button"
-                            image="/resources/img/kitten.jpg"
+                            image="/resources/img/control_panel_icons/kitten.jpg"
                             action="#"/>
-                        <label class="control_panel_label">Kill kittens</label>
+                        <label class="control_panel_label">Order statistics</label>
                     </div>
                     <div class="control_panel_button_section">
                         <h:commandButton
                             styleClass="control_panel_button"
-                            image="/resources/img/kitten.jpg"
+                            image="/resources/img/control_panel_icons/kitten.jpg"
                             action="#"/>
-                        <label class="control_panel_label">Kill kittens</label>
+                        <label class="control_panel_label">View customer</label>
                     </div>
                     <div class="control_panel_button_section">
                         <h:commandButton
                             styleClass="control_panel_button"
-                            image="/resources/img/kitten.jpg"
+                            image="/resources/img/control_panel_icons/kitten.jpg"
                             action="#"/>
-                        <label class="control_panel_label">Kill kittens</label>
+                        <label class="control_panel_label">Edit customer</label>
+                    </div>
+                    <div class="control_panel_button_section">
+                        <h:commandButton
+                            styleClass="control_panel_button"
+                            image="/resources/img/control_panel_icons/kitten.jpg"
+                            action="#"/>
+                        <label class="control_panel_label">Products</label>
+                    </div>
+                </h:panelGroup>
+
+                <h:panelGroup class="control_panel_section"> <!-- Only to be rendered for employees -->
+                    <div class="control_panel_header"><h3>Account settings</h3></div>
+                    <div class="control_panel_button_section">  
+                        <h:commandButton
+                            styleClass="control_panel_button"
+                            image="/resources/img/control_panel_icons/kitten.jpg"
+                            action="#"/>
+                        <label class="control_panel_label">Edit account</label>
+                    </div>
+                    <div class="control_panel_button_section">
+                        <h:commandButton
+                            styleClass="control_panel_button"
+                            image="/resources/img/control_panel_icons/kitten.jpg"
+                            action="#"/>
+                        <label class="control_panel_label">Order history</label>
                     </div>
                 </h:panelGroup>
             </ui:define>

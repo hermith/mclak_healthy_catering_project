@@ -38,14 +38,18 @@
 
 .control_panel_section {
     display: block;
-    background-color: orange;
+    background-color: #666666;
     margin: 16px;
 }
 
 .control_panel_header {
     width: 100%;
-    background-color: orangered;
+    background-color: #333333;
     margin-bottom: 16px;
+}
+
+.control_panel_header h3 {
+    color: white;
 }
 
 .control_panel_button_section {
@@ -54,14 +58,12 @@
     width: 120px;
     height: 120px;
     display: inline-block;
-    background-color: red;
 }
 
 .control_panel_button {
     width: 120px;
     height: 120px;
     display: block;
-    background-color: yellow;
 }
 
 .control_panel_label {
