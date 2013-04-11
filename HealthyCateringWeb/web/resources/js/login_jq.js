@@ -25,7 +25,7 @@ $(document).ready(function() {
         }
 
     });
-
+    
     /*$(".control_panel_header").click(function() {
      $(".control_panel_button_section").slideToggle('slow');
      });*/

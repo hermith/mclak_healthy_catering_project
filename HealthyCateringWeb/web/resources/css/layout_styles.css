@@ -40,7 +40,12 @@
 
 /* Log in form inside the sliding bar */
 
+.login_form a {
+    color: white;
+}
+
 .login_form {
+    font-size: 10px;
     width: 350px;
     margin: 0 auto;
     padding-top: 50px;
@@ -56,17 +61,18 @@
     color: white;
     margin: 0 auto;
     display: block;
-    width: 300px;
+    width: 230px;
 }
 
 .loginbutton {
     margin: 4px;
-    width: 120px;
+    width: 100px;
     display: inline-block;
     border-radius: 4px;
 }
 
 .login_form label {
+    font-size: 15px;
     color: white;
     display: inline-block;
     width: 130px;
@@ -77,6 +83,18 @@
 .logout_form {
     display: inline-block;
     float: right;
+}
+
+top_right_corner {
+    
+}
+
+.logout_form a {
+    margin: auto 0;
+    padding-right: 10px;
+    display: inline-block;
+    font-size: 14px;
+    color: white;
 }
 
 /* Main chunks of the site*/

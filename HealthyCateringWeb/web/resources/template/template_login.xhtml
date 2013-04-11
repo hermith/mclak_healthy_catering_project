@@ -27,7 +27,7 @@ Contains:
             <h:panelGroup styleClass="login_buttons_group">
                 <h:commandButton styleClass="loginbutton" value="#{texts.login_login}" action="#{userBean.login()}" />
                 #{texts.login_or}
-                <h:commandButton styleClass="loginbutton" value="Register new user" action="/register.xhtml" />
+                <h:commandLink value="#{texts.login_reg_new_user}" action="/register.xhtml" />
             </h:panelGroup>
         </h:form>
 
@@ -37,7 +37,9 @@ Contains:
         <h:outputText rendered="#{!userBean.loggedIn}" value="#{texts.login_click_here}." />
         <h:outputText rendered="#{userBean.loggedIn}" value="#{texts.login_logged_in_as}: #{userBean.username}"/>
         <h:form styleClass="logout_form">
-            <h:commandButton styleClass="logoutbutton" value="#{texts.login_logout}" action="#{userBean.logout()}" rendered="#{userBean.loggedIn}"/>
+            <h:commandLink value="#{texts.title_control_panel}" action="/protected/common/control_panel.xhtml" rendered="#{userBean.loggedIn}"/>
+            <h:commandLink value="#{texts.login_logout}" action="#{userBean.logout()}" rendered="#{userBean.loggedIn}"/>
+            
         </h:form>
     </div>
 
