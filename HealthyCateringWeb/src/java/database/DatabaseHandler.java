@@ -13,6 +13,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.persistence.criteria.Order;
 import javax.sql.DataSource;
+import shopping.customer.Customer;
+import shopping.product.Product;
 
 /**
  * @author Christer Olsen
