@@ -22,36 +22,34 @@ import javax.servlet.http.HttpServletRequest;
 @SessionScoped
 public class UserBean implements Serializable {
 
-    String username = "";
-    String password = "";
-    String role_id = "";
-    
     User user;
 
     public String login() {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         try {
-            request.login(username, password);
+            request.login(user.getUsername(), user.getPassword());
         } catch (ServletException ex) {
             Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
         }
         return "";
     }
-    
+
     public String logout() {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-        try {        
+        try {
             request.logout();
         } catch (ServletException ex) {
             Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
         }
         return "";
     }
+
     /**
      * MÅ LAGE METODE FOR ALLE BRUKERE NB NB NB NB NB
-     * @return 
+     *
+     * @return
      */
     public boolean isLoggedIn() {
         ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
@@ -68,11 +66,11 @@ public class UserBean implements Serializable {
     }
 
     public void createUser(String username, String password, String role_id) {
-        this.user = new User(username);
+        this.user = new User(username, password, role_id);
     }
 
     public String getUsername() {
-        return username;
+        return user.getUsername();
     }
 
     public void setUsername(String username) {
@@ -85,5 +83,21 @@ public class UserBean implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRole_id() {
+        return role_id;
+    }
+
+    public void setRole_id(String role_id) {
+        this.role_id = role_id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

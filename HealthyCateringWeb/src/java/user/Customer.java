@@ -24,16 +24,12 @@ public class Customer {
      * @param zip_code
      * @param city 
      */
-    public Customer(String email, String address, int phone_number, int zip_code, String city){
-        
+
+    public Customer(String email, String address, int phone_number, int zip_code, String city) {
+        this.email = email;
+        this.address = address;
+        this.phone_number = phone_number;
+        this.zip_code = zip_code;
+        this.city = city;
     }
-    
-    
-    /**
-     * Constructor for creating a customer object using customer id.
-     */
-    public Customer(int cust_id){
-        
-    }
-    
 }

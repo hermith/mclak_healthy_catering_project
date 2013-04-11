@@ -13,10 +13,17 @@
                 <h1>Register new user</h1>
                 <p>
                     Private user or business user?
-
-                    <h:selectOneRadio value="#{userBean.favColor1}">
+                    <h:form>
+                        <h:selectOneRadio value="#{userBean.role_id}">
+                            <f:selectItem itemValue="private" itemLabel="Private user" />
+                            <f:selectItem itemValue="corporate" itemLabel="Corporate user" />
+                        </h:selectOneRadio>
                         
-                    </h:selectOneRadio>
+                        <br/>
+                        
+                        <h:commandButton value="Submit" action="register2" />
+                        
+                    </h:form>
 
                 </p>
             </ui:define>
