@@ -34,6 +34,21 @@ Contains:
     </div>
 
     <div id="top_bar_span_login_always_show" >
+        <h:form id="form_locale">
+            <h:commandLink action="#{localeHandler.setEnglish()}">
+                <h:graphicImage 
+                    library="img"
+                    name="flag_en.png"
+                    class="localeimage"/>
+            </h:commandLink>
+            <h:commandLink action="#{localeHandler.setNorwegian()}">
+                <h:graphicImage 
+                    library="img"
+                    name="flag_no.png"
+                    class="localeimage"/>
+            </h:commandLink>
+        </h:form>
+        
         <h:outputText rendered="#{!userBean.loggedIn}" value="#{texts.login_click_here}." />
         <h:outputText rendered="#{userBean.loggedIn}" value="#{texts.login_logged_in_as}: #{userBean.username}"/>
         <h:form styleClass="logout_form">

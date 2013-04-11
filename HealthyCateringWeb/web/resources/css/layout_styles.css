@@ -156,3 +156,16 @@ ul#navul li:hover {
 div#login_button {
     float: right;
 }
+
+/* Flags on the top */
+
+#form_locale {
+    float: left;
+    padding-left: 10px;
+}
+
+.localeimage {
+    height: 20px;
+    width: 20px;
+    padding-right: 4px;
+}
