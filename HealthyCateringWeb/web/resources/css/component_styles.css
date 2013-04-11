@@ -67,6 +67,7 @@
 }
 
 .control_panel_label {
+    color: black;
     text-align: center;
     font-weight: bold;
     position: relative;
