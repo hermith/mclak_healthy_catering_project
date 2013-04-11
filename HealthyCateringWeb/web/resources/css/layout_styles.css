@@ -15,13 +15,14 @@
 #top_bar_span_login_always_show {
     padding: 4px 0;
     text-align: center;
-    background-color: brown;
+    background-color: #333333;
+    color: white;
     height: 20px;
     width: 100%;
 }
 
 #top_bar_span_login {
-    background-color: lightcoral;
+    background-color: #666666;
     width: 100%;
     height: 200px;
     display: none;
@@ -37,11 +38,45 @@
     display: none;
 }
 
+/* Log in form inside the sliding bar */
+
 .login_form {
-    background-color: red;
-    width: 300px;
+    width: 350px;
     margin: 0 auto;
-    padding-top: 80px;
+    padding-top: 50px;
+}
+
+.login_input {
+    display: inline-block;
+    width: 150px;
+    margin: 4px;
+}
+
+#login_buttons_group {
+    color: white;
+    margin: 0 auto;
+    display: block;
+    width: 300px;
+}
+
+.loginbutton {
+    margin: 4px;
+    width: 120px;
+    display: inline-block;
+    border-radius: 4px;
+}
+
+.login_form label {
+    color: white;
+    display: inline-block;
+    width: 130px;
+    text-align: right;
+    margin-right: 20px;
+}
+
+.logout_form {
+    display: inline-block;
+    float: right;
 }
 
 /* Main chunks of the site*/
