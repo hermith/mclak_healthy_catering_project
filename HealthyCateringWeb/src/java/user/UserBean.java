@@ -10,39 +10,66 @@ import javax.inject.Named;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-/**
- *
- * @author linnk
- */
 @Named
 @SessionScoped
 public class UserBean implements Serializable {
-    
+
     User user;
 
     public UserBean() {
-        
+        this.user = new User();
     }
 
-    public User getUser() {
-        return user;
+    public String getUsername() {
+        if (user != null) {
+            return user.getUsername();
+        }
+        return null;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUsername(String username) {
+        if (user != null) {
+            this.user.setUsername(username);
+        }
+    }
+
+    public String getPassword() {
+        if (user != null) {
+            return user.getPassword();
+        }
+        return null;
+    }
+
+    public void setPassword(String password) {
+        if (user != null) {
+            this.user.setPassword(password);
+        }
+    }
+
+    public String getRoleId() {
+        if (user != null) {
+            return user.getRoleId();
+        }
+        return null;
+    }
+
+    public void setRoleId(String roleId) {
+        if (user != null) {
+            this.user.setRoleId(roleId);
+        }
     }
 
     public String login() {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         try {
+            Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, user.toString());
             request.login(user.getUsername(), user.getPassword());
-        } catch (ServletException ex) {
-            Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex);
+            user.setPassword(null); // TODO Heller hent en bruker fra databasen slik at brukerrolle også blir tatt med.
+        } catch (ServletException ex1) {
+            Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex1);
+        } catch (NullPointerException ex2) {
+            Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, null, ex2);
         }
         return "";
     }
@@ -58,19 +85,60 @@ public class UserBean implements Serializable {
         return "";
     }
 
-    /**
-     * MÅ LAGE METODE FOR ALLE BRUKERE NB NB NB NB NB
-     *
-     * @return
-     */
     public boolean isLoggedIn() {
         ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
         Object requestObject = context.getRequest();
         if (requestObject instanceof HttpServletRequest) {
             HttpServletRequest request = (HttpServletRequest) requestObject;
-            System.out.println(request.getRemoteUser());
             if (request.getRemoteUser() != null) {
-                System.out.println("Is hear");
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isLoggedInAsPrivateCustomer() {
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+        Object requestObject = context.getRequest();
+        if (requestObject instanceof HttpServletRequest) {
+            HttpServletRequest request = (HttpServletRequest) requestObject;
+            if (request.isUserInRole(UserRoleHandler.USER_ROLE_ID_PRIVATE_CUSTOMER)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isLoggedInAsCorporateCustomer() {
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+        Object requestObject = context.getRequest();
+        if (requestObject instanceof HttpServletRequest) {
+            HttpServletRequest request = (HttpServletRequest) requestObject;
+            if (request.isUserInRole(UserRoleHandler.USER_ROLE_ID_CORPORATE_CUSTOMER)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isLoggedInAsEmployee() {
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+        Object requestObject = context.getRequest();
+        if (requestObject instanceof HttpServletRequest) {
+            HttpServletRequest request = (HttpServletRequest) requestObject;
+            if (request.isUserInRole(UserRoleHandler.USER_ROLE_ID_EMPLOYEE)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isLoggedInAsSystem() {
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+        Object requestObject = context.getRequest();
+        if (requestObject instanceof HttpServletRequest) {
+            HttpServletRequest request = (HttpServletRequest) requestObject;
+            if (request.isUserInRole(UserRoleHandler.USER_ROLE_ID_SYSTEM)) {
                 return true;
             }
         }

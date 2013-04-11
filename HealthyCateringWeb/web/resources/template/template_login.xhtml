@@ -18,12 +18,12 @@ Contains:
 
     <div id="top_bar_span_login">
         <h:form>
-            <h:inputHidden value="#{userBean.loggedIn()}" id="is_user_logged_in"/>
+            <h:inputHidden value="#{userBean.loggedIn}" id="is_user_logged_in"/>
         </h:form>
         <h:form styleClass="login_form"
                 rendered="#{!userBean.loggedIn}">
-            <label>#{texts.login_username}:</label><h:inputText styleClass="login_input" value="#{userBean.user.username}" /><br/>
-            <label>#{texts.login_password}:</label><h:inputSecret styleClass="login_input" value="#{userBean.user.password}" /><br/>
+            <label>#{texts.login_username}:</label><h:inputText styleClass="login_input" value="#{userBean.username}" /><br/>
+            <label>#{texts.login_password}:</label><h:inputSecret styleClass="login_input" value="#{userBean.password}" /><br/>
             <h:panelGroup styleClass="login_buttons_group">
                 <h:commandButton styleClass="loginbutton" value="#{texts.login_login}" action="#{userBean.login()}" />
                 #{texts.login_or}
@@ -35,7 +35,7 @@ Contains:
 
     <div id="top_bar_span_login_always_show" >
         <h:outputText rendered="#{!userBean.loggedIn}" value="#{texts.login_click_here}." />
-        <h:outputText rendered="#{userBean.loggedIn}" value="#{texts.login_logged_in_as}: #{userBean.user.username}"/>
+        <h:outputText rendered="#{userBean.loggedIn}" value="#{texts.login_logged_in_as}: #{userBean.username}"/>
         <h:form styleClass="logout_form">
             <h:commandButton styleClass="logoutbutton" value="#{texts.login_logout}" action="#{userBean.logout()}" rendered="#{userBean.loggedIn}"/>
         </h:form>
