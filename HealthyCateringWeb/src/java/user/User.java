@@ -10,9 +10,9 @@ package user;
  */
 public class User {
 
-    String username;
-    String password;
-    String roleId;
+    private String username;
+    private String password;
+    private String roleId;
 
     public User() {
         this.username = null;
