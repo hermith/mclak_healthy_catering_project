@@ -14,11 +14,11 @@ $(document).ready(function() {
 
             // Enabling/disabling overflow (scroll bars)
             if (isUp) {
-                $("body").css("overflow", "hidden");
+                //$("body").css("overflow", "hidden");
                 isUp = false;
             } else {
                 $("#top_bar_span_login").promise().done(function() {
-                    $("body").css("overflow", "auto").fadeIn('slow');
+                    //$("body").css("overflow", "auto").fadeIn('slow');
                     isUp = true;
                 });
             }
