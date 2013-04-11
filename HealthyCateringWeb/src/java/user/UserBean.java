@@ -68,7 +68,7 @@ public class UserBean implements Serializable {
     }
 
     public void createUser(String username, String password, String role_id) {
-        this.user = new User(username, password, role_id);
+        this.user = new User(username);
     }
 
     public String getUsername() {
