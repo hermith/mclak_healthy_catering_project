@@ -17,7 +17,7 @@ Contains:
     xmlns:ui="http://java.sun.com/jsf/facelets">
 
     <div id="top_bar_span_login">
-        <h:form>
+        <h:form id="hidden_login_field">
             <h:inputHidden value="#{userBean.loggedIn}" id="is_user_logged_in"/>
         </h:form>
         <h:form styleClass="login_form"

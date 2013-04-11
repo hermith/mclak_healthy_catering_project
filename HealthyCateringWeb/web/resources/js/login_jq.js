@@ -3,7 +3,7 @@ var loggedIn = false;
 $(document).ready(function() {
     var isUp = true;
     
-    loggedIn = document.getElementById("j_idt13:is_user_logged_in").value === "true";
+    loggedIn = document.getElementById("hidden_login_field:is_user_logged_in").value === "true";
 
     $("#top_bar_span_login_always_show").click(function() {
 
