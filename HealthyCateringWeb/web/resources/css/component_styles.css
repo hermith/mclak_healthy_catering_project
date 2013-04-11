@@ -12,26 +12,26 @@
 
 /* Menu.xhtml */
 .menu-table{   
-	border-collapse:collapse;
+    border-collapse:collapse;
 }
- 
+
 .menu-table-header{
-	text-align:center;
-	background:none repeat scroll 0 0 #B5B5B5;
-	border-bottom:1px solid #BBBBBB;
-	padding:16px;
+    text-align:center;
+    background:none repeat scroll 0 0 #B5B5B5;
+    border-bottom:1px solid #BBBBBB;
+    padding:16px;
 }
- 
+
 .menu-table-odd-row{
-	text-align:center;
-	background:none repeat scroll 0 0 #FFFFFF;
-	border-top:1px solid #BBBBBB;
+    text-align:center;
+    background:none repeat scroll 0 0 #FFFFFF;
+    border-top:1px solid #BBBBBB;
 }
- 
+
 .menu-table-even-row{
-	text-align:center;
-	background:none repeat scroll 0 0 #F9F9F9;
-	border-top:1px solid #BBBBBB;
+    text-align:center;
+    background:none repeat scroll 0 0 #F9F9F9;
+    border-top:1px solid #BBBBBB;
 }
 
 /* common/control_panel.xhtml */
@@ -74,4 +74,19 @@
     height: 20px;
     background-color: rgba(255, 255, 255, 0.5);
     pointer-events: none;
-    }
+}
+
+/* common/register.xhtml */
+
+#registerprivate{
+}
+
+#registercorporate{
+    display: none;
+}
+
+.inputfields{
+    position: absolute;
+    left: 300px;
+    width: 150px;
+}

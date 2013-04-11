@@ -11,21 +11,63 @@
         <ui:composition template="resources/template/template_master.xhtml">
             <ui:define name="subsite_header">
                 <h1>Register new user</h1>
-                <p>
-                    Private user or business user?
-                    <h:form>
-                        <h:selectOneRadio value="#{userBean.role_id}">
-                            <f:selectItem itemValue="private" itemLabel="Private user" />
-                            <f:selectItem itemValue="corporate" itemLabel="Corporate user" />
-                        </h:selectOneRadio>
-                        
-                        <br/>
-                        
-                        <h:commandButton value="Submit" action="register2" />
-                        
-                    </h:form>
+                <form>
+                    Private user or business user?<br/>
+                    <input type="radio" name="usertype" id="rb_private"/>Private user<br/>
+                    <input type="radio" name="usertype" id="rb_corporate"/>Corporate user
 
-                </p>
+                </form>
+
+                <br/><br/>
+
+                <h:form id="registerprivate">
+                    <div class="fieldset">
+                        <fieldset>
+                            <legend>Register new user</legend>
+                            <p>Username:
+                                <input type="text" placeholder="Username" class="inputfields"/>
+                                <br/><br/>
+
+                                Password:
+                                <input type="password" placeholder="Password" class="inputfields"/>
+                                <br/><br/>
+
+                                Repeat password:
+                                <input type="password" placeholder="Password" class="inputfields"/>
+                                <br/><br/>
+                                
+                                E-mail address:
+                                <input type="text" placeholder="E-mail" class="inputfields"/>
+                                <br/><br/>
+                                
+                                Address:
+                                <input type="text" placeholder="Address" class="inputfields"/>
+                                <br/><br/>
+                                
+                                Zip-code:
+                                <input type="text" placeholder="Zip-code" class="inputfields"/>
+                                <br/><br/>
+                                
+                                City:
+                                <input type="text" placeholder="City" class="inputfields"/>
+                                <br/><br/>
+                                
+                                Phone number:
+                                <input type="text" placeholder="Phone number" class="inputfields"/>
+                                <br/><br/>
+                            </p>
+
+
+                        </fieldset>
+                    </div>
+
+                    <br/>
+                </h:form>
+
+
+
+                <h:form id="registercorporate">
+                </h:form>
             </ui:define>
         </ui:composition>
     </h:body>
