@@ -52,7 +52,7 @@
     margin: 4px;
 }
 
-#login_buttons_group {
+.login_buttons_group {
     color: white;
     margin: 0 auto;
     display: block;
