@@ -11,26 +11,26 @@
 
 
 /* Menu.xhtml */
-.menu-table{   
+menu-table{   
     border-collapse:collapse;
 }
 
-.menu-table-header{
+th{
     text-align:center;
     background:none repeat scroll 0 0 #B5B5B5;
-    border-bottom:1px solid #BBBBBB;
-    padding:16px;
+    border-bottom:1px solid #000000;
+    padding:4px;
 }
 
-.menu-table-odd-row{
+tr:nth-child(odd){
     text-align:center;
-    background:none repeat scroll 0 0 #FFFFFF;
-    border-top:1px solid #BBBBBB;
+    background:none repeat scroll 0 0 #555555;
+    border-top:1px solid #000000;
 }
 
-.menu-table-even-row{
+tr:nth-child(even){
     text-align:center;
-    background:none repeat scroll 0 0 #F9F9F9;
+    background:none repeat scroll 0 0 #959595;
     border-top:1px solid #BBBBBB;
 }
 
