@@ -17,17 +17,30 @@ Contains:
     xmlns:ui="http://java.sun.com/jsf/facelets">
 
     <div id="top_bar_span_login">
+        
+        <!-- This is used for checking that the user is logged in via jQuery -->
         <h:form id="hidden_login_field">
             <h:inputHidden value="#{userBean.loggedIn}" id="is_user_logged_in"/>
         </h:form>
+        
         <h:form styleClass="login_form"
                 rendered="#{!userBean.loggedIn}">
-            <label>#{texts.login_username}:</label><h:inputText styleClass="login_input" value="#{userBean.username}" /><br/>
-            <label>#{texts.login_password}:</label><h:inputSecret styleClass="login_input" value="#{userBean.password}" /><br/>
+            
+            <label>#{texts.login_username}:</label>
+            <h:inputText styleClass="login_input" value="#{userBean.username}" /><br/>
+            
+            <label>#{texts.login_password}:</label>
+            <h:inputSecret styleClass="login_input" value="#{userBean.password}" /><br/>
+            
             <h:panelGroup styleClass="login_buttons_group">
-                <h:commandButton styleClass="loginbutton" value="#{texts.login_login}" action="#{userBean.login()}" />
+                <h:commandButton styleClass="loginbutton"
+                                 value="#{texts.login_login}"
+                                 action="#{userBean.login()}" />
+                
                 #{texts.login_or}
-                <h:commandLink value="#{texts.login_reg_new_user}" action="/register.xhtml" />
+                
+                <h:commandLink value="#{texts.login_reg_new_user}"
+                               action="/register.xhtml" />
             </h:panelGroup>
         </h:form>
 
@@ -49,13 +62,24 @@ Contains:
             </h:commandLink>
         </h:form>
         
-        <h:outputText rendered="#{!userBean.loggedIn}" value="#{texts.login_click_here}." />
-        <h:outputText rendered="#{userBean.loggedIn}" value="#{texts.login_logged_in_as}: #{userBean.username}"/>
+        <!-- Text info in the middle of the spanning bar. -->
+        <h:outputText rendered="#{!userBean.loggedIn}"
+                      value="#{texts.login_click_here}." />
+        
+        <h:outputText rendered="#{userBean.loggedIn}"
+                      value="#{texts.login_logged_in_as}: #{userBean.username}"/>
+        
+        <!-- The two links in the upper right corner of the spanning bar -->
         <h:form styleClass="logout_form">
-            <h:commandLink value="#{texts.title_control_panel}" action="/protected/common/control_panel.xhtml" rendered="#{userBean.loggedIn}"/>
-            <h:commandLink value="#{texts.login_logout}" action="#{userBean.logout()}" rendered="#{userBean.loggedIn}"/>
+            <h:commandLink value="#{texts.title_control_panel}"
+                           action="/protected/common/control_panel.xhtml"
+                           rendered="#{userBean.loggedIn}"/>
             
+            <h:commandLink value="#{texts.login_logout}"
+                           action="#{userBean.logout()}"
+                           rendered="#{userBean.loggedIn}"/>
         </h:form>
+        
     </div>
 
     <div id="site_opaque" />
