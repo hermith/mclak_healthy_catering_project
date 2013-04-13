@@ -24,6 +24,8 @@ $(document).ready(function() {
             }
         }
 
+    }).children().click(function(e) {
+        return false;
     });
     
     /*$(".control_panel_header").click(function() {
