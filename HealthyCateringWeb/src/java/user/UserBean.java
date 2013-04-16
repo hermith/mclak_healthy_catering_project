@@ -70,8 +70,12 @@ public class UserBean implements Serializable {
         return "/protected/employee/active_orders.xhtml";
     }
 
-    public void registerUser() {
-        userhandler.registerUser(user);
+    public void registerPrivateUser() {
+        //userhandler.registerPrivateUser(user);
+    }
+    
+    public void registerCorporateUser(){
+        //userhandler.registerCorporateUser(user);
     }
 
     public String login() {

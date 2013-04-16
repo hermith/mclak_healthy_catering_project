@@ -22,7 +22,13 @@ public class UserHandler {
         
     }
     
-    public boolean registerUser(User user){
+    public boolean registerPrivateUser(User user){
+        db.registerNewUser(user);
+        return false;
+    }
+    
+    public boolean registerCorporateUser(User user){
+        db.registerNewUser(user);
         return false;
     }
     
