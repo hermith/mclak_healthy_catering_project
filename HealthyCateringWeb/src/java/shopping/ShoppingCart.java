@@ -13,7 +13,11 @@ public class ShoppingCart {
         
     }
     
-    public void addProduct(){
-        
+    public boolean addProduct(Product newProduct){
+        if(newProduct!=null){
+            return products.add(newProduct);
+        }else{
+            return false;
+        }
     }
 }

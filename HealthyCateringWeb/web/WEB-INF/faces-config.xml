@@ -16,6 +16,10 @@
             <base-name>locale.Texts</base-name>
             <var>texts</var>
         </resource-bundle>
+        <resource-bundle>
+            <base-name>locale.Error</base-name>
+            <var>error</var>
+        </resource-bundle>
     </application>
     
     <navigation-rule>
