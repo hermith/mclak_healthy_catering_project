@@ -60,4 +60,13 @@ public class PackageProduct extends Product {
     public boolean equals(Object obj) {
         return super.equals(obj);
     }
+    
+    @Override
+    public double getPrice() {
+        double sum = 0.0;
+        for(Product product : products) {
+            sum+=product.getPrice();
+        }
+        return sum;
+    }
 }
