@@ -8,7 +8,17 @@
     width: 100px; 
 }
 
+.customer_id input {
+    margin: 4px;
+    float: right;
+}
+
 .product_ids {
+}
+
+.product_ids input {
+    margin: 4px;
+    float: right;
 }
 
 .deliver_on {
@@ -18,3 +28,67 @@
 .delivered {
     width: 100px;
 }
+
+#centerpoint {
+    top: 50%;
+    left: 50%;
+    position: absolute;
+}
+
+#detail_info h2 {
+    background-color: #333333;
+    margin-bottom: 4px;
+}
+
+#detail_info .close_info_button {
+    float: right;
+    width: 40px;
+    height: 40px;
+    left: 550px;
+    top: 20px;
+}
+
+#detail_info {
+    background-color: #666666;
+    position: relative;
+
+    padding: 8px;
+    display: none;
+
+    width: 600px;
+    margin-left: -300px;
+
+    height: 400px;
+    margin-top: -200px;
+}
+
+#detail_info label {
+    display: inline-block;
+    width: 100px;
+}
+
+#detail_info label {
+    display: inline-block;
+    width: 80px;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+#detail_info .text {
+    display: inline-block;
+    width: 140px;
+    
+}
+
+#detail_info #details_left_col {
+    float: left;
+    width: 450px;
+    height: 330px;
+}
+
+#detail_info #details_right_col {
+    float: right;
+    width: 140px;
+    height: 330px;
+}
+

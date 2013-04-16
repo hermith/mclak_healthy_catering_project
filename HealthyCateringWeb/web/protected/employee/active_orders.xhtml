@@ -22,25 +22,59 @@ Contains:
             </ui:define>
 
             <ui:define name="subsite_content">
-                <h:dataTable value="#{infoBean.activeOrders}"
-                             var="order"
-                             styleClass="active_orders_table"
-                             columnClasses="customer_id, product_ids, deliver_on, delivered">
-                    <h:column>
-                        <f:facet name="header">Customer ID</f:facet>
-                        #{order.customerID}</h:column>
-                    <h:column>
-                        <f:facet name="header">Product IDs</f:facet>
-                        #{order.productIds}</h:column>
-                    <h:column>
-                        <f:facet name="header">Delivery on</f:facet>
-                        #{order.deliveryDate()}</h:column>
-                    <h:column>
-                        <f:facet name="header">Delivered</f:facet>
-                        #{order.delivered}</h:column>
+                <h:form id="active_orders_form">
+                    <h:inputHidden value="#{infoBean.customerDetails}" id="show_customer_detail"/>
+                </h:form>
+
+                <h:form>
+
+                    <h:dataTable value="#{infoBean.activeOrders}"
+                                 var="order"
+                                 styleClass="active_orders_table"
+                                 columnClasses="customer_id, product_ids, deliver_on, delivered">
+                        <h:column>
+                            <f:facet name="header">Customer ID</f:facet>
+                                #{order.customerID}
+                            <h:commandButton image="/resources/img/info_icon.png"
+                                             action="#{infoBean.lookUpCustomer(order.getCustomerID())}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Product IDs</f:facet>
+                                #{order.productIds}
+                            <h:commandButton image="/resources/img/info_icon.png"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Delivery on</f:facet>
+                            #{order.deliveryDate()}</h:column>
+                        <h:column>
+                            <f:facet name="header">Delivered</f:facet>
+                            #{order.delivered}</h:column>
+                    </h:dataTable>
 
 
-                </h:dataTable>
+                    <div id="centerpoint">
+                        <div id="detail_info">
+                            <h:commandButton styleClass="close_info_button"
+                                             image="/resources/img/info_icon.png"
+                                             action='#{infoBean.closeDetailedInfo()}'/>
+                            
+                            <h2>Detailed customer info</h2>
+                            
+                            <div id='details_left_col'>
+                                <label>ID</label><h:outputText value="#{infoBean.selectedCustomer.customerId}" styleClass="text"/><br/>
+                                <label>Name</label><h:outputText value="#{infoBean.selectedCustomer.name}" styleClass="text"/>
+                                <label>Adress</label><h:outputText value="#{infoBean.selectedCustomer.address}" styleClass="text"/><br/>
+                                <label>City</label><h:outputText value="#{infoBean.selectedCustomer.city}" styleClass="text"/>
+                                <label>Zip-code</label><h:outputText value="#{infoBean.selectedCustomer.zipCode}" styleClass="text"/><br/>
+                                <label>Email</label><h:outputText value="#{infoBean.selectedCustomer.email}" styleClass="text"/><br/>
+                                <label>Phone</label><h:outputText value="#{infoBean.selectedCustomer.phoneNumber}" styleClass="text"/><br/>
+                            </div>
+                            <div id='details_right_col'>
+                                asdsa dsadsa ds dsa sa sa     sa sadsadsadsa da  sadas sad sa
+                            </div>
+                        </div>
+                    </div>
+                </h:form>
             </ui:define>
         </ui:composition>
     </h:body>

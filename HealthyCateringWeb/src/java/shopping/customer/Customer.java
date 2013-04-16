@@ -44,6 +44,8 @@ public abstract class Customer {
         this.zipCode = zipCode;
         this.city = city;
     }
+    
+    public abstract String getName();
 
     public int getCustomerId() {
         return customerId;

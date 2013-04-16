@@ -32,6 +32,11 @@ public class PrivateCustomer extends Customer {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+    
+    @Override
+    public String getName() {
+        return lastName + ", " + firstName;
+    }
 
     @Override
     public String toString() {

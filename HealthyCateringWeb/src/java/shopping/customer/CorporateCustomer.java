@@ -20,6 +20,11 @@ public class CorporateCustomer extends Customer {
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
     }
+    
+    @Override
+    public String getName() {
+        return companyName;
+    }
 
     @Override
     public String toString() {
