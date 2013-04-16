@@ -53,7 +53,8 @@ public class DatabaseHandler {
     private static final String STM_INSERT_PRODUCT = "INSERT INTO Product_Table(product_name, product_description) VALUES(?, ?)";
     private static final String STM_INSERT_SINGLE_PRODUCT = "INSERT INTO Single_Product_Table(product_id, product_price, product_kcal) VALUES(?, ?, ?)";
     private static final String STM_INSERT_PACKAGE_PRODUCT = "INSERT INTO Package_Product_Table(product_id, product_discount) VALUES(?, ?)";
-    private static final String STM_INSERT_PACKAGE_SINGLE_PRODUCT_CONNECTION = "INSERT INTO Package_Single_Product_Table(package_product_id, single_product_id, quantity) VALUES(?, ?, ?)";
+    private static final String STM_INSERT_PACKAGE_SINGLE_PRODUCT = "INSERT INTO Package_Single_Product_Table(package_product_id, single_product_id, quantity) VALUES(?, ?, ?)";
+    private static final String STM_UPDATE_PACKAGE_SINGLE_PRODUCT_QUANTITY = "UPDATE Package_Single_Product_Table SET quantity = ((SELECT quantity FROM Package_Single_Product_Table WHERE package_product_id = ? AND single_product_id = ?) + 1) WHERE package_product_id = ? AND single_product_id = ?";
     private static final String COLUMN_USERNAME = "username";
     private static final String COLUMN_PASSWORD = "password";
     private static final String COLUMN_USER_ROLE = "user_role";
@@ -504,10 +505,10 @@ public class DatabaseHandler {
         }
     }
 
-    /*
     public synchronized boolean insertProduct(Product product) {
         Connection conn = null;
         PreparedStatement stm = null;
+        ResultSet resSet = null;
         int numberOfRowsUpdated = -1;
         int productId = -1;
         try {
@@ -528,6 +529,9 @@ public class DatabaseHandler {
                     stm.setFloat(2, singleProduct.getPrice());
                     stm.setInt(3, singleProduct.getKcal());
                     numberOfRowsUpdated = stm.executeUpdate();
+                    commit(conn);
+                    Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Successfully inserted single product {0}.", singleProduct);
+                    return true;
                 } else if (product instanceof PackageProduct) {
                     PackageProduct packageProduct = (PackageProduct) product;
                     stm = conn.prepareStatement(STM_INSERT_PACKAGE_PRODUCT);
@@ -535,20 +539,52 @@ public class DatabaseHandler {
                     stm.setInt(2, packageProduct.getDiscount());
                     numberOfRowsUpdated = stm.executeUpdate();
                     if (numberOfRowsUpdated == 1) {
-                        numberOfRowsUpdated = -1;
-                        // TODO sjekk om single product allerede er reg. hvis ikke; reg. Deretter sett opp kobling.
+                        ArrayList<SingleProduct> singleProductsInserted = new ArrayList<SingleProduct>();
+                        for (SingleProduct p : packageProduct.getProducts()) {
+                            numberOfRowsUpdated = -1;
+                            if (!isProductASingleProduct(conn, stm, resSet, p.getId())) {
+                                stm = conn.prepareStatement(STM_INSERT_SINGLE_PRODUCT);
+                                stm.setInt(1, productId);
+                                stm.setFloat(2, p.getPrice());
+                                stm.setInt(3, p.getKcal());
+                                numberOfRowsUpdated = stm.executeUpdate();
+                            } else if (singleProductsInserted.contains(p)) {
+                                stm = conn.prepareStatement(STM_UPDATE_PACKAGE_SINGLE_PRODUCT_QUANTITY);
+                                stm.setInt(1, productId);
+                                stm.setInt(2, p.getId());
+                                stm.setInt(3, productId);
+                                stm.setInt(4, p.getId());
+                                numberOfRowsUpdated = stm.executeUpdate();
+                            }
+                            if (numberOfRowsUpdated == 1) {
+                                numberOfRowsUpdated = -1;
+                                stm = conn.prepareStatement(STM_INSERT_PACKAGE_SINGLE_PRODUCT);
+                                stm.setInt(1, productId);
+                                stm.setInt(2, p.getId());
+                                stm.setInt(3, 1);
+                                numberOfRowsUpdated = stm.executeUpdate();
+                                if (numberOfRowsUpdated == 1) {
+                                    singleProductsInserted.add(p);
+                                }
+                            }
+                        }
+                        commit(conn);
+                        Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Successfully inserted package product {0}.", packageProduct);
+                        return true;
                     }
                 }
             }
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Failed to insert product {0}.", product);
+            return false;
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Failed to insert product " + product + ".", ex);
+            return false;
         } finally {
             setAutoCommit(conn, true);
             closeStatement(stm);
             closeConnection(conn);
         }
     }
-    */
 
     public synchronized boolean insertProducts(ArrayList<Product> products) {
         return true;

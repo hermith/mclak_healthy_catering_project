@@ -29,9 +29,10 @@ public class InfoBean {
     private boolean detailCustomer;
 
     public InfoBean() {
-        activeOrders.add(new Order(1, new int[]{1, 2, 3}, new Date(2013, 04, 17), null));
-        activeOrders.add(new Order(2, new int[]{2, 3, 4}, new Date(2013, 04, 17), null));
-        activeOrders.add(new Order(3, new int[]{2, 5, 7}, new Date(2013, 04, 17), null));
+        // Dunno ka d her va, men ga bare rød squiggly... Christer
+        //activeOrders.add(new Order(1, new int[]{1, 2, 3}, new Date(2013, 04, 17), null));
+        //activeOrders.add(new Order(2, new int[]{2, 3, 4}, new Date(2013, 04, 17), null));
+        //activeOrders.add(new Order(3, new int[]{2, 5, 7}, new Date(2013, 04, 17), null));
     }
 
     public ArrayList<Order> getActiveOrders() {
