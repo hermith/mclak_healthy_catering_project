@@ -5,26 +5,26 @@ package shopping.product;
  */
 public class SingleProduct extends Product {
 
-    private double price;
+    private float price;
     private int kcal;
 
     public SingleProduct() {
         super();
-        this.price = -1.0;
+        this.price = -1.0f;
         this.kcal = -1;
     }
 
-    public SingleProduct(int id, String name, String description, double price, int kcal) {
+    public SingleProduct(int id, String name, String description, float price, int kcal) {
         super(id, name, description);
         this.price = price;
         this.kcal = kcal;
     }
 
-    public double getPrice() {
+    public float getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 

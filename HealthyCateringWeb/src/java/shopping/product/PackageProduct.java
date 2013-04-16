@@ -62,8 +62,8 @@ public class PackageProduct extends Product {
     }
     
     @Override
-    public double getPrice() {
-        double sum = 0.0;
+    public float getPrice() {
+        float sum = 0.0f;
         for(Product product : products) {
             sum+=product.getPrice();
         }

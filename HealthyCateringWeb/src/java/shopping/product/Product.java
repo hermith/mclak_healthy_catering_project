@@ -74,5 +74,5 @@ public abstract class Product {
     /**
      * @return the price
      */
-    public abstract double getPrice();
+    public abstract float getPrice();
 }
