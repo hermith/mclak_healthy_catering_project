@@ -12,27 +12,26 @@
             </ui:define>
 
             <ui:define name="subsite_content">
-                <p>Temporary menu for testing styles</p>
-
-                <h:dataTable var="product" value="#{shoppingBean.menu}" rendered="">
-                    <h:column>
-                        <f:facet name="header">#{texts.menu_product}</f:facet>
-                        
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">#{texts.menu_description}</f:facet>
-                        
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">#{texts.menu_price}</f:facet>
-                        
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header"></f:facet>
-                        <h:commandButton value="#{texts.menu_add}" action="#{shoppingBean.addProduct(product)}"/>
-                    </h:column>
-                </h:dataTable>
-
+                <h:form>
+                    <h:dataTable var="product" value="#{shoppingBean.menu}">
+                        <h:column>
+                            <f:facet name="header">#{texts.menu_product}</f:facet>
+                            #{product.name}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">#{texts.menu_description}</f:facet>
+                            #{product.description}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">#{texts.menu_price}</f:facet>
+                            #{product.price}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header"></f:facet>
+                            <h:commandButton value="#{texts.menu_add}" action="#{shoppingBean.addProduct(product)}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:form>
             </ui:define>
 
             <!-- Optional!

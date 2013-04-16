@@ -15,19 +15,19 @@ Contains:
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:ui="http://java.sun.com/jsf/facelets">
-    
+
     <article id="primary_content">
-    
+
         <ui:insert name="subsite_header" />
 
         <ui:insert name="subsite_content"/>
-        
+
     </article>
-    
+
     <aside id="sidebar">
-        
+
         <ui:insert name="subsite_sidebar">
-            <h3>Heh, sidebar</h3>
+            <!--<h3>Heh, sidebar</h3>
             <p>Eg er ein liten fuggel eg likar å fly. En skal på kino med ei lita ky.</p>
             <p>Eg er eit tilbud, kom og kjøp meg. Ellers skal du daua, med eit mjukt kveg</p>
             <ul>
@@ -36,9 +36,24 @@ Contains:
                 <li>Melk</li>
                 <li>Aprikos</li>
                 <li>Soltørka ku</li>
-            </ul>
+            </ul>-->
+            <h2>#{texts.menu_shoppingcart}:</h2>
+            <h:outputText rendered="#{shoppingBean.shoppingCartIsEmpty()}" value="#{texts.menu_noproducts}"/>
+            <h:form>
+                <h:dataTable rendered="#{!shoppingBean.shoppingCartIsEmpty()}" var="product" value="#{shoppingBean.products}">
+                    <h:column>
+                        #{product.name} #{product.price}
+                    </h:column>
+                    <h:column>
+                        <h:commandButton image="/resources/img/delete_button.png" action="#{shoppingBean.deleteProduct(product)}" />
+                    </h:column>
+                </h:dataTable>
+                <h:commandButton rendered="#{!shoppingBean.shoppingCartIsEmpty()}" value="#{texts.menu_place_order}" action="#{shoppingBean.placeOrder()}"/>
+                #{texts.menu_total}: #{shoppingBean.totalPrice},-
+            </h:form>
+
         </ui:insert>
-        
+
     </aside>
-    
+
 </ui:composition>

@@ -6,7 +6,8 @@ package shopping;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import javax.faces.bean.SessionScoped;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import shopping.customer.CorporateCustomer;
 import shopping.customer.PrivateCustomer;
@@ -23,6 +24,8 @@ public class ShoppingBean implements Serializable {
     private PrivateCustomer privateCustomer;
     private CorporateCustomer corporateCustomer;
     private ShoppingCart shoppingCart;
+    @Inject 
+    private ShoppingHandler shoppingHandler;
 
     public ShoppingBean() {
         privateCustomer = new PrivateCustomer();
@@ -206,25 +209,56 @@ public class ShoppingBean implements Serializable {
     }
 
     /**
-     * Gets the menu from the database.
+     * 
+     * @return the menu
      */
-    public ArrayList<String> getMenu() {
-        ArrayList<String> prod = new ArrayList<String>();
-        prod.add("hei");
-        prod.add("du");
-        return prod;
+    public ArrayList<Product> getMenu() {
+        return shoppingHandler.getMenu();
     }
 
     /**
      * Add a product.
      *
-     * @return true/false
+     * @return 
      */
-    public boolean addProduct(Product product) {
-        return false;
+    public String addProduct(Product product) {
+        if(shoppingCart.addProduct(product)){
+            return "";
+        }else {
+            return "";
+        }
     }
-
-    public ArrayList<Product> getActiveOrders() {
-        return null;
+    
+    /**
+     * 
+     * @return 
+     */
+    public boolean shoppingCartIsEmpty(){
+        return shoppingCart.isEmpty();
+    }
+    
+    /**
+     * 
+     * @return 
+     */
+    public ArrayList<Product> getProducts() {
+        return shoppingCart.getProducts();
+    }
+    
+    public String deleteProduct(Product product) {
+        if(shoppingCart.deleteProduct(product)){
+            return "";
+        }else{
+            return "";
+        }
+    }
+    
+    public String placeOrder(){
+        return "";
+    }
+    
+    public double getTotalPrice() {
+        double sum = shoppingCart.getTotalPrice();
+        return sum;
     }
 }
