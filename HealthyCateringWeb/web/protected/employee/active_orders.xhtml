@@ -12,18 +12,35 @@ Contains:
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
 
     <h:body>
         <ui:composition template="/resources/template/template_master.xhtml">
             <ui:define name="subsite_header">
                 <h1>Active Orders</h1>
             </ui:define>
-            
+
             <ui:define name="subsite_content">
-                <p>employee</p>
-                
-                <!-- Some filler text -->
+                <h:dataTable value="#{infoBean.activeOrders}"
+                             var="order"
+                             styleClass="active_orders_table"
+                             columnClasses="customer_id, product_ids, deliver_on, delivered">
+                    <h:column>
+                        <f:facet name="header">Customer ID</f:facet>
+                        #{order.customerID}</h:column>
+                    <h:column>
+                        <f:facet name="header">Product IDs</f:facet>
+                        #{order.productIds}</h:column>
+                    <h:column>
+                        <f:facet name="header">Delivery on</f:facet>
+                        #{order.deliveryDate()}</h:column>
+                    <h:column>
+                        <f:facet name="header">Delivered</f:facet>
+                        #{order.delivered}</h:column>
+
+
+                </h:dataTable>
             </ui:define>
         </ui:composition>
     </h:body>

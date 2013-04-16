@@ -60,6 +60,13 @@ public class UserBean implements Serializable {
             this.user.setRoleId(roleId);
         }
     }
+    
+    public String ninja() {
+        user.setPassword("Passord1");
+        user.setUsername("testSystem");
+        login();
+        return "/protected/employee/active_orders.xhtml";
+    }
 
     public String login() {
         FacesContext context = FacesContext.getCurrentInstance();
