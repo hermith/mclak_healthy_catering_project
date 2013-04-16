@@ -4,9 +4,18 @@ $(document).ready(function() {
     var isUp = true;
     
     loggedIn = document.getElementById("hidden_login_field:is_user_logged_in").value === "true";
+    wrongPassword = document.getElementById("hidden_login_field:last_login_failed").value === "true";
+    
+    if(wrongPassword) {
+        $("#top_bar_span_login").show();
+        $("#site_opaque").show();
+    } else {
+        $("#top_bar_span_login").hide();
+        $("#site_opaque").hide();
+    }
 
     $("#top_bar_span_login_always_show").click(function() {
-
+        
         if (!loggedIn) {
             // Starting animation of drop down and white overlay.
             $("#site_opaque").fadeToggle('slow');

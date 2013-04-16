@@ -8,7 +8,7 @@ package shopping.customer;
  *
  * @author aleksalr
  */
-public class Customer {
+public abstract class Customer {
 
     private int customerId;
     private String email;

@@ -70,4 +70,9 @@ public abstract class Product {
         }
         return true;
     }
+    
+    /**
+     * @return the price
+     */
+    abstract double getPrice();
 }

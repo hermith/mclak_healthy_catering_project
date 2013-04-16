@@ -31,6 +31,7 @@ public class User {
         this.roleId = roleId;
         this.password = null;
     }
+    
 
     public String getUsername() {
         return username;

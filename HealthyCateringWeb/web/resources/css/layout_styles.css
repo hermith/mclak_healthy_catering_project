@@ -39,6 +39,16 @@
     display: none;
 }
 
+.error_message {
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.error_message li {
+    list-style: none;
+}
+
 /* Log in form inside the sliding bar */
 
 .login_form a {

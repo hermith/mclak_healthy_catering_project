@@ -89,7 +89,5 @@ tr:nth-child(even){
 }
 
 .inputfields{
-    position: absolute;
-    left: 300px;
-    width: 150px;
+    position: relative;
 }

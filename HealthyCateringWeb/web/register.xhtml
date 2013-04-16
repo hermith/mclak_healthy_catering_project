@@ -24,37 +24,48 @@
                     <div class="fieldset">
                         <fieldset>
                             <legend>Register new user</legend>
-                            <p>Username:
-                                <input type="text" placeholder="Username" class="inputfields"/>
+                            <p>
+                                <input type="text" placeholder="First name" class="inputfields" value="#{shoppingBean.firstName}"/>
+                                First name
+                                <br/><br/>
+                                
+                                <input type="text" placeholder="Last name" class="inputfields" value="#{shoppingBean.lastName}"/>
+                                Last name
+                                <br/><br/>
+                                
+                                <input type="text" placeholder="Username" class="inputfields" value="#{userBean.username}"/>
+                                Username
                                 <br/><br/>
 
-                                Password:
-                                <input type="password" placeholder="Password" class="inputfields"/>
+                                <input type="password" placeholder="Password" class="inputfields" value="#{userBean.password}"/>
+                                Password
                                 <br/><br/>
 
-                                Repeat password:
                                 <input type="password" placeholder="Password" class="inputfields"/>
+                                Repeat password
                                 <br/><br/>
-                                
-                                E-mail address:
-                                <input type="text" placeholder="E-mail" class="inputfields"/>
+
+                                <input type="text" placeholder="E-mail" class="inputfields" value="#{shoppingBean.privateEmail}"/>
+                                E-mail address
                                 <br/><br/>
-                                
-                                Address:
-                                <input type="text" placeholder="Address" class="inputfields"/>
+
+                                <input type="text" placeholder="Address" class="inputfields" value="#{shoppingBean.privateAddress}"/>
+                                Address
                                 <br/><br/>
-                                
-                                Zip-code:
-                                <input type="text" placeholder="Zip-code" class="inputfields"/>
+
+                                <input type="number" placeholder="Zip-code" class="inputfields" value="#{shoppingBean.privateZipCode}"/>
+                                Zip-code
                                 <br/><br/>
-                                
-                                City:
-                                <input type="text" placeholder="City" class="inputfields"/>
+
+                                <input type="text" placeholder="City" class="inputfields" value="#{shoppingBean.privateCity}"/>
+                                City
                                 <br/><br/>
-                                
-                                Phone number:
-                                <input type="text" placeholder="Phone number" class="inputfields"/>
+
+                                <input type="text" placeholder="Phone number" class="inputfields" value="#{shoppingBean.privatePhoneNumber}"/>
+                                Phone number
                                 <br/><br/>
+
+                                <input type="submit" value="Submit" action="#{userBean.registerPrivateUser}"/>
                             </p>
 
 
@@ -63,10 +74,53 @@
 
                     <br/>
                 </h:form>
-
-
-
                 <h:form id="registercorporate">
+                    <div class="fieldset">
+                        <fieldset>
+                            <legend>Register new user</legend>
+                            <p>
+                                <input type="text" placeholder="Company name" class="inputfields" value="#{shoppingBean.companyName}"/>
+                                Company name
+                                <br/><br/>
+                                
+                                <input type="text" placeholder="Username" class="inputfields" value="#{userBean.username}"/>
+                                Username
+                                <br/><br/>
+
+                                <input type="password" placeholder="Password" class="inputfields" value="#{userBean.password}"/>
+                                Password
+                                <br/><br/>
+
+                                <input type="password" placeholder="Password" class="inputfields"/>
+                                Repeat password
+                                <br/><br/>
+
+                                <input type="text" placeholder="E-mail" class="inputfields" value="#{shoppingBean.corporateEmail}"/>
+                                E-mail address
+                                <br/><br/>
+
+                                <input type="text" placeholder="Address" class="inputfields" value="#{shoppingBean.corporateAddress}"/>
+                                Address
+                                <br/><br/>
+
+                                <input type="number" placeholder="Zip-code" class="inputfields" value="#{shoppingBean.corporateZipCode}"/>
+                                Zip-code
+                                <br/><br/>
+
+                                <input type="text" placeholder="City" class="inputfields" value="#{shoppingBean.corporateCity}"/>
+                                City
+                                <br/><br/>
+
+                                <input type="text" placeholder="Phone number" class="inputfields" value="#{shoppingBean.corporatePhoneNumber}"/>
+                                Phone number
+                                <br/><br/>
+
+                                <input type="submit" value="Submit" action="#{userBean.registerCorporateUser}"/>
+                            </p>
+
+
+                        </fieldset>
+                    </div>
                 </h:form>
             </ui:define>
         </ui:composition>
