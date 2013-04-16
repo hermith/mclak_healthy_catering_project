@@ -37,9 +37,9 @@ Contains:
                 <li>Aprikos</li>
                 <li>Soltørka ku</li>
             </ul>-->
-            <h2>#{texts.menu_shoppingcart}:</h2>
-            <h:outputText rendered="#{shoppingBean.shoppingCartIsEmpty()}" value="#{texts.menu_noproducts}"/>
-            <h:form>
+            <h:form rendered="#{userBean.loggedIn}">
+                <h2>#{texts.menu_shoppingcart}:</h2>
+                <h:outputText rendered="#{shoppingBean.shoppingCartIsEmpty()}" value="#{texts.menu_noproducts}"/>
                 <h:dataTable style="width: 100%;" rendered="#{!shoppingBean.shoppingCartIsEmpty()}" var="product" value="#{shoppingBean.products}">
                     <h:column>
                         #{product.name} 
