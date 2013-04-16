@@ -24,11 +24,11 @@
                     <div class="fieldset">
                         <fieldset>
                             <legend>Register new user</legend>
-                            <p><input type="text" placeholder="Username" class="inputfields"/>
+                            <p><input type="text" placeholder="Username" class="inputfields" value="#{userBean.username}"/>
                                 Username
                                 <br/><br/>
 
-                                <input type="password" placeholder="Password" class="inputfields"/>
+                                <input type="password" placeholder="Password" class="inputfields" value="#{userBean.password}"/>
                                 Password
                                 <br/><br/>
 
@@ -36,25 +36,27 @@
                                 Repeat password
                                 <br/><br/>
                                 
-                                <input type="text" placeholder="E-mail" class="inputfields"/>
+                                <input type="text" placeholder="E-mail" class="inputfields" value="#{shoppingBean.email}"/>
                                 E-mail address
                                 <br/><br/>
                                 
-                                <input type="text" placeholder="Address" class="inputfields"/>
+                                <input type="text" placeholder="Address" class="inputfields" #{shoppingBean.address}/>
                                 Address
                                 <br/><br/>
                                 
-                                <input type="text" placeholder="Zip-code" class="inputfields"/>
+                                <input type="text" placeholder="Zip-code" class="inputfields" value="#{shoppingBean.zip}"/>
                                 Zip-code
                                 <br/><br/>
                                 
-                                <input type="text" placeholder="City" class="inputfields"/>
+                                <input type="text" placeholder="City" class="inputfields" value="#{shoppingBean.city}"/>
                                 City
                                 <br/><br/>
 
-                                <input type="text" placeholder="Phone number" class="inputfields"/>
+                                <input type="text" placeholder="Phone number" class="inputfields" value="#{shoppingBean.phone}"/>
                                 Phone number
                                 <br/><br/>
+                                
+                                <input type="submit" value="Submititit"/>
                             </p>
 
 
