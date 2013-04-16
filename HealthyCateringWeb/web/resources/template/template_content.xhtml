@@ -40,14 +40,17 @@ Contains:
             <h2>#{texts.menu_shoppingcart}:</h2>
             <h:outputText rendered="#{shoppingBean.shoppingCartIsEmpty()}" value="#{texts.menu_noproducts}"/>
             <h:form>
-                <h:dataTable rendered="#{!shoppingBean.shoppingCartIsEmpty()}" var="product" value="#{shoppingBean.products}">
+                <h:dataTable style="width: 100%;" rendered="#{!shoppingBean.shoppingCartIsEmpty()}" var="product" value="#{shoppingBean.products}">
                     <h:column>
-                        #{product.name} #{product.price}
+                        #{product.name} 
+                    </h:column>
+                    <h:column>
+                        #{product.price}
                     </h:column>
                     <h:column>
                         <h:commandButton image="/resources/img/delete_button.png" action="#{shoppingBean.deleteProduct(product)}" />
                     </h:column>
-                </h:dataTable>
+                </h:dataTable><br/>
                 <h:commandButton rendered="#{!shoppingBean.shoppingCartIsEmpty()}" value="#{texts.menu_place_order}" action="place_order"/>
                 <h:outputText value="#{texts.menu_total}: #{shoppingBean.totalPrice},-" rendered="#{!shoppingBean.shoppingCartIsEmpty()}"/>
             </h:form>

@@ -268,7 +268,7 @@ public class ShoppingBean implements Serializable {
         } else if (corporateCustomer != null) {
             order.setCustomerID(corporateCustomer.getCustomerId());
         }
-        //order.setProducts(getProducts());
+        order.setProducts(getProducts());
         return "";
     }
 
@@ -289,5 +289,13 @@ public class ShoppingBean implements Serializable {
 
     public Date getDeliveryDate() {
         return order.getDeliveryDate();
+    }
+    
+    public boolean isDelivery() {
+        return order.delivery;
+    }
+    
+    public void setDelivery(boolean del) {
+        order.setDelivery(del);
     }
 }
