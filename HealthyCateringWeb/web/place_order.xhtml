@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+
+<!--
+template.xhtml
+
+Contains:
+    Copy this when you want to create a new subsite and replace any content.
+
+@author Karl
+-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:body>
+        <ui:composition template="resources/template/template_master.xhtml">
+            <ui:define name="subsite_header">
+                <h1>This is the subpage header, keep the h1</h1>
+            </ui:define>
+            
+            <ui:define name="subsite_content">
+                <h:dataTable var="product" value="#{shoppingBean.products}" >
+                    <h:column>
+                        <f:facet name="header">#{texts.menu_product}</f:facet>
+                        #{product.name}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">#{texts.menu_description}</f:facet>
+                        #{product.description}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">#{texts.menu_price}</f:facet>
+                        #{product.price}
+                    </h:column>
+                </h:dataTable><br/>
+                
+                <h:selectOneRadio >
+                    <f:selectItem itemValue="pickup" itemLabel="#{texts.menu_pickup}"/>
+                    <f:selectItem itemValue="delivery" itemLabel="#{texts.menu_delivery}"/>
+                </h:selectOneRadio>
+                
+                <p>#{texts.menu_total}: #{shoppingBean.totalPrice},- </p>
+                <h:commandButton value="#{texts.menu_place_order}" action="#{shoppingBean.placeOrder()}"/>
+            </ui:define>
+            
+            <!-- Optional!
+            <ui:define name="subsite_sidebar">
+                Sidebar from main file.
+            </ui:define>
+            If not overwritten, the sidebar will still be there but with stock
+            content. -->
+        </ui:composition>
+    </h:body>
+</html>

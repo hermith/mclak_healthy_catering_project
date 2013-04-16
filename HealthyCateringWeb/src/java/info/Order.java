@@ -7,6 +7,7 @@ package info;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import shopping.product.Product;
 
 /**
  *
@@ -19,6 +20,13 @@ public class Order {
     private Date deliveryDate;
     private Date deliveredDate;
 
+    public Order() {
+        customerID = -1;
+        products = null;
+        deliveredDate = null;
+        deliveryDate = null;
+    }
+    
     public Order(int customerID, int[] products, Date deliveryDate, Date deliveredDate) {
         this.products = new ArrayList<Integer>(products.length);
         
@@ -47,6 +55,10 @@ public class Order {
     
     public int getCustomerID() {
         return customerID;
+    }
+    
+    public void setCustomerID(int customerID) {
+        this.customerID = customerID;
     }
 
     public String deliveryDate() {

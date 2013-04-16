@@ -4,6 +4,7 @@
  */
 package shopping;
 
+import info.Order;
 import java.io.Serializable;
 import java.util.ArrayList;
 import javax.enterprise.context.SessionScoped;
@@ -26,11 +27,13 @@ public class ShoppingBean implements Serializable {
     private ShoppingCart shoppingCart;
     @Inject 
     private ShoppingHandler shoppingHandler;
+    private Order order;
 
     public ShoppingBean() {
         privateCustomer = new PrivateCustomer();
         corporateCustomer = new CorporateCustomer();
         shoppingCart = new ShoppingCart();
+        order = new Order();
     }
 
     /*
@@ -253,12 +256,25 @@ public class ShoppingBean implements Serializable {
         }
     }
     
+    /**
+     * Places the order.
+     * @return 
+     */
     public String placeOrder(){
+        if(privateCustomer!=null) {
+            order.setCustomerID(privateCustomer.getCustomerId());
+        }else if(corporateCustomer!=null) {
+            order.setCustomerID(corporateCustomer.getCustomerId());
+        }
+        
         return "";
     }
     
-    public double getTotalPrice() {
-        double sum = shoppingCart.getTotalPrice();
+    /**
+     * @return total price
+     */
+    public float getTotalPrice() {
+        float sum = shoppingCart.getTotalPrice();
         return sum;
     }
 }

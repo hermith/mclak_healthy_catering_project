@@ -41,8 +41,8 @@ public class ShoppingCart {
         }
     }
     
-    public double getTotalPrice() {
-        double sum = 0.0;
+    public float getTotalPrice() {
+        float sum = 0.0f;
         for(Product product : products){
             sum+=product.getPrice();
         }

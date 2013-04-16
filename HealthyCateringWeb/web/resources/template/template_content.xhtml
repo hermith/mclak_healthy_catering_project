@@ -48,8 +48,8 @@ Contains:
                         <h:commandButton image="/resources/img/delete_button.png" action="#{shoppingBean.deleteProduct(product)}" />
                     </h:column>
                 </h:dataTable>
-                <h:commandButton rendered="#{!shoppingBean.shoppingCartIsEmpty()}" value="#{texts.menu_place_order}" action="#{shoppingBean.placeOrder()}"/>
-                #{texts.menu_total}: #{shoppingBean.totalPrice},-
+                <h:commandButton rendered="#{!shoppingBean.shoppingCartIsEmpty()}" value="#{texts.menu_place_order}" action="place_order"/>
+                <h:outputText value="#{texts.menu_total}: #{shoppingBean.totalPrice},-" rendered="#{!shoppingBean.shoppingCartIsEmpty()}"/>
             </h:form>
 
         </ui:insert>
