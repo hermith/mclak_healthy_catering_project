@@ -13,44 +13,26 @@
 
             <ui:define name="subsite_content">
                 <p>Temporary menu for testing styles</p>
-                
-                <table>
-                    <tr>
-                        <th> Header1 </th>
-                        <th> Header2 </th>
-                        <th> Header3 </th>
-                        <th> Header4 </th>
-                    </tr>
-                    
-                    <tr>
-                        <td>Items</td>
-                        <td>Items</td>
-                        <td>Items</td>
-                        <td>Items</td>
-                    </tr>
-                    
-                    <tr>
-                        <td>Items</td>
-                        <td>Items</td>
-                        <td>Items</td>
-                        <td>Items</td>
-                    </tr>
-                    
-                    <tr>
-                        <td>Items</td>
-                        <td>Items</td>
-                        <td>Items</td>
-                        <td>Items</td>
-                    </tr>
-                    
-                    <tr>
-                        <td>Items</td>
-                        <td>Items</td>
-                        <td>Items</td>
-                        <td>Items</td>
-                    </tr>
-                </table>
-                
+
+                <h:dataTable var="product" value="#{shoppingBean.menu}">
+                    <h:column>
+                        <f:facet name="header">#{texts.menu_product}</f:facet>
+                        
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">#{texts.menu_description}</f:facet>
+                        
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">#{texts.menu_price}</f:facet>
+                        
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header"></f:facet>
+                        <h:commandButton value="#{texts.menu_add}" action="#{shoppingBean.addProduct(product)}"/>
+                    </h:column>
+                </h:dataTable>
+
             </ui:define>
 
             <!-- Optional!
