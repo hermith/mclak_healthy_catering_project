@@ -7,8 +7,6 @@ package info;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
-import shopping.product.Product;
-
 /**
  *
  * @author Karl
@@ -79,5 +77,13 @@ public class Order {
         return (greg.get(GregorianCalendar.YEAR)-1900)
                 + "." + greg.get(GregorianCalendar.MONTH)
                 + "." + greg.get(GregorianCalendar.DATE);
+    }
+    
+    public void setDeliveryDate(Date date) {
+        this.deliveryDate = date;
+    }
+    
+    public Date getDeliveryDate() {
+        return deliveryDate;
     }
 }

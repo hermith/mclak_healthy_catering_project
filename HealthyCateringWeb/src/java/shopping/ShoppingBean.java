@@ -6,6 +6,7 @@ package shopping;
 
 import info.Order;
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.ArrayList;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -25,7 +26,7 @@ public class ShoppingBean implements Serializable {
     private PrivateCustomer privateCustomer;
     private CorporateCustomer corporateCustomer;
     private ShoppingCart shoppingCart;
-    @Inject 
+    @Inject
     private ShoppingHandler shoppingHandler;
     private Order order;
 
@@ -212,7 +213,7 @@ public class ShoppingBean implements Serializable {
     }
 
     /**
-     * 
+     *
      * @return the menu
      */
     public ArrayList<Product> getMenu() {
@@ -222,59 +223,71 @@ public class ShoppingBean implements Serializable {
     /**
      * Add a product.
      *
-     * @return 
+     * @return
      */
     public String addProduct(Product product) {
-        if(shoppingCart.addProduct(product)){
+        if (shoppingCart.addProduct(product)) {
             return "";
-        }else {
+        } else {
             return "";
         }
     }
-    
+
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
-    public boolean shoppingCartIsEmpty(){
+    public boolean shoppingCartIsEmpty() {
         return shoppingCart.isEmpty();
     }
-    
+
     /**
-     * 
-     * @return 
+     *
+     * @return
      */
     public ArrayList<Product> getProducts() {
         return shoppingCart.getProducts();
     }
-    
+
     public String deleteProduct(Product product) {
-        if(shoppingCart.deleteProduct(product)){
+        if (shoppingCart.deleteProduct(product)) {
             return "";
-        }else{
+        } else {
             return "";
         }
     }
-    
+
     /**
      * Places the order.
-     * @return 
+     *
+     * @return
      */
-    public String placeOrder(){
-        if(privateCustomer!=null) {
+    public String placeOrder() {
+        if (privateCustomer != null) {
             order.setCustomerID(privateCustomer.getCustomerId());
-        }else if(corporateCustomer!=null) {
+        } else if (corporateCustomer != null) {
             order.setCustomerID(corporateCustomer.getCustomerId());
         }
-        
+        //order.setProducts(getProducts());
         return "";
     }
-    
+
     /**
      * @return total price
      */
     public float getTotalPrice() {
-        float sum = shoppingCart.getTotalPrice();
-        return sum;
+        return shoppingCart.getTotalPrice();
+    }
+
+    /**
+     *
+     * @param dato
+     */
+    public void setDeliveryDate(Date date) {
+        order.setDeliveryDate(date);
+    }
+
+    public Date getDeliveryDate() {
+        return order.getDeliveryDate();
     }
 }

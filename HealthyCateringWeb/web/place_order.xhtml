@@ -20,32 +20,34 @@ Contains:
             <ui:define name="subsite_header">
                 <h1>This is the subpage header, keep the h1</h1>
             </ui:define>
-            
+
             <ui:define name="subsite_content">
-                <h:dataTable var="product" value="#{shoppingBean.products}" >
-                    <h:column>
-                        <f:facet name="header">#{texts.menu_product}</f:facet>
-                        #{product.name}
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">#{texts.menu_description}</f:facet>
-                        #{product.description}
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">#{texts.menu_price}</f:facet>
-                        #{product.price}
-                    </h:column>
-                </h:dataTable><br/>
-                
-                <h:selectOneRadio >
-                    <f:selectItem itemValue="pickup" itemLabel="#{texts.menu_pickup}"/>
-                    <f:selectItem itemValue="delivery" itemLabel="#{texts.menu_delivery}"/>
-                </h:selectOneRadio>
-                
-                <p>#{texts.menu_total}: #{shoppingBean.totalPrice},- </p>
-                <h:commandButton value="#{texts.menu_place_order}" action="#{shoppingBean.placeOrder()}"/>
+                <h:form>
+                    <h:dataTable var="product" value="#{shoppingBean.products}" >
+                        <h:column>
+                            <f:facet name="header">#{texts.menu_product}</f:facet>
+                            #{product.name}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">#{texts.menu_description}</f:facet>
+                            #{product.description}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">#{texts.menu_price}</f:facet>
+                            #{product.price}
+                        </h:column>
+                    </h:dataTable><br/>
+
+                    <h:selectOneRadio >
+                        <f:selectItem  itemValue="pickup" itemLabel="#{texts.menu_pickup}"/>
+                        <f:selectItem itemValue="deliver" itemLabel="#{texts.menu_delivery}"/>
+                    </h:selectOneRadio>
+
+                    <p>#{texts.menu_total}: #{shoppingBean.totalPrice},- </p>
+                    <h:commandButton value="#{texts.menu_place_order}" action="#{shoppingBean.placeOrder()}"/>
+                </h:form>
             </ui:define>
-            
+
             <!-- Optional!
             <ui:define name="subsite_sidebar">
                 Sidebar from main file.
