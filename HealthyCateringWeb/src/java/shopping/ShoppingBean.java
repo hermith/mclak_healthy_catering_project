@@ -8,7 +8,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Named;
-import shopping.customer.Customer;
+import shopping.customer.CorporateCustomer;
+import shopping.customer.PrivateCustomer;
 import shopping.product.Product;
 
 /**
@@ -19,63 +20,188 @@ import shopping.product.Product;
 public class ShoppingBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private Customer customer;
+    private PrivateCustomer privateCustomer;
+    private CorporateCustomer corporateCustomer;
     private ShoppingCart shoppingCart;
 
     public ShoppingBean() {
-        customer = new Customer();
+        privateCustomer = new PrivateCustomer();
+        corporateCustomer = new CorporateCustomer();
         shoppingCart = new ShoppingCart();
     }
 
-    public String getEmail() {
-        if (customer != null) {
-            return customer.getEmail();
+    /*
+     * Getters and setters for privateCustomer
+     */
+    public String getFirstName() {
+        if (privateCustomer != null) {
+            return ((PrivateCustomer) privateCustomer).getFirstName();
         }
         return null;
     }
 
-    public void setEmail(String email) {
-        if (customer != null) {
-            this.customer.setEmail(email);
+    public void setFirstName(String firstName) {
+        if (privateCustomer != null) {
+            ((PrivateCustomer) privateCustomer).setFirstName(firstName);
         }
     }
 
-    public String getAddress() {
-        if (customer != null) {
-            return customer.getAddress();
-        }
-        return null;
-    }
-
-    public void setAddress(String address) {
-        if (customer != null) {
-            this.customer.setAddress(address);
-        }
-    }
-
-    public String getPhoneNumber() {
-        if (customer != null) {
-            return customer.getPhoneNumber();
+    public String getLastName() {
+        if (privateCustomer != null) {
+            return ((PrivateCustomer) privateCustomer).getLastName();
         }
         return null;
     }
 
-    public void setPhoneNumber(String phone) {
-        if (customer != null) {
-            this.customer.setPhoneNumber(phone);
+    public void setLastName(String lastName) {
+        if (privateCustomer != null) {
+            ((PrivateCustomer) privateCustomer).setLastName(lastName);
         }
     }
 
-    public int getZipCode() {
-        if (customer != null) {
-            return customer.getZipCode();
+    public String getPrivateEmail() {
+        if (privateCustomer != null) {
+            return privateCustomer.getEmail();
+        }
+        return null;
+    }
+
+    public void setPrivateEmail(String email) {
+        if (privateCustomer != null) {
+            this.privateCustomer.setEmail(email);
+        }
+    }
+
+    public String getPrivateAddress() {
+        if (privateCustomer != null) {
+            return privateCustomer.getAddress();
+        }
+        return null;
+    }
+
+    public void setPrivateAddress(String address) {
+        if (privateCustomer != null) {
+            this.privateCustomer.setAddress(address);
+        }
+    }
+
+    public String getPrivatePhoneNumber() {
+        if (privateCustomer != null) {
+            return privateCustomer.getPhoneNumber();
+        }
+        return null;
+    }
+
+    public void setPrivatePhoneNumber(String phone) {
+        if (privateCustomer != null) {
+            this.privateCustomer.setPhoneNumber(phone);
+        }
+    }
+
+    public int getPrivateZipCode() {
+        if (privateCustomer != null) {
+            return privateCustomer.getZipCode();
         }
         return -1;
     }
 
-    public void setZipCode(int zipCode) {
-        if (customer != null) {
-            this.customer.setZipCode(zipCode);
+    public void setPrivateZipCode(int zipCode) {
+        if (privateCustomer != null) {
+            this.privateCustomer.setZipCode(zipCode);
+        }
+    }
+
+    public String getPrivateCity() {
+        if (privateCustomer != null) {
+            return privateCustomer.getCity();
+        }
+        return null;
+    }
+
+    public void setPrivateCity(String city) {
+        if (privateCustomer != null) {
+            this.privateCustomer.setCity(city);
+        }
+    }
+
+    /*
+     * Getters and setters for corporateCustomer
+     */
+    public String getCompanyName() {
+        if (corporateCustomer != null) {
+            return corporateCustomer.getCompanyName();
+        }
+        return null;
+    }
+
+    public void setCompanyName(String companyName) {
+        if (corporateCustomer != null) {
+            this.corporateCustomer.setCompanyName(companyName);
+        }
+    }
+
+    public String getCorporateEmail() {
+        if (corporateCustomer != null) {
+            return corporateCustomer.getEmail();
+        }
+        return null;
+    }
+
+    public void setCorporateEmail(String email) {
+        if (corporateCustomer != null) {
+            this.corporateCustomer.setEmail(email);
+        }
+    }
+
+    public String getCorporateAddress() {
+        if (corporateCustomer != null) {
+            return corporateCustomer.getAddress();
+        }
+        return null;
+    }
+
+    public void setCorporateAddress(String address) {
+        if (corporateCustomer != null) {
+            this.corporateCustomer.setAddress(address);
+        }
+    }
+
+    public String getCorporatePhoneNumber() {
+        if (corporateCustomer != null) {
+            return corporateCustomer.getPhoneNumber();
+        }
+        return null;
+    }
+
+    public void setCorporatePhoneNumber(String phone) {
+        if (corporateCustomer != null) {
+            this.corporateCustomer.setPhoneNumber(phone);
+        }
+    }
+
+    public int getCorporateZipCode() {
+        if (corporateCustomer != null) {
+            return corporateCustomer.getZipCode();
+        }
+        return -1;
+    }
+
+    public void setCorporateZipCode(int zipCode) {
+        if (corporateCustomer != null) {
+            this.corporateCustomer.setZipCode(zipCode);
+        }
+    }
+
+    public String getCorporateCity() {
+        if (corporateCustomer != null) {
+            return corporateCustomer.getCity();
+        }
+        return null;
+    }
+
+    public void setCorporateCity(String city) {
+        if (corporateCustomer != null) {
+            this.corporateCustomer.setCity(city);
         }
     }
 
