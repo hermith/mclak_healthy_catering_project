@@ -5,11 +5,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 
 @Named
 @SessionScoped
@@ -17,6 +17,8 @@ public class UserBean implements Serializable {
 
     User user;
     boolean loginFailed;
+    @Inject
+    UserHandler userhandler;
 
     public UserBean() {
         this.user = new User();
@@ -66,6 +68,10 @@ public class UserBean implements Serializable {
         user.setUsername("testSystem");
         login();
         return "/protected/employee/active_orders.xhtml";
+    }
+
+    public void registerUser() {
+        userhandler.registerUser(user);
     }
 
     public String login() {
