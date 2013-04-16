@@ -1,6 +1,7 @@
 package shopping;
 
 import database.DatabaseHandler;
+import info.Order;
 import java.io.Serializable;
 import java.util.ArrayList;
 import javax.enterprise.context.ApplicationScoped;
@@ -20,13 +21,13 @@ public class ShoppingHandler implements Serializable{
     public ShoppingHandler() {
     }
 
-    public boolean insertOrder() { //tar inn ordre....
+    public boolean insertOrder(Order order) {
         //return database.insertOrder(order);
         return false;
     }
 
     public ArrayList<Product> getMenu() {
-        //test
+        //--test--
         ArrayList<Product> pro = new ArrayList<Product>();
         SingleProduct sp = new SingleProduct(1, "pizza", "nam", 33, 300);
         SingleProduct sp1 = new SingleProduct(2, "burger", "nam", 44, 300);
@@ -34,6 +35,7 @@ public class ShoppingHandler implements Serializable{
         pro.add(sp);
         pro.add(sp1);
         pro.add(sp2);
+        //--test--
         return pro;
     }
 }
