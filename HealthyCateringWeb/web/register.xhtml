@@ -6,6 +6,7 @@
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:head>
         <title>Facelet Title</title>
+        <h:outputScript library="js" name="/register_validation.js" />
     </h:head>
     <h:body>
         <ui:composition template="resources/template/template_master.xhtml">
@@ -37,12 +38,14 @@
                                 Username
                                 <br/><br/>
 
-                                <input type="password" placeholder="Password" class="inputfields" value="#{userBean.password}"/>
+                                <input type="password" id="pass1" placeholder="Password" class="inputfields" value="#{userBean.password}"/>
                                 Password
                                 <br/><br/>
 
-                                <input type="password" placeholder="Password" class="inputfields" />
-                                Repeat password
+                                <input type="password" id="pass2" onkeyup="checkPass(); return false;" placeholder="Password" class="inputfields" />
+                                <span id="confirmMessage" class="confirmMessage"></span>
+                                Repeat password<br/>
+
                                 <br/><br/>
 
                                 <input type="text" placeholder="E-mail" class="inputfields" value="#{shoppingBean.privateEmail}"/>
