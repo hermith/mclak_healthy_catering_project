@@ -5,9 +5,11 @@
 package shopping;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import javax.faces.bean.SessionScoped;
 import javax.inject.Named;
 import shopping.customer.Customer;
+import shopping.product.Product;
 
 /**
  * @author aleksalr
@@ -23,5 +25,27 @@ public class ShoppingBean implements Serializable {
     public ShoppingBean() {
         customer = new Customer();
         shoppingCart = new ShoppingCart();
+    }
+    
+    /**
+     * Gets the menu from the database.
+     */
+    public ArrayList<String> getMenu() {
+        ArrayList<String> prod = new ArrayList<String>();
+        prod.add("hei");
+        prod.add("du");
+        return prod;
+    }
+    
+    /**
+     * Add a product.
+     * @return true/false
+     */
+    public boolean addProduct(Product product) {
+        return false;
+    }
+    
+    public ArrayList<Product> getActiveOrders(){
+        return null;
     }
 }
