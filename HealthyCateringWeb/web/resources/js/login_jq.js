@@ -37,7 +37,12 @@ $(document).ready(function() {
         return false;
     });
     
-    /*$(".control_panel_header").click(function() {
-     $(".control_panel_button_section").slideToggle('slow');
-     });*/
+    if(!loggedIn) {
+        //$("article#primary_content").hide();
+        $("article#primary_content").css("width", "100%");
+        $("aside#sidebar").hide();
+    } else {
+        $("article#primary_content").css("width", "685px");
+        $("aside#sidebar").show();
+    }
 });
