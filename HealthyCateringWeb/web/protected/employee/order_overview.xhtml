@@ -20,7 +20,7 @@ Contains:
             <ui:define name="subscript">
                 <h:outputScript library="js" name="/active_orders_jq.js" />
             </ui:define>
-            
+
             <ui:define name="subsite_header">
                 <h1>Active Orders</h1>
             </ui:define>
@@ -31,33 +31,63 @@ Contains:
                 </h:form>
 
                 <h:form styleClass="active_orders_main_form">
-                    <h:dataTable value="#{infoBean.activeOrders}"
-                                 var="order"
-                                 styleClass="active_orders_table"
-                                 columnClasses="customer_id, product_ids, placed_on, deliver_on, delivered, details">
-                        <h:column>
-                            <f:facet name="header">Customer ID</f:facet>
-                                #{order.customerID}
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">Product IDs</f:facet>
-                                #{order.productIds}
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">Order placed</f:facet>
-                            #{order.convertDateToString(order.getPlacedDate())}</h:column>
-                        <h:column>
-                            <f:facet name="header">Delivery</f:facet>
-                            #{order.convertDateToString(order.getDeliveryDate())}</h:column>
-                        <h:column>
-                            <f:facet name="header">Delivered</f:facet>
-                            #{order.delivered}</h:column>
-                        <h:column>
-                            <f:facet name="header">Details</f:facet>
-                            <h:commandButton image="/resources/img/info_icon.png"
-                                             action="#{infoBean.lookUpOrder(order.getOrderID())}"/></h:column>
-                    </h:dataTable>
 
+                    <div id="order_tab_left"><h3>Active orders</h3></div>
+                    <div id="order_tab_right"><h3>Order history</h3></div>
+                    <div id="order_active_orders">
+                        <h:dataTable value="#{infoBean.activeOrders}"
+                                     var="order"
+                                     styleClass="active_orders_table"
+                                     columnClasses="customer_id, product_ids, placed_on, deliver_on, delivered, details">
+                            <h:column>
+                                <f:facet name="header">Customer ID</f:facet>
+                                    #{order.customerID}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Product IDs</f:facet>
+                                    #{order.productIds}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Order placed</f:facet>
+                                #{order.convertDateToString(order.getPlacedDate())}</h:column>
+                            <h:column>
+                                <f:facet name="header">Delivery</f:facet>
+                                #{order.convertDateToString(order.getDeliveryDate())}</h:column>
+                            <h:column>
+                                <f:facet name="header">Delivered</f:facet>
+                                #{order.delivered}</h:column>
+                            <h:column>
+                                <f:facet name="header">Details</f:facet>
+                                <h:commandButton image="/resources/img/info_icon.png"
+                                                 action="#{infoBean.lookUpOrder(order.getOrderID())}"/></h:column>
+                        </h:dataTable>
+                    </div>
+
+                    <div id="order_order_history">
+                        <h:dataTable value="#{infoBean.orderHistory}"
+                                     var="order"
+                                     styleClass="active_orders_table"
+                                     columnClasses="customer_id, product_ids, delivered_on, details">
+                            <h:column>
+                                <f:facet name="header">Customer ID</f:facet>
+                                    #{order.customerID}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Product IDs</f:facet>
+                                    #{order.productIds}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Order placed</f:facet>
+                                #{order.convertDateToString(order.getPlacedDate())}</h:column>
+                            <h:column>
+                                <f:facet name="header">Delivered on</f:facet>
+                                #{order.convertDateToString(order.getDeliveredDate())}</h:column>
+                            <h:column>
+                                <f:facet name="header">Details</f:facet>
+                                <h:commandButton image="/resources/img/info_icon.png"
+                                                 action="#{infoBean.lookUpOrder(order.getOrderID())}"/></h:column>
+                        </h:dataTable>
+                    </div>
 
                     <div id="centerpoint">
                         <div id="detail_info">

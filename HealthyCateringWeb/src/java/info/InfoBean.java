@@ -42,6 +42,12 @@ public class InfoBean {
     }
 
     public ArrayList<Order> getActiveOrders() {
+        //TODO Get non-delivered orders from DB
+        return activeOrders;
+    }
+    
+    public ArrayList<Order> getOrderHistory() {
+        //TODO Get delived orders from DB
         return activeOrders;
     }
 
