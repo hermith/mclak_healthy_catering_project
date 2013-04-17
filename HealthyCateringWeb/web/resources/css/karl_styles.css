@@ -1,39 +1,40 @@
 /* temp */
 
-.active_orders_table {
+/* active_orders.xhtml */
+active_orders_main_form .active_orders_table {
     width: 100%;
 }
 
-.customer_id {
+active_orders_main_form .customer_id {
     width: 100px; 
 }
 
-.customer_id input {
+active_orders_main_form .customer_id input {
     margin: 4px;
     float: right;
 }
 
-.product_ids {
+active_orders_main_form .product_ids {
 }
 
-.product_ids input {
+active_orders_main_form .product_ids input {
     margin: 4px;
     float: right;
 }
 
-.deliver_on {
+active_orders_main_form .deliver_on {
     width: 100px;
 }
 
-.details {
+active_orders_main_form .details {
     width: 20px;
 }
 
-.placed_on {
+active_orders_main_form .placed_on {
     width: 100px;
 }
 
-.delivered {
+active_orders_main_form .delivered {
     width: 100px;
 }
 
