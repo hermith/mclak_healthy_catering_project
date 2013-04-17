@@ -6,7 +6,8 @@ package shopping;
 
 import info.Order;
 import java.io.Serializable;
-import java.sql.Date;
+//import java.sql.Date;
+import java.util.Date;
 import java.util.ArrayList;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -273,7 +274,6 @@ public class ShoppingBean implements Serializable {
             shoppingCart = new ShoppingCart();
             order = new Order();
         }
-        System.out.println("Delivery: " + isDelivery() + ", deliverydate");
         return "";
     }
 
@@ -285,11 +285,12 @@ public class ShoppingBean implements Serializable {
     }
 
     /**
-     *
+     *Converts java.util.Date to java.sql.Date, and passes it to the order-object.
      * @param dato
      */
     public void setDeliveryDate(Date date) {
-        order.setDeliveryDate(date);
+        java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+        order.setDeliveryDate(sqlDate);
     }
 
     public Date getDeliveryDate() {

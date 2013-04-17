@@ -22,7 +22,7 @@ Contains:
             </ui:define>
 
             <ui:define name="subsite_content">
-                <h:form>
+                <h:form id="place_order_form">
                     <h:dataTable var="product" value="#{shoppingBean.products}" >
                         <h:column>
                             <f:facet name="header">#{texts.menu_product}</f:facet>
@@ -41,7 +41,7 @@ Contains:
 
                     <p>#{texts.menu_deliveryMethod}:</p>
                     
-                    <h:selectOneRadio value="#{shoppingBean.delivery}" >
+                    <h:selectOneRadio id="place_order_radio" value="#{shoppingBean.delivery}" >
                         <f:selectItem itemValue="#{false}" itemLabel="#{texts.menu_pickup}"/>
                         <f:selectItem itemValue="#{true}" itemLabel="#{texts.menu_delivery}"/>
                     </h:selectOneRadio>
