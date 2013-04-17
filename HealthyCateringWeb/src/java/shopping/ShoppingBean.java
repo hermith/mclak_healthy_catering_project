@@ -273,6 +273,7 @@ public class ShoppingBean implements Serializable {
             shoppingCart = new ShoppingCart();
             order = new Order();
         }
+        System.out.println("Delivery: " + isDelivery() + ", deliverydate");
         return "";
     }
 

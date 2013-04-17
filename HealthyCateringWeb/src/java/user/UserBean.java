@@ -10,6 +10,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import locale.MessageHandler;
+import locale.MessageType;
 
 @Named
 @SessionScoped
@@ -84,11 +86,11 @@ public class UserBean implements Serializable {
 
         loginFailed = false;
         if (user.getUsername().trim().isEmpty()) {
-            addErrorMessage(getLocalizedText("login_required_username"));
+            MessageHandler.addErrorMessage(MessageHandler.getLocalizedText(MessageType.ERROR,"login_required_username"));
             loginFailed = true;
         }
         if (user.getPassword().isEmpty()) {
-            addErrorMessage(getLocalizedText("login_required_password"));
+            MessageHandler.addErrorMessage(MessageHandler.getLocalizedText(MessageType.ERROR,"login_required_password"));
             loginFailed = true;
         }
         if (loginFailed) {
@@ -110,7 +112,7 @@ public class UserBean implements Serializable {
             Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, "Failed to log in user due to nullpointer exception!", ex2);
         }
 
-        addErrorMessage(getLocalizedText("login_wrong_username_or_password"));
+        MessageHandler.addErrorMessage(MessageHandler.getLocalizedText(MessageType.ERROR,"login_wrong_username_or_password"));
         return "";
 
     }
@@ -182,14 +184,5 @@ public class UserBean implements Serializable {
             return false;
         }
 
-    }
-
-    private void addErrorMessage(String message) {
-        FacesContext.getCurrentInstance().addMessage("", new FacesMessage(message));
-    }
-
-    private String getLocalizedText(String text_id) {
-        FacesContext context = FacesContext.getCurrentInstance();
-        return context.getApplication().evaluateExpressionGet(context, "#{texts." + text_id + "}", String.class);
     }
 }

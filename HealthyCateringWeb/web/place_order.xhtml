@@ -40,12 +40,17 @@ Contains:
                     <p>#{texts.menu_total}: #{shoppingBean.totalPrice},- </p>
 
                     <p>#{texts.menu_deliveryMethod}:</p>
-
-                    <h:commandButton value="#{texts.menu_pickup}" action="#{shoppingBean.setDelivery(false)}"/>
-                    <h:commandButton value="#{texts.menu_delivery}" action="#{shoppingBean.setDelivery(true)}"/><br/>
-                    <h:outputText value="#{texts.menu_deliveryDate}: " rendered="#{shoppingBean.delivery}"/>
-                    <h:inputText value="#{shoppingBean.deliveryDate}" rendered="#{shoppingBean.delivery}"/><br/><br/>
-
+                    
+                    <h:selectOneRadio value="#{shoppingBean.delivery}" >
+                        <f:selectItem itemValue="#{false}" itemLabel="#{texts.menu_pickup}"/>
+                        <f:selectItem itemValue="#{true}" itemLabel="#{texts.menu_delivery}"/>
+                    </h:selectOneRadio>
+                    
+                    <h:outputText value="#{texts.menu_deliveryDate}: " />
+                    <h:inputText value="#{shoppingBean.deliveryDate}" >
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </h:inputText><h:messages /><br/><br/>
+                    
                     <h:commandButton value="#{texts.menu_place_order}" action="#{shoppingBean.placeOrder()}"/>
                 </h:form>
             </ui:define>

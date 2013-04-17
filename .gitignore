@@ -4,5 +4,13 @@
 /HealthyCateringWeb/dist
 /HealthyCateringWeb/build.xml
 
-# Mac crap
+# IntelliJ and Eclipse
+.classpath
+.project
+.settings/
+.idea/
+*.iml
+*.iws
 .DS_Store
+log/
+target/

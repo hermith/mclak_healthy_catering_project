@@ -26,7 +26,7 @@
                             <f:facet name="header">#{texts.menu_price}</f:facet>
                             #{product.price}
                         </h:column>
-                        <h:column>
+                        <h:column rendered="#{userBean.loggedIn}">
                             <f:facet name="header"></f:facet>
                             <h:commandButton value="#{texts.menu_add}" action="#{shoppingBean.addProduct(product)}"/>
                         </h:column>
