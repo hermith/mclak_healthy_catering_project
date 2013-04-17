@@ -4,12 +4,11 @@ import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import locale.MessageHandler;
 import locale.MessageType;
 
@@ -64,7 +63,7 @@ public class UserBean implements Serializable {
             this.user.setRoleId(roleId);
         }
     }
-    
+
     public String ninja() {
         user.setPassword("Passord1");
         user.setUsername("testSystem");
@@ -75,8 +74,8 @@ public class UserBean implements Serializable {
     public void registerPrivateUser() {
         //userhandler.registerPrivateUser(user);
     }
-    
-    public void registerCorporateUser(){
+
+    public void registerCorporateUser() {
         //userhandler.registerCorporateUser(user);
     }
 
@@ -86,11 +85,11 @@ public class UserBean implements Serializable {
 
         loginFailed = false;
         if (user.getUsername().trim().isEmpty()) {
-            MessageHandler.addErrorMessage(MessageHandler.getLocalizedText(MessageType.ERROR,"login_required_username"));
+            MessageHandler.addErrorMessage(MessageHandler.getLocalizedText(MessageType.ERROR, "login_required_username"));
             loginFailed = true;
         }
         if (user.getPassword().isEmpty()) {
-            MessageHandler.addErrorMessage(MessageHandler.getLocalizedText(MessageType.ERROR,"login_required_password"));
+            MessageHandler.addErrorMessage(MessageHandler.getLocalizedText(MessageType.ERROR, "login_required_password"));
             loginFailed = true;
         }
         if (loginFailed) {
@@ -112,7 +111,7 @@ public class UserBean implements Serializable {
             Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, "Failed to log in user due to nullpointer exception!", ex2);
         }
 
-        MessageHandler.addErrorMessage(MessageHandler.getLocalizedText(MessageType.ERROR,"login_wrong_username_or_password"));
+        MessageHandler.addErrorMessage(MessageHandler.getLocalizedText(MessageType.ERROR, "login_wrong_username_or_password"));
         return "";
 
     }
@@ -184,5 +183,71 @@ public class UserBean implements Serializable {
             return false;
         }
 
+    }
+
+    /**
+     * METODER FOR EDIT_ACCOUNT
+     *
+     * @return
+     */
+    public String getCompanyName() {
+        return "";
+    }
+
+    public void setCompanyName(String name) {
+        if (!name.equals("")) {
+        }
+    }
+
+    public String getFirstName() {
+        return "";
+    }
+
+    public void setFirstName(String name) {
+        if (!name.equals("")) {
+        }
+    }
+
+    public String getLastName() {
+        return "";
+    }
+
+    public void setLastName(String name) {
+        if (!name.equals("")) {
+        }
+    }
+
+    public String getAddress() {
+        return "";
+    }
+
+    public void setAddress(String address) {
+        if (!address.equals("")) {
+        }
+    }
+
+    public int getZipCode() {
+        return 0;
+    }
+
+    public void setZipCode(int zip) {
+    }
+
+    public String getCity() {
+        return "";
+    }
+
+    public void setCity(String city) {
+        if (!city.equals("")) {
+        }
+    }
+
+    public String getPhoneNumber() {
+        return "";
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        if (!phoneNumber.equals("")) {
+        }
     }
 }

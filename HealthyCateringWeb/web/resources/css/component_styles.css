@@ -92,3 +92,7 @@ tr:nth-child(even){
     position: relative;
     color: black;
 }
+
+.edit_account_table_customer {
+    text-align: left;
+}

@@ -17,11 +17,48 @@ Contains:
     <h:body>
         <ui:composition template="/resources/template/template_master.xhtml">
             <ui:define name="subsite_header">
-                <h1>Edit your account details</h1>
+                <h1>#{texts.edit_account_title}</h1>
             </ui:define>
 
             <ui:define name="subsite_content">
-                Common
+                <h:form>
+                    <!--Customers view-->
+                    <h:panelGrid columnClasses="edit_account_table_customer" columns="2" >
+                        <h:outputText value="#{texts.edit_account_company_name}:"/>
+                        <h:inputText value="#{userBean.companyName}"/>
+                        
+                        <h:outputText value="#{texts.edit_account_firstname}:"/>
+                        <h:inputText value="#{userBean.firstName}"/>
+                        <h:outputText value="#{texts.edit_account_lastname}:"/>
+                        <h:inputText value="#{userBean.lastName}"/>
+                        
+                        <h:outputText value="#{texts.edit_account_address}:" />
+                        <h:inputText value="#{userBean.address}"/>
+                        <h:outputText value="#{texts.edit_account_zipcode}:" />
+                        <h:inputText value="#{userBean.zipCode}"/>
+                        <h:outputText value="#{texts.edit_account_city}:" />
+                        <h:inputText value="#{userBean.city}"/>
+                        <h:outputText value="#{texts.edit_account_phone}:" />
+                        <h:inputText value="#{userBean.phoneNumber}"/>
+                    </h:panelGrid>
+                    <br/>
+                    <h3>#{texts.edit_account_change_password}</h3>
+                    <h:panelGrid columnClasses="edit_account_table_customer" columns="2">
+                        #{texts.edit_account_old_password}:
+                        <h:inputText />
+                        #{texts.edit_account_new_password}:
+                        <h:inputText />
+                        #{texts.edit_account_repeat_password}:
+                        <h:inputText />
+                    </h:panelGrid><br/>
+                    <h:commandButton value="#{texts.edit_account_save_changes}"/>
+                    
+                    <!--Employees view-->
+                    <h:dataTable >
+                        
+                    </h:dataTable>
+                    
+                </h:form>
             </ui:define>
         </ui:composition>
     </h:body>
