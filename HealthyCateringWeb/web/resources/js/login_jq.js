@@ -38,8 +38,7 @@ $(document).ready(function() {
     });
     
     if(!loggedIn) {
-        //$("article#primary_content").hide();
-        $("article#primary_content").css("width", "100%");
+        $("article#primary_content").css("width", "973px");
         $("aside#sidebar").hide();
     } else {
         $("article#primary_content").css("width", "685px");

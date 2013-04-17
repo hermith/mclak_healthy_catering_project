@@ -68,7 +68,7 @@ public class UserBean implements Serializable {
         user.setPassword("Passord1");
         user.setUsername("testSystem");
         login();
-        return "/protected/employee/active_orders.xhtml";
+        return "/protected/common/control_panel.xhtml";
     }
 
     public void registerPrivateUser() {

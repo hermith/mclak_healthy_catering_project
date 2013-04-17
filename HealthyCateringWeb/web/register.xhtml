@@ -16,19 +16,17 @@
             </ui:define>
 
             <ui:define name="subsite_content">
-                <form>
-                    Private user or business user?<br/>
-                    <input type="radio" name="usertype" id="rb_private"/>Private user<br/>
-                    <input type="radio" name="usertype" id="rb_corporate"/>Corporate user
-                </form>
+
+                <div id="register_tab_left"><h3>Private customer</h3></div>
+                <div id="register_tab_right"><h3>Corporate customer</h3></div>
 
                 <br/><br/>
 
                 <h:form id="registerprivate">
                     <div class="fieldset">
                         <fieldset>
-                            <legend>Register new user</legend>
-                            <p>
+                            <legend>Register private user</legend>
+                            <div class="half_box_left">
                                 <input type="text" placeholder="First name" class="inputfields" value="#{shoppingBean.firstName}"/>
                                 First name
                                 <br/><br/>
@@ -50,9 +48,8 @@
                                         return false;" placeholder="Password" class="inputfields" />
                                 Repeat password<br/>
                                 <span id="confirmMessage" class="confirmMessage"></span>
-
-
-                                <br/><br/>
+                            </div>
+                            <div class="half_box_right">
 
                                 <input type="text" placeholder="E-mail" class="inputfields" value="#{shoppingBean.privateEmail}"/>
                                 E-mail address
@@ -74,8 +71,9 @@
                                 Phone number
                                 <br/><br/>
 
-                                <input type="submit" value="Submit" action="#{userBean.registerPrivateUser()}"/>
-                            </p>
+                            </div>
+                            
+                            <input type="submit" value="Create new corporate account" action="#{userBean.registerPrivateUser()}" class="register_new_button"/>
 
 
                         </fieldset>
@@ -86,8 +84,8 @@
                 <h:form id="registercorporate">
                     <div class="fieldset">
                         <fieldset>
-                            <legend>Register new user</legend>
-                            <p>
+                            <legend>Register corporate user</legend>
+                            <div class="half_box_left">
                                 <input type="text" placeholder="Company name" class="inputfields" value="#{shoppingBean.companyName}"/>
                                 Company name
                                 <br/><br/>
@@ -106,6 +104,9 @@
                                 <span id="confirmMessage" class="confirmMessage"></span>
                                 <br/><br/>
 
+                            </div>
+
+                            <div class="half_box_right">
                                 <input type="text" placeholder="E-mail" class="inputfields" value="#{shoppingBean.corporateEmail}"/>
                                 E-mail address
                                 <br/><br/>
@@ -125,10 +126,8 @@
                                 <input type="text" placeholder="Phone number" class="inputfields" value="#{shoppingBean.corporatePhoneNumber}"/>
                                 Phone number
                                 <br/><br/>
-
-                                <input type="submit" value="Submit" />
-                            </p>
-
+                            </div>
+                            <input type="submit" value="Create new user account" class="register_new_button" />
 
                         </fieldset>
                     </div>
