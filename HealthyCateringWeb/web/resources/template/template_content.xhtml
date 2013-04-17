@@ -38,7 +38,7 @@ Contains:
                         #{product.price}
                     </h:column>
                     <h:column>
-                        <h:commandButton image="/resources/img/delete_button.png" action="#{shoppingBean.deleteProduct(product)}" />
+                        <h:commandButton image="/resources/img/info_icon.png" action="#{shoppingBean.deleteProduct(product)}" styleClass="cart_delete_button" />
                     </h:column>
                 </h:dataTable><br/>
                 <h:commandButton rendered="#{!shoppingBean.shoppingCartIsEmpty()}" value="#{texts.menu_place_order}" action="/protected/common/place_order.xhtml"/>

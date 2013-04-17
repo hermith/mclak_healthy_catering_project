@@ -82,3 +82,19 @@
 .register_new_button {
     margin: 10px;
 }
+
+/* template_content.xhtml */
+
+.cart_delete_button {
+    -webkit-transform:rotate(45deg);
+}
+
+.menu_add_button {
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    background-color: #999999;
+    border: 1px solid #666666;
+}
