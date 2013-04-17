@@ -27,16 +27,6 @@ Contains:
     <aside id="sidebar">
 
         <ui:insert name="subsite_sidebar">
-            <!--<h3>Heh, sidebar</h3>
-            <p>Eg er ein liten fuggel eg likar å fly. En skal på kino med ei lita ky.</p>
-            <p>Eg er eit tilbud, kom og kjøp meg. Ellers skal du daua, med eit mjukt kveg</p>
-            <ul>
-                <li>Baguett</li>
-                <li>Ost</li>
-                <li>Melk</li>
-                <li>Aprikos</li>
-                <li>Soltørka ku</li>
-            </ul>-->
             <h:form rendered="#{userBean.loggedIn}">
                 <h2>#{texts.menu_shoppingcart}:</h2>
                 <h:outputText rendered="#{shoppingBean.shoppingCartIsEmpty()}" value="#{texts.menu_noproducts}"/>
@@ -51,10 +41,9 @@ Contains:
                         <h:commandButton image="/resources/img/delete_button.png" action="#{shoppingBean.deleteProduct(product)}" />
                     </h:column>
                 </h:dataTable><br/>
-                <h:commandButton rendered="#{!shoppingBean.shoppingCartIsEmpty()}" value="#{texts.menu_place_order}" action="place_order"/>
+                <h:commandButton rendered="#{!shoppingBean.shoppingCartIsEmpty()}" value="#{texts.menu_place_order}" action="/protected/common/place_order.xhtml"/>
                 <h:outputText value="#{texts.menu_total}: #{shoppingBean.totalPrice},-" rendered="#{!shoppingBean.shoppingCartIsEmpty()}"/>
             </h:form>
-
         </ui:insert>
 
     </aside>
