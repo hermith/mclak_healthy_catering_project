@@ -24,34 +24,41 @@ Contains:
             <ui:define name="subsite_content">
                 <h:form>
                     <!--Customers view-->
-                    <h:panelGrid columnClasses="edit_account_table_customer" columns="2" >
-                        <h:outputText value="#{texts.edit_account_company_name}:"/>
+                    <h:panelGroup styleClass="edit_account_customer">
+                        <label>#{texts.edit_account_company_name}:</label>
                         <h:inputText value="#{userBean.companyName}"/>
-
-                        <h:outputText value="#{texts.edit_account_firstname}:"/>
+                        <br/>
+                        <label>#{texts.edit_account_firstname}:</label>
                         <h:inputText value="#{userBean.firstName}"/>
-                        <h:outputText value="#{texts.edit_account_lastname}:"/>
+                        <br/>
+                        <label>#{texts.edit_account_lastname}:</label>
                         <h:inputText value="#{userBean.lastName}"/>
-
-                        <h:outputText value="#{texts.edit_account_address}:" />
+                        <br/>
+                        <label>#{texts.edit_account_address}:</label>
                         <h:inputText value="#{userBean.address}"/>
-                        <h:outputText value="#{texts.edit_account_zipcode}:" />
+                        <br/>
+                        <label>#{texts.edit_account_zipcode}:</label>
                         <h:inputText value="#{userBean.zipCode}"/>
-                        <h:outputText value="#{texts.edit_account_city}:" />
+                        <br/>
+                        <label>#{texts.edit_account_city}:</label>
                         <h:inputText value="#{userBean.city}"/>
-                        <h:outputText value="#{texts.edit_account_phone}:" />
+                        <br/>
+                        <label>#{texts.edit_account_phone}:</label>
                         <h:inputText value="#{userBean.phoneNumber}"/>
-                    </h:panelGrid>
+                    </h:panelGroup>
                     <br/>
                     <h3>#{texts.edit_account_change_password}</h3>
-                    <h:panelGrid columnClasses="edit_account_table_customer" columns="2">
-                        #{texts.edit_account_old_password}:
+                    <h:panelGroup styleClass="edit_account_employee">
+                        <label>#{texts.edit_account_old_password}:</label>
                         <h:inputText />
-                        #{texts.edit_account_new_password}:
+                        <br/>
+                        <label>#{texts.edit_account_new_password}:</label>
                         <h:inputText />
-                        #{texts.edit_account_repeat_password}:
+                        <br/>
+                        <label>#{texts.edit_account_repeat_password}:</label>
                         <h:inputText />
-                    </h:panelGrid><br/>
+                        <br/>
+                    </h:panelGroup>
                     <h:commandButton value="#{texts.edit_account_save_changes}"/>
 
                     <!--Employees view-->

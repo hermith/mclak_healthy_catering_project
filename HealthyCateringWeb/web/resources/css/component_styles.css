@@ -205,3 +205,10 @@ active_orders_main_form .delivered {
 #place_order_delivery_date_form {
     display: none;
 }
+
+/* edit_account.xhtml */
+.edit_account_customer label, .edit_account_employee label {
+    margin: 4px;    
+    display: inline-block;
+    width: 250px;
+}
