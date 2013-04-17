@@ -12,7 +12,8 @@ Contains:
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
 
     <h:body>
         <ui:composition template="/resources/template/template_master.xhtml">
@@ -26,12 +27,12 @@ Contains:
                     <h:panelGrid columnClasses="edit_account_table_customer" columns="2" >
                         <h:outputText value="#{texts.edit_account_company_name}:"/>
                         <h:inputText value="#{userBean.companyName}"/>
-                        
+
                         <h:outputText value="#{texts.edit_account_firstname}:"/>
                         <h:inputText value="#{userBean.firstName}"/>
                         <h:outputText value="#{texts.edit_account_lastname}:"/>
                         <h:inputText value="#{userBean.lastName}"/>
-                        
+
                         <h:outputText value="#{texts.edit_account_address}:" />
                         <h:inputText value="#{userBean.address}"/>
                         <h:outputText value="#{texts.edit_account_zipcode}:" />
@@ -52,12 +53,32 @@ Contains:
                         <h:inputText />
                     </h:panelGrid><br/>
                     <h:commandButton value="#{texts.edit_account_save_changes}"/>
-                    
+
                     <!--Employees view-->
-                    <h:dataTable >
-                        
+                    <h:dataTable var="customer" >
+                        <h:column>
+                            <f:facet name="header">ID</f:facet>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">#{texts.edit_eccount_name}</f:facet>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">#{texts.edit_account_address}</f:facet>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">#{texts.edit_account_zipcode}</f:facet>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">#{texts.edit_account_city}</f:facet>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">#{texts.edit_account_email}</f:facet>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">#{texts.edit_account_phone}</f:facet>
+                        </h:column>
                     </h:dataTable>
-                    
+
                 </h:form>
             </ui:define>
         </ui:composition>
