@@ -21,13 +21,13 @@ function checkPass()
         //the user that they have entered the correct password 
         pass2.style.backgroundColor = goodColor;
         message.style.color = goodColor;
-        message.innerHTML = "Passwords Match!"
+        message.innerHTML = "Passwords Match!";
     }else{
         //The passwords do not match.
         //Set the color to the bad color and
         //notify the user.
         pass2.style.backgroundColor = badColor;
         message.style.color = badColor;
-        message.innerHTML = "Passwords Do Not Match!"
+        message.innerHTML = "Passwords Do Not Match!";
     }
 }
