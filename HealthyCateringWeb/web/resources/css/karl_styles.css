@@ -25,6 +25,14 @@
     width: 100px;
 }
 
+.details {
+    width: 20px;
+}
+
+.placed_on {
+    width: 100px;
+}
+
 .delivered {
     width: 100px;
 }
@@ -58,7 +66,7 @@
     width: 600px;
     margin-left: -300px;
 
-    height: 400px;
+    height: 460px;
     margin-top: -200px;
 }
 
@@ -76,19 +84,25 @@
 
 #detail_info .text {
     display: inline-block;
-    width: 140px;
+    width: 200px;
     
 }
 
 #detail_info #details_left_col {
     float: left;
-    width: 450px;
-    height: 330px;
+    width: 600px;
+    height: 120px;
 }
 
 #detail_info #details_right_col {
     float: right;
-    width: 140px;
-    height: 330px;
+    width: 600px;
+    height: 260px;
+    overflow: auto;
+}
+
+
+.active_orders_item_details_popup {
+    width: 100%;
 }
 

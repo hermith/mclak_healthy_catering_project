@@ -32,8 +32,8 @@ Contains:
         <h:outputScript library="js" name="/register_jq.js" />
         <h:outputScript library="js" name="/place_order_jq.js" />
         
-        <!-- Should be moved to the only page it's used on -->
-        <h:outputScript library="js" name="/active_orders_jq.js" />
+        <!-- Used to include scripts unique to one site -->
+        <ui:insert name="subscript"/>
 
         <!-- Example JS-script:
         <h:outputScript library="js" name="/menuhandler.js" />

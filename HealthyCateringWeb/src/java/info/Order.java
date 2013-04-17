@@ -15,6 +15,7 @@ import shopping.product.Product;
  */
 public class Order {
 
+    private int orderID;
     private int customerID;
     private ArrayList<Product> products;
     private Date placedDate;
@@ -23,6 +24,7 @@ public class Order {
     public boolean delivery;
 
     public Order() {
+        orderID = -1;
         customerID = -1;
         products = null;
         deliveredDate = null;
@@ -30,7 +32,8 @@ public class Order {
         delivery = false;
     }
 
-    public Order(int customerID, ArrayList<Product> products, Date placedDate, Date deliveryDate, Date deliveredDate) {
+    public Order(int orderID, int customerID, ArrayList<Product> products, Date placedDate, Date deliveryDate, Date deliveredDate) {
+        this.orderID = orderID;
         this.products = products;
         this.customerID = customerID;
         this.placedDate = placedDate;
@@ -71,7 +74,7 @@ public class Order {
         return true;
     }
 
-    private String convertDateToString(Date date) {
+    public String convertDateToString(Date date) {
         GregorianCalendar greg = new GregorianCalendar();
         greg.setTimeInMillis(date.getTime());
         return (greg.get(GregorianCalendar.YEAR) - 1900)
@@ -117,5 +120,13 @@ public class Order {
 
     public void setProducts(ArrayList<Product> products) {
         this.products = products;
+    }
+
+    public int getOrderID() {
+        return orderID;
+    }
+
+    public void setOrderID(int orderID) {
+        this.orderID = orderID;
     }
 }

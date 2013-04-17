@@ -12,6 +12,8 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import shopping.customer.Customer;
 import shopping.customer.PrivateCustomer;
+import shopping.product.Product;
+import shopping.product.SingleProduct;
 
 /**
  *
@@ -20,47 +22,50 @@ import shopping.customer.PrivateCustomer;
 @Named
 @ApplicationScoped
 public class InfoBean {
-    
+
     @Inject
     private DatabaseHandler db;
     private ArrayList<Order> activeOrders = new ArrayList<Order>();
     private Customer selectedCustomer;
-    
-    private boolean detailCustomer;
+    private Order selectedOrder;
+    private boolean detailOrder;
 
     public InfoBean() {
-        // Dunno ka d her va, men ga bare rød squiggly... Christer
-        //activeOrders.add(new Order(1, new int[]{1, 2, 3}, new Date(2013, 04, 17), null));
-        //activeOrders.add(new Order(2, new int[]{2, 3, 4}, new Date(2013, 04, 17), null));
-        //activeOrders.add(new Order(3, new int[]{2, 5, 7}, new Date(2013, 04, 17), null));
+        ArrayList<Product> temp = new ArrayList<Product>();
+        temp.add(new SingleProduct(123, "Yup", "Good", 130, 130));
+        temp.add(new SingleProduct(123, "Yup", "Good", 130, 130));
+        temp.add(new SingleProduct(123, "Yup", "Good", 130, 130));
+        temp.add(new SingleProduct(123, "Yup", "Good", 130, 130));
+        temp.add(new SingleProduct(123, "Yup", "Good", 130, 130));
+
+        activeOrders.add(new Order(1, 666, temp, new Date(2013, 04, 17), new Date(2013, 04, 18), new Date(2013, 04, 19)));
     }
 
     public ArrayList<Order> getActiveOrders() {
         return activeOrders;
     }
 
-    public void lookUpCustomer(int customerId) {
+    public void lookUpOrder(int orderID) {
         // TODO: Get customer from DB
-        if (customerId == 1) {
-            selectedCustomer = new PrivateCustomer(1, "@", "heime", "99", 7030, "Trond", "Karl", "Overå");
-        } else if (customerId == 2) {
-            selectedCustomer = new PrivateCustomer(1, "@", "deime", "99", 7030, "asdasda", "Kasdsaarl", "asddas");
-        } else {
-            selectedCustomer = new PrivateCustomer(1, "@", "heime", "99", 13213, "sadsadsa", "sadsadsad", "asdsadsa");
-        }
-        
-        detailCustomer = true;
+        System.out.println("" + orderID);
+        selectedOrder = activeOrders.get(0);
+        selectedCustomer = new PrivateCustomer(123456, "møkje@penge.no", "Rikbotnfjord", "99 99 33 33", 5670, "Okidokiland", "Langnavnesen", "Ivar");
+        detailOrder = true;
     }
 
     public Customer getSelectedCustomer() {
         return selectedCustomer;
     }
-    
-    public boolean isCustomerDetails() {
-        return detailCustomer;
+
+    public Order getSelectedOrder() {
+        return selectedOrder;
     }
-    
+
+    public boolean isCustomerOrder() {
+        return detailOrder;
+    }
+
     public void closeDetailedInfo() {
-        detailCustomer = false;
+        detailOrder = false;
     }
 }
