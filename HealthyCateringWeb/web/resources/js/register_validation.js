@@ -5,31 +5,26 @@
 
 function checkPass()
 {
-    //Store the password field objects into variables ...
+    // Stores password fields as objects
     var pass1 = document.getElementById('pass1');
     var pass2 = document.getElementById('pass2');
-    //Store the Confimation Message Object ...
+    // Stores message field as object
     var message = document.getElementById('confirmMessage');
-    //Set the colors we will be using ...
+    // Setting colors (green and red) for visuals
     var goodColor = "#66cc66";
     var badColor = "#ff6666";
 
+    // Check if both password fields are filled
+    if (pass1.value !== "" && pass2.value !== "") {
 
-    if (pass2.value !== "") {
-
-        //Compare the values in the password field 
-        //and the confirmation field
+        // Compares the values in the password fields
         if (pass1.value === pass2.value) {
-            //The passwords match. 
-            //Set the color to the good color and inform
-            //the user that they have entered the correct password 
+            // The passwords match, and the green color is set as feedback
             pass2.style.backgroundColor = goodColor;
             message.style.color = goodColor;
             message.innerHTML = "Passwords Match!";
         } else {
-            //The passwords do not match.
-            //Set the color to the bad color and
-            //notify the user.
+            // The passwords don't match, and the red color is used as feedback
             pass2.style.backgroundColor = badColor;
             message.style.color = badColor;
             message.innerHTML = "Passwords Do Not Match!";
