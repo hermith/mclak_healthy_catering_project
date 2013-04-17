@@ -20,7 +20,6 @@
                     Private user or business user?<br/>
                     <input type="radio" name="usertype" id="rb_private"/>Private user<br/>
                     <input type="radio" name="usertype" id="rb_corporate"/>Corporate user
-
                 </form>
 
                 <br/><br/>
@@ -42,7 +41,8 @@
                                 Username
                                 <br/><br/>
 
-                                <input type="password" id="pass1" placeholder="Password" class="inputfields" value="#{userBean.password}"/>
+                                <input type="password" id="pass1" onkeyup="checkPass();
+                                        return false;" placeholder="Password" class="inputfields" value="#{userBean.password}"/>
                                 Password
                                 <br/><br/>
 
@@ -95,12 +95,15 @@
                                 Username
                                 <br/><br/>
 
-                                <input type="password" placeholder="Password" class="inputfields" value="#{userBean.password}"/>
+                                <input type="password" id="pass1" onkeyup="checkPass();
+                                        return false;" placeholder="Password" class="inputfields" value="#{userBean.password}"/>
                                 Password
                                 <br/><br/>
 
-                                <input type="password" placeholder="Password" class="inputfields"/>
-                                Repeat password
+                                <input type="password" id="pass2" onkeyup="checkPass();
+                                        return false;" placeholder="Password" class="inputfields" />
+                                <span id="confirmMessage" class="confirmMessage"></span>
+                                Repeat password<br/>
                                 <br/><br/>
 
                                 <input type="text" placeholder="E-mail" class="inputfields" value="#{shoppingBean.corporateEmail}"/>
@@ -134,4 +137,3 @@
         </ui:composition>
     </h:body>
 </html>
-
