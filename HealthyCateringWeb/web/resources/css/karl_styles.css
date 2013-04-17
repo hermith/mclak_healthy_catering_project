@@ -106,3 +106,7 @@
     width: 100%;
 }
 
+/* place_order.xhtml */
+#place_order_delivery_date_form {
+    display: none;
+}

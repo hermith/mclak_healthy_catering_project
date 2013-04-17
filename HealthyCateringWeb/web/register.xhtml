@@ -4,14 +4,18 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets">
-    <h:head>
-        <title>Facelet Title</title>
-        <h:outputScript library="js" name="/register_validation.js" />
-    </h:head>
     <h:body>
         <ui:composition template="resources/template/template_master.xhtml">
+            <ui:define name="subscript">
+                <h:outputScript library="js" name="/register_jq.js" />
+                <h:outputScript library="js" name="/register_validation.js" />
+            </ui:define>
+
             <ui:define name="subsite_header">
                 <h1>Register new user</h1>
+            </ui:define>
+
+            <ui:define name="subsite_content">
                 <form>
                     Private user or business user?<br/>
                     <input type="radio" name="usertype" id="rb_private"/>Private user<br/>
@@ -42,7 +46,8 @@
                                 Password
                                 <br/><br/>
 
-                                <input type="password" id="pass2" onkeyup="checkPass(); return false;" placeholder="Password" class="inputfields" />
+                                <input type="password" id="pass2" onkeyup="checkPass();
+                                        return false;" placeholder="Password" class="inputfields" />
                                 <span id="confirmMessage" class="confirmMessage"></span>
                                 Repeat password<br/>
 

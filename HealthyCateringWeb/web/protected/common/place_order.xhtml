@@ -17,6 +17,10 @@ Contains:
 
     <h:body>
         <ui:composition template="/resources/template/template_master.xhtml">
+            <ui:define name="subscript">
+                <h:outputScript library="js" name="/place_order_jq.js" />
+            </ui:define>
+
             <ui:define name="subsite_header">
                 <h1>#{texts.menu_place_order}</h1>
             </ui:define>
@@ -26,31 +30,35 @@ Contains:
                     <h:dataTable var="product" value="#{shoppingBean.products}" >
                         <h:column>
                             <f:facet name="header">#{texts.menu_product}</f:facet>
-                            #{product.name}
+                                #{product.name}
                         </h:column>
                         <h:column>
                             <f:facet name="header">#{texts.menu_description}</f:facet>
-                            #{product.description}
+                                #{product.description}
                         </h:column>
                         <h:column>
                             <f:facet name="header">#{texts.menu_price}</f:facet>
-                            #{product.price}
+                                #{product.price}
                         </h:column>
                     </h:dataTable>
                     <p>#{texts.menu_total}: #{shoppingBean.totalPrice},- </p>
 
                     <p>#{texts.menu_deliveryMethod}:</p>
-                    
+
                     <h:selectOneRadio id="place_order_radio" value="#{shoppingBean.delivery}" >
                         <f:selectItem itemValue="#{false}" itemLabel="#{texts.menu_pickup}"/>
                         <f:selectItem itemValue="#{true}" itemLabel="#{texts.menu_delivery}"/>
                     </h:selectOneRadio>
-                    
-                    <h:outputText value="#{texts.menu_deliveryDate}: " />
-                    <h:inputText value="#{shoppingBean.deliveryDate}" >
-                        <f:convertDateTime pattern="dd/MM/yyyy"/>
-                    </h:inputText><h:messages /><br/><br/>
-                    
+
+                    <div id="place_order_delivery_date_form">
+                        <h:outputText value="#{texts.menu_deliveryDate}: " />
+                        <h:inputText value="#{shoppingBean.deliveryDate}" >
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:inputText>
+                    </div>
+
+                    <h:messages /><br/><br/>
+
                     <h:commandButton value="#{texts.menu_place_order}" action="#{shoppingBean.placeOrder()}"/>
                 </h:form>
             </ui:define>
