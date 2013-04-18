@@ -23,6 +23,7 @@ public class UserBean implements Serializable {
 
     public UserBean() {
         this.user = new User();
+        System.out.println("user initiated HOOOOLOL");
     }
 
     public String getUsername() {
