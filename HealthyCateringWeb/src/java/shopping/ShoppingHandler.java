@@ -6,7 +6,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import shopping.customer.CorporateCustomer;
 import shopping.customer.Customer;
+import shopping.customer.PrivateCustomer;
 import shopping.product.Product;
 
 /**
@@ -40,7 +42,43 @@ public class ShoppingHandler implements Serializable{
         return database.selectCustomer(username);
     }
     
-    public boolean saveChangesAccount() {
-        return true;
+    public boolean saveChangesAccount(Customer customer) {
+        return database.updateCustomer(customer);
+    }
+    
+    public boolean fixPrivateCustomer(PrivateCustomer customer, String email, String address, String phoneNumber, int zipCode, String city, String firstName, String lastName) {
+        if(!email.equals("")){
+            customer.setEmail(email);
+        }if(!address.equals("")){
+            customer.setAddress(address);
+        }if(!phoneNumber.equals("")){
+            customer.setPhoneNumber(phoneNumber);
+        }if(zipCode != 0){
+            customer.setZipCode(zipCode);
+        }if(!city.equals("")){
+            customer.setCity(city);
+        }if(!firstName.equals("")){
+            customer.setFirstName(firstName);
+        }if(!lastName.equals("")){
+            customer.setLastName(lastName);
+        }
+        return saveChangesAccount(customer);
+    }
+    
+    public boolean fixCorporateCustomer(CorporateCustomer customer, String email, String address, String phoneNumber, int zipCode, String city, String companyName) {
+        if(!email.equals("")){
+            customer.setEmail(email);
+        }if(!address.equals("")){
+            customer.setAddress(address);
+        }if(!phoneNumber.equals("")){
+            customer.setPhoneNumber(phoneNumber);
+        }if(zipCode != 0){
+            customer.setZipCode(zipCode);
+        }if(!city.equals("")){
+            customer.setCity(city);
+        }if(!companyName.equals("")){
+            customer.setCompanyName(companyName);
+        }
+        return saveChangesAccount(customer);
     }
 }

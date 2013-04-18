@@ -33,6 +33,7 @@ public class ShoppingBean implements Serializable {
     @Inject
     private ShoppingHandler shoppingHandler;
     private Order order;
+    private String username;
 
     public ShoppingBean() {
         privateCustomer = new PrivateCustomer();
@@ -50,6 +51,7 @@ public class ShoppingBean implements Serializable {
                 corporateCustomer = (CorporateCustomer) customer;
             }
         }
+        this.username = username;
     }
 
     public void resetVars() {
@@ -327,8 +329,22 @@ public class ShoppingBean implements Serializable {
         order.setDelivery(del);
     }
     
+    /**
+     * NB Husk å fikse en sjekk på zipCode
+     * @return 
+     */
     public String saveChangesAccount() {
-        
+        Customer customer = shoppingHandler.getCustomer(username);
+        if(customer instanceof PrivateCustomer) {
+            if(shoppingHandler.fixPrivateCustomer((PrivateCustomer)customer, getPrivateEmail(), getPrivateAddress(), getPrivatePhoneNumber(), getPrivateZipCode(), getPrivateCity(), getFirstName(), getLastName())){
+                MessageHandler.addErrorMessage("det gikk bra");
+            }
+        }else if(customer instanceof CorporateCustomer) {
+            if(shoppingHandler.fixCorporateCustomer((CorporateCustomer)customer, getCorporateEmail(), getCorporateAddress(), getCorporatePhoneNumber(), getCorporateZipCode(), getCorporateCity(), getCompanyName())){
+                MessageHandler.addErrorMessage("det gikk bra");
+            }
+        }
+        initiateCustomer(username);
         return "";
     }
 }
