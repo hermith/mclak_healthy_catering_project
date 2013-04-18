@@ -85,7 +85,7 @@ Contains:
                     <h3>#{texts.edit_account_change_password}</h3>
                     <h:panelGroup styleClass="edit_account_employee">
                         <label>#{texts.edit_account_old_password}:</label>
-                        <h:inputSecret id="edit_account_old_pw" required="true" requiredMessage="#{error.login_required_password}"/>
+                        <h:inputSecret value="#{userBean.password}" id="edit_account_old_pw" required="true" requiredMessage="#{error.login_required_password}"/>
                         <h:message for="edit_account_old_pw"/>
                         <br/>
                         <label>#{texts.edit_account_new_password}:</label>
