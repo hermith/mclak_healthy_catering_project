@@ -79,8 +79,7 @@ public class EmailHandler {
      * @return The generated password as a String, throws an error if email
      * failed.
      */
-    public String sendGeneratedPassword(String recipient) {
-        String pw = generatePassword();
+    public String sendGeneratedPassword(String recipient, String pw) {
         try {
             sendMail(recipient, PASSWORD_MAIL_SUBJECT, PASSWORD_MAIL_BODY.replace("%PW%", pw));
             return pw;
@@ -90,7 +89,7 @@ public class EmailHandler {
 
     }
 
-    private String generatePassword() {
+    public String generatePassword() {
         // Numbers are 48-57 (0-9)
         // Letters are 65-90 (A-Z)
         // Letters are 97-122 (a-z)
