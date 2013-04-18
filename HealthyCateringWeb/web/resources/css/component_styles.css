@@ -186,6 +186,36 @@ active_orders_main_form .delivered {
     width: 100px;
 }
 
+#order_tab_left h3, #order_tab_right h3 {
+    text-align: center;
+}
+
+#order_tab_left {
+    margin-top: 8px;
+    margin-left: 4px;
+    padding-bottom: 4px;
+    display: inline-block;
+    height: 30px;
+    width: 49%;
+    background-color: #333333;
+}
+
+#order_tab_right {
+    padding-bottom: 4px;
+    display: inline-block;
+    height: 30px;
+    width: 49%;
+    background-color: #555555;
+}
+
+#order_tab_left:hover, #order_tab_right:hover {
+    background-color: #222222;
+}
+
+#order_order_history {
+    display: none;
+}
+
 #centerpoint {
     top: 50%;
     left: 50%;
@@ -265,3 +295,42 @@ active_orders_main_form .delivered {
     display: inline-block;
     width: 250px;
 }
+
+/* add_new_user.xhtml */
+
+#create_account_system_form {
+    width: 50%;
+    padding: 8px;
+}
+
+#create_account_system_form label {
+    padding: 4px;
+    display: inline-block;
+    width: 150px;
+    font-weight: bold;
+}
+
+#create_account_system_form .button {
+    padding: 4px;
+}
+
+#create_account_system_form\:create_account_system_radio {
+    margin: 0;
+}
+
+/* template_content.xhtml */
+
+.cart_delete_button {
+    -webkit-transform:rotate(45deg);
+}
+
+.menu_add_button {
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    background-color: #999999;
+    border: 1px solid #666666;
+}
+
