@@ -20,10 +20,11 @@ public class UserBean implements Serializable {
     boolean loginFailed;
     @Inject
     UserHandler userhandler;
+    User dummyUser;
 
     public UserBean() {
         this.user = new User();
-        System.out.println("user initiated HOOOOLOL");
+        this.dummyUser = new User();
     }
 
     public String getUsername() {
@@ -63,6 +64,16 @@ public class UserBean implements Serializable {
         if (user != null) {
             this.user.setRoleId(roleId);
         }
+    }
+
+    public void setEmail(String email) {
+        if (email != null) {
+            this.user.setEmail(email);
+        }
+    }
+
+    public String getEmail() {
+        return this.user.getEmail();
     }
 
     public String ninja() {
@@ -187,6 +198,71 @@ public class UserBean implements Serializable {
         } else {
             return false;
         }
+    }
 
+    public void createNewUser() {
+        if(!userhandler.registerUser(dummyUser)) {
+            MessageHandler.addErrorMessage("Unable to create account.");
+        } else {
+            MessageHandler.addErrorMessage("Account successfully created");
+        }
+    }
+
+    /**
+     *
+     * Getters and setters for dummyUser below, used to create new employee and
+     * system users.
+     *
+     */
+    public String getDummyUsername() {
+        if (dummyUser != null) {
+            return dummyUser.getUsername();
+        }
+        return null;
+    }
+
+    public void setDummyUsername(String username) {
+        if (dummyUser != null) {
+            this.dummyUser.setUsername(username);
+        }
+    }
+
+    public String getDummyPassword() {
+        if (dummyUser != null) {
+            return dummyUser.getPassword();
+        }
+        return null;
+    }
+
+    public void setDummyPassword(String password) {
+        if (dummyUser != null) {
+            this.dummyUser.setPassword(password);
+        }
+    }
+
+    public String getDummyRoleId() {
+        if (dummyUser != null) {
+            if (dummyUser.getRoleId() != null) {
+                return dummyUser.getRoleId();
+            }
+        }
+        return UserRoleHandler.USER_ROLE_ID_EMPLOYEE;
+    }
+
+    public void setDummyRoleId(String roleId) {
+        System.out.println("ID: " + roleId);
+        if (dummyUser != null) {
+            this.dummyUser.setRoleId(roleId);
+        }
+    }
+
+    public void setDummyEmail(String email) {
+        if (email != null) {
+            this.dummyUser.setEmail(email);
+        }
+    }
+
+    public String getDummyEmail() {
+        return this.dummyUser.getEmail();
     }
 }
