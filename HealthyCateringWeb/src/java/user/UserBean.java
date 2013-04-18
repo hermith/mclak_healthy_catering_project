@@ -72,7 +72,8 @@ public class UserBean implements Serializable {
     }
 
     public void registerPrivateUser() {
-        //userhandler.registerPrivateUser(user);
+        System.out.println("Called registerPrivateUser() in UserBean");
+        userhandler.registerPrivateUser(user);
     }
 
     public void registerCorporateUser() {

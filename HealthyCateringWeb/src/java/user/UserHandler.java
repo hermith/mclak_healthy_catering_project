@@ -8,28 +8,25 @@ import database.DatabaseHandler;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-
 /**
  *
  * @author aleksalr
  */
 @ApplicationScoped
 public class UserHandler {
+
     @Inject
     DatabaseHandler db;
-    
-    public UserHandler(){
-        
+
+    public UserHandler() {
     }
-    
-    public boolean registerPrivateUser(User user){
-        db.insertUser(user);
-        return false;
+
+    public boolean registerPrivateUser(User user) {
+        return (db.insertUser(user));
     }
-    
-    public boolean registerCorporateUser(User user){
-        db.insertUser(user);
-        return false;
+
+    public boolean registerCorporateUser(User user) {
+        //return (db.insertUser(user));
+        return true;
     }
-    
 }
