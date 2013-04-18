@@ -54,6 +54,19 @@ public class UserBean implements Serializable {
         }
     }
 
+    public String getNewPassword() {
+        if (user != null) {
+            return user.getNewPassword();
+        }
+        return null;
+    }
+
+    public void setNewPassword(String password) {
+        if (user != null) {
+            this.user.setNewPassword(password);
+        }
+    }
+
     public String getRoleId() {
         if (user != null) {
             return user.getRoleId();
@@ -267,5 +280,19 @@ public class UserBean implements Serializable {
 
     public String getDummyEmail() {
         return this.dummyUser.getEmail();
+    }
+
+    public String changePassword() {
+        System.out.println("pass:" + getNewPassword());
+        if (userhandler.changePassword(getNewPassword(), getUsername(), getPassword())) {
+            String msg = MessageHandler.getLocalizedText(MessageType.TEKST, "edit_account_password_changed");
+            MessageHandler.addErrorMessage(msg);
+        } else {
+            String msg = MessageHandler.getLocalizedText(MessageType.ERROR, "edit_account_password_not_changed");
+            MessageHandler.addErrorMessage(msg);
+        }
+        user.setPassword(null);
+        user.setNewPassword(null);
+        return "";
     }
 }

@@ -241,7 +241,7 @@ public class DatabaseHandler {
         }
     }
 
-    public synchronized boolean updateUserPassword(String password, String username) {
+    public synchronized boolean updateUserPassword(String password, String username, String oldPassword) {
         Connection conn = null;
         PreparedStatement stm = null;
         int numberOfRowsUpdated = -1;

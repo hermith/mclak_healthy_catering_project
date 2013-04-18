@@ -12,6 +12,7 @@ public class User {
 
     private String username;
     private String password;
+    private String newPassword;
     private String email;
     private String roleId;
 
@@ -20,6 +21,7 @@ public class User {
         this.password = null;
         this.roleId = null;
         this.email = null;
+        this.newPassword = null;
     }
 
     /**
@@ -33,6 +35,7 @@ public class User {
         this.roleId = roleId;
         this.password = null;
         this.email = email;
+        this.newPassword = null;
     }
 
     public String getUsername() {
@@ -65,6 +68,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getNewPassword() {
+        return newPassword;
+    }
+
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
     }
 
     @Override

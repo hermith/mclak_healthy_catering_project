@@ -53,4 +53,8 @@ public class UserHandler {
         //TODO Sjekk noko
         return db.selectUser(userName);
     }
+    
+    public boolean changePassword(String password, String username, String oldPassword) {
+        return db.updateUserPassword(password, username, oldPassword);
+    }
 }

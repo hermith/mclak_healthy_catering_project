@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import locale.MessageHandler;
+import locale.MessageType;
 import shopping.customer.CorporateCustomer;
 import shopping.customer.Customer;
 import shopping.customer.PrivateCustomer;
@@ -323,5 +325,10 @@ public class ShoppingBean implements Serializable {
 
     public void setDelivery(boolean del) {
         order.setDelivery(del);
+    }
+    
+    public String saveChangesAccount() {
+        
+        return "";
     }
 }

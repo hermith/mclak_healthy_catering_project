@@ -39,4 +39,8 @@ public class ShoppingHandler implements Serializable{
     public Customer getCustomer(String username) {
         return database.selectCustomer(username);
     }
+    
+    public boolean saveChangesAccount() {
+        return true;
+    }
 }
