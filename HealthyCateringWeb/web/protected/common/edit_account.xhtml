@@ -24,16 +24,22 @@ Contains:
             <ui:define name="subsite_content">
                 <h:form>
                     <!--Customers view-->
-                    <h:panelGroup styleClass="edit_account_customer">
-                        <label>#{texts.edit_account_company_name}:</label>
-                        <h:inputText value="#{userBean.companyName}"/>
-                        <br/>
-                        <label>#{texts.edit_account_firstname}:</label>
-                        <h:inputText value="#{userBean.firstName}"/>
-                        <br/>
-                        <label>#{texts.edit_account_lastname}:</label>
-                        <h:inputText value="#{userBean.lastName}"/>
-                        <br/>
+                    <h:panelGroup rendered="#{userBean.loggedInAsCorporateCustomer || userBean.loggedInAsPrivateCustomer}" styleClass="edit_account_customer">
+                        <!--Only corporate-->
+                        <h:panelGroup rendered="#{userBean.loggedInAsCorporateCustomer}">
+                            <label>#{texts.edit_account_company_name}:</label>
+                            <h:inputText value="#{userBean.companyName}"/>
+                            <br/>
+                        </h:panelGroup>
+                        <!--Only private-->
+                        <h:panelGroup rendered="#{userBean.loggedInAsPrivateCustomer}">
+                            <label>#{texts.edit_account_firstname}:</label>
+                            <h:inputText value="#{userBean.firstName}"/>
+                            <br/>
+                            <label>#{texts.edit_account_lastname}:</label>
+                            <h:inputText value="#{userBean.lastName}"/>
+                            <br/>
+                        </h:panelGroup>
                         <label>#{texts.edit_account_address}:</label>
                         <h:inputText value="#{userBean.address}"/>
                         <br/>
