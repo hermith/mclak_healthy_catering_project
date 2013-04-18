@@ -35,9 +35,10 @@ public class UserHandler {
 
     public boolean registerUser(User user) {
         try {
-            String pw = email.sendGeneratedPassword(user.getEmail());
+            String pw = email.generatePassword();
             user.setPassword(pw);
-            if (!db.insertUser(user)) {
+            if (db.insertUser(user)) {
+                email.sendGeneratedPassword(user.getEmail(), pw);
                 return true;
             } else {
                 return false;
@@ -46,5 +47,10 @@ public class UserHandler {
             System.out.println(e.toString());
             return false;
         }
+    }
+    
+    public User getUser(String userName) {
+        //TODO Sjekk noko
+        return db.selectUser(userName);
     }
 }
