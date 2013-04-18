@@ -16,12 +16,12 @@ public class CustomerHandler {
     private DatabaseHandler databaseHandler;
     
     public ArrayList<Customer> getAllCustomers() {
-        //return databaseHandler.selectCustomers();
+        return databaseHandler.selectCustomers();
         
         //test
-        ArrayList<Customer> all = new ArrayList<Customer>();
-        all.add(new PrivateCustomer(1, "linnkri", "address", "phone", 1212, "by","first","last"));
+        //ArrayList<Customer> all = new ArrayList<Customer>();
+        //all.add(new PrivateCustomer(1, "linnkri", "address", "phone", 1212, "by","first","last"));
         //test
-        return all;
+        //return all;
     }
 }

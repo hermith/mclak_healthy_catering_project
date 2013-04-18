@@ -28,30 +28,48 @@ Contains:
                         <!--Only corporate-->
                         <h:panelGroup rendered="#{userBean.loggedInAsCorporateCustomer}">
                             <label>#{texts.edit_account_company_name}:</label>
-                            <h:inputText value="#{userBean.companyName}"/>
+                            <h:inputText value="#{shoppingBean.companyName}"/>
                             <br/>
+                            <label>#{texts.edit_account_address}:</label>
+                            <h:inputText value="#{shoppingBean.corporateAddress}"/>
+                            <br/>
+                            <label>#{texts.edit_account_zipcode}:</label>
+                            <h:inputText value="#{shoppingBean.corporateZipCode}"/>
+                            <br/>
+                            <label>#{texts.edit_account_city}:</label>
+                            <h:inputText value="#{shoppingBean.corporateCity}"/>
+                            <br/>
+                            <label>#{texts.edit_account_phone}:</label>
+                            <h:inputText value="#{shoppingBean.corporatePhoneNumber}"/>
+                            <br/>
+                            <label>#{texts.edit_account_email}:</label>
+                            <h:inputText value="#{shoppingBean.corporateEmail}"/>
+                            <br/><br/>
                         </h:panelGroup>
                         <!--Only private-->
                         <h:panelGroup rendered="#{userBean.loggedInAsPrivateCustomer}">
                             <label>#{texts.edit_account_firstname}:</label>
-                            <h:inputText value="#{userBean.firstName}"/>
+                            <h:inputText value="#{shoppingBean.firstName}"/>
                             <br/>
                             <label>#{texts.edit_account_lastname}:</label>
-                            <h:inputText value="#{userBean.lastName}"/>
+                            <h:inputText value="#{shoppingBean.lastName}"/>
                             <br/>
+                            <label>#{texts.edit_account_address}:</label>
+                            <h:inputText value="#{shoppingBean.privateAddress}"/>
+                            <br/>
+                            <label>#{texts.edit_account_zipcode}:</label>
+                            <h:inputText value="#{shoppingBean.privateZipCode}"/>
+                            <br/>
+                            <label>#{texts.edit_account_city}:</label>
+                            <h:inputText value="#{shoppingBean.privateCity}"/>
+                            <br/>
+                            <label>#{texts.edit_account_phone}:</label>
+                            <h:inputText value="#{shoppingBean.privatePhoneNumber}"/>
+                            <br/>
+                            <label>#{texts.edit_account_email}:</label>
+                            <h:inputText value="#{shoppingBean.privateEmail}"/>
+                            <br/><br/>
                         </h:panelGroup>
-                        <label>#{texts.edit_account_address}:</label>
-                        <h:inputText value="#{userBean.address}"/>
-                        <br/>
-                        <label>#{texts.edit_account_zipcode}:</label>
-                        <h:inputText value="#{userBean.zipCode}"/>
-                        <br/>
-                        <label>#{texts.edit_account_city}:</label>
-                        <h:inputText value="#{userBean.city}"/>
-                        <br/>
-                        <label>#{texts.edit_account_phone}:</label>
-                        <h:inputText value="#{userBean.phoneNumber}"/>
-                        <br/><br/>
                     </h:panelGroup>
                     <h3>#{texts.edit_account_change_password}</h3>
                     <h:panelGroup styleClass="edit_account_employee">

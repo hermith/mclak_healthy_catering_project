@@ -20,8 +20,9 @@ Contains:
             <ui:define name="subsite_header">
                 <h1>View customers</h1>
             </ui:define>
-            
+
             <ui:define name="subsite_content">
+                <h:form>
                     <h:dataTable value="#{infoBean.allCustomers}" var="customer" >
                         <h:column>
                             <f:facet name="header">ID</f:facet>
@@ -51,7 +52,11 @@ Contains:
                             <f:facet name="header">#{texts.edit_account_phone}</f:facet>
                             #{customer.phoneNumber}
                         </h:column>
+                        <h:column>
+                            <h:commandButton action="#{infoBean.editCustomer()}" value="#{texts.edit_account_edit}"/>
+                        </h:column>
                     </h:dataTable>
+                </h:form>
             </ui:define>
         </ui:composition>
     </h:body>

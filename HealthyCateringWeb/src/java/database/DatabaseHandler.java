@@ -39,8 +39,8 @@ public class DatabaseHandler {
     private static final String STM_UPDATE_PASSWORD = "UPDATE User_Table SET password = ? WHERE username = ?";
     private static final String STM_INSERT_USER = "INSERT INTO User_Table(username, password) VALUES(?, ?)";
     private static final String STM_INSERT_USER_ROLE = "INSERT INTO User_Role_Table(username, user_role) VALUES(?, ?)";
-    private static final String STM_SELECT_CUSTOMER_1 = "SELECT customer_id AS customer_id, email AS email, phone_number AS phone_number, address AS adress, zip_code AS zip_code, city AS city FROM Customer_Table WHERE username = ?";
-    private static final String STM_SELECT_CUSTOMER_2 = "SELECT email AS email, phone_number AS phone_number, address AS adress, zip_code AS zip_code, city AS city FROM Customer_Table WHERE customer_id = ?";
+    private static final String STM_SELECT_CUSTOMER_1 = "SELECT customer_id AS customer_id, email AS email, phone_number AS phone_number, address AS address, zip_code AS zip_code, city AS city FROM Customer_Table WHERE username = ?";
+    private static final String STM_SELECT_CUSTOMER_2 = "SELECT email AS email, phone_number AS phone_number, address AS address, zip_code AS zip_code, city AS city FROM Customer_Table WHERE customer_id = ?";
     private static final String STM_SELECT_CUSTOMER_IDS = "SELECT customer_id AS customer_id FROM Customer_Table";
     private static final String STM_SELECT_PRIVATE_CUSTOMER = "SELECT first_name AS first_name, last_name AS last_name FROM Private_Customer_Table WHERE customer_id = ?";
     private static final String STM_SELECT_CORPORATE_CUSTOMER = "SELECT company_name FROM Corporate_Customer_Table WHERE customer_id = ?";

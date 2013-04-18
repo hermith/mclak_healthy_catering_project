@@ -86,4 +86,8 @@ public class InfoBean implements Serializable{
     public ArrayList<User> getAllUsers() {
         return null;
     }
+    
+    public String editCustomer() {
+        return "edit_customer.xhtml";
+    }
 }
