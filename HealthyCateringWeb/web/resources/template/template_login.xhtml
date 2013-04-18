@@ -21,7 +21,11 @@ Contains:
         <!-- This is used for checking that the user is logged in via jQuery -->
         <h:form id="hidden_login_field">
             <h:inputHidden value="#{userBean.loggedIn}" id="is_user_logged_in"/>
+            <h:inputHidden value="#{userBean.loggedInAsPrivateCustomer}" id="is_user_logged_in_as_private"/>
+            <h:inputHidden value="#{userBean.loggedInAsCorporateCustomer}" id="is_user_logged_in_as_corporate"/>
+            
             <h:inputHidden value="#{userBean.didLastLoginFail()}" id="last_login_failed"/>
+            
         </h:form>
         
         <h:form styleClass="login_form"

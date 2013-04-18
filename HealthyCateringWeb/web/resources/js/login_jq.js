@@ -1,9 +1,13 @@
 var loggedIn = false;
+var loggedInAsPrivate = false;
+var loggedInAsCorporate = false;
 
 $(document).ready(function() {
     var isUp = true;
     
     loggedIn = document.getElementById("hidden_login_field:is_user_logged_in").value === "true";
+    loggedInAsPrivate = document.getElementById("hidden_login_field:is_user_logged_in_as_private").value === "true";
+    loggedInAsCorporate = document.getElementById("hidden_login_field:is_user_logged_in_as_corporate").value === "true";
     wrongPassword = document.getElementById("hidden_login_field:last_login_failed").value === "true";
     
     if(wrongPassword) {
@@ -37,11 +41,11 @@ $(document).ready(function() {
         return false;
     });
     
-    if(!loggedIn) {
-        $("article#primary_content").css("width", "973px");
-        $("aside#sidebar").hide();
-    } else {
+    if(loggedInAsPrivate || loggedInAsCorporate) {
         $("article#primary_content").css("width", "685px");
         $("aside#sidebar").show();
+    } else {
+        $("article#primary_content").css("width", "973px");
+        $("aside#sidebar").hide();
     }
 });
