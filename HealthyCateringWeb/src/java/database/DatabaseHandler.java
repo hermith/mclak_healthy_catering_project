@@ -37,7 +37,8 @@ public class DatabaseHandler {
     private static final String STM_SELECT_USER_IDS = "SELECT username AS username FROM User_Table";
     private static final String STM_SELECT_PASSWORD = "SELECT password AS password FROM User_Table WHERE username = ?";
     private static final String STM_UPDATE_PASSWORD = "UPDATE User_Table SET password = ? WHERE username = ?";
-    private static final String STM_INSERT_USER = "INSERT INTO User_Table(username, password) VALUES(?, ?)";
+    private static final String STM_UPDATE_EMAIL_IN_USER_TABLE = "UPDATE User_Table SET email = ? WHERE username = ?";
+    private static final String STM_INSERT_USER = "INSERT INTO User_Table(username, password, email) VALUES(?, ?, ?)";
     private static final String STM_INSERT_USER_ROLE = "INSERT INTO User_Role_Table(username, user_role) VALUES(?, ?)";
     private static final String STM_SELECT_CUSTOMER_1 = "SELECT customer_id AS customer_id, email AS email, phone_number AS phone_number, address AS address, zip_code AS zip_code, city AS city FROM Customer_Table WHERE username = ?";
     private static final String STM_SELECT_CUSTOMER_2 = "SELECT email AS email, phone_number AS phone_number, address AS address, zip_code AS zip_code, city AS city FROM Customer_Table WHERE customer_id = ?";
@@ -48,6 +49,7 @@ public class DatabaseHandler {
     private static final String STM_INSERT_PRIVATE_CUSTOMER = "INSERT INTO Private_Customer_Table(customer_id, first_name, last_name) VALUES(?, ?, ?)";
     private static final String STM_INSERT_CORPORATE_CUSTOMER = "INSERT INTO Corporate_Customer_Table(customer_id, company_name) VALUES(?, ?)";
     private static final String STM_UPDATE_CUSTOMER = "UPDATE Customer_Table SET email = ?, phone_number = ?, address = ?, zip_code = ?, city = ? WHERE customer_id = ?";
+    private static final String STM_UPDATE_EMAIL_IN_CUSTOMER_TABLE = "UPDATE Customer_Table SET email = ? WHERE username = ?";
     private static final String STM_UPDATE_PRIVATE_CUSTOMER = "UPDATE Private_Customer_Table SET first_name = ?, last_name = ? WHERE customer_id = ?";
     private static final String STM_UPDATE_CORPORATE_CUSTOMER = "UPDATE Corporate_Customer_Table SET company_name = ? WHERE customer_id = ?";
     private static final String STM_SELECT_PRODUCT = "SELECT product_name AS product_name, product_description AS product_description FROM Product_Table WHERE product_id = ?";
@@ -111,6 +113,10 @@ public class DatabaseHandler {
 
     public boolean hasProductsTableChanged() {
         return productsTableChanged;
+    }
+    
+    public void setProductsTableChanged(boolean value) {
+        productsTableChanged = value;
     }
 
     public synchronized User selectUser(String username) {
@@ -180,6 +186,7 @@ public class DatabaseHandler {
             stm = conn.prepareStatement(STM_INSERT_USER);
             stm.setString(1, user.getUsername().trim());
             stm.setString(2, user.getPassword().trim());
+            stm.setString(3, user.getEmail().trim());
             numberOfRowsUpdated = stm.executeUpdate();
             if (numberOfRowsUpdated == 1) {
                 numberOfRowsUpdated = -1;
@@ -593,7 +600,6 @@ public class DatabaseHandler {
                 }
             }
             Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "ALL products retrieved successfully.");
-            productsTableChanged = false;
             return products;
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Failed to retrieve ALL products.", ex);
