@@ -12,18 +12,68 @@ Contains:
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
 
     <h:body>
         <ui:composition template="/resources/template/template_master.xhtml">
             <ui:define name="subsite_header">
-                <h1>Product overview</h1>
+                <h1>#{texts.product_title}</h1>
             </ui:define>
-            
+
             <ui:define name="subsite_content">
-                <p>employee</p>
-                
-                <!-- Some filler text -->
+                <h:form>
+                    <h:dataTable var="product" value="#{infoBean.allProducts}">
+                        <h:column>
+                            <f:facet name="header">#{texts.menu_product}</f:facet>
+                            #{product.name}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">#{texts.menu_description}</f:facet>
+                            #{product.description}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">#{texts.menu_price}</f:facet>
+                            #{product.price}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header"></f:facet>
+                            <h:commandButton value="#{texts.edit_account_edit}" styleClass="menu_add_button"/>
+                        </h:column>
+                    </h:dataTable>
+                    <h:messages />
+                    <br/>
+                    <h:commandButton value="#{texts.product_add_new_product}" />
+
+                    <h:panelGroup styleClass="edit_account_employee">
+                        <h1>#{texts.product_add_new_product}</h1>
+                        <label>#{texts.product_name}:</label><h:inputText required="true" /><br/>
+                        <label>#{texts.product_description}:</label><h:inputText required="true" /><br/>
+                        <label>#{texts.product_price}:</label><h:inputText required="true" /><br/>
+                        <label>#{texts.product_kcal}:</label><h:inputText required="true" /><br/>
+                    </h:panelGroup>
+
+                    <h:dataTable var="product" value="#{infoBean.allProducts}">
+                        <h:column>
+                            <f:facet name="header">#{texts.product_name}</f:facet>
+                            #{product.name}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">#{texts.product_description}</f:facet>
+                            #{product.description}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">#{texts.product_price}</f:facet>
+                            #{product.price}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">#{texts.product_quantity}</f:facet>
+                            <h:inputText >
+                                <f:convertNumber integerOnly="true" />
+                            </h:inputText>
+                        </h:column>
+                    </h:dataTable>
+                </h:form>
             </ui:define>
         </ui:composition>
     </h:body>

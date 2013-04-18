@@ -23,16 +23,16 @@ import user.User;
  */
 @Named
 @SessionScoped
-public class InfoBean implements Serializable{
+public class InfoBean implements Serializable {
 
-    @Inject
-    private DatabaseHandler db;
     private ArrayList<Order> activeOrders = new ArrayList<Order>();
     private Customer selectedCustomer;
     private Order selectedOrder;
     private boolean detailOrder;
-    @Inject 
+    @Inject
     private CustomerHandler customerHandler;
+    @Inject
+    private ProductHandler productHandler;
 
     public InfoBean() {
         ArrayList<Product> temp = new ArrayList<Product>();
@@ -49,7 +49,7 @@ public class InfoBean implements Serializable{
         //TODO Get non-delivered orders from DB
         return activeOrders;
     }
-    
+
     public ArrayList<Order> getOrderHistory() {
         //TODO Get delived orders from DB
         return activeOrders;
@@ -78,16 +78,20 @@ public class InfoBean implements Serializable{
     public void closeDetailedInfo() {
         detailOrder = false;
     }
-    
+
     public ArrayList<Customer> getAllCustomers() {
         return customerHandler.getAllCustomers();
     }
-    
+
     public ArrayList<User> getAllUsers() {
         return null;
     }
-    
+
     public String editCustomer() {
         return "edit_customer.xhtml";
+    }
+    
+    public ArrayList<Product> getAllProducts() {
+        return productHandler.getAllProducts();
     }
 }
