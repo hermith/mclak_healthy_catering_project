@@ -51,6 +51,7 @@
 /* add_new_user.xhtml */
 
 #create_account_system_form {
+    width: 50%;
     padding: 8px;
 }
 

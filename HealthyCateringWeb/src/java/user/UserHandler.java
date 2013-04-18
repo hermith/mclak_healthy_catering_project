@@ -5,6 +5,7 @@
 package user;
 
 import database.DatabaseHandler;
+import email.EmailHandler;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
@@ -17,6 +18,8 @@ public class UserHandler {
 
     @Inject
     DatabaseHandler db;
+    @Inject
+    EmailHandler email;
 
     public UserHandler() {
     }
@@ -28,5 +31,20 @@ public class UserHandler {
     public boolean registerCorporateUser(User user) {
         //return (db.insertUser(user));
         return true;
+    }
+
+    public boolean registerUser(User user) {
+        try {
+            String pw = email.sendGeneratedPassword(user.getEmail());
+            user.setPassword(pw);
+            if (!db.insertUser(user)) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            return false;
+        }
     }
 }
