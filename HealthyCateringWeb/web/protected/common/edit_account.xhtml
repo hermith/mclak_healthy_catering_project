@@ -62,7 +62,7 @@ Contains:
                     <h:commandButton value="#{texts.edit_account_save_changes}"/>
 
                     <!--Employees view-->
-                    <h:dataTable var="customer" >
+                    <h:dataTable rendered="#{userBean.loggedInAsEmployee || userBean.loggedInAsSystem}" var="customer" >
                         <h:column>
                             <f:facet name="header">ID</f:facet>
                         </h:column>
