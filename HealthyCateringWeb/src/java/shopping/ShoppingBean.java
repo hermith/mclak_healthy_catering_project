@@ -13,6 +13,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import shopping.customer.CorporateCustomer;
+import shopping.customer.Customer;
 import shopping.customer.PrivateCustomer;
 import shopping.product.Product;
 
@@ -35,6 +36,23 @@ public class ShoppingBean implements Serializable {
         privateCustomer = new PrivateCustomer();
         corporateCustomer = new CorporateCustomer();
         shoppingCart = new ShoppingCart();
+        order = new Order();
+    }
+
+    public void initiateCustomer(String username) {
+        Customer customer = shoppingHandler.getCustomer(username);
+        if (customer != null) {
+            if (customer instanceof PrivateCustomer) {
+                privateCustomer = (PrivateCustomer) customer;
+            } else {
+                corporateCustomer = (CorporateCustomer) customer;
+            }
+        }
+    }
+
+    public void resetVars() {
+        privateCustomer = new PrivateCustomer();
+        corporateCustomer = new CorporateCustomer();
         order = new Order();
     }
 
@@ -285,7 +303,9 @@ public class ShoppingBean implements Serializable {
     }
 
     /**
-     *Converts java.util.Date to java.sql.Date, and passes it to the order-object.
+     * Converts java.util.Date to java.sql.Date, and passes it to the
+     * order-object.
+     *
      * @param dato
      */
     public void setDeliveryDate(Date date) {

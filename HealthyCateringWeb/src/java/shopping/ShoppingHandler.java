@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import shopping.customer.Customer;
 import shopping.product.Product;
 
 /**
@@ -33,5 +34,9 @@ public class ShoppingHandler implements Serializable{
             database.setProductsTableChanged(false);
         }
         return products;
+    }
+    
+    public Customer getCustomer(String username) {
+        return database.selectCustomer(username);
     }
 }

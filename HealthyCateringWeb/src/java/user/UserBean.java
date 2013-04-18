@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import locale.MessageHandler;
 import locale.MessageType;
+import shopping.ShoppingBean;
 
 @Named
 @SessionScoped
@@ -104,7 +105,7 @@ public class UserBean implements Serializable {
             MessageHandler.addErrorMessage(MessageHandler.getLocalizedText(MessageType.ERROR, "login_required_username"));
             loginFailed = true;
         }
-        if (user.getPassword().isEmpty()) {
+        if (user.getPassword().trim().isEmpty()) {
             MessageHandler.addErrorMessage(MessageHandler.getLocalizedText(MessageType.ERROR, "login_required_password"));
             loginFailed = true;
         }
@@ -115,7 +116,8 @@ public class UserBean implements Serializable {
         try {
             Logger.getLogger(UserBean.class.getName()).log(Level.INFO, "Attempting to log in user {0}.", user);
             request.login(user.getUsername(), user.getPassword());
-            user.setPassword(null); // TODO Heller hent en bruker fra databasen slik at brukerrolle også blir tatt med.
+            user = userhandler.getUser();
+            ((ShoppingBean) context.getApplication().evaluateExpressionGet(context, "#{shoppingBean}", ShoppingBean.class)).initiateCustomer(user.getUsername());
             Logger.getLogger(UserBean.class.getName()).log(Level.INFO, "User {0} logged in.", user);
             loginFailed = false;
             return "";
@@ -138,6 +140,7 @@ public class UserBean implements Serializable {
         try {
             Logger.getLogger(UserBean.class.getName()).log(Level.INFO, "Attempting to log out {0}.", user);
             request.logout();
+            ((ShoppingBean) context.getApplication().evaluateExpressionGet(context, "#{shoppingBean}", ShoppingBean.class)).resetVars();
             Logger.getLogger(UserBean.class.getName()).log(Level.INFO, "User {0} logged out.", user);
             user = new User();
         } catch (ServletException ex) {
@@ -201,7 +204,7 @@ public class UserBean implements Serializable {
     }
 
     public void createNewUser() {
-        if(!userhandler.registerUser(dummyUser)) {
+        if (!userhandler.registerUser(dummyUser)) {
             MessageHandler.addErrorMessage("Unable to create account.");
         } else {
             MessageHandler.addErrorMessage("Account successfully created");
