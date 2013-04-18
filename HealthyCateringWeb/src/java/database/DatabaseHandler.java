@@ -518,6 +518,7 @@ public class DatabaseHandler {
                 if (product != null) {
                     products.add(selectProduct(productId));
                 } else {
+                    System.out.println("UT: ");
                     return null;
                 }
             }

@@ -46,6 +46,6 @@ public class ShoppingHandler implements Serializable{
         pro.add(sp6);
         pro.add(sp7);
         //--test--
-        return pro;
+        return database.selectProducts();
     }
 }
