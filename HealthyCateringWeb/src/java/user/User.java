@@ -34,7 +34,6 @@ public class User {
         this.password = null;
         this.email = email;
     }
-    
 
     public String getUsername() {
         return username;
@@ -67,9 +66,9 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
-    
+
     @Override
     public String toString() {
-        return "User{" + "username=" + username + ", roleId=" + roleId + '}';
+        return "User{" + "username=" + username + ", email=" + email + ", roleId=" + roleId + '}';
     }
 }
