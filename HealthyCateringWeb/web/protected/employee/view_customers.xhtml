@@ -12,7 +12,8 @@ Contains:
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
 
     <h:body>
         <ui:composition template="/resources/template/template_master.xhtml">
@@ -21,9 +22,36 @@ Contains:
             </ui:define>
             
             <ui:define name="subsite_content">
-                <p>employee</p>
-                
-                <!-- Some filler text -->
+                    <h:dataTable value="#{infoBean.allCustomers}" var="customer" >
+                        <h:column>
+                            <f:facet name="header">ID</f:facet>
+                            #{customer.customerId}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">#{texts.edit_eccount_name}</f:facet>
+                            #{customer.name}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">#{texts.edit_account_address}</f:facet>
+                            #{customer.address}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">#{texts.edit_account_zipcode}</f:facet>
+                            #{customer.zipCode}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">#{texts.edit_account_city}</f:facet>
+                            #{customer.city}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">#{texts.edit_account_email}</f:facet>
+                            #{customer.email}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">#{texts.edit_account_phone}</f:facet>
+                            #{customer.phoneNumber}
+                        </h:column>
+                    </h:dataTable>
             </ui:define>
         </ui:composition>
     </h:body>

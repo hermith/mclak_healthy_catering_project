@@ -5,23 +5,25 @@
 package info;
 
 import database.DatabaseHandler;
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import shopping.customer.Customer;
 import shopping.customer.PrivateCustomer;
 import shopping.product.Product;
 import shopping.product.SingleProduct;
+import user.User;
 
 /**
  *
  * @author Karl
  */
 @Named
-@ApplicationScoped
-public class InfoBean {
+@SessionScoped
+public class InfoBean implements Serializable{
 
     @Inject
     private DatabaseHandler db;
@@ -29,6 +31,8 @@ public class InfoBean {
     private Customer selectedCustomer;
     private Order selectedOrder;
     private boolean detailOrder;
+    @Inject 
+    private CustomerHandler customerHandler;
 
     public InfoBean() {
         ArrayList<Product> temp = new ArrayList<Product>();
@@ -73,5 +77,13 @@ public class InfoBean {
 
     public void closeDetailedInfo() {
         detailOrder = false;
+    }
+    
+    public ArrayList<Customer> getAllCustomers() {
+        return customerHandler.getAllCustomers();
+    }
+    
+    public ArrayList<User> getAllUsers() {
+        return null;
     }
 }

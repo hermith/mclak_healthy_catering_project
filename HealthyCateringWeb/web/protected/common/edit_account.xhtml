@@ -51,8 +51,8 @@ Contains:
                         <br/>
                         <label>#{texts.edit_account_phone}:</label>
                         <h:inputText value="#{userBean.phoneNumber}"/>
+                        <br/><br/>
                     </h:panelGroup>
-                    <br/>
                     <h3>#{texts.edit_account_change_password}</h3>
                     <h:panelGroup styleClass="edit_account_employee">
                         <label>#{texts.edit_account_old_password}:</label>
@@ -66,32 +66,6 @@ Contains:
                         <br/>
                     </h:panelGroup>
                     <h:commandButton value="#{texts.edit_account_save_changes}"/>
-
-                    <!--Employees view-->
-                    <h:dataTable rendered="#{userBean.loggedInAsEmployee || userBean.loggedInAsSystem}" var="customer" >
-                        <h:column>
-                            <f:facet name="header">ID</f:facet>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">#{texts.edit_eccount_name}</f:facet>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">#{texts.edit_account_address}</f:facet>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">#{texts.edit_account_zipcode}</f:facet>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">#{texts.edit_account_city}</f:facet>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">#{texts.edit_account_email}</f:facet>
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">#{texts.edit_account_phone}</f:facet>
-                        </h:column>
-                    </h:dataTable>
-
                 </h:form>
             </ui:define>
         </ui:composition>
