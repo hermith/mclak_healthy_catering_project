@@ -116,7 +116,7 @@ public class UserBean implements Serializable {
         try {
             Logger.getLogger(UserBean.class.getName()).log(Level.INFO, "Attempting to log in user {0}.", user);
             request.login(user.getUsername(), user.getPassword());
-            user = userhandler.getUser();
+            user = userhandler.getUser(user.getUsername());
             ((ShoppingBean) context.getApplication().evaluateExpressionGet(context, "#{shoppingBean}", ShoppingBean.class)).initiateCustomer(user.getUsername());
             Logger.getLogger(UserBean.class.getName()).log(Level.INFO, "User {0} logged in.", user);
             loginFailed = false;
