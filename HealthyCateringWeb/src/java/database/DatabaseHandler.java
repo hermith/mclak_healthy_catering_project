@@ -33,8 +33,8 @@ import user.User;
 public class DatabaseHandler {
 
     private static final String POOL_NAME = "jdbc/sysproj_res";
+    private static final String STM_SELECT_USER = "SELECT email AS email, user_role AS user_role FROM User_Table NATURAL JOIN User_Role_Table WHERE username = ?";
     private static final String STM_SELECT_USER_IDS = "SELECT username AS username FROM User_Table";
-    private static final String STM_SELECT_USER_ROLE = "SELECT user_role AS user_role FROM User_Role_Table WHERE username = ?";
     private static final String STM_SELECT_PASSWORD = "SELECT password AS password FROM User_Table WHERE username = ?";
     private static final String STM_UPDATE_PASSWORD = "UPDATE User_Table SET password = ? WHERE username = ?";
     private static final String STM_INSERT_USER = "INSERT INTO User_Table(username, password) VALUES(?, ?)";
@@ -119,11 +119,11 @@ public class DatabaseHandler {
         ResultSet resSet = null;
         try {
             conn = dataSource.getConnection();
-            stm = conn.prepareStatement(STM_SELECT_USER_ROLE);
+            stm = conn.prepareStatement(STM_SELECT_USER);
             stm.setString(1, username);
             resSet = stm.executeQuery();
             if (resSet.next()) {
-                User user = new User(username, resSet.getString(COLUMN_USER_ROLE));
+                User user = new User(username, resSet.getString(COLUMN_USER_ROLE), resSet.getString(COLUMN_EMAIL));
                 Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "User {0} retrieved.", user);
                 return user;
             }
@@ -542,7 +542,7 @@ public class DatabaseHandler {
                                 String singleProductName = resSet2.getString(COLUMN_PRODUCT_NAME);
                                 String singleProductDescription = resSet2.getString(COLUMN_PRODUCT_DESCRIPTION);
                                 stm2.setInt(1, singleProductId);
-                                resSet2 = stm1.executeQuery();
+                                resSet2 = stm2.executeQuery();
                                 if (resSet2.next()) {
                                     System.out.println("5");
                                     float singleProductPrice = resSet2.getFloat(COLUMN_PRODUCT_PRICE);
@@ -555,10 +555,11 @@ public class DatabaseHandler {
                         }
                         PackageProduct packageProduct = new PackageProduct(productId, name, description, discount, products);
                         Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Package product {0} retrieved.", packageProduct);
+                        return packageProduct;
                     }
                 }
             }
-            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Product with product id {0] NOT retrieved.", productId);
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Product with product id {0} NOT retrieved.", productId);
             return null;
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Product with product id " + productId + " NOT retrieved.", ex);
@@ -587,8 +588,8 @@ public class DatabaseHandler {
                 if (product != null) {
                     products.add(product);
                 } else {
-                    //System.out.println("UT: ");
-                    //return null;
+                    Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Failed to retrieve ALL products.");
+                    return null;
                 }
             }
             Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "ALL products retrieved successfully.");
