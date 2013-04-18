@@ -41,8 +41,8 @@ public class DatabaseHandler {
     private static final String STM_UPDATE_EMAIL_IN_USER_TABLE = "UPDATE User_Table SET email = ? WHERE username = ?";
     private static final String STM_INSERT_USER = "INSERT INTO User_Table(username, password, email) VALUES(?, ?, ?)";
     private static final String STM_INSERT_USER_ROLE = "INSERT INTO User_Role_Table(username, user_role) VALUES(?, ?)";
-    private static final String STM_SELECT_CUSTOMER_1 = "SELECT customer_id AS customer_id, email AS email, phone_number AS phone_number, address AS address, zip_code AS zip_code, city AS city FROM Customer_Table WHERE username = ?";
-    private static final String STM_SELECT_CUSTOMER_2 = "SELECT email AS email, phone_number AS phone_number, address AS address, zip_code AS zip_code, city AS city FROM Customer_Table WHERE customer_id = ?";
+    private static final String STM_SELECT_CUSTOMER_BY_USERNAME = "SELECT customer_id AS customer_id, email AS email, phone_number AS phone_number, address AS address, zip_code AS zip_code, city AS city FROM Customer_Table WHERE username = ?";
+    private static final String STM_SELECT_CUSTOMER_BY_CUSTOMER_ID = "SELECT email AS email, phone_number AS phone_number, address AS address, zip_code AS zip_code, city AS city FROM Customer_Table WHERE customer_id = ?";
     private static final String STM_SELECT_CUSTOMER_IDS = "SELECT customer_id AS customer_id FROM Customer_Table";
     private static final String STM_SELECT_USERNAME_FROM_CUSTOMER_TABLE = "SELECT username AS username FROM Customer_Table WHERE customer_id = ?";
     private static final String STM_SELECT_PRIVATE_CUSTOMER = "SELECT first_name AS first_name, last_name AS last_name FROM Private_Customer_Table WHERE customer_id = ?";
@@ -267,13 +267,50 @@ public class DatabaseHandler {
         }
     }
 
+    public synchronized boolean updateUserEmail(String email, String username) {
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet resSet = null;
+        int numberOfRowsUpdated = -1;
+        try {
+            conn = dataSource.getConnection();
+            setAutoCommit(conn, false);
+            stm = conn.prepareStatement(STM_UPDATE_EMAIL_IN_USER_TABLE);
+            stm.setString(1, email);
+            stm.setString(2, username);
+            numberOfRowsUpdated = stm.executeUpdate();
+            if (numberOfRowsUpdated == 1) {
+                numberOfRowsUpdated = -1;
+                stm = conn.prepareStatement(STM_UPDATE_EMAIL_IN_CUSTOMER_TABLE);
+                stm.setString(1, email);
+                stm.setString(2, username);
+                numberOfRowsUpdated = stm.executeUpdate();
+                if (numberOfRowsUpdated == -1) {
+                    Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Password for user {0} changed.", username);
+                    commit(conn);
+                    return true;
+                }
+            }
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Failed to change password for user {0}.", username);
+            return false;
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Failed to change password for user " + username + ".", ex);
+            return false;
+        } finally {
+            setAutoCommit(conn, true);
+            closeResultSet(resSet);
+            closeStatement(stm);
+            closeConnection(conn);
+        }
+    }
+
     public synchronized Customer selectCustomer(String username) {
         Connection conn = null;
         PreparedStatement stm = null;
         ResultSet resSet = null;
         try {
             conn = dataSource.getConnection();
-            stm = conn.prepareStatement(STM_SELECT_CUSTOMER_1);
+            stm = conn.prepareStatement(STM_SELECT_CUSTOMER_BY_USERNAME);
             stm.setString(1, username);
             resSet = stm.executeQuery();
             if (resSet.next()) {
@@ -324,7 +361,7 @@ public class DatabaseHandler {
         ResultSet resSet = null;
         try {
             conn = dataSource.getConnection();
-            stm = conn.prepareStatement(STM_SELECT_CUSTOMER_2);
+            stm = conn.prepareStatement(STM_SELECT_CUSTOMER_BY_CUSTOMER_ID);
             stm.setInt(1, customerId);
             resSet = stm.executeQuery();
             if (resSet.next()) {
@@ -414,7 +451,7 @@ public class DatabaseHandler {
             if (resSet.next()) {
                 String email = resSet.getString(COLUMN_EMAIL);
                 stm = conn.prepareStatement(STM_INSERT_CUSTOMER, Statement.RETURN_GENERATED_KEYS);
-                stm.setString(1, username);
+                stm.setString(1, username.trim());
                 stm.setString(2, email.trim());
                 stm.setString(3, customer.getPhoneNumber().trim());
                 stm.setString(4, customer.getAddress().trim());
