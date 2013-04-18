@@ -28,7 +28,9 @@ Contains:
                                                         requiredMessage="#{error.login_required_username}"/><br/>
                     <label>Email</label><h:inputText value="#{userBean.dummyEmail}"
                                                      required="true"
-                                                     requiredMessage="#{error.login_required_email}"/><br/>
+                                                     requiredMessage="#{error.login_required_email}">
+                        <f:validator validatorId="EmailValidator" />
+                    </h:inputText><br/>
                     <label>Role</label>
                     <h:selectOneRadio id="create_account_system_radio"
                                       value="#{userBean.dummyRoleId}">

@@ -16,6 +16,11 @@ public class MessageHandler {
     public static void addErrorMessage(String message) {
         FacesContext.getCurrentInstance().addMessage("", new FacesMessage(message));
     }
+    
+    public static FacesMessage getMessage(String msg, MessageType messageType) {
+        String text = getLocalizedText(messageType, msg);
+        return new FacesMessage(text);
+    }
 
     public static String getLocalizedText(MessageType messageType, String text_id) {
         FacesContext context = FacesContext.getCurrentInstance();

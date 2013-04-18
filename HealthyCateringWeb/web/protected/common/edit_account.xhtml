@@ -70,17 +70,20 @@ Contains:
                             <br/><br/>
                         </h:panelGroup>
                     </h:panelGroup>
+                    <!--Password-->
                     <h3>#{texts.edit_account_change_password}</h3>
                     <h:panelGroup styleClass="edit_account_employee">
                         <label>#{texts.edit_account_old_password}:</label>
-                        <h:inputText />
+                        <h:inputSecret />
                         <br/>
                         <label>#{texts.edit_account_new_password}:</label>
-                        <h:inputText />
+                        <h:inputSecret id="newPassword" />
                         <br/>
                         <label>#{texts.edit_account_repeat_password}:</label>
-                        <h:inputText />
+                        <h:inputSecret id="newPassword1"/>
                         <br/>
+                        <h:inputHidden id="msg" validator="PasswordValidator" value="needed" />
+                        <h:messages for="msg"/>
                     </h:panelGroup>
                     <h:commandButton value="#{texts.edit_account_save_changes}"/>
                 </h:form>
