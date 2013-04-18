@@ -15,7 +15,10 @@
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
-                    <file>${libs.Primefaces 3.5.classpath}</file>
+                    <file>${# Space-separated list of extra javac options}</file>
+                </library>
+                <library dirs="200">
+                    <file>${libs.Primefaces lib.classpath}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
             </web-module-libraries>
