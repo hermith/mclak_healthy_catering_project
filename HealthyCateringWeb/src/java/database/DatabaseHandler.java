@@ -33,6 +33,7 @@ import user.User;
 public class DatabaseHandler {
 
     private static final String POOL_NAME = "jdbc/sysproj_res";
+    private static final String STM_SELECT_USER_IDS = "SELECT username AS username FROM User_Table";
     private static final String STM_SELECT_USER_ROLE = "SELECT user_role AS user_role FROM User_Role_Table WHERE username = ?";
     private static final String STM_SELECT_PASSWORD = "SELECT password AS password FROM User_Table WHERE username = ?";
     private static final String STM_UPDATE_PASSWORD = "UPDATE User_Table SET password = ? WHERE username = ?";
@@ -126,10 +127,41 @@ public class DatabaseHandler {
                 Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "User {0} retrieved.", user);
                 return user;
             }
-            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Faield to retrieve user with username {0}.", username);
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Failed to retrieve user with username {0}.", username);
             return null;
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Failed to retrieve user with username" + username + ".", ex);
+            return null;
+        } finally {
+            closeResultSet(resSet);
+            closeStatement(stm);
+            closeConnection(conn);
+        }
+    }
+
+    public synchronized ArrayList<User> selectUsers() {
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet resSet = null;
+        try {
+            conn = dataSource.getConnection();
+            stm = conn.prepareStatement(STM_SELECT_USER_IDS);
+            resSet = stm.executeQuery();
+            ArrayList<User> users = new ArrayList<User>();
+            while (resSet.next()) {
+                String username = resSet.getString(COLUMN_USERNAME);
+                User user = selectUser(username);
+                if (user != null) {
+                    users.add(user);
+                } else {
+                    Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Failed to retrieve ALL users.");
+                    return null;
+                }
+            }
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "ALL users retrieved successfully.");
+            return users;
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Failed to retrieve ALL users.", ex);
             return null;
         } finally {
             closeResultSet(resSet);
@@ -326,7 +358,7 @@ public class DatabaseHandler {
             closeConnection(conn);
         }
     }
-    
+
     public synchronized ArrayList<Customer> selectCustomers() {
         Connection conn = null;
         PreparedStatement stm = null;
@@ -338,9 +370,9 @@ public class DatabaseHandler {
             ArrayList<Customer> customers = new ArrayList<Customer>();
             while (resSet.next()) {
                 int customerId = resSet.getInt(COLUMN_CUSTOMER_ID);
-                Product product = selectProduct(customerId);
-                if (product != null) {
-                    customers.add(selectCustomer(customerId));
+                Customer customer = selectCustomer(customerId);
+                if (customer != null) {
+                    customers.add(customer);
                 } else {
                     Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Failed to retrieve ALL customers.");
                     return null;
@@ -486,10 +518,12 @@ public class DatabaseHandler {
                         return singleProduct;
                     }
                 } else /* if (isProductAPackageProduct) */ {
+                    System.out.println("1");
                     stm1 = conn.prepareStatement(STM_SELECT_PACKAGE_PRODUCT);
                     stm1.setInt(1, productId);
                     resSet1 = stm1.executeQuery();
                     if (resSet1.next()) {
+                        System.out.println("2");
                         int discount = resSet1.getInt(COLUMN_PRODUCT_DISCOUNT);
                         ArrayList<SingleProduct> products = new ArrayList<SingleProduct>();
                         stm1 = conn.prepareStatement(STM_SELECT_PACKAGE_SINGLE_PRODUCT_CONNECTION);
@@ -498,16 +532,19 @@ public class DatabaseHandler {
                         stm1 = conn.prepareStatement(STM_SELECT_PRODUCT);
                         stm2 = conn.prepareStatement(STM_SELECT_SINGLE_PRODUCT);
                         while (resSet1.next()) {
+                            System.out.println("3");
                             int singleProductId = resSet1.getInt(COLUMN_SINGLE_PRODUCT_ID);
                             int quantity = resSet1.getInt(COLUMN_SINGLE_PRODUCT_QUANTITY);
                             stm1.setInt(1, singleProductId);
                             resSet2 = stm1.executeQuery();
                             if (resSet2.next()) {
+                                System.out.println("4");
                                 String singleProductName = resSet2.getString(COLUMN_PRODUCT_NAME);
                                 String singleProductDescription = resSet2.getString(COLUMN_PRODUCT_DESCRIPTION);
                                 stm2.setInt(1, singleProductId);
                                 resSet2 = stm1.executeQuery();
                                 if (resSet2.next()) {
+                                    System.out.println("5");
                                     float singleProductPrice = resSet2.getFloat(COLUMN_PRODUCT_PRICE);
                                     int singleProductKcal = resSet2.getInt(COLUMN_PRODUCT_KCAL);
                                     for (int i = 0; i < quantity; i++) {
@@ -548,7 +585,7 @@ public class DatabaseHandler {
                 int productId = resSet.getInt(COLUMN_PRODUCT_ID);
                 Product product = selectProduct(productId);
                 if (product != null) {
-                    products.add(selectProduct(productId));
+                    products.add(product);
                 } else {
                     //System.out.println("UT: ");
                     //return null;
