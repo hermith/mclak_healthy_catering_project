@@ -27,53 +27,50 @@
                         <fieldset>
                             <legend>Register private user</legend>
                             <div class="half_box_left">
-                                <input type="text" placeholder="First name" class="inputfields" value="#{shoppingBean.firstName}"/>
+                                <h:inputText class="inputfields" value="#{shoppingBean.firstName}"/>
                                 First name
                                 <br/><br/>
 
-                                <input type="text" placeholder="Last name" class="inputfields" value="#{shoppingBean.lastName}"/>
+                                <h:inputText class="inputfields" value="#{shoppingBean.lastName}"/>
                                 Last name
                                 <br/><br/>
 
-                                <input type="text" placeholder="Username" class="inputfields" value="#{userBean.username}"/>
+                                <h:inputText class="inputfields" value="#{userBean.username}"/>
                                 Username
                                 <br/><br/>
 
-                                <input type="password" id="pass1" onkeyup="checkPass();
-                                        return false;" placeholder="Password" class="inputfields" value="#{userBean.password}"/>
+                                <h:inputSecret id="pass1" onkeyup="checkPassPrivate();" class="inputfields" value="#{userBean.password}"/>
                                 Password
                                 <br/><br/>
 
-                                <input type="password" id="pass2" onkeyup="checkPass();
-                                        return false;" placeholder="Password" class="inputfields" />
+                                <h:inputSecret id="pass2" onkeyup="checkPassPrivate();" class="inputfields"/>
                                 Repeat password<br/>
-                                <span id="confirmMessage" class="confirmMessage"></span>
                             </div>
                             <div class="half_box_right">
 
-                                <input type="text" placeholder="E-mail" class="inputfields" value="#{shoppingBean.privateEmail}"/>
+                                <h:inputText  class="inputfields" value="#{shoppingBean.privateEmail}"/>
                                 E-mail address
                                 <br/><br/>
 
-                                <input type="text" placeholder="Address" class="inputfields" value="#{shoppingBean.privateAddress}"/>
+                                <h:inputText class="inputfields" value="#{shoppingBean.privateAddress}"/>
                                 Address
                                 <br/><br/>
 
-                                <input type="number" placeholder="Zip-code" class="inputfields" value="#{shoppingBean.privateZipCode}"/>
+                                <h:inputText class="inputfields" value="#{shoppingBean.privateZipCode}"/>
                                 Zip-code
                                 <br/><br/>
 
-                                <input type="text" placeholder="City" class="inputfields" value="#{shoppingBean.privateCity}"/>
+                                <h:inputText class="inputfields" value="#{shoppingBean.privateCity}"/>
                                 City
                                 <br/><br/>
 
-                                <input type="text" placeholder="Phone number" class="inputfields" value="#{shoppingBean.privatePhoneNumber}"/>
+                                <h:inputText class="inputfields" value="#{shoppingBean.privatePhoneNumber}"/>
                                 Phone number
                                 <br/><br/>
 
                             </div>
-                            
-                            <input type="submit" action="#{userBean.registerPrivateUser()}" value="Create new private account" class="register_new_button"/>
+
+                            <h:commandButton type="submit" action="#{userBean.registerPrivateUser()}" value="Create new private account" class="register_new_button"/>
 
                         </fieldset>
                     </div>
@@ -93,16 +90,13 @@
                                 Username
                                 <br/><br/>
 
-                                <input type="password" id="pass1" onkeyup="checkPass();
-                                        return false;" placeholder="Password" class="inputfields" value="#{userBean.password}"/>
+                                <h:inputSecret id="pass3" onkeyup="checkPassCorporate();" class="inputfields" value="#{userBean.password}"/>
                                 Password
                                 <br/><br/>
 
-                                <input type="password" id="pass2" onkeyup="checkPass();
-                                        return false;" placeholder="Password" class="inputfields" />Repeat password<br/>
-                                <span id="confirmMessage" class="confirmMessage"></span>
+                                <h:inputSecret id="pass4" onkeyup="checkPassCorporate();" class="inputfields"/>
+                                Repeat password<br/>
                                 <br/><br/>
-
                             </div>
 
                             <div class="half_box_right">
