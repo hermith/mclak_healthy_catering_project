@@ -35,13 +35,27 @@ body {
     /* Width should be limited here e.g:
     width: 1024px;
     */
+
 }
 
 html {
-    background-color: #e1e1e1;
+    /*background-color: #e1e1e1;*/
+    background-color: #eaf9ff;
     margin: 0;
     padding: 0;
     overflow-y: scroll;
+}
+
+#background-fixed {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    bottom: 0;
+    background-image:url('../resources/img/fresh_salad_bottom.png'),
+        url("../resources/img/fresh_tomato_bottom.png");
+    background-repeat: no-repeat, no-repeat;
+    background-position: left bottom, right bottom;
+    z-index: -100;
 }
 
 root { 
