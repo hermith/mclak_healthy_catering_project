@@ -30,58 +30,7 @@
 }
 
 /* Register.xhtml */
-#register_tab_left h3, #register_tab_right h3 {
-    text-align: center;
-}
 
-#register_tab_left {
-    margin-top: 8px;
-    margin-left: 4px;
-    padding-bottom: 4px;
-    display: inline-block;
-    height: 30px;
-    width: 49%;
-    background-color: #333333;
-}
-
-#register_tab_right {
-    padding-bottom: 4px;
-    display: inline-block;
-    height: 30px;
-    width: 49%;
-    background-color: #555555;
-}
-
-#register_tab_left:hover, #register_tab_right:hover {
-    background-color: #222222;
-}
-
-#register_order_history {
-    display: none;
-}
-
-.fieldset legend {
-    font-weight: bold;
-    padding: 0 4px;
-}
-
-.half_box_left {
-    padding: 8px;   
-    display: inline-block;
-    float: left;
-    width: 48%;
-}
-
-.half_box_right {
-    padding: 8px;
-    display: inline-block;
-    float: right;
-    width: 48%;
-}
-
-.register_new_button {
-    margin: 10px;
-}
 
 /* template_content.xhtml */
 
