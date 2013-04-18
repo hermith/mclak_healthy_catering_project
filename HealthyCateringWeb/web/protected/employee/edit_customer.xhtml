@@ -12,7 +12,8 @@ Contains:
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
 
     <h:body>
         <ui:composition template="/resources/template/template_master.xhtml">
@@ -23,39 +24,42 @@ Contains:
             <ui:define name="subsite_content">
                 <h:form>
                     <!--Only private-->
-                    <h:panelGroup styleClass="edit_account_employee">
+                    <h:panelGroup rendered="#{infoBean.selectedLoggedInAsPrivate()}" styleClass="edit_account_employee">
                         <label>#{texts.edit_account_firstname}</label>
-                        <h:inputText />
+                        <h:inputText value="#{infoBean.firstName}" />
                         <br/>
                         <label>#{texts.edit_account_lastname}</label>
-                        <h:inputText />
+                        <h:inputText value="#{infoBean.lastName}" />
                         <br/>
                     </h:panelGroup>
                     <!--Only corporate-->
-                    <h:panelGroup styleClass="edit_account_employee">
+                    <h:panelGroup rendered="#{!infoBean.selectedLoggedInAsPrivate()}" styleClass="edit_account_employee">
                         <label>#{texts.edit_account_company_name}</label>
-                        <h:inputText />
+                        <h:inputText value="#{infoBean.companyName}" />
                         <br/>
                     </h:panelGroup>
                     <!--ALL-->
                     <h:panelGroup styleClass="edit_account_employee">
                         <label>#{texts.edit_account_email}</label>
-                        <h:inputText />
+                        <h:inputText value="#{infoBean.email}" >
+                            <f:validator validatorId="EmailValidator"/>
+                        </h:inputText>
                         <br/>
                         <label>#{texts.edit_account_address}</label>
-                        <h:inputText />
+                        <h:inputText value="#{infoBean.address}" />
                         <br/>
                         <label>#{texts.edit_account_zipcode}</label>
-                        <h:inputText />
+                        <h:inputText value="#{infoBean.zipCode}" />
                         <br/>
                         <label>#{texts.edit_account_city}</label>
-                        <h:inputText />
+                        <h:inputText value="#{infoBean.city}" />
                         <br/>
                         <label>#{texts.edit_account_phone}</label>
-                        <h:inputText />
+                        <h:inputText value="#{infoBean.phoneNumber}" />
                         <br/><br/>
                     </h:panelGroup>
-                    <h:commandButton value="#{texts.edit_account_save_changes}"/>
+                    <h:commandButton action="#{infoBean.saveChangesCustomer()}" value="#{texts.edit_account_save_changes}"/>
+                    <h:messages />
                 </h:form>
             </ui:define>
         </ui:composition>

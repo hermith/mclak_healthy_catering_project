@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import locale.MessageHandler;
+import shopping.customer.CorporateCustomer;
 import shopping.customer.Customer;
 import shopping.customer.PrivateCustomer;
 import shopping.product.Product;
@@ -87,11 +89,212 @@ public class InfoBean implements Serializable {
         return null;
     }
 
-    public String editCustomer() {
+    public String editCustomer(Customer customer) {
+        selectedCustomer = customer;
         return "edit_customer.xhtml";
     }
-    
+
     public ArrayList<Product> getAllProducts() {
         return productHandler.getAllProducts();
+    }
+
+    public String getFirstName() {
+        if (selectedCustomer != null) {
+            if (selectedCustomer instanceof PrivateCustomer) {
+                PrivateCustomer customer = (PrivateCustomer) selectedCustomer;
+                return customer.getFirstName();
+            }
+        }
+        return null;
+    }
+
+    public void setFirstName(String firstname) {
+        if (selectedCustomer != null) {
+            if (selectedCustomer instanceof PrivateCustomer) {
+                PrivateCustomer customer = (PrivateCustomer) selectedCustomer;
+                customer.setFirstName(firstname);
+            }
+        }
+    }
+
+    public String getLastName() {
+        if (selectedCustomer != null) {
+            if (selectedCustomer instanceof PrivateCustomer) {
+                PrivateCustomer customer = (PrivateCustomer) selectedCustomer;
+                return customer.getLastName();
+            }
+        }
+        return null;
+    }
+
+    public void setLastName(String lastname) {
+        if (selectedCustomer != null) {
+            if (selectedCustomer instanceof PrivateCustomer) {
+                PrivateCustomer customer = (PrivateCustomer) selectedCustomer;
+                customer.setLastName(lastname);
+            }
+        }
+    }
+
+    public String getCompanyName() {
+        if (selectedCustomer != null) {
+            if (selectedCustomer instanceof CorporateCustomer) {
+                CorporateCustomer customer = (CorporateCustomer) selectedCustomer;
+                return customer.getCompanyName();
+            }
+        }
+        return null;
+    }
+
+    public void setCompanyName(String companyName) {
+        if (selectedCustomer != null) {
+            if (selectedCustomer instanceof CorporateCustomer) {
+                CorporateCustomer customer = (CorporateCustomer) selectedCustomer;
+                customer.setCompanyName(companyName);
+            }
+        }
+    }
+
+    public String getEmail() {
+        if (selectedCustomer != null) {
+            if (selectedCustomer instanceof PrivateCustomer) {
+                PrivateCustomer customer = (PrivateCustomer) selectedCustomer;
+                return customer.getEmail();
+            } else if (selectedCustomer instanceof CorporateCustomer) {
+                CorporateCustomer customer = (CorporateCustomer) selectedCustomer;
+                return customer.getEmail();
+            }
+        }
+        return null;
+    }
+
+    public void setEmail(String email) {
+        if (selectedCustomer != null) {
+            if (selectedCustomer instanceof PrivateCustomer) {
+                PrivateCustomer customer = (PrivateCustomer) selectedCustomer;
+                customer.setEmail(email);
+            } else if (selectedCustomer instanceof CorporateCustomer) {
+                CorporateCustomer customer = (CorporateCustomer) selectedCustomer;
+                customer.setEmail(email);
+            }
+        }
+    }
+
+    public String getAddress() {
+        if (selectedCustomer != null) {
+            if (selectedCustomer instanceof PrivateCustomer) {
+                PrivateCustomer customer = (PrivateCustomer) selectedCustomer;
+                return customer.getAddress();
+            } else if (selectedCustomer instanceof CorporateCustomer) {
+                CorporateCustomer customer = (CorporateCustomer) selectedCustomer;
+                return customer.getAddress();
+            }
+        }
+        return null;
+    }
+
+    public void setAddress(String address) {
+        if (selectedCustomer != null) {
+            if (selectedCustomer instanceof PrivateCustomer) {
+                PrivateCustomer customer = (PrivateCustomer) selectedCustomer;
+                customer.setAddress(address);
+            } else if (selectedCustomer instanceof CorporateCustomer) {
+                CorporateCustomer customer = (CorporateCustomer) selectedCustomer;
+                customer.setAddress(address);
+            }
+        }
+    }
+
+    public String getZipCode() {
+        if (selectedCustomer != null) {
+            if (selectedCustomer instanceof PrivateCustomer) {
+                PrivateCustomer customer = (PrivateCustomer) selectedCustomer;
+                return Integer.toString(customer.getZipCode());
+            } else if (selectedCustomer instanceof CorporateCustomer) {
+                CorporateCustomer customer = (CorporateCustomer) selectedCustomer;
+                return Integer.toString(customer.getZipCode());
+            }
+        }
+        return null;
+    }
+
+    public void setZipCode(String zip) {
+        if (selectedCustomer != null) {
+            if (selectedCustomer instanceof PrivateCustomer) {
+                PrivateCustomer customer = (PrivateCustomer) selectedCustomer;
+                try{
+                    customer.setZipCode(Integer.parseInt(zip));
+                }catch(Exception e){}
+            } else if (selectedCustomer instanceof CorporateCustomer) {
+                CorporateCustomer customer = (CorporateCustomer) selectedCustomer;
+                try{
+                    customer.setZipCode(Integer.parseInt(zip));
+                }catch(Exception e){}
+            }
+        }
+    }
+    
+    public String getCity() {
+        if (selectedCustomer != null) {
+            if (selectedCustomer instanceof PrivateCustomer) {
+                PrivateCustomer customer = (PrivateCustomer) selectedCustomer;
+                return customer.getCity();
+            } else if (selectedCustomer instanceof CorporateCustomer) {
+                CorporateCustomer customer = (CorporateCustomer) selectedCustomer;
+                return customer.getCity();
+            }
+        }
+        return null;
+    }
+    
+    public void setCity(String city) {
+        if (selectedCustomer != null) {
+            if (selectedCustomer instanceof PrivateCustomer) {
+                PrivateCustomer customer = (PrivateCustomer) selectedCustomer;
+                customer.setCity(city);
+            } else if (selectedCustomer instanceof CorporateCustomer) {
+                CorporateCustomer customer = (CorporateCustomer) selectedCustomer;
+                customer.setCity(city);
+            }
+        }
+    }
+
+    public String getPhoneNumber() {
+        if (selectedCustomer != null) {
+            if (selectedCustomer instanceof PrivateCustomer) {
+                PrivateCustomer customer = (PrivateCustomer) selectedCustomer;
+                return customer.getPhoneNumber();
+            } else if (selectedCustomer instanceof CorporateCustomer) {
+                CorporateCustomer customer = (CorporateCustomer) selectedCustomer;
+                return customer.getPhoneNumber();
+            }
+        }
+        return null;
+    }
+    
+    public void setPhoneNumber(String number) {
+        if (selectedCustomer != null) {
+            if (selectedCustomer instanceof PrivateCustomer) {
+                PrivateCustomer customer = (PrivateCustomer) selectedCustomer;
+                customer.setPhoneNumber(number);
+            } else if (selectedCustomer instanceof CorporateCustomer) {
+                CorporateCustomer customer = (CorporateCustomer) selectedCustomer;
+                customer.setPhoneNumber(number);
+            }
+        }
+    }
+    
+    public boolean selectedLoggedInAsPrivate() {
+        if (selectedCustomer instanceof PrivateCustomer) {
+            return true;
+        }
+        return false;
+    }
+    
+    public String saveChangesCustomer() {
+        if(customerHandler.fixCustomer(selectedCustomer)){
+            MessageHandler.addErrorMessage("DEt gikk bra");
+        }
+        return "";
     }
 }

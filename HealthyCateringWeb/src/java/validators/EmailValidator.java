@@ -26,6 +26,9 @@ public class EmailValidator implements Validator {
 
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
+        if(value.toString().equals("")){
+            return;
+        }
         matcher = pattern.matcher(value.toString());
         if (!matcher.matches()) {
             FacesMessage msg = MessageHandler.getMessage("email_invalid", MessageType.ERROR);

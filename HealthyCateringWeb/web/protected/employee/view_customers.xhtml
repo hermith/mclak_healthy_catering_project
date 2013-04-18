@@ -53,7 +53,7 @@ Contains:
                             #{customer.phoneNumber}
                         </h:column>
                         <h:column>
-                            <h:commandButton action="#{infoBean.editCustomer()}" value="#{texts.edit_account_edit}"/>
+                            <h:commandButton action="#{infoBean.editCustomer(customer)}" value="#{texts.edit_account_edit}"/>
                         </h:column>
                     </h:dataTable>
                 </h:form>

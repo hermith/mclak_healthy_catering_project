@@ -336,11 +336,13 @@ public class ShoppingBean implements Serializable {
     public String saveChangesAccount() {
         Customer customer = shoppingHandler.getCustomer(username);
         if(customer instanceof PrivateCustomer) {
-            if(shoppingHandler.fixPrivateCustomer((PrivateCustomer)customer, getPrivateEmail(), getPrivateAddress(), getPrivatePhoneNumber(), getPrivateZipCode(), getPrivateCity(), getFirstName(), getLastName())){
+            PrivateCustomer newCustomer = new PrivateCustomer(customer.getCustomerId(), getPrivateEmail(), getPrivateAddress(), getPrivatePhoneNumber(), getPrivateZipCode(), getPrivateCity(), getFirstName(), getLastName());
+            if(shoppingHandler.fixCustomer(customer,newCustomer)){
                 MessageHandler.addErrorMessage("det gikk bra");
             }
         }else if(customer instanceof CorporateCustomer) {
-            if(shoppingHandler.fixCorporateCustomer((CorporateCustomer)customer, getCorporateEmail(), getCorporateAddress(), getCorporatePhoneNumber(), getCorporateZipCode(), getCorporateCity(), getCompanyName())){
+            CorporateCustomer newCustomer = new CorporateCustomer(customer.getCustomerId(), getCorporateEmail(), getCorporateAddress(), getCorporatePhoneNumber(), getCorporateZipCode(), getCorporateCity(), getCompanyName());
+            if(shoppingHandler.fixCustomer(customer,newCustomer)){
                 MessageHandler.addErrorMessage("det gikk bra");
             }
         }

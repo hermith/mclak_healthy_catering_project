@@ -42,43 +42,34 @@ public class ShoppingHandler implements Serializable{
         return database.selectCustomer(username);
     }
     
-    public boolean saveChangesAccount(Customer customer) {
+    public boolean updateCustomer(Customer customer) {
         return database.updateCustomer(customer);
     }
     
-    public boolean fixPrivateCustomer(PrivateCustomer customer, String email, String address, String phoneNumber, int zipCode, String city, String firstName, String lastName) {
-        if(!email.equals("")){
-            customer.setEmail(email);
-        }if(!address.equals("")){
-            customer.setAddress(address);
-        }if(!phoneNumber.equals("")){
-            customer.setPhoneNumber(phoneNumber);
-        }if(zipCode != 0){
-            customer.setZipCode(zipCode);
-        }if(!city.equals("")){
-            customer.setCity(city);
-        }if(!firstName.equals("")){
-            customer.setFirstName(firstName);
-        }if(!lastName.equals("")){
-            customer.setLastName(lastName);
+    public boolean fixCustomer(Customer customer, Customer newCustomer) {
+        if(customer instanceof PrivateCustomer) {
+            PrivateCustomer privateCustomer = (PrivateCustomer) newCustomer;
+            PrivateCustomer privateCustomerDatabase = (PrivateCustomer) customer;
+            if(privateCustomer.getFirstName().equals("")) {
+                privateCustomer.setFirstName(privateCustomerDatabase.getFirstName());
+            }if(privateCustomer.getLastName().equals("")) {
+                privateCustomer.setLastName(privateCustomerDatabase.getLastName());
+            }
+        }else if(customer instanceof CorporateCustomer) {
+            CorporateCustomer corporateCustomer = (CorporateCustomer) newCustomer;
+            CorporateCustomer corporateCustomerDatabase = (CorporateCustomer) customer;
+            if(corporateCustomer.getCompanyName().equals("")) {
+                corporateCustomer.setCompanyName(corporateCustomerDatabase.getCompanyName());
+            }
+        }if(newCustomer.getAddress().equals("")){
+            newCustomer.setAddress(customer.getAddress());
+        }if(newCustomer.getEmail().equals("")){
+            newCustomer.setEmail(customer.getEmail());
+        }if(newCustomer.getPhoneNumber().equals("")){
+            newCustomer.setPhoneNumber(customer.getPhoneNumber());
+        }if(newCustomer.getCity().equals("")){
+            newCustomer.setCity(customer.getCity());
         }
-        return saveChangesAccount(customer);
-    }
-    
-    public boolean fixCorporateCustomer(CorporateCustomer customer, String email, String address, String phoneNumber, int zipCode, String city, String companyName) {
-        if(!email.equals("")){
-            customer.setEmail(email);
-        }if(!address.equals("")){
-            customer.setAddress(address);
-        }if(!phoneNumber.equals("")){
-            customer.setPhoneNumber(phoneNumber);
-        }if(zipCode != 0){
-            customer.setZipCode(zipCode);
-        }if(!city.equals("")){
-            customer.setCity(city);
-        }if(!companyName.equals("")){
-            customer.setCompanyName(companyName);
-        }
-        return saveChangesAccount(customer);
+        return updateCustomer(newCustomer);
     }
 }
