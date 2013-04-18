@@ -12,7 +12,8 @@ Contains:
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
 
     <h:body>
         <ui:composition template="/resources/template/template_master.xhtml">
@@ -21,9 +22,20 @@ Contains:
             </ui:define>
             
             <ui:define name="subsite_content">
-                <p>system</p>
-                
-                <!-- Some filler text -->
+                <h:form id="create_account_system_form">
+                    <label>Username</label><h:inputText value="#{userBean.username}" /><br/>
+                    <label>Email</label><h:inputText value="#{userBean.address}"/><br/>
+                    <label>Role</label>
+                    <h:selectOneRadio id="create_account_system_radio">
+                        <f:selectItem itemLabel="System"/>
+                        <f:selectItem itemLabel="Employee"/>
+                    </h:selectOneRadio><br/>
+                    <h:commandButton value="Send user a generated password and create account"
+                                     action="#{userBean.password}"
+                                     styleClass="button"/><br/><br/>
+                    <h:messages />
+                    
+                </h:form>
             </ui:define>
         </ui:composition>
     </h:body>

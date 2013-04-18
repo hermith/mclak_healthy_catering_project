@@ -12,12 +12,14 @@ public class User {
 
     private String username;
     private String password;
+    private String email;
     private String roleId;
 
     public User() {
         this.username = null;
         this.password = null;
         this.roleId = null;
+        this.email = null;
     }
 
     /**
@@ -26,10 +28,11 @@ public class User {
      * @param username
      * @param roleId
      */
-    public User(String username, String roleId) {
+    public User(String username, String roleId, String email) {
         this.username = username;
         this.roleId = roleId;
         this.password = null;
+        this.email = email;
     }
     
 
@@ -57,6 +60,14 @@ public class User {
         this.roleId = roleId;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
     @Override
     public String toString() {
         return "User{" + "username=" + username + ", roleId=" + roleId + '}';

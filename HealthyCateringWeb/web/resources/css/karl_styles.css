@@ -47,3 +47,24 @@
     background-color: #999999;
     border: 1px solid #666666;
 }
+
+/* add_new_user.xhtml */
+
+#create_account_system_form {
+    padding: 8px;
+}
+
+#create_account_system_form label {
+    padding: 4px;
+    display: inline-block;
+    width: 150px;
+    font-weight: bold;
+}
+
+#create_account_system_form .button {
+    padding: 4px;
+}
+
+#create_account_system_form\:create_account_system_radio {
+    margin: 0;
+}
