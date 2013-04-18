@@ -30,6 +30,7 @@ public class ShoppingHandler implements Serializable{
     public ArrayList<Product> getMenu() {
         if(database.hasProductsTableChanged()){
             products = database.selectProducts();
+            database.setProductsTableChanged(false);
         }
         return products;
     }

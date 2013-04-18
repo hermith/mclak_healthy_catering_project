@@ -35,6 +35,7 @@ public class DatabaseHandler {
     private static final String POOL_NAME = "jdbc/sysproj_res";
     private static final String STM_SELECT_USER = "SELECT email AS email, user_role AS user_role FROM User_Table NATURAL JOIN User_Role_Table WHERE username = ?";
     private static final String STM_SELECT_USER_IDS = "SELECT username AS username FROM User_Table";
+    private static final String STM_SELECT_EMAIL_FROM_USER_TABLE = "SELECT email AS email FROM User_Table WHERE username = ?";
     private static final String STM_SELECT_PASSWORD = "SELECT password AS password FROM User_Table WHERE username = ?";
     private static final String STM_UPDATE_PASSWORD = "UPDATE User_Table SET password = ? WHERE username = ?";
     private static final String STM_UPDATE_EMAIL_IN_USER_TABLE = "UPDATE User_Table SET email = ? WHERE username = ?";
@@ -43,6 +44,7 @@ public class DatabaseHandler {
     private static final String STM_SELECT_CUSTOMER_1 = "SELECT customer_id AS customer_id, email AS email, phone_number AS phone_number, address AS address, zip_code AS zip_code, city AS city FROM Customer_Table WHERE username = ?";
     private static final String STM_SELECT_CUSTOMER_2 = "SELECT email AS email, phone_number AS phone_number, address AS address, zip_code AS zip_code, city AS city FROM Customer_Table WHERE customer_id = ?";
     private static final String STM_SELECT_CUSTOMER_IDS = "SELECT customer_id AS customer_id FROM Customer_Table";
+    private static final String STM_SELECT_USERNAME_FROM_CUSTOMER_TABLE = "SELECT username AS username FROM Customer_Table WHERE customer_id = ?";
     private static final String STM_SELECT_PRIVATE_CUSTOMER = "SELECT first_name AS first_name, last_name AS last_name FROM Private_Customer_Table WHERE customer_id = ?";
     private static final String STM_SELECT_CORPORATE_CUSTOMER = "SELECT company_name FROM Corporate_Customer_Table WHERE customer_id = ?";
     private static final String STM_INSERT_CUSTOMER = "INSERT INTO Customer_Table(username, email, phone_number, address, zip_code, city) VALUES(?, ?, ?, ?, ?, ?)";
@@ -114,7 +116,7 @@ public class DatabaseHandler {
     public boolean hasProductsTableChanged() {
         return productsTableChanged;
     }
-    
+
     public void setProductsTableChanged(boolean value) {
         productsTableChanged = value;
     }
@@ -400,41 +402,48 @@ public class DatabaseHandler {
     public synchronized boolean insertCustomer(Customer customer, String username) {
         Connection conn = null;
         PreparedStatement stm = null;
+        ResultSet resSet = null;
         int numberOfRowsUpdated = -1;
         int customerId = -1;
         try {
             conn = dataSource.getConnection();
             setAutoCommit(conn, false);
-            stm = conn.prepareStatement(STM_INSERT_CUSTOMER, Statement.RETURN_GENERATED_KEYS);
+            stm = conn.prepareStatement(STM_SELECT_EMAIL_FROM_USER_TABLE);
             stm.setString(1, username);
-            stm.setString(2, customer.getEmail().trim());
-            stm.setString(3, customer.getPhoneNumber().trim());
-            stm.setString(4, customer.getAddress().trim());
-            stm.setInt(5, customer.getZipCode());
-            stm.setString(6, customer.getCity().trim());
-            numberOfRowsUpdated = stm.executeUpdate();
-            if (numberOfRowsUpdated == 1) {
-                numberOfRowsUpdated = -1;
-                stm.getGeneratedKeys().next();
-                customerId = stm.getGeneratedKeys().getInt(1);
-                if (customer instanceof PrivateCustomer) {
-                    PrivateCustomer privateCustomer = (PrivateCustomer) customer;
-                    stm = conn.prepareStatement(STM_INSERT_PRIVATE_CUSTOMER);
-                    stm.setInt(1, customerId);
-                    stm.setString(2, privateCustomer.getFirstName().trim());
-                    stm.setString(3, privateCustomer.getLastName().trim());
-                    numberOfRowsUpdated = stm.executeUpdate();
-                } else if (customer instanceof CorporateCustomer) {
-                    CorporateCustomer corporateCustomer = (CorporateCustomer) customer;
-                    stm = conn.prepareStatement(STM_INSERT_CORPORATE_CUSTOMER);
-                    stm.setInt(1, customerId);
-                    stm.setString(2, corporateCustomer.getCompanyName().trim());
-                    numberOfRowsUpdated = stm.executeUpdate();
-                }
+            resSet = stm.executeQuery();
+            if (resSet.next()) {
+                String email = resSet.getString(COLUMN_EMAIL);
+                stm = conn.prepareStatement(STM_INSERT_CUSTOMER, Statement.RETURN_GENERATED_KEYS);
+                stm.setString(1, username);
+                stm.setString(2, email.trim());
+                stm.setString(3, customer.getPhoneNumber().trim());
+                stm.setString(4, customer.getAddress().trim());
+                stm.setInt(5, customer.getZipCode());
+                stm.setString(6, customer.getCity().trim());
+                numberOfRowsUpdated = stm.executeUpdate();
                 if (numberOfRowsUpdated == 1) {
-                    Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Customer {0} with username {1} registered.", new Object[]{customer, username});
-                    commit(conn);
-                    return true;
+                    numberOfRowsUpdated = -1;
+                    stm.getGeneratedKeys().next();
+                    customerId = stm.getGeneratedKeys().getInt(1);
+                    if (customer instanceof PrivateCustomer) {
+                        PrivateCustomer privateCustomer = (PrivateCustomer) customer;
+                        stm = conn.prepareStatement(STM_INSERT_PRIVATE_CUSTOMER);
+                        stm.setInt(1, customerId);
+                        stm.setString(2, privateCustomer.getFirstName().trim());
+                        stm.setString(3, privateCustomer.getLastName().trim());
+                        numberOfRowsUpdated = stm.executeUpdate();
+                    } else if (customer instanceof CorporateCustomer) {
+                        CorporateCustomer corporateCustomer = (CorporateCustomer) customer;
+                        stm = conn.prepareStatement(STM_INSERT_CORPORATE_CUSTOMER);
+                        stm.setInt(1, customerId);
+                        stm.setString(2, corporateCustomer.getCompanyName().trim());
+                        numberOfRowsUpdated = stm.executeUpdate();
+                    }
+                    if (numberOfRowsUpdated == 1) {
+                        Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Customer {0} with username {1} registered.", new Object[]{customer, username});
+                        commit(conn);
+                        return true;
+                    }
                 }
             }
             Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Customer {0} with username {1} NOT registered.", new Object[]{customer, username});
@@ -445,6 +454,7 @@ public class DatabaseHandler {
             return false;
         } finally {
             setAutoCommit(conn, true);
+            closeResultSet(resSet);
             closeStatement(stm);
             closeConnection(conn);
         }
@@ -453,38 +463,52 @@ public class DatabaseHandler {
     public synchronized boolean updateCustomer(Customer customer) {
         Connection conn = null;
         PreparedStatement stm = null;
+        ResultSet resSet = null;
         int numberOfRowsUpdated = -1;
         try {
             conn = dataSource.getConnection();
             setAutoCommit(conn, false);
-            stm = conn.prepareStatement(STM_UPDATE_CUSTOMER);
-            stm.setString(1, customer.getEmail());
-            stm.setString(2, customer.getPhoneNumber());
-            stm.setString(3, customer.getAddress());
-            stm.setInt(4, customer.getZipCode());
-            stm.setString(5, customer.getCity());
-            stm.setInt(6, customer.getCustomerId());
-            numberOfRowsUpdated = stm.executeUpdate();
-            if (numberOfRowsUpdated == 1) {
-                numberOfRowsUpdated = -1;
-                if (customer instanceof PrivateCustomer) {
-                    PrivateCustomer privateCustomer = (PrivateCustomer) customer;
-                    stm = conn.prepareStatement(STM_UPDATE_PRIVATE_CUSTOMER);
-                    stm.setString(1, privateCustomer.getFirstName());
-                    stm.setString(2, privateCustomer.getLastName());
-                    stm.setInt(3, privateCustomer.getCustomerId());
-                    numberOfRowsUpdated = stm.executeUpdate();
-                } else if (customer instanceof CorporateCustomer) {
-                    CorporateCustomer corporateCustomer = (CorporateCustomer) customer;
-                    stm = conn.prepareStatement(STM_UPDATE_CORPORATE_CUSTOMER);
-                    stm.setString(1, corporateCustomer.getCompanyName());
-                    stm.setInt(2, corporateCustomer.getCustomerId());
-                    numberOfRowsUpdated = stm.executeUpdate();
-                }
+            stm = conn.prepareStatement(STM_SELECT_USERNAME_FROM_CUSTOMER_TABLE);
+            stm.setInt(1, customer.getCustomerId());
+            resSet = stm.executeQuery();
+            if (resSet.next()) {
+                String username = resSet.getString(COLUMN_USERNAME);
+                stm = conn.prepareStatement(STM_UPDATE_EMAIL_IN_USER_TABLE);
+                stm.setString(1, customer.getEmail());
+                stm.setString(2, username);
+                numberOfRowsUpdated = stm.executeUpdate();
                 if (numberOfRowsUpdated == 1) {
-                    Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Customer {0} updated.", customer);
-                    commit(conn);
-                    return true;
+                    numberOfRowsUpdated = -1;
+                    stm = conn.prepareStatement(STM_UPDATE_CUSTOMER);
+                    stm.setString(1, customer.getEmail());
+                    stm.setString(2, customer.getPhoneNumber());
+                    stm.setString(3, customer.getAddress());
+                    stm.setInt(4, customer.getZipCode());
+                    stm.setString(5, customer.getCity());
+                    stm.setInt(6, customer.getCustomerId());
+                    numberOfRowsUpdated = stm.executeUpdate();
+                    if (numberOfRowsUpdated == 1) {
+                        numberOfRowsUpdated = -1;
+                        if (customer instanceof PrivateCustomer) {
+                            PrivateCustomer privateCustomer = (PrivateCustomer) customer;
+                            stm = conn.prepareStatement(STM_UPDATE_PRIVATE_CUSTOMER);
+                            stm.setString(1, privateCustomer.getFirstName());
+                            stm.setString(2, privateCustomer.getLastName());
+                            stm.setInt(3, privateCustomer.getCustomerId());
+                            numberOfRowsUpdated = stm.executeUpdate();
+                        } else if (customer instanceof CorporateCustomer) {
+                            CorporateCustomer corporateCustomer = (CorporateCustomer) customer;
+                            stm = conn.prepareStatement(STM_UPDATE_CORPORATE_CUSTOMER);
+                            stm.setString(1, corporateCustomer.getCompanyName());
+                            stm.setInt(2, corporateCustomer.getCustomerId());
+                            numberOfRowsUpdated = stm.executeUpdate();
+                        }
+                        if (numberOfRowsUpdated == 1) {
+                            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Customer {0} updated.", customer);
+                            commit(conn);
+                            return true;
+                        }
+                    }
                 }
             }
             Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Customer {0} NOT updated.", customer);
