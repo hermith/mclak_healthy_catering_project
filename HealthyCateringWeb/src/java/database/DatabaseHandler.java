@@ -40,6 +40,7 @@ public class DatabaseHandler {
     private static final String STM_INSERT_USER_ROLE = "INSERT INTO User_Role_Table(username, user_role) VALUES(?, ?)";
     private static final String STM_SELECT_CUSTOMER_1 = "SELECT customer_id AS customer_id, email AS email, phone_number AS phone_number, address AS adress, zip_code AS zip_code, city AS city FROM Customer_Table WHERE username = ?";
     private static final String STM_SELECT_CUSTOMER_2 = "SELECT email AS email, phone_number AS phone_number, address AS adress, zip_code AS zip_code, city AS city FROM Customer_Table WHERE customer_id = ?";
+    private static final String STM_SELECT_CUSTOMER_IDS = "SELECT customer_id AS customer_id FROM Customer_Table";
     private static final String STM_SELECT_PRIVATE_CUSTOMER = "SELECT first_name AS first_name, last_name AS last_name FROM Private_Customer_Table WHERE customer_id = ?";
     private static final String STM_SELECT_CORPORATE_CUSTOMER = "SELECT company_name FROM Corporate_Customer_Table WHERE customer_id = ?";
     private static final String STM_INSERT_CUSTOMER = "INSERT INTO Customer_Table(username, email, phone_number, address, zip_code, city) VALUES(?, ?, ?, ?, ?, ?)";
@@ -325,6 +326,37 @@ public class DatabaseHandler {
             closeConnection(conn);
         }
     }
+    
+    public synchronized ArrayList<Customer> selectCustomers() {
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet resSet = null;
+        try {
+            conn = dataSource.getConnection();
+            stm = conn.prepareStatement(STM_SELECT_CUSTOMER_IDS);
+            resSet = stm.executeQuery();
+            ArrayList<Customer> customers = new ArrayList<Customer>();
+            while (resSet.next()) {
+                int customerId = resSet.getInt(COLUMN_CUSTOMER_ID);
+                Product product = selectProduct(customerId);
+                if (product != null) {
+                    customers.add(selectCustomer(customerId));
+                } else {
+                    Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Failed to retrieve ALL customers.");
+                    return null;
+                }
+            }
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "ALL customers retrieved successfully.");
+            return customers;
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Failed to retrieve ALL customers.", ex);
+            return null;
+        } finally {
+            closeResultSet(resSet);
+            closeStatement(stm);
+            closeConnection(conn);
+        }
+    }
 
     public synchronized boolean insertCustomer(Customer customer, String username) {
         Connection conn = null;
@@ -518,8 +550,8 @@ public class DatabaseHandler {
                 if (product != null) {
                     products.add(selectProduct(productId));
                 } else {
-                    System.out.println("UT: ");
-                    return null;
+                    //System.out.println("UT: ");
+                    //return null;
                 }
             }
             Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "ALL products retrieved successfully.");
