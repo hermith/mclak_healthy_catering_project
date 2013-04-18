@@ -72,9 +72,12 @@ public class UserBean implements Serializable {
         return "/protected/common/control_panel.xhtml";
     }
 
-    public void registerPrivateUser() {
+    public String registerPrivateUser() {
         System.out.println("Called registerPrivateUser() in UserBean");
-        userhandler.registerPrivateUser(user);
+        if (userhandler.registerPrivateUser(user)) {
+            return "registration_success";
+        }
+        return "registration_failure";
     }
 
     public void registerCorporateUser() {
