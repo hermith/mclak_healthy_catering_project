@@ -1,0 +1,33 @@
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:pm="http://primefaces.org/mobile"
+        contentType="text/html"
+        renderKitId="PRIMEFACES_MOBILE">
+    
+    <pm:page title="PrimeFaces Mobile Weather">
+
+        <!-- Main View -->
+        <pm:view id="main">
+            <pm:header title="Drivers UI: Not logged in">
+            </pm:header>
+            
+            <pm:content>
+                <h:form id="login_form">
+
+                    <p:outputLabel value="Username" /><h:inputText />
+                    <p:outputLabel value="Passord" /><h:inputSecret />
+                    
+                    <p:button value="Login"/>
+                </h:form>
+            </pm:content>
+            
+            <pm:footer fixed="true">
+                <p style="text-align: center">Footer</p>
+            </pm:footer>
+        </pm:view>
+
+    </pm:page>
+
+</f:view>
