@@ -8,6 +8,8 @@ import database.DatabaseHandler;
 import email.EmailHandler;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import locale.MessageHandler;
+import locale.MessageType;
 
 /**
  *
@@ -48,13 +50,24 @@ public class UserHandler {
             return false;
         }
     }
-    
+
     public User getUser(String userName) {
         //TODO Sjekk noko
         return db.selectUser(userName);
     }
-    
+
     public boolean changePassword(String password, String username, String oldPassword) {
-        return db.updateUserPassword(password, username, oldPassword);
+        if (db.selectUserPassword(username).equals(oldPassword)) {
+            if (!db.updateUserPassword(password, username)) {
+                String msg = MessageHandler.getLocalizedText(MessageType.ERROR, "edit_account_password_not_changed");
+                MessageHandler.addErrorMessage(msg);
+                return false;
+            }
+        } else {
+            String msg = MessageHandler.getLocalizedText(MessageType.ERROR, "edit_account_old_password_invalid");
+            MessageHandler.addErrorMessage(msg);
+            return false;
+        }
+        return true;
     }
 }

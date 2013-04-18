@@ -283,16 +283,12 @@ public class UserBean implements Serializable {
     }
 
     public String changePassword() {
-        System.out.println("pass:" + getNewPassword());
         if (userhandler.changePassword(getNewPassword(), getUsername(), getPassword())) {
             String msg = MessageHandler.getLocalizedText(MessageType.TEKST, "edit_account_password_changed");
             MessageHandler.addErrorMessage(msg);
-        } else {
-            String msg = MessageHandler.getLocalizedText(MessageType.ERROR, "edit_account_password_not_changed");
-            MessageHandler.addErrorMessage(msg);
         }
-        user.setPassword(null);
-        user.setNewPassword(null);
+        setPassword(null);
+        setNewPassword(null);
         return "";
     }
 }
