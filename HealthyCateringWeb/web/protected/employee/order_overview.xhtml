@@ -78,19 +78,22 @@ Contains:
                             </h:column>
                             <h:column>
                                 <f:facet name="header">Order placed</f:facet>
-                                #{order.convertDateToString(order.getPlacedDate())}</h:column>
+                                    #{order.convertDateToString(order.getPlacedDate())}
+                            </h:column>
                             <h:column>
                                 <f:facet name="header">Delivered on</f:facet>
-                                #{order.convertDateToString(order.getDeliveredDate())}</h:column>
+                                    #{order.convertDateToString(order.getDeliveredDate())}
+                            </h:column>
                             <h:column>
                                 <f:facet name="header">Details</f:facet>
                                 <h:commandButton image="/resources/img/info_icon.png"
-                                                 action="#{infoBean.lookUpOrder(order.getOrderID())}"/></h:column>
+                                                 action="#{infoBean.lookUpOrder(order.getOrderID())}"/>
+                            </h:column>
                         </h:dataTable>
                     </div>
 
                     <div id="centerpoint">
-                        <div id="detail_info">
+                        <div id="detail_order_info" class="detail_info_popup">
                             <h:commandButton styleClass="close_info_button"
                                              image="/resources/img/info_icon.png"
                                              action='#{infoBean.closeDetailedInfo()}'/>

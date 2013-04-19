@@ -216,18 +216,19 @@ active_orders_main_form .delivered {
     display: none;
 }
 
+/* Used for the detailed info popup */
 #centerpoint {
     top: 50%;
     left: 50%;
     position: absolute;
 }
 
-#detail_info h2 {
+.detail_info_popup h2 {
     background-color: #333333;
     margin-bottom: 4px;
 }
 
-#detail_info .close_info_button {
+.detail_info_popup .close_info_button {
     float: right;
     width: 40px;
     height: 40px;
@@ -235,7 +236,7 @@ active_orders_main_form .delivered {
     top: 20px;
 }
 
-#detail_info {
+.detail_info_popup {
     background-color: #666666;
     position: relative;
 
@@ -248,32 +249,34 @@ active_orders_main_form .delivered {
     height: 460px;
     margin-top: -200px;
 }
+/* Specific for popup in view_customer.xhtml */
 
-#detail_info label {
+/* Specific for popup in order_overview.xhtml */
+#detail_order_info label {
     display: inline-block;
     width: 100px;
 }
 
-#detail_info label {
+#detail_order_info label {
     display: inline-block;
     width: 80px;
     font-weight: bold;
     margin-bottom: 4px;
 }
 
-#detail_info .text {
+#detail_order_info .text {
     display: inline-block;
     width: 200px;
 
 }
 
-#detail_info #details_left_col {
+#detail_order_info #details_left_col {
     float: left;
     width: 600px;
     height: 120px;
 }
 
-#detail_info #details_right_col {
+#detail_order_info #details_right_col {
     float: right;
     width: 600px;
     height: 260px;

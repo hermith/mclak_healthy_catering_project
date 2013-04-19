@@ -4,7 +4,6 @@
  */
 package info;
 
-import database.DatabaseHandler;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -31,6 +30,7 @@ public class InfoBean implements Serializable {
     private Customer selectedCustomer;
     private Order selectedOrder;
     private boolean detailOrder;
+    private boolean editCustomer;
     @Inject
     private CustomerHandler customerHandler;
     @Inject
@@ -56,10 +56,15 @@ public class InfoBean implements Serializable {
         //TODO Get delived orders from DB
         return activeOrders;
     }
+    
+    
+    public void editCustomer(Customer customer) {
+        selectedCustomer = customer;
+        editCustomer = true;
+    }
 
     public void lookUpOrder(int orderID) {
         // TODO: Get customer from DB
-        System.out.println("" + orderID);
         selectedOrder = activeOrders.get(0);
         selectedCustomer = new PrivateCustomer(123456, "møkje@penge.no", "Rikbotnfjord", "99 99 33 33", 5670, "Okidokiland", "Langnavnesen", "Ivar");
         detailOrder = true;
@@ -77,8 +82,16 @@ public class InfoBean implements Serializable {
         return detailOrder;
     }
 
+    public boolean isPopupEditCustomer() {
+        return editCustomer;
+    }
+
     public void closeDetailedInfo() {
         detailOrder = false;
+    }
+
+    public void closeEditCustomer() {
+        editCustomer = false;
     }
 
     public ArrayList<Customer> getAllCustomers() {
@@ -87,11 +100,6 @@ public class InfoBean implements Serializable {
 
     public ArrayList<User> getAllUsers() {
         return null;
-    }
-
-    public String editCustomer(Customer customer) {
-        selectedCustomer = customer;
-        return "edit_customer.xhtml";
     }
 
     public ArrayList<Product> getAllProducts() {
@@ -222,18 +230,20 @@ public class InfoBean implements Serializable {
         if (selectedCustomer != null) {
             if (selectedCustomer instanceof PrivateCustomer) {
                 PrivateCustomer customer = (PrivateCustomer) selectedCustomer;
-                try{
+                try {
                     customer.setZipCode(Integer.parseInt(zip));
-                }catch(Exception e){}
+                } catch (Exception e) {
+                }
             } else if (selectedCustomer instanceof CorporateCustomer) {
                 CorporateCustomer customer = (CorporateCustomer) selectedCustomer;
-                try{
+                try {
                     customer.setZipCode(Integer.parseInt(zip));
-                }catch(Exception e){}
+                } catch (Exception e) {
+                }
             }
         }
     }
-    
+
     public String getCity() {
         if (selectedCustomer != null) {
             if (selectedCustomer instanceof PrivateCustomer) {
@@ -246,7 +256,7 @@ public class InfoBean implements Serializable {
         }
         return null;
     }
-    
+
     public void setCity(String city) {
         if (selectedCustomer != null) {
             if (selectedCustomer instanceof PrivateCustomer) {
@@ -271,7 +281,7 @@ public class InfoBean implements Serializable {
         }
         return null;
     }
-    
+
     public void setPhoneNumber(String number) {
         if (selectedCustomer != null) {
             if (selectedCustomer instanceof PrivateCustomer) {
@@ -283,16 +293,16 @@ public class InfoBean implements Serializable {
             }
         }
     }
-    
+
     public boolean selectedLoggedInAsPrivate() {
         if (selectedCustomer instanceof PrivateCustomer) {
             return true;
         }
         return false;
     }
-    
+
     public String saveChangesCustomer() {
-        if(customerHandler.fixCustomer(selectedCustomer)){
+        if (customerHandler.fixCustomer(selectedCustomer)) {
             MessageHandler.addErrorMessage("DEt gikk bra");
         }
         return "";

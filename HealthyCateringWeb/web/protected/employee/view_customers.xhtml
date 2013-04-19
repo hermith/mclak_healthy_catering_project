@@ -17,45 +17,102 @@ Contains:
 
     <h:body>
         <ui:composition template="/resources/template/template_master.xhtml">
+            <ui:define name="subscript">
+                <h:outputScript library="js" name="/edit_customers_jq.js" />
+            </ui:define>
             <ui:define name="subsite_header">
                 <h1>View customers</h1>
             </ui:define>
 
             <ui:define name="subsite_content">
+                <h:form id="edit_customers_form">
+                    <h:inputHidden value="#{infoBean.popupEditCustomer}" id="edit_customer_detail"/>
+                </h:form>
+                
                 <h:form>
-                    <h:dataTable value="#{infoBean.allCustomers}" var="customer" >
+                    <h:dataTable value="#{infoBean.allCustomers}"
+                                 var="customer" >
                         <h:column>
                             <f:facet name="header">ID</f:facet>
-                            #{customer.customerId}
+                                #{customer.customerId}
                         </h:column>
                         <h:column>
                             <f:facet name="header">#{texts.edit_eccount_name}</f:facet>
-                            #{customer.name}
+                                #{customer.name}
                         </h:column>
                         <h:column>
                             <f:facet name="header">#{texts.edit_account_address}</f:facet>
-                            #{customer.address}
+                                #{customer.address}
                         </h:column>
                         <h:column>
                             <f:facet name="header">#{texts.edit_account_zipcode}</f:facet>
-                            #{customer.zipCode}
+                                #{customer.zipCode}
                         </h:column>
                         <h:column>
                             <f:facet name="header">#{texts.edit_account_city}</f:facet>
-                            #{customer.city}
+                                #{customer.city}
                         </h:column>
                         <h:column>
                             <f:facet name="header">#{texts.edit_account_email}</f:facet>
-                            #{customer.email}
+                                #{customer.email}
                         </h:column>
                         <h:column>
                             <f:facet name="header">#{texts.edit_account_phone}</f:facet>
-                            #{customer.phoneNumber}
+                                #{customer.phoneNumber}
                         </h:column>
                         <h:column>
-                            <h:commandButton action="#{infoBean.editCustomer(customer)}" value="#{texts.edit_account_edit}"/>
-                        </h:column>
+                                <f:facet name="header">Edit</f:facet>
+                                <h:commandButton action="#{infoBean.editCustomer(customer)}" value ="Edit"/>
+                            </h:column>
                     </h:dataTable>
+
+                    <div id="centerpoint">
+                        <div id="popoup_edit_customer" class="detail_info_popup">
+                            <h:commandButton styleClass="close_info_button"
+                                             image="/resources/img/info_icon.png"
+                                             action='#{infoBean.closeEditCustomer()}'/>
+
+                            <h2>Edit customer</h2>
+                            
+                            <!--Only private-->
+                            <h:panelGroup rendered="#{infoBean.selectedLoggedInAsPrivate()}" styleClass="edit_account_employee">
+                                <label>#{texts.edit_account_firstname}</label>
+                                <h:inputText value="#{infoBean.firstName}" />
+                                <br/>
+                                <label>#{texts.edit_account_lastname}</label>
+                                <h:inputText value="#{infoBean.lastName}" />
+                                <br/>
+                            </h:panelGroup>
+                            <!--Only corporate-->
+                            <h:panelGroup rendered="#{!infoBean.selectedLoggedInAsPrivate()}" styleClass="edit_account_employee">
+                                <label>#{texts.edit_account_company_name}</label>
+                                <h:inputText value="#{infoBean.companyName}" />
+                                <br/>
+                            </h:panelGroup>
+                            <!--ALL-->
+                            <h:panelGroup styleClass="edit_account_employee">
+                                <label>#{texts.edit_account_email}</label>
+                                <h:inputText value="#{infoBean.email}" >
+                                    <f:validator validatorId="EmailValidator"/>
+                                </h:inputText>
+                                <br/>
+                                <label>#{texts.edit_account_address}</label>
+                                <h:inputText value="#{infoBean.address}" />
+                                <br/>
+                                <label>#{texts.edit_account_zipcode}</label>
+                                <h:inputText value="#{infoBean.zipCode}" />
+                                <br/>
+                                <label>#{texts.edit_account_city}</label>
+                                <h:inputText value="#{infoBean.city}" />
+                                <br/>
+                                <label>#{texts.edit_account_phone}</label>
+                                <h:inputText value="#{infoBean.phoneNumber}" />
+                                <br/><br/>
+                            </h:panelGroup>
+                            <h:commandButton action="#{infoBean.saveChangesCustomer()}" value="#{texts.edit_account_save_changes}"/>
+                            <h:messages />
+                        </div>
+                    </div>
                 </h:form>
             </ui:define>
         </ui:composition>
