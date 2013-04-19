@@ -4,6 +4,8 @@
 /HealthyCateringWeb/dist
 /HealthyCateringWeb/build.xml
 
+/HealthyCateringWeb/web/resources/secret_password
+
 # IntelliJ and Eclipse
 .classpath
 .project

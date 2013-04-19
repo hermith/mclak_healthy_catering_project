@@ -4,9 +4,15 @@
  */
 package email;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.charset.Charset;
 import java.util.Properties;
 import java.util.Random;
 import javax.enterprise.context.ApplicationScoped;
+import javax.faces.context.FacesContext;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -14,11 +20,12 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.ServletContext;
 
 /**
  *
  * Use this to send emails to customers. Inject this into handlers to use it.
- * 
+ *
  * @author Karl
  */
 @ApplicationScoped
@@ -26,9 +33,9 @@ public class EmailHandler {
 
     private static String FROM_ADRESS = "noreply.healthycatering@gmail.com";
     private static String EMAIL_LOGIN = "noreply.healthycatering";
-    private static String EMAIL_PASSWORD = "Passord1"; // Probably not a safe way to store this.
     private static String PASSWORD_MAIL_SUBJECT = "Your password for your HealthyCatering account";
     private static String PASSWORD_MAIL_BODY = "This is your generated password:\n\n\t%PW%\n\nAfter you log in you should change your password immediately.\n\nRegards\nHealthyCatering staff.";
+    private String emailPassword;
     private Properties props;
 
     public EmailHandler() {
@@ -39,11 +46,14 @@ public class EmailHandler {
                 "javax.net.ssl.SSLSocketFactory");
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.port", "465");
+
+        emailPassword = getPasswordFromFile();
     }
 
     /**
-     * Sends an custom email, to format body text use \n (newline) and \t (tablature)
-     * 
+     * Sends an custom email, to format body text use \n (newline) and \t
+     * (tablature)
+     *
      * @param recipient
      * @param title
      * @param body
@@ -54,7 +64,7 @@ public class EmailHandler {
                 new javax.mail.Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(EMAIL_LOGIN, EMAIL_PASSWORD);
+                return new PasswordAuthentication(EMAIL_LOGIN, emailPassword);
             }
         });
         try {
@@ -79,14 +89,13 @@ public class EmailHandler {
      * @return The generated password as a String, throws an error if email
      * failed.
      */
-    public String sendGeneratedPassword(String recipient, String pw) {
+    public boolean sendGeneratedPassword(String recipient, String pw) {
         try {
             sendMail(recipient, PASSWORD_MAIL_SUBJECT, PASSWORD_MAIL_BODY.replace("%PW%", pw));
-            return pw;
+            return true;
         } catch (Error e) {
             throw e;
         }
-
     }
 
     public String generatePassword() {
@@ -111,5 +120,25 @@ public class EmailHandler {
         }
 
         return b.toString();
+    }
+
+    private String getPasswordFromFile() {
+        FileInputStream stream;
+        System.out.println(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/"));
+        try {
+            stream = new FileInputStream(new File(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/resources/")) + "/secret_password");
+            FileChannel fc = stream.getChannel();
+            MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
+            stream.close();
+            return Charset.defaultCharset().decode(bb).toString();
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        }
+        return "";
+    }
+
+    public static void main(String args[]) {
+        EmailHandler e = new EmailHandler();
+        e.getPasswordFromFile();
     }
 }
