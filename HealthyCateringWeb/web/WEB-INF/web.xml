@@ -70,7 +70,7 @@
         <web-resource-collection>
             <web-resource-name>Protected Pages</web-resource-name>
             <url-pattern>/faces/protected/employee/*</url-pattern>
-            <url-pattern>/protecte/employee/*</url-pattern>
+            <url-pattern>/protected/employee/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>employee</role-name>
