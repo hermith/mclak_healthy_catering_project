@@ -5,6 +5,7 @@
 //============================================================================================================
 package database;
 
+import info.Order;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,7 +17,6 @@ import java.util.logging.Logger;
 import javax.enterprise.context.ApplicationScoped;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.persistence.criteria.Order;
 import javax.sql.DataSource;
 import shopping.customer.CorporateCustomer;
 import shopping.customer.Customer;
@@ -906,7 +906,9 @@ public class DatabaseHandler {
         }
     }
 
-    public synchronized ArrayList<Order> selectOrders() {
+    public synchronized ArrayList<Order> selectOrders(boolean active) {
+        // Boolean active means only return orders that are UNdelivered
+        // If bool is false, return only order history, that is, old delivered
         return null;
     }
 

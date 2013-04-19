@@ -51,6 +51,22 @@ public class UserHandler {
         }
     }
 
+    public boolean updateUserPassword(User user) {
+        try {
+            String pw = email.generatePassword();
+            user.setPassword(pw);
+            if (db.updateUserPassword(pw, user.getUsername())) {
+                email.sendGeneratedPassword(user.getEmail(), pw);
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            return false;
+        }
+    }
+
     public User getUser(String userName) {
         //TODO Sjekk noko
         return db.selectUser(userName);
