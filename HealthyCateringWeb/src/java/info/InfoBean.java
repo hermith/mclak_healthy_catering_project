@@ -29,7 +29,9 @@ public class InfoBean implements Serializable {
 
     private ArrayList<Order> activeOrders = new ArrayList<Order>();
     private Customer selectedCustomer;
+    private Customer selectedOrderCustomer;
     private Order selectedOrder;
+    
     private boolean detailOrder;
     private boolean editCustomer;
     @Inject
@@ -57,8 +59,7 @@ public class InfoBean implements Serializable {
         //TODO Get delived orders from DB
         return activeOrders;
     }
-    
-    
+
     public void editCustomer(Customer customer) {
         selectedCustomer = customer;
         editCustomer = true;
@@ -67,7 +68,7 @@ public class InfoBean implements Serializable {
     public void lookUpOrder(int orderID) {
         // TODO: Get customer from DB
         selectedOrder = activeOrders.get(0);
-        selectedCustomer = new PrivateCustomer(123456, "møkje@penge.no", "Rikbotnfjord", "99 99 33 33", 5670, "Okidokiland", "Langnavnesen", "Ivar");
+        selectedOrderCustomer = new PrivateCustomer(123456, "møkje@penge.no", "Rikbotnfjord", "99 99 33 33", 5670, "Okidokiland", "Langnavnesen", "Ivar");
         detailOrder = true;
     }
 
@@ -75,6 +76,14 @@ public class InfoBean implements Serializable {
         return selectedCustomer;
     }
 
+    public Customer getSelectedOrderCustomer() {
+        return selectedOrderCustomer;
+    }
+
+    public void setSelectedOrderCustomer(Customer selectedOrderCustomer) {
+        this.selectedOrderCustomer = selectedOrderCustomer;
+    }
+    
     public Order getSelectedOrder() {
         return selectedOrder;
     }
@@ -88,10 +97,12 @@ public class InfoBean implements Serializable {
     }
 
     public void closeDetailedInfo() {
+        selectedCustomer = null;
         detailOrder = false;
     }
 
     public void closeEditCustomer() {
+        selectedCustomer = null;
         editCustomer = false;
     }
 
@@ -303,10 +314,10 @@ public class InfoBean implements Serializable {
     }
 
     public String saveChangesCustomer() {
-        if(customerHandler.fixCustomer(selectedCustomer)){
+        if (customerHandler.fixCustomer(selectedCustomer)) {
             String msg = MessageHandler.getLocalizedText(MessageType.TEKST, "edit_account_changes_saved");
             MessageHandler.addErrorMessage(msg);
-        }else {
+        } else {
             String msg = MessageHandler.getLocalizedText(MessageType.ERROR, "edit_account_changes_not_saved");
             MessageHandler.addErrorMessage(msg);
         }
