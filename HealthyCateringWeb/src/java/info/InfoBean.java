@@ -12,6 +12,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import locale.MessageHandler;
+import locale.MessageType;
 import shopping.customer.CorporateCustomer;
 import shopping.customer.Customer;
 import shopping.customer.PrivateCustomer;
@@ -293,7 +294,11 @@ public class InfoBean implements Serializable {
     
     public String saveChangesCustomer() {
         if(customerHandler.fixCustomer(selectedCustomer)){
-            MessageHandler.addErrorMessage("DEt gikk bra");
+            String msg = MessageHandler.getLocalizedText(MessageType.TEKST, "edit_account_changes_saved");
+            MessageHandler.addErrorMessage(msg);
+        }else {
+            String msg = MessageHandler.getLocalizedText(MessageType.ERROR, "edit_account_changes_not_saved");
+            MessageHandler.addErrorMessage(msg);
         }
         return "";
     }
