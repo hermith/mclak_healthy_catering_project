@@ -6,7 +6,6 @@ package shopping;
 
 import info.Order;
 import java.io.Serializable;
-//import java.sql.Date;
 import java.util.Date;
 import java.util.ArrayList;
 import javax.enterprise.context.SessionScoped;
@@ -140,6 +139,35 @@ public class ShoppingBean implements Serializable {
             this.privateCustomer.setZipCode(zipCode);
         }
     }
+    
+    /**
+     * ZipCode String format
+     */
+    
+    public void setPrivateZipCodeString (String zip) {
+        if(privateCustomer != null) {
+            this.privateCustomer.setZipCode(Integer.parseInt(zip));
+        }
+    }
+    
+    public String getPrivateZipCodeString() {
+        if(privateCustomer != null) {
+            return Integer.toString(privateCustomer.getZipCode());
+        }return null;
+    }
+    
+    public void setCorporateZipCodeString(String zip) {
+        if(corporateCustomer != null) {
+            this.corporateCustomer.setZipCode(Integer.parseInt(zip));
+        }
+    }
+    
+    public String getCorporateZipCodeString() {
+        if(corporateCustomer != null) {
+            return Integer.toString(corporateCustomer.getZipCode());
+        }return null;
+    }
+    
 
     public String getPrivateCity() {
         if (privateCustomer != null) {
@@ -328,23 +356,34 @@ public class ShoppingBean implements Serializable {
     public void setDelivery(boolean del) {
         order.setDelivery(del);
     }
-    
+
     /**
      * NB Husk å fikse en sjekk på zipCode
-     * @return 
+     *
+     * @return
      */
     public String saveChangesAccount() {
         Customer customer = shoppingHandler.getCustomer(username);
-        if(customer instanceof PrivateCustomer) {
-            PrivateCustomer newCustomer = new PrivateCustomer(customer.getCustomerId(), getPrivateEmail(), getPrivateAddress(), getPrivatePhoneNumber(), getPrivateZipCode(), getPrivateCity(), getFirstName(), getLastName());
-            if(shoppingHandler.fixCustomer(customer,newCustomer)){
-                MessageHandler.addErrorMessage("det gikk bra");
+        boolean status = false;
+        if (customer instanceof PrivateCustomer) {
+            int zipCode = Integer.parseInt(getPrivateZipCodeString());
+            PrivateCustomer newCustomer = new PrivateCustomer(customer.getCustomerId(), getPrivateEmail(), getPrivateAddress(), getPrivatePhoneNumber(), zipCode, getPrivateCity(), getFirstName(), getLastName());
+            if (shoppingHandler.fixCustomer(customer, newCustomer)) {
+                status = true;
             }
-        }else if(customer instanceof CorporateCustomer) {
-            CorporateCustomer newCustomer = new CorporateCustomer(customer.getCustomerId(), getCorporateEmail(), getCorporateAddress(), getCorporatePhoneNumber(), getCorporateZipCode(), getCorporateCity(), getCompanyName());
-            if(shoppingHandler.fixCustomer(customer,newCustomer)){
-                MessageHandler.addErrorMessage("det gikk bra");
+        } else if (customer instanceof CorporateCustomer) {
+            int zipCode = Integer.parseInt(getCorporateZipCodeString());
+            CorporateCustomer newCustomer = new CorporateCustomer(customer.getCustomerId(), getCorporateEmail(), getCorporateAddress(), getCorporatePhoneNumber(), zipCode, getCorporateCity(), getCompanyName());
+            if (shoppingHandler.fixCustomer(customer, newCustomer)) {
+                status = true;
             }
+        }
+        if (status) {
+            String msg = MessageHandler.getLocalizedText(MessageType.TEKST, "edit_account_changes_saved");
+            MessageHandler.addErrorMessage(msg);
+        }else {
+            String msg = MessageHandler.getLocalizedText(MessageType.ERROR, "edit_account_changes_not_saved");
+            MessageHandler.addErrorMessage(msg);
         }
         initiateCustomer(username);
         return "";
