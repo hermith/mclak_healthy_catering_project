@@ -70,7 +70,8 @@ Contains:
                         <div id="popoup_edit_customer" class="detail_info_popup">
                             <h:commandButton styleClass="close_info_button"
                                              image="/resources/img/info_icon.png"
-                                             action='#{infoBean.closeEditCustomer()}'/>
+                                             action='#{infoBean.closeEditCustomer()}'
+                                             immediate="true"/>
 
                             <h2>Edit customer</h2>
                             
@@ -100,7 +101,9 @@ Contains:
                                 <h:inputText value="#{infoBean.address}" />
                                 <br/>
                                 <label>#{texts.edit_account_zipcode}</label>
-                                <h:inputText value="#{infoBean.zipCode}" />
+                                <h:inputText value="#{infoBean.zipCode}" >
+                                    <f:validator validatorId="ZipCodeValidator"/>
+                                </h:inputText>
                                 <br/>
                                 <label>#{texts.edit_account_city}</label>
                                 <h:inputText value="#{infoBean.city}" />
