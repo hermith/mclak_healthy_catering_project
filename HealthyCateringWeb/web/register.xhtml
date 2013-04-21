@@ -48,7 +48,7 @@
                             </div>
                             <div class="half_box_right">
 
-                                <h:inputText  class="inputfields" value="#{shoppingBean.privateEmail}"/>
+                                <h:inputText  class="inputfields" value="#{userBean.email}"/>
                                 E-mail address
                                 <br/><br/>
 
@@ -70,7 +70,7 @@
 
                             </div>
 
-                            <h:commandButton type="submit" action="#{userBean.registerPrivateUser()}" value="Create new private account" class="register_new_button"/>
+                            <h:commandButton action="#{userBean.registerPrivateUser()}" value="Create new private account" class="register_new_button"/>
 
                         </fieldset>
                     </div>
