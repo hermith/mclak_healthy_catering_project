@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+
+<!--
+template.xhtml
+
+Contains:
+    Copy this when you want to create a new subsite and replace any content.
+
+@author Karl
+-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:body>
+        <ui:composition template="/resources/template/template_master.xhtml">
+            <ui:define name="subsite_header">
+                <h1>#{texts.edit_users_title}</h1>
+            </ui:define>
+
+            <ui:define name="subsite_content">
+                <h:form>
+                    <h:dataTable var="user" value="#{userBean.allUsers}">
+                        <h:column>
+                            <f:facet name="header">#{texts.edit_users_usertype}</f:facet>
+                            <h:outputText value="#{user.roleId}" />
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">#{texts.edit_users_username}</f:facet>
+                            <h:outputText value="#{user.username}" />
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">#{texts.edit_users_email}</f:facet>
+                            <h:outputText value="#{user.email}" />
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">#{texts.edit_users_password}</f:facet>
+                            <h:commandButton value="#{texts.edit_users_generate_new_password}" />
+                        </h:column>
+                    </h:dataTable>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

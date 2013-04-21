@@ -1,6 +1,7 @@
 package user;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
@@ -290,5 +291,9 @@ public class UserBean implements Serializable {
         setPassword(null);
         setNewPassword(null);
         return "";
+    }
+    
+    public ArrayList<User> getAllUsers() {
+        return userhandler.getAllUsers();
     }
 }

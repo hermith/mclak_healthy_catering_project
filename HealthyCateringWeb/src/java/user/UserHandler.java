@@ -6,6 +6,7 @@ package user;
 
 import database.DatabaseHandler;
 import email.EmailHandler;
+import java.util.ArrayList;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import locale.MessageHandler;
@@ -85,5 +86,9 @@ public class UserHandler {
             return false;
         }
         return true;
+    }
+
+    public ArrayList<User> getAllUsers() {
+        return db.selectUsers();
     }
 }
