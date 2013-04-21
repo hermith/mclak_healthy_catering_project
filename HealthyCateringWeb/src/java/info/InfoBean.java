@@ -8,6 +8,10 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.Application;
+import javax.faces.application.ViewHandler;
+import javax.faces.component.UIViewRoot;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import locale.MessageHandler;
@@ -31,7 +35,6 @@ public class InfoBean implements Serializable {
     private Customer selectedCustomer;
     private Customer selectedOrderCustomer;
     private Order selectedOrder;
-    
     private boolean detailOrder;
     private boolean editCustomer;
     @Inject
@@ -83,7 +86,7 @@ public class InfoBean implements Serializable {
     public void setSelectedOrderCustomer(Customer selectedOrderCustomer) {
         this.selectedOrderCustomer = selectedOrderCustomer;
     }
-    
+
     public Order getSelectedOrder() {
         return selectedOrder;
     }
@@ -104,6 +107,13 @@ public class InfoBean implements Serializable {
     public void closeEditCustomer() {
         selectedCustomer = null;
         editCustomer = false;
+        FacesContext context = FacesContext.getCurrentInstance();
+        Application application = context.getApplication();
+        ViewHandler viewHandler = application.getViewHandler();
+        UIViewRoot viewRoot = viewHandler.createView(context, context
+                .getViewRoot().getViewId());
+        context.setViewRoot(viewRoot);
+        context.renderResponse();
     }
 
     public ArrayList<Customer> getAllCustomers() {
