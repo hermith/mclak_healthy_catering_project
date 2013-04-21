@@ -297,4 +297,15 @@ public class UserBean implements Serializable {
     public ArrayList<User> getAllUsers() {
         return userhandler.getAllUsers();
     }
+    
+    public String updateUserPassword(User user) {
+        if(userhandler.updateUserPassword(user)) {
+            String msg = MessageHandler.getLocalizedText(MessageType.TEKST, "edit_users_email_sent") + user.getEmail();
+            MessageHandler.addErrorMessage(msg);
+        }else {
+            String msg = MessageHandler.getLocalizedText(MessageType.ERROR, "edit_users_error_sending_email");
+            MessageHandler.addErrorMessage(msg);
+        }
+        return "";
+    }
 }

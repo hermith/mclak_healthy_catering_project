@@ -25,7 +25,7 @@ Contains:
                     <h:panelGroup class="control_panel_section"
                                   rendered="#{userBean.loggedInAsSystem}">
                         <div class="control_panel_header"><h3>System panel</h3></div>
-                        
+
                         <div class="control_panel_button_section">  
                             <h:commandButton
                                 styleClass="control_panel_button"
@@ -46,7 +46,7 @@ Contains:
                                   rendered="#{userBean.loggedInAsEmployee
                                               or userBean.loggedInAsSystem}">
                         <div class="control_panel_header"><h3>Employee panel</h3></div>
-                        
+
                         <div class="control_panel_button_section">  
                             <h:commandButton
                                 styleClass="control_panel_button"
@@ -87,11 +87,13 @@ Contains:
                             <label class="control_panel_label">Edit account</label>
                         </div>
                         <div class="control_panel_button_section">
-                            <h:commandButton
-                                styleClass="control_panel_button"
-                                image="/resources/img/control_panel_icons/icon_order_history.png"
-                                action="/protected/common/this_account_history.xhtml"/>
-                            <label class="control_panel_label">Order history</label>
+                            <h:panelGroup rendered="#{userBean.loggedInAsCorporateCustomer || userBean.loggedInAsPrivateCustomer}">
+                                <h:commandButton
+                                    styleClass="control_panel_button"
+                                    image="/resources/img/control_panel_icons/icon_order_history.png"
+                                    action="/protected/common/this_account_history.xhtml"/>
+                                <label class="control_panel_label">Order history</label>
+                            </h:panelGroup>
                         </div>
                     </h:panelGroup>
                 </h:form>
