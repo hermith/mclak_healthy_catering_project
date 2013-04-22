@@ -41,6 +41,7 @@ public class InfoBean implements Serializable {
     private boolean detailOrder;
     private boolean editCustomer;
     private boolean editProduct;
+    private boolean showAddProduct;
     @Inject
     private CustomerHandler customerHandler;
     @Inject
@@ -362,6 +363,14 @@ public class InfoBean implements Serializable {
         }
     }
 
+    public boolean isShowAddProduct() {
+        return showAddProduct;
+    }
+
+    public void setShowAddProduct(boolean showAddProduct) {
+        this.showAddProduct = showAddProduct;
+    } 
+
     /**
      * SET & GET FOR PRODUCT (selectedProduct)
      *
@@ -491,6 +500,7 @@ public class InfoBean implements Serializable {
         for (Product sp : getAllSingleProducts()) {
             if (sp.getId() == selectedSingleProductID) {
                 selectedSingleProduct = (SingleProduct) sp;
+                break;
             }
         }
         if (selectedSingleProduct != null) {

@@ -43,7 +43,7 @@ Contains:
                     </h:dataTable>
                     <h:messages />
                     <br/>
-                    <h:commandButton value="#{texts.product_add_new_product}" />
+                    <h:commandButton action="#{infoBean.setShowAddProduct(true)}" value="#{texts.product_add_new_product}" />
 
                     <!--EDIT PRODUKT-->
                     <h:panelGroup styleClass="edit_account_employee" rendered="#{infoBean.editProduct}">
@@ -98,15 +98,15 @@ Contains:
                         <h:messages />
                     </h:panelGroup>
 
-                    <h:panelGroup rendered="false" styleClass="edit_account_employee">
+                    <h:panelGroup rendered="#{infoBean.showAddProduct}" styleClass="edit_account_employee">
                         <h1>#{texts.product_add_new_product}</h1>
-                        <label>#{texts.product_name}:</label><h:inputText required="true" /><br/>
-                        <label>#{texts.product_description}:</label><h:inputText required="true" /><br/>
-                        <label>#{texts.product_price}:</label><h:inputText required="true" /><br/>
-                        <label>#{texts.product_kcal}:</label><h:inputText required="true" /><br/>
+                        <label>#{texts.product_name}:</label><h:inputText value="#{infoBean.productName}" required="true" /><br/>
+                        <label>#{texts.product_description}:</label><h:inputText value="#{infoBean.productDescription}" required="true" /><br/>
+                        <label>#{texts.product_kcal}:</label><h:inputText value="#{infoBean.productKCAL}" required="true" /><br/>
+                        <label>#{texts.product_price}:</label><h:inputText value="#{infoBean.productPrice}" required="true" /><br/>
                     </h:panelGroup>
 
-                    <h:dataTable var="product" rendered="false" value="#{infoBean.allProducts}">
+                    <h:dataTable var="product" rendered="#{infoBean.showAddProduct}" value="#{infoBean.allProducts}">
                         <h:column>
                             <f:facet name="header">#{texts.product_name}</f:facet>
                             #{product.name}
