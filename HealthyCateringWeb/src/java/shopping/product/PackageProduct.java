@@ -67,6 +67,6 @@ public class PackageProduct extends Product {
         for(Product product : products) {
             sum+=product.getPrice();
         }
-        return sum;
+        return sum-discount;
     }
 }

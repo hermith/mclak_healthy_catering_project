@@ -19,6 +19,7 @@ import locale.MessageType;
 import shopping.customer.CorporateCustomer;
 import shopping.customer.Customer;
 import shopping.customer.PrivateCustomer;
+import shopping.product.PackageProduct;
 import shopping.product.Product;
 import shopping.product.SingleProduct;
 import user.User;
@@ -36,6 +37,7 @@ public class InfoBean implements Serializable {
     private Customer selectedOrderCustomer;
     private Order selectedOrder;
     private Product selectedProduct;
+    private int selectedSingleProductID;
     private boolean detailOrder;
     private boolean editCustomer;
     private boolean editProduct;
@@ -373,7 +375,7 @@ public class InfoBean implements Serializable {
     }
 
     public void setProductName(String name) {
-        if (selectedProduct != null) {
+        if (selectedProduct != null && (!name.equals(""))) {
             selectedProduct.setName(name);
         }
     }
@@ -386,7 +388,7 @@ public class InfoBean implements Serializable {
     }
 
     public void setProductDescription(String desc) {
-        if (selectedProduct != null) {
+        if (selectedProduct != null && (desc.equals(""))) {
             selectedProduct.setDescription(desc);
         }
     }
@@ -406,17 +408,17 @@ public class InfoBean implements Serializable {
         }
     }
 
-    public String getProductPrice() {
+    public float getProductPrice() {
         if (selectedProduct != null && (selectedProduct instanceof SingleProduct)) {
-            return Float.toString(selectedProduct.getPrice());
+            return selectedProduct.getPrice();
         }
-        return null;
+        return 0;
     }
 
-    public void setProductPrice(String price) {
+    public void setProductPrice(float price) {
         if (selectedProduct != null && (selectedProduct instanceof SingleProduct)) {
             SingleProduct singleProduct = (SingleProduct) selectedProduct;
-            singleProduct.setPrice(Float.parseFloat(price));
+            singleProduct.setPrice(price);
         }
     }
 
@@ -427,18 +429,84 @@ public class InfoBean implements Serializable {
         return 0;
     }
 
+    public int getProductDiscount() {
+        if (selectedProduct != null && (selectedProduct instanceof PackageProduct)) {
+            PackageProduct packageProduct = (PackageProduct) selectedProduct;
+            return packageProduct.getDiscount();
+        }
+        return 0;
+    }
+
+    public void setProductDiscount(int discount) {
+        if (selectedProduct != null && (selectedProduct instanceof PackageProduct)) {
+            PackageProduct packageProduct = (PackageProduct) selectedProduct;
+            packageProduct.setDiscount(discount);
+        }
+    }
+
+    public ArrayList<SingleProduct> getPackageProducts() {
+        if (selectedProduct != null && (selectedProduct instanceof PackageProduct)) {
+            PackageProduct packageProduct = (PackageProduct) selectedProduct;
+            return packageProduct.getProducts();
+        }
+        return null;
+    }
+
+    public ArrayList<Product> getAllSingleProducts() {
+        ArrayList<Product> singleProducts = new ArrayList<Product>();
+        for (Product p : getAllProducts()) {
+            if (p instanceof SingleProduct) {
+                singleProducts.add(p);
+            }
+        }
+        return singleProducts;
+    }
+
+    public int getSelectedSingleProductID() {
+        return selectedSingleProductID;
+    }
+
+    public void setSelectedSingleProductID(int selectedSingleProduct) {
+        this.selectedSingleProductID = selectedSingleProduct;
+    }
+
     /**
-     *
+     * Save changes to a product
      */
     public String saveChangesProduct() {
-        if (selectedProduct != null && (selectedProduct instanceof SingleProduct)) {
+        if (selectedProduct != null) {
             if (productHandler.updateProduct(selectedProduct)) {
                 selectedProduct = null;
                 editProduct = false;
                 MessageHandler.addErrorMessage("DET GIKK BRA");
-            }else{
+            } else {
                 MessageHandler.addErrorMessage("DET GIKK DÅRLIG");
             }
+        }
+        return "";
+    }
+
+    public String addProductPackage() {
+        SingleProduct selectedSingleProduct = null;
+        for (Product sp : getAllSingleProducts()) {
+            if (sp.getId() == selectedSingleProductID) {
+                selectedSingleProduct = (SingleProduct) sp;
+            }
+        }
+        if (selectedSingleProduct != null) {
+            if (selectedProduct != null && (selectedProduct instanceof PackageProduct)) {
+                PackageProduct packageProduct = (PackageProduct) selectedProduct;
+                packageProduct.addProduct(selectedSingleProduct);
+            }
+        }
+        return "";
+    }
+
+    public String deleteProductPackage(Product product) {
+        if (product != null && (product instanceof SingleProduct)) {
+            SingleProduct singleProduct = (SingleProduct) product;
+            PackageProduct packageProduct = (PackageProduct) selectedProduct;
+            packageProduct.removeProduct(singleProduct);
         }
         return "";
     }
