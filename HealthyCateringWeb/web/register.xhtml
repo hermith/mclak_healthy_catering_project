@@ -82,11 +82,11 @@
                         <fieldset>
                             <legend>Register corporate user</legend>
                             <div class="half_box_left">
-                                <input type="text" placeholder="Company name" class="inputfields" value="#{shoppingBean.companyName}"/>
+                                <h:inputText class="inputfields" value="#{shoppingBean.companyName}"/>
                                 Company name
                                 <br/><br/>
 
-                                <input type="text" placeholder="Username" class="inputfields" value="#{userBean.username}"/>
+                                <h:inputText class="inputfields" value="#{userBean.username}"/>
                                 Username
                                 <br/><br/>
 
@@ -100,27 +100,27 @@
                             </div>
 
                             <div class="half_box_right">
-                                <input type="text" placeholder="E-mail" class="inputfields" value="#{shoppingBean.corporateEmail}"/>
+                                <h:inputText class="inputfields" value="#{userBean.email}"/>
                                 E-mail address
                                 <br/><br/>
 
-                                <input type="text" placeholder="Address" class="inputfields" value="#{shoppingBean.corporateAddress}"/>
+                                <h:inputText class="inputfields" value="#{shoppingBean.corporateAddress}"/>
                                 Address
                                 <br/><br/>
 
-                                <input type="number" placeholder="Zip-code" class="inputfields" value="#{shoppingBean.corporateZipCode}"/>
+                                <h:inputText class="inputfields" value="#{shoppingBean.corporateZipCode}"/>
                                 Zip-code
                                 <br/><br/>
 
-                                <input type="text" placeholder="City" class="inputfields" value="#{shoppingBean.corporateCity}"/>
+                                <h:inputText class="inputfields" value="#{shoppingBean.corporateCity}"/>
                                 City
                                 <br/><br/>
 
-                                <input type="text" placeholder="Phone number" class="inputfields" value="#{shoppingBean.corporatePhoneNumber}"/>
+                                <h:inputText class="inputfields" value="#{shoppingBean.corporatePhoneNumber}"/>
                                 Phone number
                                 <br/><br/>
                             </div>
-                            <input type="submit" value="Create new corporate account" class="register_new_button" />
+                            <h:commandButton action="#{userBean.registerCorporateUser()}" value="Create new corporate account" class="register_new_button" />
 
                         </fieldset>
                     </div>

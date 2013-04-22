@@ -108,8 +108,14 @@ public class UserBean implements Serializable {
         return "registration_failure";
     }
 
-    public void registerCorporateUser() {
-        //userhandler.registerCorporateUser(user);
+    public String registerCorporateUser() {
+        System.out.println("Called registerCorporateUser() in UserBean");
+        this.user.setNewPassword("");
+        this.user.setRoleId("");
+        if(userhandler.registerCorporateUser(user)){
+            return "registration_success";
+        }
+        return "registration_failure";
     }
 
     public String login() {

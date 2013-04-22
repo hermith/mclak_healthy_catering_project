@@ -32,8 +32,9 @@ public class UserHandler {
     }
 
     public boolean registerCorporateUser(User user) {
-        //return (db.insertUser(user));
-        return true;
+        System.out.println("Got this user: " + user.getUsername() + " - " + user.getPassword() + " - " +
+                user.getEmail() + " - " + user.getNewPassword() + " - " + user.getRoleId());
+        return (db.insertUser(user));
     }
 
     public boolean registerUser(User user) {
