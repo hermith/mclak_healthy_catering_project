@@ -1,18 +1,59 @@
-/HealthyCateringWeb/nbproject
-/HealthyCateringWeb/nbproject/project.properties
-/HealthyCateringWeb/build
-/HealthyCateringWeb/dist
 /HealthyCateringWeb/build.xml
 
 /HealthyCateringWeb/web/resources/secret_password
 
-# IntelliJ and Eclipse
-.classpath
-.project
-.settings/
-.idea/
-*.iml
-*.iws
+### NetBeans ###
+/HealthyCateringWeb/nbproject/private/
+/HealthyCateringWeb/build/
+/HealthyCateringWeb/nbbuild/
+/HealthyCateringWeb/dist/
+/HealthyCateringWeb/nbdist/
+/HealthyCateringWeb/nbactions.xml
+/HealthyCateringWeb/nb-configuration.xml
+HealthyCateringWeb/nbproject
+
+### OSX ###
 .DS_Store
-log/
-target/
+.AppleDouble
+.LSOverride
+Icon
+
+
+# Thumbnails
+._*
+
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
+### Windows ###
+# Windows image file caches
+Thumbs.db
+ehthumbs.db
+
+# Folder config file
+Desktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# External tool builders
+.externalToolBuilders/
+
+# Locally stored "Eclipse launch configurations"
+*.launch
+
+# CDT-specific
+.cproject
+
+# PDT-specific
+.buildpath
+
+### Java ###
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+

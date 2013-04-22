@@ -8,6 +8,10 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.Application;
+import javax.faces.application.ViewHandler;
+import javax.faces.component.UIViewRoot;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 import locale.MessageHandler;
@@ -15,6 +19,7 @@ import locale.MessageType;
 import shopping.customer.CorporateCustomer;
 import shopping.customer.Customer;
 import shopping.customer.PrivateCustomer;
+import shopping.product.PackageProduct;
 import shopping.product.Product;
 import shopping.product.SingleProduct;
 import user.User;
@@ -31,9 +36,12 @@ public class InfoBean implements Serializable {
     private Customer selectedCustomer;
     private Customer selectedOrderCustomer;
     private Order selectedOrder;
-    
+    private Product selectedProduct;
+    private int selectedSingleProductID;
     private boolean detailOrder;
     private boolean editCustomer;
+    private boolean editProduct;
+    private boolean showAddProduct;
     @Inject
     private CustomerHandler customerHandler;
     @Inject
@@ -83,7 +91,7 @@ public class InfoBean implements Serializable {
     public void setSelectedOrderCustomer(Customer selectedOrderCustomer) {
         this.selectedOrderCustomer = selectedOrderCustomer;
     }
-    
+
     public Order getSelectedOrder() {
         return selectedOrder;
     }
@@ -104,6 +112,13 @@ public class InfoBean implements Serializable {
     public void closeEditCustomer() {
         selectedCustomer = null;
         editCustomer = false;
+        FacesContext context = FacesContext.getCurrentInstance();
+        Application application = context.getApplication();
+        ViewHandler viewHandler = application.getViewHandler();
+        UIViewRoot viewRoot = viewHandler.createView(context, context
+                .getViewRoot().getViewId());
+        context.setViewRoot(viewRoot);
+        context.renderResponse();
     }
 
     public ArrayList<Customer> getAllCustomers() {
@@ -320,6 +335,188 @@ public class InfoBean implements Serializable {
         } else {
             String msg = MessageHandler.getLocalizedText(MessageType.ERROR, "edit_account_changes_not_saved");
             MessageHandler.addErrorMessage(msg);
+        }
+        return "";
+    }
+
+    /**
+     * product_overview metoder
+     *
+     * @return
+     */
+    public Product getSelectedProduct() {
+        return selectedProduct;
+    }
+
+    public boolean isEditProduct() {
+        return editProduct;
+    }
+
+    public boolean selectedIsSingleProduct() {
+        return selectedProduct instanceof SingleProduct;
+    }
+
+    public void setSelectedProduct(Product product) {
+        if (product != null) {
+            selectedProduct = product;
+            editProduct = true;
+        }
+    }
+
+    public boolean isShowAddProduct() {
+        return showAddProduct;
+    }
+
+    public void setShowAddProduct(boolean showAddProduct) {
+        this.showAddProduct = showAddProduct;
+    } 
+
+    /**
+     * SET & GET FOR PRODUCT (selectedProduct)
+     *
+     * @return
+     */
+    public String getProductName() {
+        if (selectedProduct != null) {
+            return selectedProduct.getName();
+        }
+        return null;
+    }
+
+    public void setProductName(String name) {
+        if (selectedProduct != null && (!name.equals(""))) {
+            selectedProduct.setName(name);
+        }
+    }
+
+    public String getProductDescription() {
+        if (selectedProduct != null) {
+            return selectedProduct.getDescription();
+        }
+        return null;
+    }
+
+    public void setProductDescription(String desc) {
+        if (selectedProduct != null && (desc.equals(""))) {
+            selectedProduct.setDescription(desc);
+        }
+    }
+
+    public int getProductKCAL() {
+        if (selectedProduct != null && (selectedProduct instanceof SingleProduct)) {
+            SingleProduct singleProduct = (SingleProduct) selectedProduct;
+            return singleProduct.getKcal();
+        }
+        return 0;
+    }
+
+    public void setProductKCAL(int KCAL) {
+        if (selectedProduct != null && (selectedProduct instanceof SingleProduct)) {
+            SingleProduct singleProduct = (SingleProduct) selectedProduct;
+            singleProduct.setKcal(KCAL);
+        }
+    }
+
+    public float getProductPrice() {
+        if (selectedProduct != null && (selectedProduct instanceof SingleProduct)) {
+            return selectedProduct.getPrice();
+        }
+        return 0;
+    }
+
+    public void setProductPrice(float price) {
+        if (selectedProduct != null && (selectedProduct instanceof SingleProduct)) {
+            SingleProduct singleProduct = (SingleProduct) selectedProduct;
+            singleProduct.setPrice(price);
+        }
+    }
+
+    public int getProductID() {
+        if (selectedProduct != null) {
+            return selectedProduct.getId();
+        }
+        return 0;
+    }
+
+    public int getProductDiscount() {
+        if (selectedProduct != null && (selectedProduct instanceof PackageProduct)) {
+            PackageProduct packageProduct = (PackageProduct) selectedProduct;
+            return packageProduct.getDiscount();
+        }
+        return 0;
+    }
+
+    public void setProductDiscount(int discount) {
+        if (selectedProduct != null && (selectedProduct instanceof PackageProduct)) {
+            PackageProduct packageProduct = (PackageProduct) selectedProduct;
+            packageProduct.setDiscount(discount);
+        }
+    }
+
+    public ArrayList<SingleProduct> getPackageProducts() {
+        if (selectedProduct != null && (selectedProduct instanceof PackageProduct)) {
+            PackageProduct packageProduct = (PackageProduct) selectedProduct;
+            return packageProduct.getProducts();
+        }
+        return null;
+    }
+
+    public ArrayList<Product> getAllSingleProducts() {
+        ArrayList<Product> singleProducts = new ArrayList<Product>();
+        for (Product p : getAllProducts()) {
+            if (p instanceof SingleProduct) {
+                singleProducts.add(p);
+            }
+        }
+        return singleProducts;
+    }
+
+    public int getSelectedSingleProductID() {
+        return selectedSingleProductID;
+    }
+
+    public void setSelectedSingleProductID(int selectedSingleProduct) {
+        this.selectedSingleProductID = selectedSingleProduct;
+    }
+
+    /**
+     * Save changes to a product
+     */
+    public String saveChangesProduct() {
+        if (selectedProduct != null) {
+            if (productHandler.updateProduct(selectedProduct)) {
+                selectedProduct = null;
+                editProduct = false;
+                MessageHandler.addErrorMessage("DET GIKK BRA");
+            } else {
+                MessageHandler.addErrorMessage("DET GIKK DÅRLIG");
+            }
+        }
+        return "";
+    }
+
+    public String addProductPackage() {
+        SingleProduct selectedSingleProduct = null;
+        for (Product sp : getAllSingleProducts()) {
+            if (sp.getId() == selectedSingleProductID) {
+                selectedSingleProduct = (SingleProduct) sp;
+                break;
+            }
+        }
+        if (selectedSingleProduct != null) {
+            if (selectedProduct != null && (selectedProduct instanceof PackageProduct)) {
+                PackageProduct packageProduct = (PackageProduct) selectedProduct;
+                packageProduct.addProduct(selectedSingleProduct);
+            }
+        }
+        return "";
+    }
+
+    public String deleteProductPackage(Product product) {
+        if (product != null && (product instanceof SingleProduct)) {
+            SingleProduct singleProduct = (SingleProduct) product;
+            PackageProduct packageProduct = (PackageProduct) selectedProduct;
+            packageProduct.removeProduct(singleProduct);
         }
         return "";
     }

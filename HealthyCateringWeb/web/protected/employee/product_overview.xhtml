@@ -38,22 +38,75 @@ Contains:
                         </h:column>
                         <h:column>
                             <f:facet name="header"></f:facet>
-                            <h:commandButton value="#{texts.edit_account_edit}" styleClass="menu_add_button"/>
+                            <h:commandButton value="#{texts.edit_account_edit}" action="#{infoBean.setSelectedProduct(product)}" styleClass="menu_add_button"/>
                         </h:column>
                     </h:dataTable>
                     <h:messages />
                     <br/>
-                    <h:commandButton value="#{texts.product_add_new_product}" />
+                    <h:commandButton action="#{infoBean.setShowAddProduct(true)}" value="#{texts.product_add_new_product}" />
 
-                    <h:panelGroup styleClass="edit_account_employee">
-                        <h1>#{texts.product_add_new_product}</h1>
-                        <label>#{texts.product_name}:</label><h:inputText required="true" /><br/>
-                        <label>#{texts.product_description}:</label><h:inputText required="true" /><br/>
-                        <label>#{texts.product_price}:</label><h:inputText required="true" /><br/>
-                        <label>#{texts.product_kcal}:</label><h:inputText required="true" /><br/>
+                    <!--EDIT PRODUKT-->
+                    <h:panelGroup styleClass="edit_account_employee" rendered="#{infoBean.editProduct}">
+                        <h2>Edit product</h2>
+                        <label>#{texts.product_id}</label>
+                        <h:outputText value="#{infoBean.productID}" /><br/>
+                        <label>#{texts.product_name}: </label>
+                        <h:inputText required="true" requiredMessage="#{error.product_required_name}" value="#{infoBean.productName}" /><br/>
+                        <label>#{texts.product_description}: </label>
+                        <h:inputText required="true" requiredMessage="#{error.product_required_desc}" value="#{infoBean.productDescription}" /><br/>
+                        <!--SingleProduct-->
+                        <h:panelGroup rendered="#{infoBean.selectedIsSingleProduct()}">
+                            <label>#{texts.product_kcal}: </label>
+                            <h:inputText requiredMessage="#{error.product_required_KCAL}" required="true" value="#{infoBean.productKCAL}" >
+                                <f:convertNumber integerOnly="true" />
+                            </h:inputText><br/>
+                            <label>#{texts.product_price}: </label>
+                            <h:inputText required="true" requiredMessage="#{error.product_required_pris}" value="#{infoBean.productPrice}" >
+                            </h:inputText><br/>
+                        </h:panelGroup>
+                        <!--PackageProduct-->
+                        <h:panelGroup rendered="#{!infoBean.selectedIsSingleProduct()}" >
+                            <label>#{texts.product_discount}</label>
+                            <h:inputText required="true" requiredMessage="#{error.product_required_discount}" value="#{infoBean.productDiscount}" /><br/>
+                            <label>Totatpris:</label>
+                            <h:outputText value="#{infoBean.selectedProduct.price}" /><br/>
+                            <h3>Produkter</h3>
+                            <h:dataTable value="#{infoBean.packageProducts}" var="productPackage" >
+                                <h:column >
+                                    <f:facet name="header">#{texts.product_name}</f:facet>
+                                    #{productPackage.name}
+                                </h:column>
+                                <h:column>
+                                    <f:facet name="header">#{texts.product_description}</f:facet>
+                                    #{productPackage.description}
+                                </h:column>
+                                <h:column>
+                                    <h:commandButton action="#{infoBean.deleteProductPackage(productPackage)}" value="#{texts.product_delete}" />
+                                </h:column>
+                            </h:dataTable>
+                            <label>#{texts.product_add_product}</label>
+                            <h:selectOneMenu value="#{infoBean.selectedSingleProductID}" style="color: red;" >
+                                <f:selectItems value="#{infoBean.allSingleProducts}" 
+                                               var="selectedProduct" 
+                                               itemLabel="#{selectedProduct.name}" 
+                                               itemValue="#{selectedProduct.id}" />
+                            </h:selectOneMenu>
+                            <!--antall: <h:inputText />-->
+                            <h:commandButton action="#{infoBean.addProductPackage()}" value="#{texts.product_add}" />
+                        </h:panelGroup><br/>
+                        <h:commandButton action="#{infoBean.saveChangesProduct()}" value="#{texts.product_save}" />
+                        <h:messages />
                     </h:panelGroup>
 
-                    <h:dataTable var="product" value="#{infoBean.allProducts}">
+                    <h:panelGroup rendered="#{infoBean.showAddProduct}" styleClass="edit_account_employee">
+                        <h1>#{texts.product_add_new_product}</h1>
+                        <label>#{texts.product_name}:</label><h:inputText value="#{infoBean.productName}" required="true" /><br/>
+                        <label>#{texts.product_description}:</label><h:inputText value="#{infoBean.productDescription}" required="true" /><br/>
+                        <label>#{texts.product_kcal}:</label><h:inputText value="#{infoBean.productKCAL}" required="true" /><br/>
+                        <label>#{texts.product_price}:</label><h:inputText value="#{infoBean.productPrice}" required="true" /><br/>
+                    </h:panelGroup>
+
+                    <h:dataTable var="product" rendered="#{infoBean.showAddProduct}" value="#{infoBean.allProducts}">
                         <h:column>
                             <f:facet name="header">#{texts.product_name}</f:facet>
                             #{product.name}
