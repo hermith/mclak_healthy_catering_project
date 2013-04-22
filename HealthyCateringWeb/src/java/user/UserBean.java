@@ -101,6 +101,7 @@ public class UserBean implements Serializable {
     public String registerPrivateUser() {
         System.out.println("Called registerPrivateUser() in UserBean");
         this.user.setNewPassword("");
+        this.user.setRoleId("");
         if (userhandler.registerPrivateUser(user)) {
             return "registration_success";
         }
