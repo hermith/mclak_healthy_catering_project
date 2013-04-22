@@ -10,6 +10,7 @@
 /HealthyCateringWeb/nbdist/
 /HealthyCateringWeb/nbactions.xml
 /HealthyCateringWeb/nb-configuration.xml
+HealthyCateringWeb/nbproject
 
 ### OSX ###
 .DS_Store
@@ -55,3 +56,4 @@ $RECYCLE.BIN/
 *.jar
 *.war
 *.ear
+
