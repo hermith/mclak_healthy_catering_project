@@ -38,14 +38,37 @@ Contains:
                         </h:column>
                         <h:column>
                             <f:facet name="header"></f:facet>
-                            <h:commandButton value="#{texts.edit_account_edit}" styleClass="menu_add_button"/>
+                            <h:commandButton value="#{texts.edit_account_edit}" action="#{infoBean.setSelectedProduct(product)}" styleClass="menu_add_button"/>
                         </h:column>
                     </h:dataTable>
                     <h:messages />
                     <br/>
                     <h:commandButton value="#{texts.product_add_new_product}" />
 
-                    <h:panelGroup styleClass="edit_account_employee">
+                    <!--EDIT PRODUKT-->
+                    <h:panelGroup styleClass="edit_account_employee" rendered="#{infoBean.editProduct}">
+                        <h2>Edit product</h2>
+                        <label>#{texts.product_id}</label>
+                        <h:outputText value="#{infoBean.productID}" /><br/>
+                        <label>#{texts.product_name}: </label>
+                        <h:inputText value="#{infoBean.productName}" /><br/>
+                        <label>#{texts.product_description}: </label>
+                        <h:inputText value="#{infoBean.productDescription}" /><br/>
+                        <!--SingleProduct-->
+                        <h:panelGroup rendered="#{infoBean.selectedIsSingleProduct()}">
+                            <label>#{texts.product_kcal}: </label>
+                            <h:inputText value="#{infoBean.productKCAL}" /><br/>
+                            <label>#{texts.product_price}: </label>
+                            <h:inputText value="#{infoBean.productPrice}" /><br/>
+                        </h:panelGroup>
+                        <!--PackageProduct-->
+                        <h:panelGroup rendered="#{!infoBean.selectedIsSingleProduct()}" >
+
+                        </h:panelGroup>
+                        <h:commandButton action="#{infoBean.saveChangesProduct()}" value="#{texts.product_save}" />
+                    </h:panelGroup>
+
+                    <h:panelGroup rendered="false" styleClass="edit_account_employee">
                         <h1>#{texts.product_add_new_product}</h1>
                         <label>#{texts.product_name}:</label><h:inputText required="true" /><br/>
                         <label>#{texts.product_description}:</label><h:inputText required="true" /><br/>
@@ -53,7 +76,7 @@ Contains:
                         <label>#{texts.product_kcal}:</label><h:inputText required="true" /><br/>
                     </h:panelGroup>
 
-                    <h:dataTable var="product" value="#{infoBean.allProducts}">
+                    <h:dataTable var="product" rendered="false" value="#{infoBean.allProducts}">
                         <h:column>
                             <f:facet name="header">#{texts.product_name}</f:facet>
                             #{product.name}

@@ -35,8 +35,10 @@ public class InfoBean implements Serializable {
     private Customer selectedCustomer;
     private Customer selectedOrderCustomer;
     private Order selectedOrder;
+    private Product selectedProduct;
     private boolean detailOrder;
     private boolean editCustomer;
+    private boolean editProduct;
     @Inject
     private CustomerHandler customerHandler;
     @Inject
@@ -330,6 +332,113 @@ public class InfoBean implements Serializable {
         } else {
             String msg = MessageHandler.getLocalizedText(MessageType.ERROR, "edit_account_changes_not_saved");
             MessageHandler.addErrorMessage(msg);
+        }
+        return "";
+    }
+
+    /**
+     * product_overview metoder
+     *
+     * @return
+     */
+    public Product getSelectedProduct() {
+        return selectedProduct;
+    }
+
+    public boolean isEditProduct() {
+        return editProduct;
+    }
+
+    public boolean selectedIsSingleProduct() {
+        return selectedProduct instanceof SingleProduct;
+    }
+
+    public void setSelectedProduct(Product product) {
+        if (product != null) {
+            selectedProduct = product;
+            editProduct = true;
+        }
+    }
+
+    /**
+     * SET & GET FOR PRODUCT (selectedProduct)
+     *
+     * @return
+     */
+    public String getProductName() {
+        if (selectedProduct != null) {
+            return selectedProduct.getName();
+        }
+        return null;
+    }
+
+    public void setProductName(String name) {
+        if (selectedProduct != null) {
+            selectedProduct.setName(name);
+        }
+    }
+
+    public String getProductDescription() {
+        if (selectedProduct != null) {
+            return selectedProduct.getDescription();
+        }
+        return null;
+    }
+
+    public void setProductDescription(String desc) {
+        if (selectedProduct != null) {
+            selectedProduct.setDescription(desc);
+        }
+    }
+
+    public int getProductKCAL() {
+        if (selectedProduct != null && (selectedProduct instanceof SingleProduct)) {
+            SingleProduct singleProduct = (SingleProduct) selectedProduct;
+            return singleProduct.getKcal();
+        }
+        return 0;
+    }
+
+    public void setProductKCAL(int KCAL) {
+        if (selectedProduct != null && (selectedProduct instanceof SingleProduct)) {
+            SingleProduct singleProduct = (SingleProduct) selectedProduct;
+            singleProduct.setKcal(KCAL);
+        }
+    }
+
+    public String getProductPrice() {
+        if (selectedProduct != null && (selectedProduct instanceof SingleProduct)) {
+            return Float.toString(selectedProduct.getPrice());
+        }
+        return null;
+    }
+
+    public void setProductPrice(String price) {
+        if (selectedProduct != null && (selectedProduct instanceof SingleProduct)) {
+            SingleProduct singleProduct = (SingleProduct) selectedProduct;
+            singleProduct.setPrice(Float.parseFloat(price));
+        }
+    }
+
+    public int getProductID() {
+        if (selectedProduct != null) {
+            return selectedProduct.getId();
+        }
+        return 0;
+    }
+
+    /**
+     *
+     */
+    public String saveChangesProduct() {
+        if (selectedProduct != null && (selectedProduct instanceof SingleProduct)) {
+            if (productHandler.updateProduct(selectedProduct)) {
+                selectedProduct = null;
+                editProduct = false;
+                MessageHandler.addErrorMessage("DET GIKK BRA");
+            }else{
+                MessageHandler.addErrorMessage("DET GIKK DÅRLIG");
+            }
         }
         return "";
     }

@@ -22,4 +22,8 @@ public class ProductHandler {
     public ArrayList<Product> getAllProducts() {
         return databaseHandler.selectProducts();
     }
+    
+    public boolean updateProduct(Product product) {
+        return databaseHandler.updateProduct(product);
+    }
 }
