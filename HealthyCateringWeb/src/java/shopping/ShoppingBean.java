@@ -32,8 +32,6 @@ public class ShoppingBean implements Serializable {
     private ShoppingCart shoppingCart;
     @Inject
     private ShoppingHandler shoppingHandler;
-    @Inject
-    private DatabaseHandler dbhandler;
     private Order order;
     private String username;
 
@@ -58,14 +56,14 @@ public class ShoppingBean implements Serializable {
     
     public void registerPrivateCustomer(String username){
         System.out.println("REGISTERING PRIVATE CUSTOMER");
-        dbhandler.insertCustomer(privateCustomer, username);
+        shoppingHandler.insertCustomer(privateCustomer, username);
         privateCustomer = new PrivateCustomer();
         corporateCustomer = new CorporateCustomer();
     }
     
     public void registerCorporateCustomer(String username){
         System.out.println("REGISTERING CORPORATE CUSTOMER");
-        dbhandler.insertCustomer(corporateCustomer, username);
+        shoppingHandler.insertCustomer(corporateCustomer, username);
         privateCustomer = new PrivateCustomer();
         corporateCustomer = new CorporateCustomer();
     }
