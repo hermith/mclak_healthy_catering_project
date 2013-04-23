@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+
+<!--
+template.xhtml
+
+Contains:
+    Copy this when you want to create a new subsite and replace any content.
+
+@author Karl
+-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:body>
+        <ui:composition template="/resources/template/template_master.xhtml">
+            <ui:define name="subsite_header">
+                <h1>#{texts.menu_order_history}</h1>
+            </ui:define>
+
+            <ui:define name="subsite_content">
+                <h:form id="order_history">
+                    <h:dataTable var="order" value="#{infoBean.orderHistory}" >
+                        <h:column>
+                            <f:facet name="header">#{texts.product_id}</f:facet>
+                                #{order.orderID}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Order placed</f:facet>
+                                #{order.convertDateToString(order.getPlacedDate())}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">#{texts.menu_deliveryDate}</f:facet>
+                                #{order.convertDateToString(order.getDeliveredDate())}
+                        </h:column>
+                    </h:dataTable>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>
