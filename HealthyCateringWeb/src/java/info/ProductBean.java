@@ -36,14 +36,14 @@ public class ProductBean implements Serializable {
     }
 
     public void addNewProduct() {
-        if(newProduct!=null){
+        if(newProduct!=null && (!getNewProductName().trim().equals("")) && (!getNewProductDescription().trim().equals("")) && (!getNewProductProducts().isEmpty())){
             if (productHandler.insertProduct(newProduct)) {
+                newProduct = newProductIsSingle == true ? new SingleProduct() : new PackageProduct();
                 MessageHandler.addErrorMessage("DET GIKK BRA");
             }else{
                 MessageHandler.addErrorMessage("DET GIKK DÅRLIG");
             }
         }
-        newProduct = newProductIsSingle == true ? new SingleProduct() : new PackageProduct();
     }
 
     public void deleteSingleProductPackage(SingleProduct singleProduct) {

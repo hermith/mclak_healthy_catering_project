@@ -115,6 +115,8 @@ Contains:
                         </div>
                     </div>
                 </h:form>
+                
+                <!--ADD PRODUCT-->
                 <h:form>
                     <div id="centerpoint">
                         <div id="popoup_add_product" class="detail_info_popup">
@@ -141,7 +143,7 @@ Contains:
                             <!--ADD PACKAGE PRODUCT-->
                             <div id="add_product_package">
                                 <h:panelGroup rendered="#{!productBean.newProductIsSingle}" styleClass="edit_account_employee">
-                                    <label>#{texts.product_name}:</label><h:inputText value="#{productBean.newProductName}" /><br/>
+                                    <label>#{texts.product_name}:</label><h:inputText value="#{productBean.newProductName}"/><br/>
                                     <label>#{texts.product_description}:</label><h:inputText value="#{productBean.newProductDescription}" /><br/>
                                     <label>#{texts.product_discount}:</label><h:inputText value="#{productBean.newProductDiscount}" /><br/>
                                     <h:dataTable var="singleProduct" value="#{productBean.newProductProductsQuantity}">
@@ -171,7 +173,9 @@ Contains:
                                                        var="selectedProduct" 
                                                        itemLabel="#{selectedProduct.name}" 
                                                        itemValue="#{selectedProduct.id}" />
-                                    </h:selectOneMenu><h:inputText value="#{productBean.addedSingleProductQuantity}" /><h:commandButton value="#{texts.product_add}" action="#{productBean.addProductPackage()}" />
+                                    </h:selectOneMenu>
+                                    <h:inputText value="#{productBean.addedSingleProductQuantity}"/>
+                                    <h:commandButton value="#{texts.product_add}" action="#{productBean.addProductPackage()}" />
                                     <h:messages />
                                     <br/><h:commandButton action="#{productBean.addNewProduct()}" value="#{texts.product_add}"/>
                                 </h:panelGroup>
