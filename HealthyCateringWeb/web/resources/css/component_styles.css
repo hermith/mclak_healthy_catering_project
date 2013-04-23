@@ -337,12 +337,16 @@ active_orders_main_form .delivered {
     border: 1px solid #666666;
 }
 
+
 /*product_overview.xhtml*/
-#product_tab_left h3, #product_tab_right h3 {
+#popoup_add_product a {
+    padding-top: 10px;
+    font-size: 18px;
+    text-decoration: none;
     text-align: center;
 }
 
-#product_tab_left {
+.add_product_tab_single_left {
     margin-top: 8px;
     margin-left: 4px;
     padding-bottom: 4px;
@@ -352,7 +356,9 @@ active_orders_main_form .delivered {
     background-color: #333333;
 }
 
-#product_tab_right {
+.add_product_tab_package_right {
+    margin-top: 8px;
+    margin-left: 4px;
     padding-bottom: 4px;
     display: inline-block;
     height: 30px;

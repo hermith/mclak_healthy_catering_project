@@ -28,6 +28,7 @@ Contains:
                 <h:form id="product_overview_hidden_form">
                     <h:inputHidden value="#{infoBean.showAddProduct}" id="add_product_popup"/>
                     <h:inputHidden value="#{infoBean.editProduct}" id="edit_product_popup"/>
+                    <h:inputHidden value="#{productBean.newProductIsSingle}" id="show_left_tab" />
                 </h:form>
 
                 <h:form>
@@ -49,7 +50,6 @@ Contains:
                             <h:commandButton value="#{texts.edit_account_edit}" action="#{infoBean.setSelectedProduct(product)}" styleClass="menu_add_button"/>
                         </h:column>
                     </h:dataTable>
-                    <h:messages />
                     <br/>
                     <h:commandButton action="#{infoBean.setShowAddProduct(true)}" value="#{texts.product_add_new_product}" />
 
@@ -123,46 +123,59 @@ Contains:
                                              action='#{infoBean.closeAddProduct()}'
                                              immediate="true"/>
                             <h2>#{texts.product_add_new_product}</h2>
-                            <div id="product_tab_left"><h3>Single</h3></div>
-                            <div id="product_tab_right"><h3>Package</h3></div>
-                            
-                            
-                            <div id="add_product_single">
-                                <h:panelGroup rendered="#{infoBean.showAddProduct}" styleClass="edit_account_employee">
-                                    <label>#{texts.product_name}:</label><h:inputText value="#{infoBean.productName}" required="true" /><br/>
-                                    <label>#{texts.product_description}:</label><h:inputText value="#{infoBean.productDescription}" required="true" /><br/>
-                                    <label>#{texts.product_kcal}:</label><h:inputText value="#{infoBean.productKCAL}" required="true" /><br/>
-                                    <label>#{texts.product_price}:</label><h:inputText value="#{infoBean.productPrice}" required="true" /><br/>
-                                </h:panelGroup>
+                            <h:commandLink action="#{productBean.setNewProductIsSingle(true)}" immediate="true" styleClass="add_product_tab_single_left">Single</h:commandLink>
+                            <h:commandLink action="#{productBean.setNewProductIsSingle(false)}" immediate="true" styleClass="add_product_tab_package_right">Package</h:commandLink>
 
-                                <h:dataTable var="product" rendered="#{infoBean.showAddProduct}" value="#{infoBean.allProducts}">
-                                    <h:column>
-                                        <f:facet name="header">#{texts.product_name}</f:facet>
-                                        #{product.name}
-                                    </h:column>
-                                    <h:column>
-                                        <f:facet name="header">#{texts.product_description}</f:facet>
-                                        #{product.description}
-                                    </h:column>
-                                    <h:column>
-                                        <f:facet name="header">#{texts.product_price}</f:facet>
-                                        #{product.price}
-                                    </h:column>
-                                    <h:column>
-                                        <f:facet name="header">#{texts.product_quantity}</f:facet>
-                                        <h:inputText >
-                                            <f:convertNumber integerOnly="true" />
-                                        </h:inputText>
-                                    </h:column>
-                                </h:dataTable>
+                            <!--ADD SINGLE PRODUCT-->
+                            <div id="add_product_single">
+                                <h:panelGroup rendered="#{productBean.newProductIsSingle}" styleClass="edit_account_employee">
+                                    <label>#{texts.product_name}:</label><h:inputText value="#{productBean.newProductName}" required="true" /><br/>
+                                    <label>#{texts.product_description}:</label><h:inputText value="#{productBean.newProductDescription}" required="true" /><br/>
+                                    <label>#{texts.product_kcal}:</label><h:inputText value="#{productBean.newProductKCAL}" required="true" /><br/>
+                                    <label>#{texts.product_price}:</label><h:inputText value="#{productBean.newProductPrice}" required="true" /><br/>
+                                    <h:commandButton value="#{texts.product_add}" action="#{productBean.addNewProduct()}" />
+                                    <h:messages />
+                                </h:panelGroup>
                             </div>
-                           
-                            
+
+                            <!--ADD PACKAGE PRODUCT-->
                             <div id="add_product_package">
-                                PACKAGE
+                                <h:panelGroup rendered="#{!productBean.newProductIsSingle}" styleClass="edit_account_employee">
+                                    <label>#{texts.product_name}:</label><h:inputText value="#{productBean.newProductName}" /><br/>
+                                    <label>#{texts.product_description}:</label><h:inputText value="#{productBean.newProductDescription}" /><br/>
+                                    <label>#{texts.product_discount}:</label><h:inputText value="#{productBean.newProductDiscount}" /><br/>
+                                    <h:dataTable var="singleProduct" value="#{productBean.newProductProductsQuantity}">
+                                        <h:column>
+                                            <f:facet name="header">#{texts.product_name}</f:facet>
+                                            #{singleProduct.name}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">#{texts.product_description}</f:facet>
+                                            #{singleProduct.description}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">#{texts.product_price}</f:facet>
+                                            #{singleProduct.price}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">#{texts.product_quantity}</f:facet>
+                                            #{productBean.findQuantity(singleProduct)}
+                                        </h:column>
+                                        <h:column>
+                                            <h:commandButton action="#{productBean.deleteSingleProductPackage(singleProduct)}" value="#{texts.product_delete}" />
+                                        </h:column>
+                                    </h:dataTable>
+                                    #{texts.product_add_product}
+                                    <h:selectOneMenu value="#{productBean.addedSingleProductID}" style="color: red;" >
+                                        <f:selectItems value="#{productBean.allSingleProducts}" 
+                                                       var="selectedProduct" 
+                                                       itemLabel="#{selectedProduct.name}" 
+                                                       itemValue="#{selectedProduct.id}" />
+                                    </h:selectOneMenu><h:inputText value="#{productBean.addedSingleProductQuantity}" /><h:commandButton value="#{texts.product_add}" action="#{productBean.addProductPackage()}" />
+                                    <h:messages />
+                                    <br/><h:commandButton action="#{productBean.addNewProduct()}" value="#{texts.product_add}"/>
+                                </h:panelGroup>
                             </div>
-                            
-                            
                         </div>
                     </div>
                 </h:form>

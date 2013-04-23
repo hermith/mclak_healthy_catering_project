@@ -27,7 +27,7 @@ public class ProductHandler {
         return databaseHandler.updateProduct(product);
     }
     
-    public boolean addProduct(Product product) {
+    public boolean insertProduct(Product product) {
         return databaseHandler.insertProduct(product);
     }
 }
