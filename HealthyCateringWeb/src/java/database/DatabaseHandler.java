@@ -1,8 +1,3 @@
-//=============================================MEGA TODO HVIS TID=============================================
-//============================================================================================================
-//=======Skriv hjelpemetoder for henting, insetting, oppdatering og sletting der hvor det kan gjøres!=========
-//============================================================================================================
-//============================================================================================================
 package database;
 
 import info.Order;
@@ -71,15 +66,14 @@ public class DatabaseHandler {
     private static final String STM_UPDATE_PACKAGE_SINGLE_PRODUCT = "UPDATE Package_Single_Product_Table SET quantity = ? WHERE package_product_id = ? AND single_product_id = ?";
     private static final String STM_UPDATE_PACKAGE_SINGLE_PRODUCT_INCREMENT_QUANTITY = "UPDATE Package_Single_Product_Table SET quantity = ((SELECT quantity FROM Package_Single_Product_Table WHERE package_product_id = ? AND single_product_id = ?) + 1) WHERE package_product_id = ? AND single_product_id = ?";
     private static final String STM_SELECT_ORDER = "SELECT customer_id AS customer_id, date_placed AS date_placed, date_to_be_delivered AS date_to_be_delivered, date_delivered AS date_delivered FROM Order_Table WHERE order_id = ?";
-    private static final String STM_SELECT_ORDER_PRODUCT = "SELECT product_id AS product_id, quantity AS quantity FROM Order_Product_Table WHERE order_id = ?";
+    private static final String STM_SELECT_ORDER_PRODUCTS = "SELECT product_id AS product_id, quantity AS quantity FROM Order_Product_Table WHERE order_id = ?";
     private static final String STM_SELECT_ORDER_IDS = "SELECT order_id AS order_id FROM Order_Table";
     private static final String STM_SELECT_ORDER_IDS_BASED_ON_CUSTOMER_ID = "SELECT order_id AS order_id FROM Order_Table WHERE customer_id = ?";
     private static final String STM_INSERT_ORDER = "INSERT INTO Order_Table(customer_id, date_placed, date_to_be_delivered, date_delivered) VALUES(?, ?, ?, ?)";
     private static final String STM_INSERT_ORDER_PRODUCT = "INSERT INTO Order_Product_Table(order_id, product_id, quantity) VALUES(?, ?, ?)";
     private static final String STM_UPDATE_ORDER = "UPDATE Order_Table SET customer_id = ?, date_placed = ?, date_to_be_delivered = ?, date_delivered = ? WHERE order_id = ?";
-    private static final String STM_UPDATE_ORDER_PRODUCT = "UPDATE Order_Product_Table SET quantity = ? WHERE order_id = ? AND product_id = ?";
+    private static final String STM_UPDATE_ORDER_DATE_DELIVERED = "UPDATE Order_Table SET date_delivered = ? WHERE order_id = ?";
     private static final String STM_DELETE_ORDER = "DELETE FROM Order_Table WHERE order_id = ?";
-    private static final String STM_DELETE_ORDER_PRODUCT = "DELETE FROM Order_Product_Table WHERE order_id = ? AND product_id = ?";
     private static final String STM_DELETE_ORDER_PRODUCTS = "DELETE FROM Order_Product_Table WHERE order_id = ? ";
     private static final String COLUMN_USERNAME = "username";
     private static final String COLUMN_PASSWORD = "password";
@@ -418,6 +412,7 @@ public class DatabaseHandler {
         Connection conn = null;
         PreparedStatement stm = null;
         ResultSet resSet = null;
+        boolean errorEncountered = false;
         try {
             conn = dataSource.getConnection();
             stm = conn.prepareStatement(STM_SELECT_CUSTOMER_IDS);
@@ -429,11 +424,14 @@ public class DatabaseHandler {
                 if (customer != null) {
                     customers.add(customer);
                 } else {
-                    Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Failed to retrieve ALL customers.");
-                    return null;
+                    errorEncountered = true;
                 }
             }
-            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "ALL customers retrieved successfully.");
+            if (errorEncountered) {
+                Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Failed to retrieve ALL customers. See glassfish log for details.");
+            } else {
+                Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "ALL customers retrieved successfully.");
+            }
             return customers;
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Failed to retrieve ALL customers.", ex);
@@ -569,6 +567,22 @@ public class DatabaseHandler {
         }
     }
 
+    public synchronized boolean updateCustomers(ArrayList<Customer> customers) {
+        int numberOfCustomersUpdated = 0;
+        for (Customer customer : customers) {
+            if (updateCustomer(customer)) {
+                numberOfCustomersUpdated++;
+            }
+        }
+        if (numberOfCustomersUpdated == customers.size()) {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Successfully updated customers {0}", customers);
+            return true;
+        } else {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Failed update customers! Only {0} out of {1} customers updated. See glassfish log for details.", new Object[]{numberOfCustomersUpdated, customers.size()});
+            return false;
+        }
+    }
+
     public synchronized Product selectProduct(int productId) {
         Connection conn = null;
         PreparedStatement stm1 = null;
@@ -649,6 +663,7 @@ public class DatabaseHandler {
         Connection conn = null;
         PreparedStatement stm = null;
         ResultSet resSet = null;
+        boolean errorEncountered = false;
         try {
             conn = dataSource.getConnection();
             stm = conn.prepareStatement(STM_SELECT_PRODUCT_IDS);
@@ -660,11 +675,14 @@ public class DatabaseHandler {
                 if (product != null) {
                     products.add(product);
                 } else {
-                    Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Failed to retrieve ALL products.");
-                    return null;
+                    errorEncountered = true;
                 }
             }
-            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "ALL products retrieved successfully.");
+            if (errorEncountered) {
+                Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Failed to retrieve ALL products. See glassfish log for details.");
+            } else {
+                Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "ALL products retrieved successfully.");
+            }
             return products;
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Failed to retrieve ALL products.", ex);
@@ -773,13 +791,19 @@ public class DatabaseHandler {
     }
 
     public synchronized boolean insertProducts(ArrayList<Product> products) {
-        int productsInserted = 0;
+        int numberOfProductsInserted = 0;
         for (Product product : products) {
             if (insertProduct(product)) {
-                productsInserted++;
+                numberOfProductsInserted++;
             }
         }
-        return (productsInserted == products.size());
+        if (numberOfProductsInserted == products.size()) {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Successfully inserted products {0}", products);
+            return true;
+        } else {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Failed insert products! Only {0} out of {1} products updated. See glassfish log for details.", new Object[]{numberOfProductsInserted, products.size()});
+            return false;
+        }
     }
 
     public synchronized boolean updateProduct(Product product) {
@@ -883,13 +907,19 @@ public class DatabaseHandler {
     }
 
     public synchronized boolean updateProducts(ArrayList<Product> products) {
-        int productsUpdated = 0;
+        int numberOfProductsUpdated = 0;
         for (Product product : products) {
             if (updateProduct(product)) {
-                productsUpdated++;
+                numberOfProductsUpdated++;
             }
         }
-        return (productsUpdated == products.size());
+        if (numberOfProductsUpdated == products.size()) {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Successfully updated products {0}", products);
+            return true;
+        } else {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Failed update products! Only {0} out of {1} products updated. See glassfish log for details.", new Object[]{numberOfProductsUpdated, products.size()});
+            return false;
+        }
     }
 
     public synchronized Order selectOrder(int orderId) {
@@ -907,7 +937,7 @@ public class DatabaseHandler {
                 Date dateToBeDelivered = resSet.getDate(COLUMN_DATE_TO_BE_DELIVERED);
                 Date dateDelivered = resSet.getDate(COLUMN_DATE_DELIVERED);
                 Order order = new Order(orderId, customerId, new ArrayList<Product>(), datePlaced, dateToBeDelivered, dateDelivered);
-                stm = conn.prepareStatement(STM_SELECT_ORDER_PRODUCT);
+                stm = conn.prepareStatement(STM_SELECT_ORDER_PRODUCTS);
                 stm.setInt(1, orderId);
                 resSet = stm.executeQuery();
                 while (resSet.next()) {
@@ -918,10 +948,10 @@ public class DatabaseHandler {
                         order.getProducts().add(product);
                     }
                 }
-                Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Retrieved order {0}. successfully", order);
+                Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Retrieved order {0}. successfully", order);
                 return order;
             }
-            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Failed retrieve order with order id {0}.", orderId);
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Failed retrieve order with order id {0}.", orderId);
             return null;
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Failed retrieve order with order id " + orderId + ".", ex);
@@ -968,6 +998,7 @@ public class DatabaseHandler {
         Connection conn = null;
         PreparedStatement stm = null;
         ResultSet resSet = null;
+        boolean errorEncountered = false;
         try {
             conn = dataSource.getConnection();
             stm = conn.prepareStatement(STM_SELECT_ORDER_IDS);
@@ -979,11 +1010,14 @@ public class DatabaseHandler {
                 if (order != null) {
                     orders.add(order);
                 } else {
-                    Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Failed to retrieve ALL orders.");
-                    return null;
+                    errorEncountered = true;
                 }
             }
-            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "ALL orders retrieved successfully.");
+            if (errorEncountered) {
+                Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Failed to retrieve ALL orders. See glashfish log for details.");
+            } else {
+                Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "ALL orders retrieved successfully.");
+            }
             return orders;
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Failed to retrieve ALL orders.", ex);
@@ -1004,8 +1038,10 @@ public class DatabaseHandler {
                     undeliveredOrders.add(o);
                 }
             }
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "ALL undelivered orders retrieved successfully.");
             return undeliveredOrders;
         }
+        Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Failed to retrieve all undelivered orders.");
         return null;
     }
 
@@ -1018,15 +1054,16 @@ public class DatabaseHandler {
                     deliveredOrders.add(o);
                 }
             }
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "ALL delivered orders retrieved successfully.");
             return deliveredOrders;
         }
+        Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Failed to retrieve all delivered orders.");
         return null;
     }
 
     public synchronized boolean insertOrder(Order order) {
         Connection conn = null;
         PreparedStatement stm = null;
-        ResultSet resSet = null;
         int numberOfRowsUpdated = -1;
         try {
             conn = dataSource.getConnection();
@@ -1057,6 +1094,10 @@ public class DatabaseHandler {
                         numberOfRowsUpdated = stm.executeUpdate();
                         if (numberOfRowsUpdated == 1) {
                             productsAdded.add(p);
+                        } else {
+                            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Failed to insert order {0}.", order);
+                            rollBack(conn);
+                            return false;
                         }
                     }
                 }
@@ -1073,7 +1114,6 @@ public class DatabaseHandler {
             return false;
         } finally {
             setAutoCommit(conn, true);
-            closeResultSet(resSet);
             closeStatement(stm);
             closeConnection(conn);
         }
@@ -1086,15 +1126,166 @@ public class DatabaseHandler {
                 numberOfOrdersInserted++;
             }
         }
-        return (numberOfOrdersInserted == orders.size());
+        if (numberOfOrdersInserted == orders.size()) {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Successfully inserted orders {0}", orders);
+            return true;
+        } else {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Failed insert orders! Only {0} out of {1} products updated. See glassfish log for details.", new Object[]{numberOfOrdersInserted, orders.size()});
+            return false;
+        }
     }
 
     public synchronized boolean updateOrder(Order order) {
-        return true;
+        Connection conn = null;
+        PreparedStatement stm = null;
+        int numberOfRowsUpdated = -1;
+        try {
+            conn = dataSource.getConnection();
+            setAutoCommit(conn, false);
+            stm = conn.prepareStatement(STM_UPDATE_ORDER);
+            stm.setInt(1, order.getCustomerID());
+            stm.setDate(2, order.getPlacedDate());
+            stm.setDate(3, order.getDeliveryDate());
+            stm.setDate(4, order.getDeliveredDate());
+            stm.setInt(5, order.getOrderID());
+            numberOfRowsUpdated = stm.executeUpdate();
+            if (numberOfRowsUpdated == 1) {
+                numberOfRowsUpdated = -1;
+                stm = conn.prepareStatement(STM_DELETE_ORDER_PRODUCTS);
+                stm.setInt(1, order.getOrderID());
+                if (numberOfRowsUpdated >= 1) {
+                    ArrayList<Product> productsUpdated = new ArrayList<Product>();
+                    stm = conn.prepareStatement(STM_INSERT_ORDER_PRODUCT);
+                    for (Product p : order.getProducts()) {
+                        if (!productsUpdated.contains(p)) {
+                            int quantity = 0;
+                            for (Product p2 : order.getProducts()) {
+                                if (p.equals(p2)) {
+                                    quantity++;
+                                }
+                            }
+                            stm.setInt(1, order.getOrderID());
+                            stm.setInt(2, p.getId());
+                            stm.setInt(3, quantity);
+                            numberOfRowsUpdated = stm.executeUpdate();
+                            if (numberOfRowsUpdated == 1) {
+                                productsUpdated.add(p);
+                            } else {
+                                Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Failed to update order {0}.", order);
+                                rollBack(conn);
+                                return false;
+                            }
+                        }
+                    }
+                }
+                Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Order {0} successfully updated.", order);
+                commit(conn);
+                return true;
+            }
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Failed to update order {0}.", order);
+            rollBack(conn);
+            return false;
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Failed to update order " + order + ".", ex);
+            rollBack(conn);
+            return false;
+        } finally {
+            setAutoCommit(conn, true);
+            closeStatement(stm);
+            closeConnection(conn);
+        }
+    }
+
+    public synchronized boolean updateOrderSetDateDelivered(int orderId, Date dateDelivered) {
+        Connection conn = null;
+        PreparedStatement stm = null;
+        int numberOfRowsUpdated = -1;
+        try {
+            conn = dataSource.getConnection();
+            stm = conn.prepareStatement(STM_UPDATE_ORDER_DATE_DELIVERED);
+            stm.setDate(1, dateDelivered);
+            stm.setInt(2, orderId);
+            numberOfRowsUpdated = stm.executeUpdate();
+            if (numberOfRowsUpdated == 1) {
+                Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Order with order id {0} successfully updated with delivered date {1}", new Object[]{orderId, dateDelivered});
+                return true;
+            }
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Failed to update order with order id {0} with delivered date {1}", new Object[]{orderId, dateDelivered});
+            return false;
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Failed to update order with order id " + orderId + " with delivered date " + dateDelivered + ".", ex);
+            return false;
+        } finally {
+            closeStatement(stm);
+            closeConnection(conn);
+        }
     }
 
     public synchronized boolean updateOrders(ArrayList<Order> orders) {
-        return true;
+        int numberOfOrdersUpdated = 0;
+        for (Order o : orders) {
+            if (insertOrder(o)) {
+                numberOfOrdersUpdated++;
+            }
+        }
+        if (numberOfOrdersUpdated == orders.size()) {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Successfully updated orders {0}", orders);
+            return true;
+        } else {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Failed to update orders! Only {0} out of {1} orders updated. See glassfish log for details.", new Object[]{numberOfOrdersUpdated, orders.size()});
+            return false;
+        }
+    }
+
+    public synchronized boolean deleteOrder(int orderId) {
+        Connection conn = null;
+        PreparedStatement stm = null;
+        int numberOfRowsUpdated = -1;
+        try {
+            conn = dataSource.getConnection();
+            setAutoCommit(conn, false);
+            stm = conn.prepareStatement(STM_DELETE_ORDER_PRODUCTS);
+            stm.setInt(1, orderId);
+            numberOfRowsUpdated = stm.executeUpdate();
+            if (numberOfRowsUpdated > 1) {
+                numberOfRowsUpdated = -1;
+                stm = conn.prepareStatement(STM_DELETE_ORDER);
+                stm.setInt(1, orderId);
+                numberOfRowsUpdated = stm.executeUpdate();
+                if (numberOfRowsUpdated == 1) {
+                    Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Successfully deleted order with order id {0}.", orderId);
+                    commit(conn);
+                    return true;
+                }
+            }
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Failed to delete order with order id {0}.", orderId);
+            rollBack(conn);
+            return false;
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Failed to delete order with order id " + orderId + ".", ex);
+            rollBack(conn);
+            return false;
+        } finally {
+            setAutoCommit(conn, true);
+            closeStatement(stm);
+            closeConnection(conn);
+        }
+    }
+
+    public synchronized boolean deleteOrders(ArrayList<Order> orders) {
+        int numberOfOrdersDeleted = 0;
+        for (Order o : orders) {
+            if (deleteOrder(o.getOrderID())) {
+                numberOfOrdersDeleted++;
+            }
+        }
+        if (numberOfOrdersDeleted == orders.size()) {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Successfully deleted orders {0}", orders);
+            return true;
+        } else {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Failed to delete orders! Only {0} out of {1} orders deleted. See glassfish log for details.", new Object[]{numberOfOrdersDeleted, orders.size()});
+            return false;
+        }
     }
 
     /**

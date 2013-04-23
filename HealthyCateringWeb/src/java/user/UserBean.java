@@ -104,9 +104,13 @@ public class UserBean implements Serializable {
         this.user.setRoleId(UserRoleHandler.USER_ROLE_ID_PRIVATE_CUSTOMER);
         if (userhandler.registerPrivateUser(user)) {
             user = new User();
+            String msg = MessageHandler.getLocalizedText(MessageType.TEKST, "user_reg_success");
+            MessageHandler.addErrorMessage(msg);
             return "registration_success";
         }
         user = new User();
+        String msg = MessageHandler.getLocalizedText(MessageType.ERROR, "user_reg_fail");
+        MessageHandler.addErrorMessage(msg);
         return "registration_failure";
     }
 
@@ -116,9 +120,13 @@ public class UserBean implements Serializable {
         this.user.setRoleId(UserRoleHandler.USER_ROLE_ID_CORPORATE_CUSTOMER);
         if(userhandler.registerCorporateUser(user)){
             user = new User();
+            String msg = MessageHandler.getLocalizedText(MessageType.TEKST, "user_reg_success");
+            MessageHandler.addErrorMessage(msg);
             return "registration_success";
         }
         user = new User();
+        String msg = MessageHandler.getLocalizedText(MessageType.ERROR, "user_reg_fail");
+        MessageHandler.addErrorMessage(msg);
         return "registration_failure";
     }
 
