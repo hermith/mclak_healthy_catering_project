@@ -500,9 +500,11 @@ public class InfoBean implements Serializable {
     public String saveChangesProduct() {
         if (selectedProduct != null) {
             if (productHandler.updateProduct(selectedProduct)) {
-                MessageHandler.addErrorMessage("DET GIKK BRA");
+                String msg = MessageHandler.getLocalizedText(MessageType.TEKST, "product_changes_saved");
+                MessageHandler.addErrorMessage(msg);
             } else {
-                MessageHandler.addErrorMessage("DET GIKK DÅRLIG");
+                String msg = MessageHandler.getLocalizedText(MessageType.TEKST, "product_changes_not_saved");
+                MessageHandler.addErrorMessage(msg);
             }
         }
         return "";

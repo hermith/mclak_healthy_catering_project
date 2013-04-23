@@ -970,6 +970,7 @@ public class DatabaseHandler {
         try {
             conn = dataSource.getConnection();
             stm = conn.prepareStatement(STM_SELECT_ORDER_IDS_BASED_ON_CUSTOMER_ID);
+            stm.setInt(1, customerId);
             resSet = stm.executeQuery();
             ArrayList<Order> orders = new ArrayList<Order>();
             while (resSet.next()) {

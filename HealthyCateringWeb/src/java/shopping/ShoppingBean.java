@@ -413,7 +413,10 @@ public class ShoppingBean implements Serializable {
     }
 
     public ArrayList<Order> getOrderHistory() {
-        Customer customer = shoppingHandler.getCustomer(username);
-        return shoppingHandler.getOrderHistory(customer.getCustomerId());
+        if(privateCustomer!=null){
+            return shoppingHandler.getOrderHistory(privateCustomer.getCustomerId());
+        }else if(corporateCustomer!=null){
+            return shoppingHandler.getOrderHistory(corporateCustomer.getCustomerId());
+        }return null;
     }
 }
