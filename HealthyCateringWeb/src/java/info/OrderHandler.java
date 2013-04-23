@@ -12,13 +12,13 @@ public class OrderHandler {
     @Inject
     DatabaseHandler db;
 
-    public ArrayList<Order> getActiveOrders() {
+    /*public ArrayList<Order> getActiveOrders() {
         return db.selectOrders(true);
     }
 
     public ArrayList<Order> getOrderHistory() {
         return db.selectOrders(false);
-    }
+    }*/
     
     
 }

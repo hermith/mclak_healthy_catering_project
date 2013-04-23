@@ -5,6 +5,7 @@
 package info;
 
 import java.util.ArrayList;
+import javax.inject.Inject;
 
 /**
  *
@@ -13,6 +14,8 @@ import java.util.ArrayList;
 public class StatisticsBean {
     
     private ArrayList<Order> activeOrders = new ArrayList<Order>();
+    @Inject
+    StatisticsHandler sthandler;
 
     public ArrayList<Order> getActiveOrders() {
         //TODO Get non-delivered orders from DB

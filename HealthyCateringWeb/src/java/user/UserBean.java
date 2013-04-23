@@ -101,7 +101,7 @@ public class UserBean implements Serializable {
     public String registerPrivateUser() {
         System.out.println("Called registerPrivateUser() in UserBean");
         this.user.setNewPassword("");
-        this.user.setRoleId("");
+        this.user.setRoleId(UserRoleHandler.USER_ROLE_ID_PRIVATE_CUSTOMER);
         if (userhandler.registerPrivateUser(user)) {
             return "registration_success";
         }
@@ -111,7 +111,7 @@ public class UserBean implements Serializable {
     public String registerCorporateUser() {
         System.out.println("Called registerCorporateUser() in UserBean");
         this.user.setNewPassword("");
-        this.user.setRoleId("");
+        this.user.setRoleId(UserRoleHandler.USER_ROLE_ID_CORPORATE_CUSTOMER);
         if(userhandler.registerCorporateUser(user)){
             return "registration_success";
         }

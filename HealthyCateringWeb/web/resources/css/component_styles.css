@@ -337,3 +337,33 @@ active_orders_main_form .delivered {
     border: 1px solid #666666;
 }
 
+/*product_overview.xhtml*/
+#product_tab_left h3, #product_tab_right h3 {
+    text-align: center;
+}
+
+#product_tab_left {
+    margin-top: 8px;
+    margin-left: 4px;
+    padding-bottom: 4px;
+    display: inline-block;
+    height: 30px;
+    width: 49%;
+    background-color: #333333;
+}
+
+#product_tab_right {
+    padding-bottom: 4px;
+    display: inline-block;
+    height: 30px;
+    width: 49%;
+    background-color: #555555;
+}
+
+#product_tab_left:hover, #product_tab_right:hover {
+    background-color: #222222;
+}
+
+#add_product_package {
+    display: none;
+}

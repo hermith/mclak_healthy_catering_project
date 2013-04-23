@@ -34,15 +34,15 @@ Contains:
                     <h:dataTable var="product" value="#{infoBean.allProducts}">
                         <h:column>
                             <f:facet name="header">#{texts.menu_product}</f:facet>
-                                #{product.name}
+                            #{product.name}
                         </h:column>
                         <h:column>
                             <f:facet name="header">#{texts.menu_description}</f:facet>
-                                #{product.description}
+                            #{product.description}
                         </h:column>
                         <h:column>
                             <f:facet name="header">#{texts.menu_price}</f:facet>
-                                #{product.price}
+                            #{product.price}
                         </h:column>
                         <h:column>
                             <f:facet name="header"></f:facet>
@@ -89,11 +89,11 @@ Contains:
                                     <h:dataTable value="#{infoBean.packageProducts}" var="productPackage" >
                                         <h:column >
                                             <f:facet name="header">#{texts.product_name}</f:facet>
-                                                #{productPackage.name}
+                                            #{productPackage.name}
                                         </h:column>
                                         <h:column>
                                             <f:facet name="header">#{texts.product_description}</f:facet>
-                                                #{productPackage.description}
+                                            #{productPackage.description}
                                         </h:column>
                                         <h:column>
                                             <h:commandButton action="#{infoBean.deleteProductPackage(productPackage)}" value="#{texts.product_delete}" />
@@ -122,35 +122,47 @@ Contains:
                                              image="/resources/img/info_icon.png"
                                              action='#{infoBean.closeAddProduct()}'
                                              immediate="true"/>
-                            <h1>#{texts.product_add_new_product}</h1>
-                            <h:panelGroup rendered="#{infoBean.showAddProduct}" styleClass="edit_account_employee">
+                            <h2>#{texts.product_add_new_product}</h2>
+                            <div id="product_tab_left"><h3>Single</h3></div>
+                            <div id="product_tab_right"><h3>Package</h3></div>
+                            
+                            
+                            <div id="add_product_single">
+                                <h:panelGroup rendered="#{infoBean.showAddProduct}" styleClass="edit_account_employee">
+                                    <label>#{texts.product_name}:</label><h:inputText value="#{infoBean.productName}" required="true" /><br/>
+                                    <label>#{texts.product_description}:</label><h:inputText value="#{infoBean.productDescription}" required="true" /><br/>
+                                    <label>#{texts.product_kcal}:</label><h:inputText value="#{infoBean.productKCAL}" required="true" /><br/>
+                                    <label>#{texts.product_price}:</label><h:inputText value="#{infoBean.productPrice}" required="true" /><br/>
+                                </h:panelGroup>
 
-                                <label>#{texts.product_name}:</label><h:inputText value="#{infoBean.productName}" required="true" /><br/>
-                                <label>#{texts.product_description}:</label><h:inputText value="#{infoBean.productDescription}" required="true" /><br/>
-                                <label>#{texts.product_kcal}:</label><h:inputText value="#{infoBean.productKCAL}" required="true" /><br/>
-                                <label>#{texts.product_price}:</label><h:inputText value="#{infoBean.productPrice}" required="true" /><br/>
-                            </h:panelGroup>
-
-                            <h:dataTable var="product" rendered="#{infoBean.showAddProduct}" value="#{infoBean.allProducts}">
-                                <h:column>
-                                    <f:facet name="header">#{texts.product_name}</f:facet>
+                                <h:dataTable var="product" rendered="#{infoBean.showAddProduct}" value="#{infoBean.allProducts}">
+                                    <h:column>
+                                        <f:facet name="header">#{texts.product_name}</f:facet>
                                         #{product.name}
-                                </h:column>
-                                <h:column>
-                                    <f:facet name="header">#{texts.product_description}</f:facet>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">#{texts.product_description}</f:facet>
                                         #{product.description}
-                                </h:column>
-                                <h:column>
-                                    <f:facet name="header">#{texts.product_price}</f:facet>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">#{texts.product_price}</f:facet>
                                         #{product.price}
-                                </h:column>
-                                <h:column>
-                                    <f:facet name="header">#{texts.product_quantity}</f:facet>
-                                    <h:inputText >
-                                        <f:convertNumber integerOnly="true" />
-                                    </h:inputText>
-                                </h:column>
-                            </h:dataTable>
+                                    </h:column>
+                                    <h:column>
+                                        <f:facet name="header">#{texts.product_quantity}</f:facet>
+                                        <h:inputText >
+                                            <f:convertNumber integerOnly="true" />
+                                        </h:inputText>
+                                    </h:column>
+                                </h:dataTable>
+                            </div>
+                           
+                            
+                            <div id="add_product_package">
+                                PACKAGE
+                            </div>
+                            
+                            
                         </div>
                     </div>
                 </h:form>
