@@ -65,6 +65,7 @@ public class DatabaseHandler {
     private static final String STM_UPDATE_PACKAGE_PRODUCT = "UPDATE Package_Product_Table SET product_discount = ? WHERE product_id = ?";
     private static final String STM_UPDATE_PACKAGE_SINGLE_PRODUCT = "UPDATE Package_Single_Product_Table SET quantity = ? WHERE package_product_id = ? AND single_product_id = ?";
     private static final String STM_UPDATE_PACKAGE_SINGLE_PRODUCT_INCREMENT_QUANTITY = "UPDATE Package_Single_Product_Table SET quantity = ((SELECT quantity FROM Package_Single_Product_Table WHERE package_product_id = ? AND single_product_id = ?) + 1) WHERE package_product_id = ? AND single_product_id = ?";
+    private static final String STM_DELETE_PACKAGE_SINGLE_PRODUCTS = "DELETE FROM Package_Single_Product_Table WHERE package_product_id = ?";
     private static final String STM_SELECT_ORDER = "SELECT customer_id AS customer_id, date_placed AS date_placed, date_to_be_delivered AS date_to_be_delivered, date_delivered AS date_delivered FROM Order_Table WHERE order_id = ?";
     private static final String STM_SELECT_ORDER_PRODUCTS = "SELECT product_id AS product_id, quantity AS quantity FROM Order_Product_Table WHERE order_id = ?";
     private static final String STM_SELECT_ORDER_IDS = "SELECT order_id AS order_id FROM Order_Table";
@@ -842,56 +843,42 @@ public class DatabaseHandler {
                     numberOfRowsUpdated = stm.executeUpdate();
                     if (numberOfRowsUpdated == 1) {
                         numberOfRowsUpdated = -1;
-                        ArrayList<SingleProduct> productsAlreadyUpdated = new ArrayList<SingleProduct>();
-                        for (SingleProduct p : packageProduct.getProducts()) {
-                            if (!productsAlreadyUpdated.contains(p)) {
-                                if (!isProductInSingleProductTable(conn, stm, resSet, p.getId())) {
-                                    stm = conn.prepareStatement(STM_INSERT_PRODUCT, Statement.RETURN_GENERATED_KEYS);
-                                    stm.setString(1, p.getName());
-                                    stm.setString(2, p.getDescription());
-                                    numberOfRowsUpdated = stm.executeUpdate();
-                                    if (numberOfRowsUpdated == 1) {
-                                        numberOfRowsUpdated = -1;
-                                        stm.getGeneratedKeys().next();
-                                        p.setId(stm.getGeneratedKeys().getInt(1));
-                                        stm = conn.prepareStatement(STM_INSERT_SINGLE_PRODUCT);
-                                        stm.setInt(1, p.getId());
-                                        stm.setFloat(2, p.getPrice());
-                                        stm.setInt(3, p.getKcal());
-                                        stm.executeUpdate();
+                        stm = conn.prepareStatement(STM_DELETE_PACKAGE_SINGLE_PRODUCTS);
+                        stm.setInt(1, packageProduct.getId());
+                        numberOfRowsUpdated = stm.executeUpdate();
+                        if (numberOfRowsUpdated > 0) {
+                            ArrayList<SingleProduct> productsUpdated = new ArrayList<SingleProduct>();
+                            stm = conn.prepareStatement(STM_INSERT_PACKAGE_SINGLE_PRODUCT);
+                            for (SingleProduct p : packageProduct.getProducts()) {
+                                if (!productsUpdated.contains(p)) {
+                                    numberOfRowsUpdated = -1;
+                                    int quantity = 0;
+                                    for (SingleProduct p2 : packageProduct.getProducts()) {
+                                        if (p.equals(p2)) {
+                                            quantity++;
+                                        }
                                     }
-                                }
-                                if (!isProductAlreadyPartOfThisPackageProduct(conn, stm, resSet, packageProduct.getId(), p.getId())) {
-                                    stm = conn.prepareStatement(STM_INSERT_PACKAGE_SINGLE_PRODUCT);
                                     stm.setInt(1, packageProduct.getId());
                                     stm.setInt(2, p.getId());
-                                    stm.setInt(3, 1);
+                                    stm.setInt(3, quantity);
                                     numberOfRowsUpdated = stm.executeUpdate();
-                                }
-                                int quantity = 0;
-                                for (SingleProduct p2 : packageProduct.getProducts()) {
-                                    if (p.equals(p2)) {
-                                        quantity++;
+                                    if (numberOfRowsUpdated == 1) {
+                                        productsUpdated.add(p);
+                                    } else {
+                                        Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Failed to update package product {0}.", packageProduct);
+                                        rollBack(conn);
+                                        return false;
                                     }
-                                }
-                                stm = conn.prepareStatement(STM_UPDATE_PACKAGE_SINGLE_PRODUCT);
-                                stm.setInt(1, quantity);
-                                stm.setInt(2, packageProduct.getId());
-                                stm.setInt(3, p.getId());
-                                numberOfRowsUpdated = stm.executeUpdate();
-                                if (numberOfRowsUpdated == 1) {
-                                    productsAlreadyUpdated.add(p);
                                 }
                             }
                         }
-                        Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Successfully updated package product {0}.", packageProduct);
-                        commit(conn);
-                        productsTableChanged = true;
-                        return true;
                     }
+                    Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Package product {0} successfully updated.", packageProduct);
+                    commit(conn);
+                    return false;
                 }
             }
-            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Failed to update product {0}.", product);
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Failed to update product {0}.", product);
             rollBack(conn);
             return false;
         } catch (SQLException ex) {
@@ -1154,10 +1141,11 @@ public class DatabaseHandler {
                 numberOfRowsUpdated = -1;
                 stm = conn.prepareStatement(STM_DELETE_ORDER_PRODUCTS);
                 stm.setInt(1, order.getOrderID());
-                if (numberOfRowsUpdated >= 1) {
+                if (numberOfRowsUpdated > 0) {
                     ArrayList<Product> productsUpdated = new ArrayList<Product>();
                     stm = conn.prepareStatement(STM_INSERT_ORDER_PRODUCT);
                     for (Product p : order.getProducts()) {
+                        numberOfRowsUpdated = -1;
                         if (!productsUpdated.contains(p)) {
                             int quantity = 0;
                             for (Product p2 : order.getProducts()) {
@@ -1172,7 +1160,7 @@ public class DatabaseHandler {
                             if (numberOfRowsUpdated == 1) {
                                 productsUpdated.add(p);
                             } else {
-                                Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Failed to update order {0}.", order);
+                                Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Failed to update order {0}.", order);
                                 rollBack(conn);
                                 return false;
                             }
@@ -1183,7 +1171,7 @@ public class DatabaseHandler {
                 commit(conn);
                 return true;
             }
-            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Failed to update order {0}.", order);
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Failed to update order {0}.", order);
             rollBack(conn);
             return false;
         } catch (SQLException ex) {
