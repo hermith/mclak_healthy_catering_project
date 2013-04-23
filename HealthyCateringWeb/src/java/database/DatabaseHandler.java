@@ -875,7 +875,8 @@ public class DatabaseHandler {
                     }
                     Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Package product {0} successfully updated.", packageProduct);
                     commit(conn);
-                    return false;
+                    productsTableChanged = true;
+                    return true;
                 }
             }
             Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Failed to update product {0}.", product);
