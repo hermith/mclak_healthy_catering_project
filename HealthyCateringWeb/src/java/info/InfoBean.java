@@ -43,6 +43,7 @@ public class InfoBean implements Serializable {
     private boolean editProduct;
     private boolean showAddProduct;
     private boolean showActiveOrders;
+    private int selectedSingleProductQuantity;
     @Inject
     private CustomerHandler customerHandler;
     @Inject
@@ -51,6 +52,7 @@ public class InfoBean implements Serializable {
     private OrderHandler orderHandler;
 
     public InfoBean() {
+        selectedSingleProductQuantity = 1;
     }
 
     public ArrayList<Order> getActiveOrders() {
@@ -497,8 +499,11 @@ public class InfoBean implements Serializable {
     /**
      * Save changes to a product
      */
-    public String saveChangesProduct() {
+    public void saveChangesProduct() {
         if (selectedProduct != null) {
+            if(selectedProduct instanceof PackageProduct){
+                PackageProduct pr = (PackageProduct)selectedProduct;
+            }
             if (productHandler.updateProduct(selectedProduct)) {
                 String msg = MessageHandler.getLocalizedText(MessageType.TEKST, "product_changes_saved");
                 MessageHandler.addErrorMessage(msg);
@@ -507,7 +512,6 @@ public class InfoBean implements Serializable {
                 MessageHandler.addErrorMessage(msg);
             }
         }
-        return "";
     }
 
     public String addProductPackage() {
@@ -521,19 +525,22 @@ public class InfoBean implements Serializable {
         if (selectedSingleProduct != null) {
             if (selectedProduct != null && (selectedProduct instanceof PackageProduct)) {
                 PackageProduct packageProduct = (PackageProduct) selectedProduct;
-                packageProduct.addProduct(selectedSingleProduct);
+                for (int i = selectedSingleProductQuantity; i > 0; i--) {
+                    packageProduct.addProduct(selectedSingleProduct);
+                }
+                selectedSingleProductQuantity = 1;
             }
         }
         return "";
     }
 
-    public String deleteProductPackage(Product product) {
-        if (product != null && (product instanceof SingleProduct)) {
-            SingleProduct singleProduct = (SingleProduct) product;
+    public void deleteProductPackage(SingleProduct product) {
+        if (product != null) {
             PackageProduct packageProduct = (PackageProduct) selectedProduct;
-            packageProduct.removeProduct(singleProduct);
+            for (int i = findQuantity(product); i > 0; i--) {
+                packageProduct.removeProduct(product);
+            }
         }
-        return "";
     }
 
     public boolean isShowActiveOrders() {
@@ -543,5 +550,45 @@ public class InfoBean implements Serializable {
     public void setShowActiveOrders(boolean showActiveOrders) {
         this.showActiveOrders = showActiveOrders;
     }
-    
+
+    /**
+     * Finds quantity of a product in a package
+     *
+     * @param product
+     * @return
+     */
+    public int findQuantity(SingleProduct product) {
+        int counter = 0;
+        if (product != null) {
+            for (SingleProduct sp : getPackageProducts()) {
+                if (sp.getId() == product.getId()) {
+                    counter++;
+                }
+            }
+        }
+        return counter;
+    }
+
+    /**
+     * Get all SingleProducts in a package (only unique SingleProduct)
+     *
+     * @return
+     */
+    public ArrayList<SingleProduct> getSingleProductsPackage() {
+        ArrayList<SingleProduct> products = new ArrayList<SingleProduct>();
+        for (SingleProduct sp : getPackageProducts()) {
+            if (!products.contains(sp)) {
+                products.add(sp);
+            }
+        }
+        return products;
+    }
+
+    public int getSelectedSingleProductQuantity() {
+        return selectedSingleProductQuantity;
+    }
+
+    public void setSelectedSingleProductQuantity(int selectedSingleProductQuantity) {
+        this.selectedSingleProductQuantity = selectedSingleProductQuantity;
+    }
 }

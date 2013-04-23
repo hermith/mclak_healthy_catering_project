@@ -36,12 +36,25 @@ public class ProductBean implements Serializable {
     }
 
     public void addNewProduct() {
-        if(newProduct!=null && (!getNewProductName().trim().equals("")) && (!getNewProductDescription().trim().equals("")) && (!getNewProductProducts().isEmpty())){
-            if (productHandler.insertProduct(newProduct)) {
-                newProduct = newProductIsSingle == true ? new SingleProduct() : new PackageProduct();
-                MessageHandler.addErrorMessage("DET GIKK BRA");
-            }else{
-                MessageHandler.addErrorMessage("DET GIKK DÅRLIG");
+        if (newProduct != null) {
+            if (newProduct instanceof PackageProduct) {
+                if ((!getNewProductName().trim().equals("")) && (!getNewProductDescription().trim().equals("")) && (!getNewProductProducts().isEmpty())) {
+                    if (productHandler.insertProduct(newProduct)) {
+                        newProduct = newProductIsSingle == true ? new SingleProduct() : new PackageProduct();
+                        MessageHandler.addErrorMessage("DET GIKK BRA");
+                    } else {
+                        MessageHandler.addErrorMessage("DET GIKK DÅRLIG");
+                    }
+                }else{
+                    MessageHandler.addErrorMessage("Fyll inn alle feltene");
+                }
+            } else {
+                if (productHandler.insertProduct(newProduct)) {
+                    newProduct = newProductIsSingle == true ? new SingleProduct() : new PackageProduct();
+                    MessageHandler.addErrorMessage("DET GIKK BRA");
+                } else {
+                    MessageHandler.addErrorMessage("DET GIKK DÅRLIG");
+                }
             }
         }
     }
@@ -156,7 +169,7 @@ public class ProductBean implements Serializable {
     }
 
     public ArrayList<SingleProduct> getNewProductProducts() {
-        if (newProduct != null) {
+        if (newProduct != null && (newProduct instanceof PackageProduct)) {
             PackageProduct packageProduct = (PackageProduct) newProduct;
             return packageProduct.getProducts();
         }

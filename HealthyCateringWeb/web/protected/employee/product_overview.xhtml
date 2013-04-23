@@ -86,7 +86,7 @@ Contains:
                                     <label>Totatpris:</label>
                                     <h:outputText value="#{infoBean.selectedProduct.price}" /><br/>
                                     <h3>Produkter</h3>
-                                    <h:dataTable value="#{infoBean.packageProducts}" var="productPackage" >
+                                    <h:dataTable value="#{infoBean.singleProductsPackage}" var="productPackage" >
                                         <h:column >
                                             <f:facet name="header">#{texts.product_name}</f:facet>
                                             #{productPackage.name}
@@ -94,6 +94,10 @@ Contains:
                                         <h:column>
                                             <f:facet name="header">#{texts.product_description}</f:facet>
                                             #{productPackage.description}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">#{texts.product_quantity}</f:facet>
+                                            #{infoBean.findQuantity(productPackage)}
                                         </h:column>
                                         <h:column>
                                             <h:commandButton action="#{infoBean.deleteProductPackage(productPackage)}" value="#{texts.product_delete}" />
@@ -106,7 +110,7 @@ Contains:
                                                        itemLabel="#{selectedProduct.name}" 
                                                        itemValue="#{selectedProduct.id}" />
                                     </h:selectOneMenu>
-                                    <!--antall: <h:inputText />-->
+                                    <h:inputText value="#{infoBean.selectedSingleProductQuantity}"/>
                                     <h:commandButton action="#{infoBean.addProductPackage()}" value="#{texts.product_add}" />
                                 </h:panelGroup><br/>
                                 <h:commandButton action="#{infoBean.saveChangesProduct()}" value="#{texts.product_save}" />
