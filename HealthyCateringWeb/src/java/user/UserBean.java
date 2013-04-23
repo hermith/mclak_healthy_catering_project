@@ -103,8 +103,10 @@ public class UserBean implements Serializable {
         this.user.setNewPassword("");
         this.user.setRoleId(UserRoleHandler.USER_ROLE_ID_PRIVATE_CUSTOMER);
         if (userhandler.registerPrivateUser(user)) {
+            user = new User();
             return "registration_success";
         }
+        user = new User();
         return "registration_failure";
     }
 
@@ -113,8 +115,10 @@ public class UserBean implements Serializable {
         this.user.setNewPassword("");
         this.user.setRoleId(UserRoleHandler.USER_ROLE_ID_CORPORATE_CUSTOMER);
         if(userhandler.registerCorporateUser(user)){
+            user = new User();
             return "registration_success";
         }
+        user = new User();
         return "registration_failure";
     }
 
