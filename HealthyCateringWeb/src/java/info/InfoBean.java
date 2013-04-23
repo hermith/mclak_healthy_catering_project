@@ -420,7 +420,7 @@ public class InfoBean implements Serializable {
     }
 
     public void setProductDescription(String desc) {
-        if (selectedProduct != null && (desc.equals(""))) {
+        if (selectedProduct != null && (!desc.equals(""))) {
             selectedProduct.setDescription(desc);
         }
     }
