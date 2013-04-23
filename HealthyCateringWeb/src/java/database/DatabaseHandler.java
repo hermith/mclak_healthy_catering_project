@@ -77,6 +77,10 @@ public class DatabaseHandler {
     private static final String STM_INSERT_ORDER = "INSERT INTO Order_Table(customer_id, date_placed, date_to_be_delivered, date_delivered) VALUES(?, ?, ?, ?)";
     private static final String STM_INSERT_ORDER_PRODUCT = "INSERT INTO Order_Product_Table(order_id, product_id, quantity) VALUES(?, ?, ?)";
     private static final String STM_UPDATE_ORDER = "UPDATE Order_Table SET customer_id = ?, date_placed = ?, date_to_be_delivered = ?, date_delivered = ? WHERE order_id = ?";
+    private static final String STM_UPDATE_ORDER_PRODUCT = "UPDATE Order_Product_Table SET quantity = ? WHERE order_id = ? AND product_id = ?";
+    private static final String STM_DELETE_ORDER = "DELETE FROM Order_Table WHERE order_id = ?";
+    private static final String STM_DELETE_ORDER_PRODUCT = "DELETE FROM Order_Product_Table WHERE order_id = ? AND product_id = ?";
+    private static final String STM_DELETE_ORDER_PRODUCTS = "DELETE FROM Order_Product_Table WHERE order_id = ? ";
     private static final String COLUMN_USERNAME = "username";
     private static final String COLUMN_PASSWORD = "password";
     private static final String COLUMN_USER_ROLE = "user_role";
@@ -1001,6 +1005,20 @@ public class DatabaseHandler {
                 }
             }
             return undeliveredOrders;
+        }
+        return null;
+    }
+
+    public synchronized ArrayList<Order> selectDeliveredOrders() {
+        ArrayList<Order> allOrders = selectOrders();
+        if (allOrders != null) {
+            ArrayList<Order> deliveredOrders = new ArrayList<Order>();
+            for (Order o : allOrders) {
+                if (o.getDeliveredDate() != null) {
+                    deliveredOrders.add(o);
+                }
+            }
+            return deliveredOrders;
         }
         return null;
     }
