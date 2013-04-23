@@ -28,44 +28,44 @@
                             <legend>Register private user</legend>
                             <div class="half_box_left">
                                 <h:inputText class="inputfields" value="#{shoppingBean.firstName}"/>
-                                First name
+                                <label>#{texts.edit_account_firstname}</label>
                                 <br/><br/>
 
                                 <h:inputText class="inputfields" value="#{shoppingBean.lastName}"/>
-                                Last name
+                                <label>#{texts.edit_account_lastname}</label>
                                 <br/><br/>
 
                                 <h:inputText class="inputfields" value="#{userBean.username}"/>
-                                Username
+                                <label>#{texts.edit_users_username}</label>
                                 <br/><br/>
 
                                 <h:inputSecret id="pass1" onkeyup="checkPassPrivate();" class="inputfields" value="#{userBean.password}"/>
-                                Password
+                                <label>#{texts.user_password}</label>
                                 <br/><br/>
 
                                 <h:inputSecret id="pass2" onkeyup="checkPassPrivate();" class="inputfields"/>
-                                Repeat password<br/>
+                                <label>#{texts.user_repeatpass}</label><br/>
                             </div>
                             <div class="half_box_right">
 
                                 <h:inputText  class="inputfields" value="#{userBean.email}"/>
-                                E-mail address
+                                <label>#{texts.edit_account_email}</label>
                                 <br/><br/>
 
                                 <h:inputText class="inputfields" value="#{shoppingBean.privateAddress}"/>
-                                Address
+                                <label>#{texts.edit_account_address}</label>
                                 <br/><br/>
 
                                 <h:inputText class="inputfields" value="#{shoppingBean.privateZipCode}"/>
-                                Zip-code
+                                <label>#{texts.edit_account_zipcode}</label>
                                 <br/><br/>
 
                                 <h:inputText class="inputfields" value="#{shoppingBean.privateCity}"/>
-                                City
+                                <label>#{texts.edit_account_city}</label>
                                 <br/><br/>
 
                                 <h:inputText class="inputfields" value="#{shoppingBean.privatePhoneNumber}"/>
-                                Phone number
+                                <label>#{texts.edit_account_phone}</label>
                                 <br/><br/>
 
                             </div>
@@ -83,50 +83,46 @@
                             <legend>Register corporate user</legend>
                             <div class="half_box_left">
                                 <h:inputText class="inputfields" value="#{shoppingBean.companyName}"/>
-                                Company name
+                                <label>#{texts.edit_account_company_name}</label>
                                 <br/><br/>
 
                                 <h:inputText class="inputfields" value="#{userBean.username}"/>
-                                Username
+                                <label>#{texts.edit_users_username}</label>
                                 <br/><br/>
 
                                 <h:inputSecret id="pass3" onkeyup="checkPassCorporate();" class="inputfields" value="#{userBean.password}"/>
-                                Password
+                                <label>#{texts.edit_users_password}</label>
                                 <br/><br/>
 
                                 <h:inputSecret id="pass4" onkeyup="checkPassCorporate();" class="inputfields"/>
-                                Repeat password<br/>
+                                <label>#{texts.user_repeatpass}</label><br/>
                                 <br/><br/>
                             </div>
 
                             <div class="half_box_right">
                                 <h:inputText class="inputfields" value="#{userBean.email}"/>
-                                E-mail address
+                                <label>#{texts.edit_account_email}</label>
                                 <br/><br/>
 
                                 <h:inputText class="inputfields" value="#{shoppingBean.corporateAddress}"/>
-                                Address
+                                <label>#{texts.edit_account_address}</label>
                                 <br/><br/>
 
                                 <h:inputText class="inputfields" value="#{shoppingBean.corporateZipCode}"/>
-                                Zip-code
+                                <label>#{texts.edit_account_zipcode}</label>
                                 <br/><br/>
 
                                 <h:inputText class="inputfields" value="#{shoppingBean.corporateCity}"/>
-                                City
+                                <label>#{texts.edit_account_city}</label>
                                 <br/><br/>
 
                                 <h:inputText class="inputfields" value="#{shoppingBean.corporatePhoneNumber}"/>
-                                Phone number
+                                <label>#{texts.edit_account_phone}</label>
                                 <br/><br/>
                             </div>
                             <h:commandButton action="#{userBean.registerCorporateUser()}" value="Create new corporate account" class="register_new_button" />
-
                         </fieldset>
-
                     </div>
-
-
                 </h:form>
                 <h:form>
                     <h:messages />
