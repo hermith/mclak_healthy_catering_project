@@ -403,4 +403,10 @@ public class ShoppingBean implements Serializable {
         initiateCustomer(username);
         return "";
     }
+    
+    
+    public ArrayList<Order> getOrderHistory(){
+        Customer customer = shoppingHandler.getCustomer(username);
+        return shoppingHandler.getOrderHistory(customer.getCustomerId());
+    }
 }

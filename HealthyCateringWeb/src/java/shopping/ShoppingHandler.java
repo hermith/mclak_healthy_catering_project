@@ -76,4 +76,8 @@ public class ShoppingHandler implements Serializable{
         }
         return updateCustomer(newCustomer);
     }
+    
+    public ArrayList<Order> getOrderHistory(int customerId){
+        return database.selectOrders(customerId);
+    }
 }
