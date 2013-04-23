@@ -44,6 +44,14 @@ public class Order {
     public int numberOfProducts() {
         return products.size();
     }
+    
+    public double getPrice(){
+        double total = 0;
+        for(Product prod : products){
+            total += prod.getPrice();
+        }
+        return total;
+    }
 
     public String getProductIds() {
         StringBuilder b = new StringBuilder();

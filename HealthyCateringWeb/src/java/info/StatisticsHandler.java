@@ -16,9 +16,12 @@ public class StatisticsHandler {
     public StatisticsHandler(){
         this.orders = new ArrayList<Order>();
     }
-
-    public ArrayList<Order> getOrders() {
-
-        return null;
+    
+    public double getTotalPriceAllOrders(){
+        double total = 0;
+        for(Order order : orders){
+            total += order.getPrice();
+        }
+        return total;
     }
 }
