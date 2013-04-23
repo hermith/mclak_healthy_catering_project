@@ -7,6 +7,7 @@ package database;
 
 import info.Order;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -70,11 +71,12 @@ public class DatabaseHandler {
     private static final String STM_UPDATE_PACKAGE_SINGLE_PRODUCT = "UPDATE Package_Single_Product_Table SET quantity = ? WHERE package_product_id = ? AND single_product_id = ?";
     private static final String STM_UPDATE_PACKAGE_SINGLE_PRODUCT_INCREMENT_QUANTITY = "UPDATE Package_Single_Product_Table SET quantity = ((SELECT quantity FROM Package_Single_Product_Table WHERE package_product_id = ? AND single_product_id = ?) + 1) WHERE package_product_id = ? AND single_product_id = ?";
     private static final String STM_SELECT_ORDER = "SELECT customer_id AS customer_id, date_placed AS date_placed, date_to_be_delivered AS date_to_be_delivered, date_delivered AS date_delivered FROM Order_Table WHERE order_id = ?";
+    private static final String STM_SELECT_ORDER_PRODUCT = "SELECT product_id AS product_id, quantity AS quantity FROM Order_Product_Table WHERE order_id = ?";
     private static final String STM_SELECT_ORDER_IDS = "SELECT order_id AS order_id FROM Order_Table";
     private static final String STM_SELECT_ORDER_IDS_BASED_ON_CUSTOMER_ID = "SELECT order_id AS order_id FROM Order_Table WHERE customer_id = ?";
     private static final String STM_INSERT_ORDER = "INSERT INTO Order_Table(customer_id, date_placed, date_to_be_delivered, date_delivered) VALUES(?, ?, ?, ?)";
+    private static final String STM_INSERT_ORDER_PRODUCT = "INSERT INTO Order_Product_Table(order_id, product_id, quantity) VALUES(?, ?, ?)";
     private static final String STM_UPDATE_ORDER = "UPDATE Order_Table SET customer_id = ?, date_placed = ?, date_to_be_delivered = ?, date_delivered = ? WHERE order_id = ?";
-    // TODO Select, insert og update-setninger til order_product_table
     private static final String COLUMN_USERNAME = "username";
     private static final String COLUMN_PASSWORD = "password";
     private static final String COLUMN_USER_ROLE = "user_role";
@@ -94,8 +96,11 @@ public class DatabaseHandler {
     private static final String COLUMN_PRODUCT_KCAL = "product_kcal";
     private static final String COLUMN_PRODUCT_DISCOUNT = "product_discount";
     private static final String COLUMN_SINGLE_PRODUCT_ID = "single_product_id";
-    private static final String COLUMN_SINGLE_PRODUCT_QUANTITY = "quantity";
-    // TODO Kolonnenavn for order- og order_product_table.
+    private static final String COLUMN_QUANTITY = "quantity";
+    private static final String COLUMN_ORDER_ID = "order_id";
+    private static final String COLUMN_DATE_PLACED = "date_placed";
+    private static final String COLUMN_DATE_TO_BE_DELIVERED = "date_to_be_delivered";
+    private static final String COLUMN_DATE_DELIVERED = "date_delivered";
     private boolean productsTableChanged;
     private DataSource dataSource;
 
@@ -586,12 +591,10 @@ public class DatabaseHandler {
                         return singleProduct;
                     }
                 } else /* if (isProductAPackageProduct) */ {
-                    System.out.println("1");
                     stm1 = conn.prepareStatement(STM_SELECT_PACKAGE_PRODUCT);
                     stm1.setInt(1, productId);
                     resSet1 = stm1.executeQuery();
                     if (resSet1.next()) {
-                        System.out.println("2");
                         int discount = resSet1.getInt(COLUMN_PRODUCT_DISCOUNT);
                         ArrayList<SingleProduct> products = new ArrayList<SingleProduct>();
                         stm1 = conn.prepareStatement(STM_SELECT_PACKAGE_SINGLE_PRODUCT_CONNECTION);
@@ -600,19 +603,16 @@ public class DatabaseHandler {
                         stm1 = conn.prepareStatement(STM_SELECT_PRODUCT);
                         stm2 = conn.prepareStatement(STM_SELECT_SINGLE_PRODUCT);
                         while (resSet1.next()) {
-                            System.out.println("3");
                             int singleProductId = resSet1.getInt(COLUMN_SINGLE_PRODUCT_ID);
-                            int quantity = resSet1.getInt(COLUMN_SINGLE_PRODUCT_QUANTITY);
+                            int quantity = resSet1.getInt(COLUMN_QUANTITY);
                             stm1.setInt(1, singleProductId);
                             resSet2 = stm1.executeQuery();
                             if (resSet2.next()) {
-                                System.out.println("4");
                                 String singleProductName = resSet2.getString(COLUMN_PRODUCT_NAME);
                                 String singleProductDescription = resSet2.getString(COLUMN_PRODUCT_DESCRIPTION);
                                 stm2.setInt(1, singleProductId);
                                 resSet2 = stm2.executeQuery();
                                 if (resSet2.next()) {
-                                    System.out.println("5");
                                     float singleProductPrice = resSet2.getFloat(COLUMN_PRODUCT_PRICE);
                                     int singleProductKcal = resSet2.getInt(COLUMN_PRODUCT_KCAL);
                                     for (int i = 0; i < quantity; i++) {
@@ -894,7 +894,30 @@ public class DatabaseHandler {
         ResultSet resSet = null;
         try {
             conn = dataSource.getConnection();
-            stm = conn.prepareStatement(STM_INSERT_ORDER);
+            stm = conn.prepareStatement(STM_SELECT_ORDER);
+            stm.setInt(1, orderId);
+            resSet = stm.executeQuery();
+            if (resSet.next()) {
+                int customerId = resSet.getInt(COLUMN_CUSTOMER_ID);
+                Date datePlaced = resSet.getDate(COLUMN_DATE_PLACED);
+                Date dateToBeDelivered = resSet.getDate(COLUMN_DATE_TO_BE_DELIVERED);
+                Date dateDelivered = resSet.getDate(COLUMN_DATE_DELIVERED);
+                Order order = new Order(orderId, customerId, new ArrayList<Product>(), datePlaced, dateToBeDelivered, dateDelivered);
+                stm = conn.prepareStatement(STM_SELECT_ORDER_PRODUCT);
+                stm.setInt(1, orderId);
+                resSet = stm.executeQuery();
+                while (resSet.next()) {
+                    int productId = resSet.getInt(COLUMN_PRODUCT_ID);
+                    int quantity = resSet.getInt(COLUMN_QUANTITY);
+                    Product product = selectProduct(productId);
+                    for (int i = 0; i < quantity; i++) {
+                        order.getProducts().add(product);
+                    }
+                }
+                Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Retrieved order {0}. successfully", order);
+                return order;
+            }
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Failed retrieve order with order id {0}.", orderId);
             return null;
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Failed retrieve order with order id " + orderId + ".", ex);
@@ -906,29 +929,153 @@ public class DatabaseHandler {
         }
     }
 
-    public synchronized ArrayList<Order> selectOrders(boolean active) {
-        // Boolean active means only return orders that are UNdelivered
-        // If bool is false, return only order history, that is, old delivered
-        return null;
+    public synchronized ArrayList<Order> selectOrders(int customerId) {
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet resSet = null;
+        try {
+            conn = dataSource.getConnection();
+            stm = conn.prepareStatement(STM_SELECT_ORDER_IDS_BASED_ON_CUSTOMER_ID);
+            resSet = stm.executeQuery();
+            ArrayList<Order> orders = new ArrayList<Order>();
+            while (resSet.next()) {
+                int orderId = resSet.getInt(COLUMN_ORDER_ID);
+                Order order = selectOrder(orderId);
+                if (order != null) {
+                    orders.add(order);
+                } else {
+                    Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Failed to retrieve ALL orders with customer id {0}.", customerId);
+                    return null;
+                }
+            }
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "ALL orders with customer id {0} retrieved successfully.", customerId);
+            return orders;
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Failed to retrieve ALL orders with customer id " + customerId + ".", ex);
+            return null;
+        } finally {
+            closeResultSet(resSet);
+            closeStatement(stm);
+            closeConnection(conn);
+        }
     }
 
-    public synchronized ArrayList<Order> selectOrders(int customerId) {
+    public synchronized ArrayList<Order> selectOrders() {
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet resSet = null;
+        try {
+            conn = dataSource.getConnection();
+            stm = conn.prepareStatement(STM_SELECT_ORDER_IDS);
+            resSet = stm.executeQuery();
+            ArrayList<Order> orders = new ArrayList<Order>();
+            while (resSet.next()) {
+                int orderId = resSet.getInt(COLUMN_ORDER_ID);
+                Order order = selectOrder(orderId);
+                if (order != null) {
+                    orders.add(order);
+                } else {
+                    Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Failed to retrieve ALL orders.");
+                    return null;
+                }
+            }
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "ALL orders retrieved successfully.");
+            return orders;
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Failed to retrieve ALL orders.", ex);
+            return null;
+        } finally {
+            closeResultSet(resSet);
+            closeStatement(stm);
+            closeConnection(conn);
+        }
+    }
+
+    public synchronized ArrayList<Order> selectUndeliveredOrders() {
+        ArrayList<Order> allOrders = selectOrders();
+        if (allOrders != null) {
+            ArrayList<Order> undeliveredOrders = new ArrayList<Order>();
+            for (Order o : allOrders) {
+                if (o.getDeliveredDate() == null) {
+                    undeliveredOrders.add(o);
+                }
+            }
+            return undeliveredOrders;
+        }
         return null;
     }
 
     public synchronized boolean insertOrder(Order order) {
-        return true;
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet resSet = null;
+        int numberOfRowsUpdated = -1;
+        try {
+            conn = dataSource.getConnection();
+            setAutoCommit(conn, false);
+            stm = conn.prepareStatement(STM_INSERT_ORDER, Statement.RETURN_GENERATED_KEYS);
+            stm.setInt(1, order.getCustomerID());
+            stm.setDate(2, order.getPlacedDate());
+            stm.setDate(3, order.getDeliveryDate());
+            stm.setDate(4, order.getDeliveredDate());
+            numberOfRowsUpdated = stm.executeUpdate();
+            if (numberOfRowsUpdated == 1) {
+                numberOfRowsUpdated = -1;
+                stm.getGeneratedKeys().next();
+                int orderId = stm.getGeneratedKeys().getInt(1);
+                ArrayList<Product> productsAdded = new ArrayList<Product>();
+                stm = conn.prepareStatement(STM_INSERT_ORDER_PRODUCT);
+                for (Product p : order.getProducts()) {
+                    if (!productsAdded.contains(p)) {
+                        int quantity = 0;
+                        for (Product p2 : order.getProducts()) {
+                            if (p.equals(p2)) {
+                                quantity++;
+                            }
+                        }
+                        stm.setInt(1, orderId);
+                        stm.setInt(2, p.getId());
+                        stm.setInt(3, quantity);
+                        numberOfRowsUpdated = stm.executeUpdate();
+                        if (numberOfRowsUpdated == 1) {
+                            productsAdded.add(p);
+                        }
+                    }
+                }
+                Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Order {0} successfully inserted.", order);
+                commit(conn);
+                return true;
+            }
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Failed to insert order {0}.", order);
+            rollBack(conn);
+            return false;
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Failed to insert order " + order + ".", ex);
+            rollBack(conn);
+            return false;
+        } finally {
+            setAutoCommit(conn, true);
+            closeResultSet(resSet);
+            closeStatement(stm);
+            closeConnection(conn);
+        }
     }
 
     public synchronized boolean insertOrders(ArrayList<Order> orders) {
-        return true;
+        int numberOfOrdersInserted = 0;
+        for (Order o : orders) {
+            if (insertOrder(o)) {
+                numberOfOrdersInserted++;
+            }
+        }
+        return (numberOfOrdersInserted == orders.size());
     }
 
     public synchronized boolean updateOrder(Order order) {
         return true;
     }
 
-    public synchronized boolean updateOrdes(ArrayList<Order> orders) {
+    public synchronized boolean updateOrders(ArrayList<Order> orders) {
         return true;
     }
 
