@@ -38,6 +38,10 @@ public class ShoppingHandler implements Serializable{
         return products;
     }
     
+    public boolean insertCustomer(Customer customer, String username){
+        return(database.insertCustomer(customer, username));
+    }
+    
     public Customer getCustomer(String username) {
         return database.selectCustomer(username);
     }

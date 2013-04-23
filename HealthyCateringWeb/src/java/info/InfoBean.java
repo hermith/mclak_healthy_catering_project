@@ -121,6 +121,29 @@ public class InfoBean implements Serializable {
         context.renderResponse();
     }
 
+    public void closeEditProduct() {
+        selectedProduct = null;
+        editProduct = false;
+        FacesContext context = FacesContext.getCurrentInstance();
+        Application application = context.getApplication();
+        ViewHandler viewHandler = application.getViewHandler();
+        UIViewRoot viewRoot = viewHandler.createView(context, context
+                .getViewRoot().getViewId());
+        context.setViewRoot(viewRoot);
+        context.renderResponse();
+    }
+
+    public void closeAddProduct() {
+        showAddProduct = false;
+        FacesContext context = FacesContext.getCurrentInstance();
+        Application application = context.getApplication();
+        ViewHandler viewHandler = application.getViewHandler();
+        UIViewRoot viewRoot = viewHandler.createView(context, context
+                .getViewRoot().getViewId());
+        context.setViewRoot(viewRoot);
+        context.renderResponse();
+    }
+
     public ArrayList<Customer> getAllCustomers() {
         return customerHandler.getAllCustomers();
     }
@@ -369,7 +392,7 @@ public class InfoBean implements Serializable {
 
     public void setShowAddProduct(boolean showAddProduct) {
         this.showAddProduct = showAddProduct;
-    } 
+    }
 
     /**
      * SET & GET FOR PRODUCT (selectedProduct)
@@ -397,7 +420,7 @@ public class InfoBean implements Serializable {
     }
 
     public void setProductDescription(String desc) {
-        if (selectedProduct != null && (desc.equals(""))) {
+        if (selectedProduct != null && (!desc.equals(""))) {
             selectedProduct.setDescription(desc);
         }
     }
@@ -485,8 +508,6 @@ public class InfoBean implements Serializable {
     public String saveChangesProduct() {
         if (selectedProduct != null) {
             if (productHandler.updateProduct(selectedProduct)) {
-                selectedProduct = null;
-                editProduct = false;
                 MessageHandler.addErrorMessage("DET GIKK BRA");
             } else {
                 MessageHandler.addErrorMessage("DET GIKK DÅRLIG");

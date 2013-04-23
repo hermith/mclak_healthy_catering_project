@@ -8,9 +8,11 @@ import database.DatabaseHandler;
 import email.EmailHandler;
 import java.util.ArrayList;
 import javax.enterprise.context.ApplicationScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import locale.MessageHandler;
 import locale.MessageType;
+import shopping.ShoppingBean;
 
 /**
  *
@@ -28,12 +30,17 @@ public class UserHandler {
     }
 
     public boolean registerPrivateUser(User user) {
-        return (db.insertUser(user));
+        if (db.insertUser(user)) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            ((ShoppingBean) context.getApplication().evaluateExpressionGet(context, "#{shoppingBean}", ShoppingBean.class)).registerPrivateCustomer(user.getUsername());
+            return true;
+        }
+        return false;
     }
 
     public boolean registerCorporateUser(User user) {
-        System.out.println("Got this user: " + user.getUsername() + " - " + user.getPassword() + " - " +
-                user.getEmail() + " - " + user.getNewPassword() + " - " + user.getRoleId());
+        System.out.println("Got this user: " + user.getUsername() + " - " + user.getPassword() + " - "
+                + user.getEmail() + " - " + user.getNewPassword() + " - " + user.getRoleId());
         return (db.insertUser(user));
     }
 

@@ -4,6 +4,7 @@
  */
 package shopping;
 
+import database.DatabaseHandler;
 import info.Order;
 import java.io.Serializable;
 import java.util.Date;
@@ -51,6 +52,20 @@ public class ShoppingBean implements Serializable {
             }
         }
         this.username = username;
+    }
+    
+    public void registerPrivateCustomer(String username){
+        System.out.println("REGISTERING PRIVATE CUSTOMER");
+        shoppingHandler.insertCustomer(privateCustomer, username);
+        privateCustomer = new PrivateCustomer();
+        corporateCustomer = new CorporateCustomer();
+    }
+    
+    public void registerCorporateCustomer(String username){
+        System.out.println("REGISTERING CORPORATE CUSTOMER");
+        shoppingHandler.insertCustomer(corporateCustomer, username);
+        privateCustomer = new PrivateCustomer();
+        corporateCustomer = new CorporateCustomer();
     }
 
     public void resetVars() {
