@@ -5,9 +5,9 @@
 package info;
 
 import java.io.Serializable;
-import java.sql.Date;
 import java.util.ArrayList;
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.inject.Any;
 import javax.faces.application.Application;
 import javax.faces.application.ViewHandler;
 import javax.faces.component.UIViewRoot;
@@ -28,11 +28,11 @@ import user.User;
  *
  * @author Karl
  */
+@Any
 @Named
 @SessionScoped
 public class InfoBean implements Serializable {
 
-    private ArrayList<Order> activeOrders = new ArrayList<Order>();
     private Customer selectedCustomer;
     private Customer selectedOrderCustomer;
     private Order selectedOrder;
@@ -46,26 +46,18 @@ public class InfoBean implements Serializable {
     private CustomerHandler customerHandler;
     @Inject
     private ProductHandler productHandler;
+    @Inject
+    private OrderHandler orderHandler;
 
     public InfoBean() {
-        ArrayList<Product> temp = new ArrayList<Product>();
-        temp.add(new SingleProduct(123, "Yup", "Good", 130, 130));
-        temp.add(new SingleProduct(123, "Yup", "Good", 130, 130));
-        temp.add(new SingleProduct(123, "Yup", "Good", 130, 130));
-        temp.add(new SingleProduct(123, "Yup", "Good", 130, 130));
-        temp.add(new SingleProduct(123, "Yup", "Good", 130, 130));
-
-        activeOrders.add(new Order(1, 666, temp, new Date(2013, 04, 17), new Date(2013, 04, 18), new Date(2013, 04, 19)));
     }
 
     public ArrayList<Order> getActiveOrders() {
-        //TODO Get non-delivered orders from DB
-        return activeOrders;
+        return orderHandler.getActiveOrders();
     }
 
     public ArrayList<Order> getOrderHistory() {
-        //TODO Get delived orders from DB
-        return activeOrders;
+        return orderHandler.getOrderHistory();
     }
 
     public void editCustomer(Customer customer) {
@@ -74,9 +66,8 @@ public class InfoBean implements Serializable {
     }
 
     public void lookUpOrder(int orderID) {
-        // TODO: Get customer from DB
-        selectedOrder = activeOrders.get(0);
-        selectedOrderCustomer = new PrivateCustomer(123456, "møkje@penge.no", "Rikbotnfjord", "99 99 33 33", 5670, "Okidokiland", "Langnavnesen", "Ivar");
+        selectedOrder = orderHandler.getOrderFromID(orderID);
+        selectedOrderCustomer = orderHandler.getCustomerFromID(selectedOrder.getCustomerID());
         detailOrder = true;
     }
 
