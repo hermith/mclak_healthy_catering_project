@@ -85,7 +85,7 @@ public class Order {
     public String convertDateToString(Date date) {
         GregorianCalendar greg = new GregorianCalendar();
         greg.setTimeInMillis(date.getTime());
-        return (greg.get(GregorianCalendar.YEAR) - 1900)
+        return (greg.get(GregorianCalendar.YEAR))
                 + "." + greg.get(GregorianCalendar.MONTH)
                 + "." + greg.get(GregorianCalendar.DATE);
     }

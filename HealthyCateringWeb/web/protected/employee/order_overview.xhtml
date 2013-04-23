@@ -28,6 +28,7 @@ Contains:
             <ui:define name="subsite_content">
                 <h:form id="active_orders_form">
                     <h:inputHidden value="#{infoBean.customerOrder}" id="show_customer_detail"/>
+                    <h:inputHidden value="#{infoBean.activeOrders}" id="show_active_tab"/>
                 </h:form>
 
                 <h:form styleClass="active_orders_main_form">

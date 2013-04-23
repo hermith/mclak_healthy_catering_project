@@ -42,6 +42,7 @@ public class InfoBean implements Serializable {
     private boolean editCustomer;
     private boolean editProduct;
     private boolean showAddProduct;
+    private boolean showActiveOrders;
     @Inject
     private CustomerHandler customerHandler;
     @Inject
@@ -532,4 +533,13 @@ public class InfoBean implements Serializable {
         }
         return "";
     }
+
+    public boolean isShowActiveOrders() {
+        return showActiveOrders;
+    }
+
+    public void setShowActiveOrders(boolean showActiveOrders) {
+        this.showActiveOrders = showActiveOrders;
+    }
+    
 }
