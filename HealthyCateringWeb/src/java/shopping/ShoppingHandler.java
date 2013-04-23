@@ -26,8 +26,7 @@ public class ShoppingHandler implements Serializable{
     }
 
     public boolean insertOrder(Order order) {
-        //return database.insertOrder(order);
-        return false;
+        return database.insertOrder(order);
     }
 
     public ArrayList<Product> getMenu() {
