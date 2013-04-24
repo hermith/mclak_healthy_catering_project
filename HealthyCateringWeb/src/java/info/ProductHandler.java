@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package info;
 
 import database.DatabaseHandler;
@@ -53,6 +49,13 @@ public class ProductHandler {
         return databaseHandler.insertProduct(product);
     }
 
+    /**
+     * Finds quantity of singleProduct in productList
+     *
+     * @param singleProduct
+     * @param productList
+     * @return int quantity
+     */
     public int findQuantity(SingleProduct singleProduct, ArrayList<SingleProduct> productList) {
         int counter = 0;
         for (SingleProduct sp : productList) {
@@ -123,5 +126,23 @@ public class ProductHandler {
                 packageProduct.removeProduct(singleProduct);
             }
         }
+    }
+
+    /**
+     * Adds (quantity * )singleProduct to the packageProduct
+     *
+     * @param singleProduct
+     * @param packageProduct
+     * @param quantity
+     * @return
+     */
+    public boolean addProductToPackage(SingleProduct singleProduct, PackageProduct packageProduct, int quantity) {
+        if ((singleProduct != null) && (packageProduct != null)) {
+            for (int i = quantity; i > 0; i--) {
+                packageProduct.addProduct(singleProduct);
+            }
+            return true;
+        }
+        return false;
     }
 }

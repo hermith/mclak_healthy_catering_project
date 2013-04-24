@@ -110,4 +110,9 @@
     <security-role>
         <role-name>system</role-name>
     </security-role>
+    
+    <mime-mapping>
+        <extension>less</extension>
+        <mime-type>stylesheet/less</mime-type>
+    </mime-mapping>
 </web-app>

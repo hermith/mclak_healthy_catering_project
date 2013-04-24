@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package info;
 
 import java.io.Serializable;
@@ -21,7 +17,7 @@ import shopping.product.SingleProduct;
 
 /**
  *
- * @author linnk
+ * @author Linn
  */
 @Named
 @SessionScoped
@@ -39,18 +35,31 @@ public class ProductBean implements Serializable {
 
     public ProductBean() {
         newProductIsSingle = true;
-        newProduct = new SingleProduct();
+        reInitializeNewProduct();
         addedSingleProductQuantity = 1;
     }
 
+    /**
+     * Reinitialize the newProduct-object
+     */
+    public void reInitializeNewProduct() {
+        newProduct = newProductIsSingle == true ? new SingleProduct() : new PackageProduct();
+        newProduct.setName("Name");
+        newProduct.setDescription("Desc");
+    }
+
+    /**
+     * Calls insertProduct(newProduct) in ProductHandler.java. This method adds
+     * the new product in the database.
+     */
     public void addNewProduct() {
         String msgSuccess = MessageHandler.getLocalizedText(MessageType.TEKST, "product_add_success");
         String msgError = MessageHandler.getLocalizedText(MessageType.ERROR, "product_add_error");
         if (newProduct != null) {
             if (newProduct instanceof PackageProduct) {
-                if ((!getNewProductName().trim().equals("")) && (!getNewProductDescription().trim().equals("")) && (!getNewProductProducts().isEmpty())) {
+                if (!getNewProductProducts().isEmpty()) {
                     if (productHandler.insertProduct(newProduct)) {
-                        newProduct = newProductIsSingle == true ? new SingleProduct() : new PackageProduct();
+                        reInitializeNewProduct();
                         MessageHandler.addErrorMessage(msgSuccess);
                     } else {
                         MessageHandler.addErrorMessage(msgError);
@@ -61,7 +70,7 @@ public class ProductBean implements Serializable {
                 }
             } else {
                 if (productHandler.insertProduct(newProduct)) {
-                    newProduct = newProductIsSingle == true ? new SingleProduct() : new PackageProduct();
+                    reInitializeNewProduct();
                     MessageHandler.addErrorMessage(msgSuccess);
                 } else {
                     MessageHandler.addErrorMessage(msgError);
@@ -102,14 +111,8 @@ public class ProductBean implements Serializable {
      */
     public void addProductPackage() {
         SingleProduct selectedSingleProduct = (SingleProduct) productHandler.findProductOnIdList(addedSingleProductID, getAllSingleProducts());
-        if (selectedSingleProduct != null) {
-            if (newProduct != null && (newProduct instanceof PackageProduct)) {
-                PackageProduct packageProduct = (PackageProduct) newProduct;
-                for (int i = addedSingleProductQuantity; i > 0; i--) {
-                    packageProduct.addProduct(selectedSingleProduct);
-                }
-                addedSingleProductQuantity = 1;
-            }
+        if (productHandler.addProductToPackage(selectedSingleProduct, (PackageProduct) newProduct, addedSingleProductQuantity)) {
+            addedSingleProductQuantity = 1;
         }
     }
 
@@ -123,7 +126,7 @@ public class ProductBean implements Serializable {
     public int findQuantity(SingleProduct singleProduct) {
         return productHandler.findQuantity(singleProduct, getNewProductProducts());
     }
-    
+
     /**
      * Finds quantity of the current singleProduct in the SingleProduct list of
      * the selectedProduct-object
@@ -143,6 +146,85 @@ public class ProductBean implements Serializable {
         return productHandler.getUniqueProducts(getNewProductProducts());
     }
 
+    /**
+     * Calls getUniqueProducts(getPackageProducts()).
+     *
+     * @return an array with onlye one of each SingleProduct
+     */
+    public ArrayList<SingleProduct> getSingleProductsPackage() {
+        return productHandler.getUniqueProducts(getPackageProducts());
+    }
+
+    /**
+     * Calls deleteProductFromPackage() in ProductHandler.java.
+     *
+     * @param product
+     */
+    public void deleteProductPackage(SingleProduct product) {
+        productHandler.deleteProductFromPackage(product, (PackageProduct) selectedProduct);
+    }
+
+    /**
+     * Add a singleProduct to (PackageProduct) selectedProduct
+     */
+    public void addProductPackageEdit() {
+        SingleProduct selectedSingleProduct = (SingleProduct) productHandler.findProductOnIdList(addedSingleProductID, getAllSingleProducts());
+        if (productHandler.addProductToPackage(selectedSingleProduct, (PackageProduct) selectedProduct, addedSingleProductQuantity)) {
+            addedSingleProductQuantity = 1;
+        }
+    }
+
+    /**
+     * Save changes to a product
+     */
+    public void saveChangesProduct() {
+        if (selectedProduct != null) {
+            if (selectedProduct instanceof PackageProduct) {
+                if (getPackageProducts().isEmpty()) {
+                    String msg = MessageHandler.getLocalizedText(MessageType.ERROR, "product_please_fill_form");
+                    MessageHandler.addErrorMessage(msg);
+                    return;
+                }
+            }
+            if (productHandler.updateProduct(selectedProduct)) {
+                String msg = MessageHandler.getLocalizedText(MessageType.TEKST, "product_changes_saved");
+                MessageHandler.addErrorMessage(msg);
+            } else {
+                String msg = MessageHandler.getLocalizedText(MessageType.ERROR, "product_changes_not_saved");
+                MessageHandler.addErrorMessage(msg);
+            }
+        }
+    }
+
+    /**
+     * Closes edit product view.
+     */
+    public void closeEditProduct() {
+        selectedProduct = null;
+        editProduct = false;
+        FacesContext context = FacesContext.getCurrentInstance();
+        Application application = context.getApplication();
+        ViewHandler viewHandler = application.getViewHandler();
+        UIViewRoot viewRoot = viewHandler.createView(context, context
+                .getViewRoot().getViewId());
+        context.setViewRoot(viewRoot);
+        context.renderResponse();
+    }
+
+    /**
+     * Closes add product view.
+     */
+    public void closeAddProduct() {
+        showAddProduct = false;
+        FacesContext context = FacesContext.getCurrentInstance();
+        Application application = context.getApplication();
+        ViewHandler viewHandler = application.getViewHandler();
+        UIViewRoot viewRoot = viewHandler.createView(context, context
+                .getViewRoot().getViewId());
+        context.setViewRoot(viewRoot);
+        context.renderResponse();
+    }
+
     //GETTERS AND SETTERS
     public Product getNewProduct() {
         return newProduct;
@@ -158,7 +240,7 @@ public class ProductBean implements Serializable {
 
     public void setNewProductIsSingle(boolean newProductIsSingle) {
         this.newProductIsSingle = newProductIsSingle;
-        newProduct = newProductIsSingle == true ? new SingleProduct() : new PackageProduct();
+        reInitializeNewProduct();
     }
 
     public int getAddedSingleProductID() {
@@ -175,6 +257,33 @@ public class ProductBean implements Serializable {
 
     public void setAddedSingleProductQuantity(int addedSingleProductQuantity) {
         this.addedSingleProductQuantity = addedSingleProductQuantity;
+    }
+
+    public Product getSelectedProduct() {
+        return selectedProduct;
+    }
+
+    public void setSelectedProduct(Product selectedProduct) {
+        if (selectedProduct != null) {
+            this.selectedProduct = selectedProduct;
+            editProduct = true;
+        }
+    }
+
+    public boolean isEditProduct() {
+        return editProduct;
+    }
+
+    public void setEditProduct(boolean editProduct) {
+        this.editProduct = editProduct;
+    }
+
+    public boolean isShowAddProduct() {
+        return showAddProduct;
+    }
+
+    public void setShowAddProduct(boolean showAddProduct) {
+        this.showAddProduct = showAddProduct;
     }
 
     //GETTERS AND SETTERS FOR newProduct
@@ -257,57 +366,6 @@ public class ProductBean implements Serializable {
         return null;
     }
 
-    public void closeEditProduct() {
-        selectedProduct = null;
-        editProduct = false;
-        FacesContext context = FacesContext.getCurrentInstance();
-        Application application = context.getApplication();
-        ViewHandler viewHandler = application.getViewHandler();
-        UIViewRoot viewRoot = viewHandler.createView(context, context
-                .getViewRoot().getViewId());
-        context.setViewRoot(viewRoot);
-        context.renderResponse();
-    }
-
-    public void closeAddProduct() {
-        showAddProduct = false;
-        FacesContext context = FacesContext.getCurrentInstance();
-        Application application = context.getApplication();
-        ViewHandler viewHandler = application.getViewHandler();
-        UIViewRoot viewRoot = viewHandler.createView(context, context
-                .getViewRoot().getViewId());
-        context.setViewRoot(viewRoot);
-        context.renderResponse();
-    }
-
-    //GETTERs AND SETTERs
-    public Product getSelectedProduct() {
-        return selectedProduct;
-    }
-
-    public void setSelectedProduct(Product selectedProduct) {
-        if (selectedProduct != null) {
-            this.selectedProduct = selectedProduct;
-            editProduct = true;
-        }
-    }
-
-    public boolean isEditProduct() {
-        return editProduct;
-    }
-
-    public void setEditProduct(boolean editProduct) {
-        this.editProduct = editProduct;
-    }
-
-    public boolean isShowAddProduct() {
-        return showAddProduct;
-    }
-
-    public void setShowAddProduct(boolean showAddProduct) {
-        this.showAddProduct = showAddProduct;
-    }
-
     // SETTERs AND GETTERs FOR selectedProduct
     public String getProductName() {
         if (selectedProduct != null) {
@@ -385,7 +443,7 @@ public class ProductBean implements Serializable {
             packageProduct.setDiscount(discount);
         }
     }
-    
+
     public ArrayList<SingleProduct> getPackageProducts() {
         if (selectedProduct != null && (selectedProduct instanceof PackageProduct)) {
             PackageProduct packageProduct = (PackageProduct) selectedProduct;
@@ -393,59 +451,8 @@ public class ProductBean implements Serializable {
         }
         return null;
     }
-    
-    
-    
+
     public boolean selectedIsSingleProduct() {
         return selectedProduct instanceof SingleProduct;
-    }
-    
-    /**
-     * Calls getUniqueProducts(getPackageProducts()).
-     * @return an array with onlye one of each SingleProduct
-     */
-    public ArrayList<SingleProduct> getSingleProductsPackage() {
-        return productHandler.getUniqueProducts(getPackageProducts());
-    }
-    
-    public void deleteProductPackage(SingleProduct product) {
-        productHandler.deleteProductFromPackage(product, (PackageProduct)selectedProduct);
-    }
-    
-    public void addProductPackageEdit() {
-        SingleProduct selectedSingleProduct = null;
-        for (Product sp : getAllSingleProducts()) {
-            if (sp.getId() == addedSingleProductID) {
-                selectedSingleProduct = (SingleProduct) sp;
-                break;
-            }
-        }
-        if (selectedSingleProduct != null) {
-            if (selectedProduct != null && (selectedProduct instanceof PackageProduct)) {
-                PackageProduct packageProduct = (PackageProduct) selectedProduct;
-                for (int i = addedSingleProductQuantity; i > 0; i--) {
-                    packageProduct.addProduct(selectedSingleProduct);
-                }
-                addedSingleProductQuantity = 1;
-            }
-        }
-    }
-    
-    /**
-     * Save changes to a product
-     */
-    public void saveChangesProduct() {
-        if (selectedProduct != null) {
-            if(selectedProduct instanceof PackageProduct){
-                PackageProduct pr = (PackageProduct)selectedProduct;
-            }
-            if (productHandler.updateProduct(selectedProduct)) {
-                String msg = MessageHandler.getLocalizedText(MessageType.TEKST, "product_changes_saved");
-                MessageHandler.addErrorMessage(msg);
-            } else {
-                String msg = MessageHandler.getLocalizedText(MessageType.TEKST, "product_changes_not_saved");
-                MessageHandler.addErrorMessage(msg);
-            }
-        }
     }
 }

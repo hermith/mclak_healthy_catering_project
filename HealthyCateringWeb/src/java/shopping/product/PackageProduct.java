@@ -12,7 +12,7 @@ public class PackageProduct extends Product {
 
     public PackageProduct() {
         super();
-        this.discount = -1;
+        this.discount = 0;
         this.products = new ArrayList<SingleProduct>();
     }
 

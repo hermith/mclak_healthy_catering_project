@@ -10,8 +10,8 @@ public class SingleProduct extends Product {
 
     public SingleProduct() {
         super();
-        this.price = -1.0f;
-        this.kcal = -1;
+        this.price = 0.0f;
+        this.kcal = 0;
     }
 
     public SingleProduct(int id, String name, String description, float price, int kcal) {
