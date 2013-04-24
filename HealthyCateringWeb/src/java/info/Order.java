@@ -90,14 +90,9 @@ public class Order {
             return (greg.get(GregorianCalendar.YEAR))
                     + "." + greg.get(GregorianCalendar.MONTH)
                     + "." + greg.get(GregorianCalendar.DATE);
-<<<<<<< HEAD
         } else {
             return "Not delivered";
         }
-=======
-        }
-        return null;
->>>>>>> af7181bf2250d380c6984023ce36c23f8a1fc34c
     }
 
     public void setDeliveryDate(Date date) {
