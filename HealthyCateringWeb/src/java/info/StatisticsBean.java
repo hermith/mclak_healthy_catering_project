@@ -63,5 +63,7 @@ public class StatisticsBean implements Serializable {
         return df.format(sthandler.getStandardDeviation());
     }
     
-    
+    public String getAllOrdersAsString(){
+        return sthandler.getAllOrdersAsString();
+    }
 }
