@@ -10,6 +10,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import locale.MessageHandler;
+import locale.MessageType;
 import shopping.product.PackageProduct;
 import shopping.product.Product;
 import shopping.product.SingleProduct;
@@ -36,55 +37,53 @@ public class ProductBean implements Serializable {
     }
 
     public void addNewProduct() {
+        String msgSuccess = MessageHandler.getLocalizedText(MessageType.TEKST, "product_add_success");
+        String msgError = MessageHandler.getLocalizedText(MessageType.ERROR, "product_add_error");
         if (newProduct != null) {
             if (newProduct instanceof PackageProduct) {
                 if ((!getNewProductName().trim().equals("")) && (!getNewProductDescription().trim().equals("")) && (!getNewProductProducts().isEmpty())) {
                     if (productHandler.insertProduct(newProduct)) {
                         newProduct = newProductIsSingle == true ? new SingleProduct() : new PackageProduct();
-                        MessageHandler.addErrorMessage("DET GIKK BRA");
+                        MessageHandler.addErrorMessage(msgSuccess);
                     } else {
-                        MessageHandler.addErrorMessage("DET GIKK DÅRLIG");
+                        MessageHandler.addErrorMessage(msgError);
                     }
-                }else{
-                    MessageHandler.addErrorMessage("Fyll inn alle feltene");
+                } else {
+                    String msg = MessageHandler.getLocalizedText(MessageType.ERROR, "product_please_fill_form");
+                    MessageHandler.addErrorMessage(msg);
                 }
             } else {
                 if (productHandler.insertProduct(newProduct)) {
                     newProduct = newProductIsSingle == true ? new SingleProduct() : new PackageProduct();
-                    MessageHandler.addErrorMessage("DET GIKK BRA");
+                    MessageHandler.addErrorMessage(msgSuccess);
                 } else {
-                    MessageHandler.addErrorMessage("DET GIKK DÅRLIG");
+                    MessageHandler.addErrorMessage(msgError);
                 }
             }
         }
     }
 
+    /**
+     * Deletes the chosen singleProduct from (PackageProduct) newProduct
+     * @param singleProduct 
+     */
     public void deleteSingleProductPackage(SingleProduct singleProduct) {
-        PackageProduct packageProduct = (PackageProduct) newProduct;
-        if (singleProduct != null) {
-            for (int i = findQuantity(singleProduct); i > 0; i--) {
-                packageProduct.removeProduct(singleProduct);
-            }
-        }
+        productHandler.deleteProductFromPackage(singleProduct, (PackageProduct)newProduct);
     }
-
+    
+    /**
+     * 
+     * @return All SingleProducts from the database
+     */
     public ArrayList<Product> getAllSingleProducts() {
-        ArrayList<Product> singleProducts = new ArrayList<Product>();
-        for (Product p : productHandler.getAllProducts()) {
-            if (p instanceof SingleProduct) {
-                singleProducts.add(p);
-            }
-        }
-        return singleProducts;
+        return productHandler.getAllSingleProducts();
     }
 
+    /**
+     * Add a SingleProduct to (PackageProduct) newProduct.
+     */
     public void addProductPackage() {
-        SingleProduct selectedSingleProduct = null;
-        for (Product sp : getAllSingleProducts()) {
-            if (sp.getId() == addedSingleProductID) {
-                selectedSingleProduct = (SingleProduct) sp;
-            }
-        }
+        SingleProduct selectedSingleProduct = (SingleProduct) productHandler.findProductOnIdList(addedSingleProductID, getAllSingleProducts());
         if (selectedSingleProduct != null) {
             if (newProduct != null && (newProduct instanceof PackageProduct)) {
                 PackageProduct packageProduct = (PackageProduct) newProduct;
@@ -94,6 +93,60 @@ public class ProductBean implements Serializable {
                 addedSingleProductQuantity = 1;
             }
         }
+    }
+
+    /**
+     * Finds quantity of the current singleProduct in the SingleProduct list of
+     * the newProduct-object
+     *
+     * @param singleProduct
+     * @return quantity
+     */
+    public int findQuantity(SingleProduct singleProduct) {
+        return productHandler.findQuantity(singleProduct, getNewProductProducts());
+    }
+
+    /**
+     *
+     * @return newProduct.getProducts() with only one of each
+     * product
+     */
+    public ArrayList<SingleProduct> getNewProductProductsQuantity() {
+        return productHandler.getUniqueProducts(getNewProductProducts());
+    }
+
+    //GETTERS AND SETTERS
+    public Product getNewProduct() {
+        return newProduct;
+    }
+
+    public void setNewProduct(Product newProduct) {
+        this.newProduct = newProduct;
+    }
+
+    public boolean isNewProductIsSingle() {
+        return newProductIsSingle;
+    }
+
+    public void setNewProductIsSingle(boolean newProductIsSingle) {
+        this.newProductIsSingle = newProductIsSingle;
+        newProduct = newProductIsSingle == true ? new SingleProduct() : new PackageProduct();
+    }
+
+    public int getAddedSingleProductID() {
+        return addedSingleProductID;
+    }
+
+    public void setAddedSingleProductID(int addedSingleProductID) {
+        this.addedSingleProductID = addedSingleProductID;
+    }
+
+    public int getAddedSingleProductQuantity() {
+        return addedSingleProductQuantity;
+    }
+
+    public void setAddedSingleProductQuantity(int addedSingleProductQuantity) {
+        this.addedSingleProductQuantity = addedSingleProductQuantity;
     }
 
     //GETTERS AND SETTERS FOR newProduct
@@ -174,59 +227,5 @@ public class ProductBean implements Serializable {
             return packageProduct.getProducts();
         }
         return null;
-    }
-
-    public int findQuantity(SingleProduct singleProduct) {
-        int counter = 0;
-        for (SingleProduct sp : getNewProductProducts()) {
-            if (sp.getId() == singleProduct.getId()) {
-                counter++;
-            }
-        }
-        return counter;
-    }
-
-    public ArrayList<SingleProduct> getNewProductProductsQuantity() {
-        ArrayList<SingleProduct> products = new ArrayList<SingleProduct>();
-        for (SingleProduct sp : getNewProductProducts()) {
-            if (!products.contains(sp)) {
-                products.add(sp);
-            }
-        }
-        return products;
-    }
-
-    //GETTERS AND SETTERS
-    public Product getNewProduct() {
-        return newProduct;
-    }
-
-    public void setNewProduct(Product newProduct) {
-        this.newProduct = newProduct;
-    }
-
-    public boolean isNewProductIsSingle() {
-        return newProductIsSingle;
-    }
-
-    public void setNewProductIsSingle(boolean newProductIsSingle) {
-        this.newProductIsSingle = newProductIsSingle;
-        newProduct = newProductIsSingle == true ? new SingleProduct() : new PackageProduct();
-    }
-
-    public int getAddedSingleProductID() {
-        return addedSingleProductID;
-    }
-
-    public void setAddedSingleProductID(int addedSingleProductID) {
-        this.addedSingleProductID = addedSingleProductID;
-    }
-
-    public int getAddedSingleProductQuantity() {
-        return addedSingleProductQuantity;
-    }
-
-    public void setAddedSingleProductQuantity(int addedSingleProductQuantity) {
-        this.addedSingleProductQuantity = addedSingleProductQuantity;
     }
 }
