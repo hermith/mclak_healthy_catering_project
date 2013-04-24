@@ -2,6 +2,7 @@ package user;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.SessionScoped;
@@ -314,7 +315,9 @@ public class UserBean implements Serializable {
     }
     
     public ArrayList<User> getAllUsers() {
-        return userhandler.getAllUsers();
+        ArrayList<User> users = userhandler.getAllUsers();
+        Collections.sort(users);
+        return users;
     }
     
     public String updateUserPassword(User user) {

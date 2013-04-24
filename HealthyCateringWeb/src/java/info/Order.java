@@ -32,13 +32,14 @@ public class Order {
         delivery = false;
     }
 
-    public Order(int orderID, int customerID, ArrayList<Product> products, Date placedDate, Date deliveryDate, Date deliveredDate) {
+    public Order(int orderID, int customerID, ArrayList<Product> products, Date placedDate, Date deliveryDate, Date deliveredDate, boolean delivery) {
         this.orderID = orderID;
         this.products = products;
         this.customerID = customerID;
         this.placedDate = placedDate;
         this.deliveryDate = deliveryDate;
         this.deliveredDate = deliveredDate;
+        this.delivery = delivery;
     }
 
     public int numberOfProducts() {
@@ -89,9 +90,14 @@ public class Order {
             return (greg.get(GregorianCalendar.YEAR))
                     + "." + greg.get(GregorianCalendar.MONTH)
                     + "." + greg.get(GregorianCalendar.DATE);
+<<<<<<< HEAD
         } else {
             return "Not delivered";
         }
+=======
+        }
+        return null;
+>>>>>>> af7181bf2250d380c6984023ce36c23f8a1fc34c
     }
 
     public void setDeliveryDate(Date date) {

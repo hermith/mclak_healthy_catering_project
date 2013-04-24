@@ -13,7 +13,7 @@ public class PackageProduct extends Product {
     public PackageProduct() {
         super();
         this.discount = -1;
-        this.products = null;
+        this.products = new ArrayList<SingleProduct>();
     }
 
     public PackageProduct(int id, String name, String description, int discount, ArrayList<SingleProduct> products) {

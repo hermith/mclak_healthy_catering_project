@@ -4,11 +4,13 @@
  */
 package user;
 
+import sun.misc.Compare;
+
 /**
  *
  * @author aleksalr
  */
-public class User {
+public class User implements Comparable<User> {
 
     private String username;
     private String password;
@@ -81,5 +83,16 @@ public class User {
     @Override
     public String toString() {
         return "User{" + "username=" + username + ", email=" + email + ", roleId=" + roleId + '}';
+    }
+
+    @Override
+    public int compareTo(User o) {
+        if (this.username.compareTo(o.username) < 0) {
+            return -1;
+        } else if (this.username.equals(o.username)) {
+            return 0;
+        } else {
+            return 1;
+        }
     }
 }

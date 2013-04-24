@@ -4,11 +4,10 @@
  */
 package shopping;
 
-import database.DatabaseHandler;
 import info.Order;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -53,15 +52,15 @@ public class ShoppingBean implements Serializable {
         }
         this.username = username;
     }
-    
-    public void registerPrivateCustomer(String username){
+
+    public void registerPrivateCustomer(String username) {
         System.out.println("REGISTERING PRIVATE CUSTOMER");
         shoppingHandler.insertCustomer(privateCustomer, username);
         privateCustomer = new PrivateCustomer();
         corporateCustomer = new CorporateCustomer();
     }
-    
-    public void registerCorporateCustomer(String username){
+
+    public void registerCorporateCustomer(String username) {
         System.out.println("REGISTERING CORPORATE CUSTOMER");
         shoppingHandler.insertCustomer(corporateCustomer, username);
         privateCustomer = new PrivateCustomer();
@@ -154,35 +153,35 @@ public class ShoppingBean implements Serializable {
             this.privateCustomer.setZipCode(zipCode);
         }
     }
-    
+
     /**
      * ZipCode String format
      */
-    
-    public void setPrivateZipCodeString (String zip) {
-        if(privateCustomer != null) {
+    public void setPrivateZipCodeString(String zip) {
+        if (privateCustomer != null) {
             this.privateCustomer.setZipCode(Integer.parseInt(zip));
         }
     }
-    
+
     public String getPrivateZipCodeString() {
-        if(privateCustomer != null) {
+        if (privateCustomer != null) {
             return Integer.toString(privateCustomer.getZipCode());
-        }return null;
+        }
+        return null;
     }
-    
+
     public void setCorporateZipCodeString(String zip) {
-        if(corporateCustomer != null) {
+        if (corporateCustomer != null) {
             this.corporateCustomer.setZipCode(Integer.parseInt(zip));
         }
     }
-    
+
     public String getCorporateZipCodeString() {
-        if(corporateCustomer != null) {
+        if (corporateCustomer != null) {
             return Integer.toString(corporateCustomer.getZipCode());
-        }return null;
+        }
+        return null;
     }
-    
 
     public String getPrivateCity() {
         if (privateCustomer != null) {
@@ -335,11 +334,18 @@ public class ShoppingBean implements Serializable {
             order.setCustomerID(corporateCustomer.getCustomerId());
         }
         order.setProducts(getProducts());
+        java.sql.Date date = new java.sql.Date(new Date().getTime());
+        order.setPlacedDate(date);
         if (shoppingHandler.insertOrder(order)) {
             shoppingCart = new ShoppingCart();
             order = new Order();
-        }
-        return "";
+            String msg = MessageHandler.getLocalizedText(MessageType.TEKST, "order_placed");
+            MessageHandler.addErrorMessage(msg);
+            return "to_menu";
+        }else{
+            String msg = MessageHandler.getLocalizedText(MessageType.ERROR, "order_failed_to_place");
+            MessageHandler.addErrorMessage(msg);
+        }return "";
     }
 
     /**
@@ -356,8 +362,10 @@ public class ShoppingBean implements Serializable {
      * @param dato
      */
     public void setDeliveryDate(Date date) {
-        java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-        order.setDeliveryDate(sqlDate);
+        if (date != null) {
+            java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+            order.setDeliveryDate(sqlDate);
+        }
     }
 
     public Date getDeliveryDate() {
@@ -396,11 +404,19 @@ public class ShoppingBean implements Serializable {
         if (status) {
             String msg = MessageHandler.getLocalizedText(MessageType.TEKST, "edit_account_changes_saved");
             MessageHandler.addErrorMessage(msg);
-        }else {
+        } else {
             String msg = MessageHandler.getLocalizedText(MessageType.ERROR, "edit_account_changes_not_saved");
             MessageHandler.addErrorMessage(msg);
         }
         initiateCustomer(username);
         return "";
+    }
+
+    public ArrayList<Order> getOrderHistory() {
+        if(privateCustomer!=null){
+            return shoppingHandler.getOrderHistory(privateCustomer.getCustomerId());
+        }else if(corporateCustomer!=null){
+            return shoppingHandler.getOrderHistory(corporateCustomer.getCustomerId());
+        }return null;
     }
 }

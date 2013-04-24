@@ -26,8 +26,7 @@ public class ShoppingHandler implements Serializable{
     }
 
     public boolean insertOrder(Order order) {
-        //return database.insertOrder(order);
-        return false;
+        return database.insertOrder(order);
     }
 
     public ArrayList<Product> getMenu() {
@@ -75,5 +74,9 @@ public class ShoppingHandler implements Serializable{
             newCustomer.setCity(customer.getCity());
         }
         return updateCustomer(newCustomer);
+    }
+    
+    public ArrayList<Order> getOrderHistory(int customerId){
+        return database.selectOrders(customerId);
     }
 }

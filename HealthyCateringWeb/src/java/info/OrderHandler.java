@@ -32,5 +32,8 @@ public class OrderHandler {
         return db.selectCustomer(customerID);
     }
     
+    public ArrayList<Order> getOrderHistory(int customerId){
+        return db.selectOrders(customerId);
+    }
     
 }

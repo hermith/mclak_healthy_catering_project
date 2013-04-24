@@ -23,7 +23,7 @@ Contains:
 
             <ui:define name="subsite_content">
                 <h:form id="order_history">
-                    <h:dataTable var="order" value="#{infoBean.orderHistory}" >
+                    <h:dataTable var="order" value="#{shoppingBean.orderHistory}" >
                         <h:column>
                             <f:facet name="header">#{texts.product_id}</f:facet>
                                 #{order.orderID}
@@ -31,6 +31,10 @@ Contains:
                         <h:column>
                             <f:facet name="header">Order placed</f:facet>
                                 #{order.convertDateToString(order.getPlacedDate())}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">#{texts.menu_deliveryDate}</f:facet>
+                            #{order.convertDateToString(order.getDeliveryDate())}
                         </h:column>
                         <h:column>
                             <f:facet name="header">#{texts.menu_deliveryDate}</f:facet>
