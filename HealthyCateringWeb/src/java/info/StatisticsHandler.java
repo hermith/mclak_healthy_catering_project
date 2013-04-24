@@ -55,4 +55,14 @@ public class StatisticsHandler {
         
         return currentLow;
     }
+    
+    public double getAverageOrderPrice(){
+        allorders = dbhandler.selectOrders();
+        double sum = 0;
+        for (Order o : allorders){
+            sum += o.getPrice();
+        }
+        double average = sum / allorders.size();
+        return average;
+    }
 }
