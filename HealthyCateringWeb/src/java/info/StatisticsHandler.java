@@ -2,11 +2,13 @@ package info;
 
 import database.DatabaseHandler;
 import java.util.ArrayList;
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
 /**
  * @author colsen91
  */
+@ApplicationScoped
 public class StatisticsHandler {
 
     private ArrayList<Order> orders;
@@ -23,5 +25,10 @@ public class StatisticsHandler {
             total += order.getPrice();
         }
         return total;
+    }
+    
+    public int getNumOfOrders(){
+        ArrayList<Order> orders = dbhandler.selectOrders();
+        return orders.size();
     }
 }
