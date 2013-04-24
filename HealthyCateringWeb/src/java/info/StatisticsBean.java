@@ -45,4 +45,12 @@ public class StatisticsBean implements Serializable {
         return sthandler.getTotalPriceAllOrders();
     }
     
+    public double getHighestOrderPrice(){
+        return sthandler.getHighestOrder();
+    }
+    
+    public double getLowestOrderPrice(){
+        return sthandler.getLowestOrder();
+    }
+    
 }

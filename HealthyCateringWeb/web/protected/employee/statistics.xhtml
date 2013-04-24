@@ -25,7 +25,13 @@ Contains:
                 <h:outputText value="#{statisticsBean.numOfOrders}"/><hr/>
                 
                 <h:outputText value="#{texts.stats_total_price_all_orders}"/>:<br/>
-                <h:outputText value="#{statisticsBean.totalPriceAllOrders}"/>
+                <h:outputText value="#{statisticsBean.totalPriceAllOrders}"/><hr/>
+                
+                <h:outputText value="#{texts.stats_highest_price}" />:<br/>
+                <h:outputText value="#{statisticsBean.highestOrderPrice}"/><hr/>
+                
+                <h:outputText value="#{texts.stats_lowest_price}" />:<br/>
+                <h:outputText value="#{statisticsBean.lowestOrderPrice}"/><hr/>
             </ui:define>
         </ui:composition>
     </h:body>
