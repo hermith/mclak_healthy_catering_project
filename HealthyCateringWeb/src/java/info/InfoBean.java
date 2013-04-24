@@ -19,9 +19,6 @@ import locale.MessageType;
 import shopping.customer.CorporateCustomer;
 import shopping.customer.Customer;
 import shopping.customer.PrivateCustomer;
-import shopping.product.PackageProduct;
-import shopping.product.Product;
-import shopping.product.SingleProduct;
 import user.User;
 
 /**
@@ -36,23 +33,15 @@ public class InfoBean implements Serializable {
     private Customer selectedCustomer;
     private Customer selectedOrderCustomer;
     private Order selectedOrder;
-    private Product selectedProduct;
-    private int selectedSingleProductID;
     private boolean detailOrder;
     private boolean editCustomer;
-    private boolean editProduct;
-    private boolean showAddProduct;
     private boolean showActiveOrders;
-    private int selectedSingleProductQuantity;
     @Inject
     private CustomerHandler customerHandler;
-    @Inject
-    private ProductHandler productHandler;
     @Inject
     private OrderHandler orderHandler;
 
     public InfoBean() {
-        selectedSingleProductQuantity = 1;
     }
 
     public ArrayList<Order> getActiveOrders() {
@@ -115,29 +104,6 @@ public class InfoBean implements Serializable {
         context.renderResponse();
     }
 
-    public void closeEditProduct() {
-        selectedProduct = null;
-        editProduct = false;
-        FacesContext context = FacesContext.getCurrentInstance();
-        Application application = context.getApplication();
-        ViewHandler viewHandler = application.getViewHandler();
-        UIViewRoot viewRoot = viewHandler.createView(context, context
-                .getViewRoot().getViewId());
-        context.setViewRoot(viewRoot);
-        context.renderResponse();
-    }
-
-    public void closeAddProduct() {
-        showAddProduct = false;
-        FacesContext context = FacesContext.getCurrentInstance();
-        Application application = context.getApplication();
-        ViewHandler viewHandler = application.getViewHandler();
-        UIViewRoot viewRoot = viewHandler.createView(context, context
-                .getViewRoot().getViewId());
-        context.setViewRoot(viewRoot);
-        context.renderResponse();
-    }
-
     public ArrayList<Customer> getAllCustomers() {
         return customerHandler.getAllCustomers();
     }
@@ -145,11 +111,7 @@ public class InfoBean implements Serializable {
     public ArrayList<User> getAllUsers() {
         return null;
     }
-
-    public ArrayList<Product> getAllProducts() {
-        return productHandler.getAllProducts();
-    }
-
+    
     public String getFirstName() {
         if (selectedCustomer != null) {
             if (selectedCustomer instanceof PrivateCustomer) {
@@ -356,239 +318,11 @@ public class InfoBean implements Serializable {
         return "";
     }
 
-    /**
-     * product_overview metoder
-     *
-     * @return
-     */
-    public Product getSelectedProduct() {
-        return selectedProduct;
-    }
-
-    public boolean isEditProduct() {
-        return editProduct;
-    }
-
-    public boolean selectedIsSingleProduct() {
-        return selectedProduct instanceof SingleProduct;
-    }
-
-    public void setSelectedProduct(Product product) {
-        if (product != null) {
-            selectedProduct = product;
-            editProduct = true;
-        }
-    }
-
-    public boolean isShowAddProduct() {
-        return showAddProduct;
-    }
-
-    public void setShowAddProduct(boolean showAddProduct) {
-        this.showAddProduct = showAddProduct;
-    }
-
-    /**
-     * SET & GET FOR PRODUCT (selectedProduct)
-     *
-     * @return
-     */
-    public String getProductName() {
-        if (selectedProduct != null) {
-            return selectedProduct.getName();
-        }
-        return null;
-    }
-
-    public void setProductName(String name) {
-        if (selectedProduct != null && (!name.equals(""))) {
-            selectedProduct.setName(name);
-        }
-    }
-
-    public String getProductDescription() {
-        if (selectedProduct != null) {
-            return selectedProduct.getDescription();
-        }
-        return null;
-    }
-
-    public void setProductDescription(String desc) {
-        if (selectedProduct != null && (!desc.equals(""))) {
-            selectedProduct.setDescription(desc);
-        }
-    }
-
-    public int getProductKCAL() {
-        if (selectedProduct != null && (selectedProduct instanceof SingleProduct)) {
-            SingleProduct singleProduct = (SingleProduct) selectedProduct;
-            return singleProduct.getKcal();
-        }
-        return 0;
-    }
-
-    public void setProductKCAL(int KCAL) {
-        if (selectedProduct != null && (selectedProduct instanceof SingleProduct)) {
-            SingleProduct singleProduct = (SingleProduct) selectedProduct;
-            singleProduct.setKcal(KCAL);
-        }
-    }
-
-    public float getProductPrice() {
-        if (selectedProduct != null && (selectedProduct instanceof SingleProduct)) {
-            return selectedProduct.getPrice();
-        }
-        return 0;
-    }
-
-    public void setProductPrice(float price) {
-        if (selectedProduct != null && (selectedProduct instanceof SingleProduct)) {
-            SingleProduct singleProduct = (SingleProduct) selectedProduct;
-            singleProduct.setPrice(price);
-        }
-    }
-
-    public int getProductID() {
-        if (selectedProduct != null) {
-            return selectedProduct.getId();
-        }
-        return 0;
-    }
-
-    public int getProductDiscount() {
-        if (selectedProduct != null && (selectedProduct instanceof PackageProduct)) {
-            PackageProduct packageProduct = (PackageProduct) selectedProduct;
-            return packageProduct.getDiscount();
-        }
-        return 0;
-    }
-
-    public void setProductDiscount(int discount) {
-        if (selectedProduct != null && (selectedProduct instanceof PackageProduct)) {
-            PackageProduct packageProduct = (PackageProduct) selectedProduct;
-            packageProduct.setDiscount(discount);
-        }
-    }
-
-    public ArrayList<SingleProduct> getPackageProducts() {
-        if (selectedProduct != null && (selectedProduct instanceof PackageProduct)) {
-            PackageProduct packageProduct = (PackageProduct) selectedProduct;
-            return packageProduct.getProducts();
-        }
-        return null;
-    }
-
-    public ArrayList<Product> getAllSingleProducts() {
-        ArrayList<Product> singleProducts = new ArrayList<Product>();
-        for (Product p : getAllProducts()) {
-            if (p instanceof SingleProduct) {
-                singleProducts.add(p);
-            }
-        }
-        return singleProducts;
-    }
-
-    public int getSelectedSingleProductID() {
-        return selectedSingleProductID;
-    }
-
-    public void setSelectedSingleProductID(int selectedSingleProduct) {
-        this.selectedSingleProductID = selectedSingleProduct;
-    }
-
-    /**
-     * Save changes to a product
-     */
-    public void saveChangesProduct() {
-        if (selectedProduct != null) {
-            if(selectedProduct instanceof PackageProduct){
-                PackageProduct pr = (PackageProduct)selectedProduct;
-            }
-            if (productHandler.updateProduct(selectedProduct)) {
-                String msg = MessageHandler.getLocalizedText(MessageType.TEKST, "product_changes_saved");
-                MessageHandler.addErrorMessage(msg);
-            } else {
-                String msg = MessageHandler.getLocalizedText(MessageType.TEKST, "product_changes_not_saved");
-                MessageHandler.addErrorMessage(msg);
-            }
-        }
-    }
-
-    public String addProductPackage() {
-        SingleProduct selectedSingleProduct = null;
-        for (Product sp : getAllSingleProducts()) {
-            if (sp.getId() == selectedSingleProductID) {
-                selectedSingleProduct = (SingleProduct) sp;
-                break;
-            }
-        }
-        if (selectedSingleProduct != null) {
-            if (selectedProduct != null && (selectedProduct instanceof PackageProduct)) {
-                PackageProduct packageProduct = (PackageProduct) selectedProduct;
-                for (int i = selectedSingleProductQuantity; i > 0; i--) {
-                    packageProduct.addProduct(selectedSingleProduct);
-                }
-                selectedSingleProductQuantity = 1;
-            }
-        }
-        return "";
-    }
-
-    public void deleteProductPackage(SingleProduct product) {
-        if (product != null) {
-            PackageProduct packageProduct = (PackageProduct) selectedProduct;
-            for (int i = findQuantity(product); i > 0; i--) {
-                packageProduct.removeProduct(product);
-            }
-        }
-    }
-
     public boolean isShowActiveOrders() {
         return showActiveOrders;
     }
 
     public void setShowActiveOrders(boolean showActiveOrders) {
         this.showActiveOrders = showActiveOrders;
-    }
-
-    /**
-     * Finds quantity of a product in a package
-     *
-     * @param product
-     * @return
-     */
-    public int findQuantity(SingleProduct product) {
-        int counter = 0;
-        if (product != null) {
-            for (SingleProduct sp : getPackageProducts()) {
-                if (sp.getId() == product.getId()) {
-                    counter++;
-                }
-            }
-        }
-        return counter;
-    }
-
-    /**
-     * Get all SingleProducts in a package (only unique SingleProduct)
-     *
-     * @return
-     */
-    public ArrayList<SingleProduct> getSingleProductsPackage() {
-        ArrayList<SingleProduct> products = new ArrayList<SingleProduct>();
-        for (SingleProduct sp : getPackageProducts()) {
-            if (!products.contains(sp)) {
-                products.add(sp);
-            }
-        }
-        return products;
-    }
-
-    public int getSelectedSingleProductQuantity() {
-        return selectedSingleProductQuantity;
-    }
-
-    public void setSelectedSingleProductQuantity(int selectedSingleProductQuantity) {
-        this.selectedSingleProductQuantity = selectedSingleProductQuantity;
     }
 }
