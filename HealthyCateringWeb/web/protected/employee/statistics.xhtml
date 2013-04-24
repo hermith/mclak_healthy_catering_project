@@ -12,33 +12,39 @@ Contains:
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
 
     <h:body>
         <ui:composition template="/resources/template/template_master.xhtml">
             <ui:define name="subsite_header">
                 <h1>Statistics</h1>
             </ui:define>
-            
+
             <ui:define name="subsite_content">
                 <h:outputText value="#{texts.stats_num_of_orders}"/>:<br/>
                 <h:outputText value="#{statisticsBean.numOfOrders}"/><hr/>
-                
+
                 <h:outputText value="#{texts.stats_total_price_all_orders}"/>:<br/>
                 <h:outputText value="#{statisticsBean.totalPriceAllOrders}"/><hr/>
-                
+
                 <h:outputText value="#{texts.stats_highest_price}" />:<br/>
                 <h:outputText value="#{statisticsBean.highestOrderPrice}"/><hr/>
-                
+
                 <h:outputText value="#{texts.stats_lowest_price}" />:<br/>
                 <h:outputText value="#{statisticsBean.lowestOrderPrice}"/><hr/>
-                
+
                 <h:outputText value="#{texts.stats_average_price}" />:<br/>
                 <h:outputText value="#{statisticsBean.averageOrderPrice}"/><hr/>
-                
-                <h:outputText value="ÆÆÆÆÆ" />:<br/>
+
+                <h:outputText value="#{texts.stats_std_dev_order_price}" />:<br/>
                 <h:outputText value="#{statisticsBean.standardDeviation}"/><hr/>
+                <br/><br/>
+                <p:lineChart id="linear" value="#{chartBean.linearModel}" legendPosition="e"  
+                             title="Linear Chart" minY="0" maxY="10" style="height:300px"/>
             </ui:define>
         </ui:composition>
+
+
     </h:body>
 </html>
