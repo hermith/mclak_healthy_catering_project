@@ -1,0 +1,647 @@
+/* Less file for use of variables and stuff */
+
+@primary_background: #eaf9ff;
+@accent_heavy:lightblue;
+@accent_light: rgba(255, 255, 255, 0.5);
+@tab_selected: #555511;
+@tab_hover: #222211;
+
+@table_header: #B5B555;
+@table_even_row: #959566;
+@table_odd_row: #959533;
+
+@control_panel_label_bg: rgba(255, 255, 255, 0.6);
+@control_panel_label: red;
+
+@font_color: black;
+
+/* Primary definitions */
+* {
+    color: @font_color;
+    font-family: 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+p {
+    padding: 8px;
+}
+
+input {
+    color: black;
+}
+
+h1, h2 {
+    background-color: @accent_heavy;
+}
+
+h1, h2, h3, h4, h5 {
+    padding: 8px;
+}
+
+#site_width_constraint {
+    margin: 0 auto;
+    width: 990px;
+}
+
+.button_style {
+    background-color: @accent_heavy;
+    border: none;
+    padding: 2px;
+    color: @font_color;
+}
+
+body {
+    /* Width should be limited here e.g:
+    width: 1024px;
+    */
+
+}
+
+html {
+    background-color: @primary_background;
+    margin: 0;
+    padding: 0;
+    overflow-y: scroll;
+}
+
+#background-fixed {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    bottom: 0;
+    background-image:url('../resources/img/fresh_salad_bottom.png'),
+        url("../resources/img/fresh_tomato_bottom.png");
+    background-repeat: no-repeat, no-repeat;
+    background-position: left bottom, right bottom;
+    z-index: -100;
+}
+
+root { 
+    display: block;
+}
+
+ul {
+    margin: 8px;
+    margin-left: 25px;
+}
+
+table {
+    width: 100%;
+    margin: 8px;
+    margin-left: 0;
+}
+
+/* The sliding login-bar at the top */
+#top_bar_span_login_always_show {
+    padding: 4px 0;
+    text-align: center;
+    background-color: @accent_heavy;
+    color: @font_color;
+    height: 20px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+#top_bar_span_login {
+    background-color: @accent_light;
+    width: 100%;
+    height: 200px;
+    display: none;
+}
+
+#site_opaque {
+    position: absolute;
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.5);
+    display: none;
+}
+
+.error_message {
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.error_message li {
+    list-style: none;
+}
+
+/* Log in form inside the sliding bar */
+
+.login_form a {
+    color: @font_color;
+}
+
+.login_form {
+    font-size: 10px;
+    width: 350px;
+    margin: 0 auto;
+    padding-top: 50px;
+}
+
+.login_input {
+    color: black;
+    display: inline-block;
+    width: 150px;
+    margin: 4px;
+}
+
+.login_buttons_group {
+    color: @font_color;
+    margin: 0 auto;
+    display: block;
+    width: 230px;
+}
+
+.loginbutton {
+    color: black;
+    margin: 4px;
+    width: 100px;
+    display: inline-block;
+    border-radius: 4px;
+}
+
+.login_form label {
+    font-size: 15px;
+    color: @font_color;
+    display: inline-block;
+    width: 130px;
+    text-align: right;
+    margin-right: 20px;
+}
+
+.logout_form {
+    display: inline-block;
+    float: right;
+}
+
+top_right_corner {
+
+}
+
+.logout_form a {
+    margin: auto 0;
+    padding-right: 10px;
+    display: inline-block;
+    font-size: 14px;
+    color: @font_color;
+}
+
+/* Main chunks of the site*/
+header#primary_header {
+    background-color: @accent_heavy;
+    padding: 10px;
+}
+
+header#primary_header h1 {
+    background: none;
+    display: block;
+    text-align: center;
+    color: @font_color;
+    font-size: 50px;
+}
+
+nav#primary_nav {
+}
+
+article#primary_content {
+    padding: 8px;
+    margin-top: 10px;
+    background-color: @accent_light;
+    float: left;
+    width: 685px;
+}
+
+aside#sidebar {
+    margin-top: 10px;
+    padding: 8px;
+    float: right;
+    background-color: @accent_light;
+    width: 270px;
+}
+
+footer#footer {
+    background-color: @accent_heavy;
+    padding: 10px 0;
+    margin: 10px 0;
+    float: left;
+    width: 100%;
+    font-size: 11px;
+    text-align: center;
+}
+
+/* Navigation */
+ul#navul {
+    margin: 0;
+    display: block;
+    list-style-position: inside;
+    list-style-type: none;
+}
+
+ul#navul li {
+    -webkit-transition: 0.1s ease-in;
+    float: left;
+    background: @accent_heavy;
+}
+
+ul#navul li:hover {
+    background-color: @accent_light;
+    -webkit-transform: scale(1.05);
+}
+
+#navul a:link, a:visited {
+    padding: 8px 20px;
+    font-weight: bold;
+    font-size: 14px;
+    text-decoration: none;
+    display: block;
+}
+div#login_button {
+    float: right;
+}
+
+/* Flags on the top */
+
+#form_locale {
+    float: left;
+    padding-left: 10px;
+}
+
+.localeimage {
+    height: 20px;
+    width: 20px;
+    padding-right: 4px;
+}
+
+//**************************
+//   SPECIFIC PAGES BELOW
+//****************************//
+
+
+/* Remember to group by area, f.eks "lol.html" */
+
+/* Menu.xhtml */
+menu-table{   
+    border-collapse:collapse;
+}
+
+th{
+    text-align:center;
+    background:none repeat scroll 0 0 @table_header;
+    border-bottom: none;
+    padding:4px;
+}
+
+tr:nth-child(odd){
+    text-align:center;
+    background:none repeat scroll 0 0 @table_odd_row;
+    border-top: none;
+}
+
+tr:nth-child(even){
+    text-align:center;
+    background:none repeat scroll 0 0 @table_even_row;
+    border-top: none;
+}
+
+/* common/control_panel.xhtml */
+
+.control_panel_section {
+    display: block;
+    margin: 16px;
+}
+
+.control_panel_header {
+    width: 100%;
+    background-color: @accent_heavy;
+    margin-bottom: 16px;
+}
+
+.control_panel_button_section {
+    margin-left: 16px;
+    margin-bottom: 16px;
+    width: 120px;
+    height: 145px;
+    display: inline-block;
+}
+
+.control_panel_button {
+    width: 120px;
+    height: 120px;
+    display: block;
+}
+
+.control_panel_label {
+    color: @control_panel_label;
+    text-align: center;
+    font-weight: bold;
+    position: relative;
+    bottom: -5px;
+    width: 120px;
+    display: block;
+    height: 20px;
+    background-color: @control_panel_label_bg;
+    pointer-events: none;
+}
+
+/* common/register.xhtml */
+
+#registerprivate{
+}
+
+#registercorporate{
+    display: none;
+}
+
+.inputfields{
+    position: relative;
+    color: black;
+}
+
+.edit_account_table_customer {
+    text-align: left;
+}
+
+#register_tab_left h3, #register_tab_right h3 {
+    text-align: center;
+}
+
+#register_tab_left {
+    margin-top: 8px;
+    margin-left: 4px;
+    padding-bottom: 4px;
+    display: inline-block;
+    height: 30px;
+    width: 49%;
+    background-color: @accent_heavy;
+}
+
+#register_tab_right {
+    padding-bottom: 4px;
+    display: inline-block;
+    height: 30px;
+    width: 49%;
+    background-color: @tab_selected;
+}
+
+#register_tab_left:hover, #register_tab_right:hover {
+    background-color: @tab_hover;
+}
+
+#register_order_history {
+    display: none;
+}
+
+.fieldset legend {
+    font-weight: bold;
+    padding: 0 4px;
+}
+
+.half_box_left {
+    padding: 8px;   
+    display: inline-block;
+    float: left;
+    width: 48%;
+}
+
+.half_box_right {
+    padding: 8px;
+    display: inline-block;
+    float: right;
+    width: 48%;
+}
+
+.register_new_button {
+    margin: 10px;
+}
+
+/* active_orders.xhtml */
+active_orders_main_form .active_orders_table {
+    width: 100%;
+}
+
+active_orders_main_form .customer_id {
+    width: 100px; 
+}
+
+active_orders_main_form .customer_id input {
+    margin: 4px;
+    float: right;
+}
+
+active_orders_main_form .product_ids {
+}
+
+active_orders_main_form .product_ids input {
+    margin: 4px;
+    float: right;
+}
+
+active_orders_main_form .deliver_on {
+    width: 100px;
+}
+
+active_orders_main_form .details {
+    width: 20px;
+}
+
+active_orders_main_form .placed_on {
+    width: 100px;
+}
+
+active_orders_main_form .delivered {
+    width: 100px;
+}
+
+#order_tab_left h3, #order_tab_right h3 {
+    text-align: center;
+}
+
+#order_tab_left {
+    margin-top: 8px;
+    margin-left: 4px;
+    padding-bottom: 4px;
+    display: inline-block;
+    height: 30px;
+    width: 49%;
+    background-color: @accent_heavy;
+}
+
+#order_tab_right {
+    padding-bottom: 4px;
+    display: inline-block;
+    height: 30px;
+    width: 49%;
+    background-color: @tab_selected;
+}
+
+#order_tab_left:hover, #order_tab_right:hover {
+    background-color: @tab_hover;
+}
+
+#order_order_history {
+    display: none;
+}
+
+/* Used for the detailed info popup */
+#centerpoint {
+    top: 50%;
+    left: 50%;
+    position: absolute;
+}
+
+.detail_info_popup h2 {
+    background-color: @accent_heavy;
+    margin-bottom: 4px;
+}
+
+.detail_info_popup .close_info_button {
+    float: right;
+    width: 40px;
+    height: 40px;
+    left: 550px;
+    top: 20px;
+}
+
+.detail_info_popup {
+    background-color: @accent_light;
+    position: relative;
+
+    padding: 8px;
+    display: none;
+
+    width: 600px;
+    margin-left: -300px;
+
+    height: 460px;
+    margin-top: -200px;
+}
+/* Specific for popup in view_customer.xhtml */
+
+/* Specific for popup in order_overview.xhtml */
+#detail_order_info label {
+    display: inline-block;
+    width: 100px;
+}
+
+#detail_order_info label {
+    display: inline-block;
+    width: 80px;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+#detail_order_info .text {
+    display: inline-block;
+    width: 200px;
+
+}
+
+#detail_order_info #details_left_col {
+    float: left;
+    width: 600px;
+    height: 120px;
+}
+
+#detail_order_info #details_right_col {
+    float: right;
+    width: 600px;
+    height: 260px;
+    overflow: auto;
+}
+
+.active_orders_item_details_popup {
+    width: 100%;
+}
+
+/* place_order.xhtml */
+#place_order_delivery_date_form {
+    display: none;
+}
+
+/* edit_account.xhtml */
+.edit_account_customer label, .edit_account_employee label {
+    margin: 4px;    
+    display: inline-block;
+    width: 250px;
+}
+
+/* add_new_user.xhtml */
+
+#create_account_system_form {
+    width: 50%;
+    padding: 8px;
+}
+
+#create_account_system_form label {
+    padding: 4px;
+    display: inline-block;
+    width: 150px;
+    font-weight: bold;
+}
+
+#create_account_system_form .button {
+    padding: 4px;
+}
+
+#create_account_system_form\:create_account_system_radio {
+    margin: 0;
+}
+
+/* template_content.xhtml */
+
+.cart_delete_button {
+    -webkit-transform:rotate(45deg);
+}
+
+.menu_add_button {
+    color: @font_color;
+    display: block;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    background: none;
+    border: none;
+}
+
+
+/*product_overview.xhtml*/
+#popoup_add_product a {
+    padding-top: 10px;
+    font-size: 18px;
+    text-decoration: none;
+    text-align: center;
+}
+
+.add_product_tab_single_left {
+    margin-top: 8px;
+    margin-left: 4px;
+    padding-bottom: 4px;
+    display: inline-block;
+    height: 30px;
+    width: 49%;
+    background-color: @accent_heavy;
+}
+
+.add_product_tab_package_right {
+    margin-top: 8px;
+    margin-left: 4px;
+    padding-bottom: 4px;
+    display: inline-block;
+    height: 30px;
+    width: 49%;
+    background-color: @tab_selected;
+}
+
+#product_tab_left:hover, #product_tab_right:hover {
+    background-color: @tab_hover;
+}
+
+#add_product_package {
+    display: none;
+}

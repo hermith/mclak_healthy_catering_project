@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package info;
 
 import java.sql.Date;
@@ -11,7 +7,11 @@ import shopping.product.Product;
 
 /**
  *
- * @author Karl
+ * Storage object, used to store orders, contains information about delivery
+ * date, to be delivered, an ArrayList of customers as well as well as a
+ * customer ID.
+ *
+ * @author Karl, Linn
  */
 public class Order {
 
@@ -23,6 +23,10 @@ public class Order {
     private Date deliveredDate;
     public boolean delivery;
 
+    /**
+     * Standard constructor, initiates all the relevant fields to be set later
+     * with the set methods.
+     */
     public Order() {
         orderID = -1;
         customerID = -1;
@@ -32,6 +36,17 @@ public class Order {
         delivery = false;
     }
 
+    /**
+     * Constructor for initiating object with data.
+     * 
+     * @param orderID ID of the order
+     * @param customerID ID of the customer of the order.
+     * @param products ArrayList of products on the order
+     * @param placedDate Order placed date
+     * @param deliveryDate To be delivered date
+     * @param deliveredDate Was delievered date
+     * @param delivery Is delievered
+     */
     public Order(int orderID, int customerID, ArrayList<Product> products, Date placedDate, Date deliveryDate, Date deliveredDate, boolean delivery) {
         this.orderID = orderID;
         this.products = products;
@@ -42,10 +57,21 @@ public class Order {
         this.delivery = delivery;
     }
 
+    /**
+     * 
+     * Returns the number of products in this order.
+     * 
+     * @return Size of the product array
+     */
     public int numberOfProducts() {
         return products.size();
     }
 
+    /**
+     * Gets the total price of all the products in this order.
+     * 
+     * @return Total price of products
+     */
     public double getPrice() {
         double total = 0;
         for (Product prod : products) {
@@ -54,6 +80,11 @@ public class Order {
         return total;
     }
 
+    /** 
+     * Gets all the IDs of the products as a string, seperated with ", "
+     * 
+     * @return All product IDs
+     */
     public String getProductIds() {
         StringBuilder b = new StringBuilder();
         for (Product p : products) {
@@ -62,7 +93,41 @@ public class Order {
         b.delete(b.length() - 2, b.length());
         return b.toString();
     }
+    
+    /**
+     * Returns whether or not the order is delivered or not.
+     * 
+     * @return Order delivered
+     */
+    public boolean isDelivered() {
+        if (deliveredDate == null) {
+            return false;
+        }
+        return true;
+    }
 
+    /**
+     * Converts an java.util.Date object to a more humanly readable String. For
+     * use in DataTables and such.
+     * 
+     * @param date util.Date to convert
+     * @return Friendly formatted String
+     */
+    public String convertDateToString(Date date) {
+        if (date != null) {
+            GregorianCalendar greg = new GregorianCalendar();
+            greg.setTimeInMillis(date.getTime());
+            return (greg.get(GregorianCalendar.YEAR))
+                    + "." + greg.get(GregorianCalendar.MONTH)
+                    + "." + greg.get(GregorianCalendar.DATE);
+        } else {
+            return "Not delivered";
+        }
+    }
+
+    /**
+     * GETTERS AND SETTERS BELOW
+     */
     public int getCustomerID() {
         return customerID;
     }
@@ -73,25 +138,6 @@ public class Order {
 
     public String getDeliveryDateAsString() {
         return convertDateToString(deliveryDate);
-    }
-
-    public boolean isDelivered() {
-        if (deliveredDate == null) {
-            return false;
-        }
-
-        return true;
-    }
-
-    public String convertDateToString(Date date) {
-        if (date != null) {
-            GregorianCalendar greg = new GregorianCalendar();
-            greg.setTimeInMillis(date.getTime());
-            return (greg.get(GregorianCalendar.YEAR))
-                    + "." + greg.get(GregorianCalendar.MONTH)
-                    + "." + greg.get(GregorianCalendar.DATE);
-        }
-        return null;
     }
 
     public void setDeliveryDate(Date date) {
