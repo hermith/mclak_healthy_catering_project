@@ -19,6 +19,8 @@ import locale.MessageType;
 import shopping.customer.CorporateCustomer;
 import shopping.customer.Customer;
 import shopping.customer.PrivateCustomer;
+import shopping.product.Product;
+import shopping.product.SingleProduct;
 import user.User;
 
 /**
@@ -40,6 +42,8 @@ public class InfoBean implements Serializable {
     private CustomerHandler customerHandler;
     @Inject
     private OrderHandler orderHandler;
+    @Inject
+    private ProductHandler productHandler;
 
     public InfoBean() {
     }
@@ -111,7 +115,7 @@ public class InfoBean implements Serializable {
     public ArrayList<User> getAllUsers() {
         return null;
     }
-    
+
     public String getFirstName() {
         if (selectedCustomer != null) {
             if (selectedCustomer instanceof PrivateCustomer) {
@@ -324,5 +328,31 @@ public class InfoBean implements Serializable {
 
     public void setShowActiveOrders(boolean showActiveOrders) {
         this.showActiveOrders = showActiveOrders;
+    }
+
+    /**
+     * Calls findQuantity(product, selectedOrder.getProducts()).
+     *
+     * @param product
+     * @return quantity of the current product in the selectedOrder->productlist
+     */
+    public int findQuantityProduct(Product product) {
+        if (selectedOrder != null) {
+            return productHandler.findQuantity(product, selectedOrder.getProducts());
+        }
+        return 0;
+    }
+
+    /**
+     * Calls getUniqueProductsList(selectedOrder.getProducts()). Sort the
+     * products in selectedOrder with only one of each product.
+     *
+     * @return Unique product list
+     */
+    public ArrayList<Product> getOrderProducts() {
+        if (selectedOrder != null) {
+            return productHandler.getUniqueProductsList(selectedOrder.getProducts());
+        }
+        return null;
     }
 }

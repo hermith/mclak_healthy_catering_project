@@ -55,7 +55,7 @@ public class ProductBean implements Serializable {
     public void addNewProduct() {
         if (newProduct != null) {
             if (newProduct instanceof PackageProduct) {
-                 if (getNewProductProducts().isEmpty()) {
+                if (getNewProductProducts().isEmpty()) {
                     String msg = MessageHandler.getLocalizedText(MessageType.ERROR, "product_please_fill_form");
                     MessageHandler.addErrorMessage(msg);
                     return;
@@ -218,6 +218,10 @@ public class ProductBean implements Serializable {
         context.renderResponse();
     }
 
+    /**
+     * 
+     * @param product
+     */
     public void deleteProductDB(Product product) {
     }
 

@@ -114,7 +114,7 @@ Contains:
                             <h3>Products</h3>
                             <div id='details_right_col'>
                                 <h:dataTable styleClass="active_orders_item_details_popup"
-                                             value="#{infoBean.selectedOrder.products}"
+                                             value="#{infoBean.orderProducts}"
                                              var="product"
                                              >
                                     <h:column>
@@ -129,6 +129,8 @@ Contains:
                                     <h:column>
                                         <f:facet name="header">Price</f:facet>
                                         #{product.price}</h:column>
+                                    <h:column><f:facet name="header">#{texts.product_quantity}</f:facet>
+                                        #{infoBean.findQuantityProduct(product)}</h:column>
                                 </h:dataTable>
                             </div>
                         </div>

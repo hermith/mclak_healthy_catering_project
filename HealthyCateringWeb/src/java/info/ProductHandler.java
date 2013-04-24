@@ -66,8 +66,18 @@ public class ProductHandler {
         return counter;
     }
 
+    public int findQuantity(Product product, ArrayList<Product> products) {
+        int counter = 0;
+        for (Product p : products) {
+            if (p.getId() == product.getId()) {
+                counter++;
+            }
+        }
+        return counter;
+    }
+
     /**
-     * Used to sort Products by quantity.
+     * Used to sort SingleProducts by quantity.
      *
      * @param productList
      * @return an array with only one of each SingleProduct in productList.
@@ -80,6 +90,25 @@ public class ProductHandler {
             }
         }
         return products;
+    }
+
+    /**
+     * Used to sort Products by quantity.
+     *
+     * @param productList
+     * @return an array with only one of each Product in productList.
+     */
+    public ArrayList<Product> getUniqueProductsList(ArrayList<Product> productList) {
+        if (productList != null) {
+            ArrayList<Product> products = new ArrayList<Product>();
+            for (Product sp : productList) {
+                if (!products.contains(sp)) {
+                    products.add(sp);
+                }
+            }
+            return products;
+        }
+        return null;
     }
 
     /**
