@@ -79,7 +79,7 @@ Contains:
                             <h:messages for="edit_account_email1"/>
                             <br/>
                         </h:panelGroup>
-                        <h:commandButton value="#{texts.edit_account_save_changes}" action="#{shoppingBean.saveChangesAccount()}"/>
+                        <h:commandButton styleClass="button_style" value="#{texts.edit_account_save_changes}" action="#{shoppingBean.saveChangesAccount()}"/>
                     </h:panelGroup>
                 </h:form>
                 <h:form>
@@ -102,7 +102,7 @@ Contains:
                         <h:messages for="msg"/>
 
                     </h:panelGroup>
-                    <h:commandButton action="#{userBean.changePassword()}" value="#{texts.edit_account_save_changes}"/>
+                    <h:commandButton styleClass="button_style" action="#{userBean.changePassword()}" value="#{texts.edit_account_save_changes}"/>
                     <h:messages />
                 </h:form>
             </ui:define>
