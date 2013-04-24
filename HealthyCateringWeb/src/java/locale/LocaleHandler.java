@@ -13,26 +13,26 @@ import javax.inject.Named;
 @SessionScoped
 public class LocaleHandler implements Serializable {
 
-    private Locale spraak = FacesContext.getCurrentInstance().getViewRoot().getLocale();
+    private Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
 
     public String setEnglish() {
-        spraak = new Locale("en");
-        FacesContext.getCurrentInstance().getViewRoot().setLocale(spraak);
+        locale = new Locale("en");
+        FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
         return null;
         
     }
 
     public String setNorwegian() {
-        spraak = new Locale("no");
-        FacesContext.getCurrentInstance().getViewRoot().setLocale(spraak);
+        locale = new Locale("no");
+        FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
         return null;
     }
 
     public Locale getLang() {
-        return spraak;
+        return locale;
     }
 
     public void setLang(Locale spraak) {
-        this.spraak = spraak;
+        this.locale = spraak;
     }
 }
