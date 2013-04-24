@@ -31,6 +31,7 @@ Contains:
                     <h:inputHidden value="#{productBean.newProductIsSingle}" id="show_left_tab" />
                 </h:form>
 
+                <!--View all products-->
                 <h:form>
                     <h:dataTable var="product" value="#{productBean.allProductsDB}">
                         <h:column>
@@ -47,11 +48,20 @@ Contains:
                         </h:column>
                         <h:column>
                             <f:facet name="header"></f:facet>
-                            <h:commandButton value="#{texts.edit_account_edit}" action="#{productBean.setSelectedProduct(product)}" styleClass="menu_add_button"/>
+                            <h:commandButton value="#{texts.edit_account_edit}" 
+                                             action="#{productBean.setSelectedProduct(product)}" 
+                                             styleClass="menu_add_button"/>
+                        </h:column>
+                        <h:column>
+                            <h:commandButton value="#{texts.product_delete}" 
+                                             action="#{productBean.deleteProductDB(product)}" 
+                                             styleClass="menu_add_button"/>
                         </h:column>
                     </h:dataTable>
                     <br/>
-                    <h:commandButton action="#{productBean.setShowAddProduct(true)}" styleClass="button_style" value="#{texts.product_add_new_product}" />
+                    <h:commandButton action="#{productBean.setShowAddProduct(true)}" 
+                                     styleClass="button_style" 
+                                     value="#{texts.product_add_new_product}" />
 
                     <!--EDIT PRODUKT-->
                     <div id="centerpoint">
@@ -60,16 +70,16 @@ Contains:
                                              image="/resources/img/info_icon.png"
                                              action='#{productBean.closeEditProduct()}'
                                              immediate="true"/>
-                            <h2>Edit product</h2>
+                            <h2>#{texts.product_edit}</h2>
                             <h:panelGroup styleClass="edit_account_employee" rendered="#{productBean.editProduct}">
-
                                 <label>#{texts.product_id}</label>
                                 <h:outputText value="#{productBean.productID}" /><br/>
                                 <label>#{texts.product_name}: </label>
                                 <h:inputText required="true" requiredMessage="#{error.product_required_name}" value="#{productBean.productName}" /><br/>
                                 <label>#{texts.product_description}: </label>
                                 <h:inputText required="true" requiredMessage="#{error.product_required_desc}" value="#{productBean.productDescription}" /><br/>
-                                <!--SingleProduct-->
+
+                                <!--SingleProduct only-->
                                 <h:panelGroup rendered="#{productBean.selectedIsSingleProduct()}">
                                     <label>#{texts.product_kcal}: </label>
                                     <h:inputText requiredMessage="#{error.product_required_KCAL}" required="true" value="#{productBean.productKCAL}" >
@@ -79,13 +89,17 @@ Contains:
                                     <h:inputText required="true" requiredMessage="#{error.product_required_pris}" value="#{productBean.productPrice}" >
                                     </h:inputText><br/>
                                 </h:panelGroup>
-                                <!--PackageProduct-->
+
+                                <!--PackageProduct only-->
                                 <h:panelGroup rendered="#{!productBean.selectedIsSingleProduct()}" >
                                     <label>#{texts.product_discount}</label>
-                                    <h:inputText required="true" requiredMessage="#{error.product_required_discount}" value="#{productBean.productDiscount}" /><br/>
-                                    <label>Totalpris:</label>
+                                    <h:inputText required="true" 
+                                                 requiredMessage="#{error.product_required_discount}" 
+                                                 value="#{productBean.productDiscount}" /><br/>
+                                    <label>#{texts.menu_total}: </label>
                                     <h:outputText value="#{productBean.productPrice}" /><br/>
-                                    <h3>Produkter</h3>
+
+                                    <!--All products in current packageProduct-->
                                     <h:dataTable value="#{productBean.singleProductsPackage}" var="productPackage" >
                                         <h:column >
                                             <f:facet name="header">#{texts.product_name}</f:facet>
@@ -100,9 +114,12 @@ Contains:
                                             #{productBean.findQuantitySelected(productPackage)}
                                         </h:column>
                                         <h:column>
-                                            <h:commandButton action="#{productBean.deleteProductPackage(productPackage)}" styleClass="menu_add_button" value="#{texts.product_delete}" />
+                                            <h:commandButton action="#{productBean.deleteProductPackage(productPackage)}" 
+                                                             styleClass="menu_add_button" value="#{texts.product_delete}" />
                                         </h:column>
                                     </h:dataTable>
+
+                                    <!--Add a new product to the array of singleProducts-->
                                     #{texts.product_add_product}: 
                                     <h:selectOneMenu value="#{productBean.addedSingleProductID}" >
                                         <f:selectItems value="#{productBean.allSingleProducts}" 
@@ -119,7 +136,7 @@ Contains:
                         </div>
                     </div>
                 </h:form>
-                
+
                 <!--ADD PRODUCT-->
                 <h:form>
                     <div id="centerpoint">
@@ -129,8 +146,14 @@ Contains:
                                              action='#{productBean.closeAddProduct()}'
                                              immediate="true"/>
                             <h2>#{texts.product_add_new_product}</h2>
-                            <h:commandLink action="#{productBean.setNewProductIsSingle(true)}" immediate="true" styleClass="add_product_tab_single_left">Single</h:commandLink>
-                            <h:commandLink action="#{productBean.setNewProductIsSingle(false)}" immediate="true" styleClass="add_product_tab_package_right">Package</h:commandLink>
+                            <h:commandLink action="#{productBean.setNewProductIsSingle(true)}" immediate="true" 
+                                           styleClass="add_product_tab_single_left">
+                                #{texts.product_single}
+                            </h:commandLink>
+                            <h:commandLink action="#{productBean.setNewProductIsSingle(false)}" immediate="true" 
+                                           styleClass="add_product_tab_package_right">
+                                #{texts.product_package}
+                            </h:commandLink>
 
                             <!--ADD SINGLE PRODUCT-->
                             <div id="add_product_single">
@@ -147,9 +170,22 @@ Contains:
                             <!--ADD PACKAGE PRODUCT-->
                             <div id="add_product_package">
                                 <h:panelGroup rendered="#{!productBean.newProductIsSingle}" styleClass="edit_account_employee">
-                                    <label>#{texts.product_name}:</label><h:inputText value="#{productBean.newProductName}" required="true" requiredMessage="#{error.product_required_name}"/><br/>
-                                    <label>#{texts.product_description}:</label><h:inputText value="#{productBean.newProductDescription}" required="true" requiredMessage="#{error.product_required_desc}" /><br/>
-                                    <label>#{texts.product_discount}:</label><h:inputText value="#{productBean.newProductDiscount}" required="true" requiredMessage="#{error.product_required_discount}" /><br/>
+                                    <label>#{texts.product_name}:</label>
+                                    <h:inputText value="#{productBean.newProductName}" 
+                                                 required="true" 
+                                                 requiredMessage="#{error.product_required_name}"/><br/>
+                                    <label>#{texts.product_description}:</label>
+                                    <h:inputText value="#{productBean.newProductDescription}" 
+                                                 required="true" 
+                                                 requiredMessage="#{error.product_required_desc}" /><br/>
+                                    <label>#{texts.product_discount}:</label>
+                                    <h:inputText value="#{productBean.newProductDiscount}" 
+                                                 required="true" 
+                                                 requiredMessage="#{error.product_required_discount}" /><br/>
+                                    <label>#{texts.menu_total}: </label>
+                                    <h:outputText value="#{productBean.newProductPrice}" /><br/>
+
+                                    <!--All products in package-->
                                     <h:dataTable var="singleProduct" value="#{productBean.newProductProductsQuantity}">
                                         <h:column>
                                             <f:facet name="header">#{texts.product_name}</f:facet>
@@ -168,7 +204,9 @@ Contains:
                                             #{productBean.findQuantity(singleProduct)}
                                         </h:column>
                                         <h:column>
-                                            <h:commandButton styleClass="menu_add_button" action="#{productBean.deleteSingleProductPackage(singleProduct)}" value="#{texts.product_delete}" />
+                                            <h:commandButton styleClass="menu_add_button" 
+                                                             action="#{productBean.deleteSingleProductPackage(singleProduct)}" 
+                                                             value="#{texts.product_delete}" />
                                         </h:column>
                                     </h:dataTable>
                                     #{texts.product_add_product}: 

@@ -35,7 +35,7 @@ public class ProductBean implements Serializable {
 
     public ProductBean() {
         newProductIsSingle = true;
-        reInitializeNewProduct();
+        newProduct = new SingleProduct();
         addedSingleProductQuantity = 1;
     }
 
@@ -53,28 +53,21 @@ public class ProductBean implements Serializable {
      * the new product in the database.
      */
     public void addNewProduct() {
-        String msgSuccess = MessageHandler.getLocalizedText(MessageType.TEKST, "product_add_success");
-        String msgError = MessageHandler.getLocalizedText(MessageType.ERROR, "product_add_error");
         if (newProduct != null) {
             if (newProduct instanceof PackageProduct) {
-                if (!getNewProductProducts().isEmpty()) {
-                    if (productHandler.insertProduct(newProduct)) {
-                        reInitializeNewProduct();
-                        MessageHandler.addErrorMessage(msgSuccess);
-                    } else {
-                        MessageHandler.addErrorMessage(msgError);
-                    }
-                } else {
+                 if (getNewProductProducts().isEmpty()) {
                     String msg = MessageHandler.getLocalizedText(MessageType.ERROR, "product_please_fill_form");
                     MessageHandler.addErrorMessage(msg);
+                    return;
                 }
+            }
+            if (productHandler.insertProduct(newProduct)) {
+                reInitializeNewProduct();
+                String msg = MessageHandler.getLocalizedText(MessageType.TEKST, "product_add_success");
+                MessageHandler.addErrorMessage(msg);
             } else {
-                if (productHandler.insertProduct(newProduct)) {
-                    reInitializeNewProduct();
-                    MessageHandler.addErrorMessage(msgSuccess);
-                } else {
-                    MessageHandler.addErrorMessage(msgError);
-                }
+                String msg = MessageHandler.getLocalizedText(MessageType.ERROR, "product_add_error");
+                MessageHandler.addErrorMessage(msg);
             }
         }
     }
@@ -225,6 +218,9 @@ public class ProductBean implements Serializable {
         context.renderResponse();
     }
 
+    public void deleteProductDB(Product product) {
+    }
+
     //GETTERS AND SETTERS
     public Product getNewProduct() {
         return newProduct;
@@ -284,6 +280,7 @@ public class ProductBean implements Serializable {
 
     public void setShowAddProduct(boolean showAddProduct) {
         this.showAddProduct = showAddProduct;
+        reInitializeNewProduct();
     }
 
     //GETTERS AND SETTERS FOR newProduct
@@ -330,8 +327,7 @@ public class ProductBean implements Serializable {
 
     public float getNewProductPrice() {
         if (newProduct != null) {
-            SingleProduct singleProduct = (SingleProduct) newProduct;
-            return singleProduct.getPrice();
+            return newProduct.getPrice();
         }
         return 0;
     }
