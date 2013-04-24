@@ -16,8 +16,7 @@ Contains:
       xmlns:p="http://primefaces.org/ui">
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
-
-    <h:body>
+    <h:body onload='init'>
         <ui:composition template="/resources/template/template_master.xhtml">
             <ui:define name="subscript">
                 <h:outputScript library="js" name="/jscharts.js" />
@@ -43,23 +42,22 @@ Contains:
                 <h:outputText value="#{texts.stats_average_price}" />:<br/>
                 <h:outputText value="#{statisticsBean.averageOrderPrice}"/><hr/>
 
-
-                <h:outputText value="ÆÆÆÆÆ" />:<br/>
+                <h:outputText value="#{texts.stats_std_dev_order_price}" />:<br/>
                 <h:outputText value="#{statisticsBean.standardDeviation}"/><hr/>
 
+                <h:outputText value="#{statisticsBean.allOrdersAsString}"/>
+                <br/><br/>
                 <h:form id="stat_form">
                     <h:inputHidden id="orderstring" value="#{statisticsBean.allOrdersAsString}"/>
                 </h:form>
-                <h:outputText value="#{statisticsBean.allOrdersAsString}"/>
-                <br/><br/>
-                <div id="graph">Replacement, pay no attention</div>
-                
+
+                <div id="graph"></div>
+                <script type="text/javascript">
+                    drawGraph();
+                    getData();
+                </script>
             </ui:define>
-
-
-
         </ui:composition>
-
 
     </h:body>
 </html>

@@ -84,13 +84,10 @@ public class StatisticsHandler {
 
         for (int i = 0; i < allorders.size(); i++) {
 
-            if (i != 0) {
-                so += "&";
-            }
-
             so += allorders.get(i).getOrderID();
-            so += "/";
+            so += " ";
             so += allorders.get(i).getPrice();
+            so += " ";
         }
         
         return so;
