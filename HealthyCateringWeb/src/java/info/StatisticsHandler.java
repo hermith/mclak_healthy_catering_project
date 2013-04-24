@@ -46,7 +46,7 @@ public class StatisticsHandler {
     
     public double getLowestOrder() {
         allorders = dbhandler.selectOrders();
-        double currentLow = 0;
+        double currentLow = allorders.get(0).getPrice();
         for (Order o : allorders) {
             if(o.getPrice() < currentLow){
                 currentLow = o.getPrice();
@@ -64,5 +64,18 @@ public class StatisticsHandler {
         }
         double average = sum / allorders.size();
         return average;
+    }
+    
+    public double getStandardDeviation(){
+        allorders = dbhandler.selectOrders();
+        double sum = 0;
+        double avg = getAverageOrderPrice();
+        for(Order o : allorders){
+            sum += Math.pow((avg-o.getPrice()), 2);
+        }
+        double dev = sum / allorders.size();
+        double stdDev = Math.sqrt(dev);
+        return stdDev;
+        
     }
 }

@@ -57,5 +57,9 @@ public class StatisticsBean implements Serializable {
         return sthandler.getAverageOrderPrice();
     }
     
+    public double getStandardDeviation(){
+        return sthandler.getStandardDeviation();
+    }
+    
     
 }
