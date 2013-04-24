@@ -115,6 +115,7 @@ public class InfoBean implements Serializable {
         context.renderResponse();
     }
 
+    //KAN FJERNES
     public void closeEditProduct() {
         selectedProduct = null;
         editProduct = false;
@@ -127,6 +128,7 @@ public class InfoBean implements Serializable {
         context.renderResponse();
     }
 
+    //KAN FJERNES
     public void closeAddProduct() {
         showAddProduct = false;
         FacesContext context = FacesContext.getCurrentInstance();
@@ -373,6 +375,7 @@ public class InfoBean implements Serializable {
         return selectedProduct instanceof SingleProduct;
     }
 
+    //KAN FJERNES
     public void setSelectedProduct(Product product) {
         if (product != null) {
             selectedProduct = product;

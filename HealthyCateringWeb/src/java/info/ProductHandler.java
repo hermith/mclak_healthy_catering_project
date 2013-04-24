@@ -65,6 +65,7 @@ public class ProductHandler {
 
     /**
      * Used to sort Products by quantity.
+     *
      * @param productList
      * @return an array with only one of each SingleProduct in productList.
      */
@@ -80,6 +81,7 @@ public class ProductHandler {
 
     /**
      * Finds all the SingleProducts in the database
+     *
      * @return All SingleProducts in the database
      */
     public ArrayList<Product> getAllSingleProducts() {
@@ -94,6 +96,7 @@ public class ProductHandler {
 
     /**
      * Finds the Product in list with id=productID
+     *
      * @param productID
      * @param list
      * @return Product product
@@ -110,8 +113,9 @@ public class ProductHandler {
 
     /**
      * Deletes all singleProduct from packageProduct
+     *
      * @param singleProduct
-     * @param packageProduct 
+     * @param packageProduct
      */
     public void deleteProductFromPackage(SingleProduct singleProduct, PackageProduct packageProduct) {
         if ((singleProduct != null) && (packageProduct != null)) {
