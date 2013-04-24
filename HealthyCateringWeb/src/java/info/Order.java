@@ -44,10 +44,10 @@ public class Order {
     public int numberOfProducts() {
         return products.size();
     }
-    
-    public double getPrice(){
+
+    public double getPrice() {
         double total = 0;
-        for(Product prod : products){
+        for (Product prod : products) {
             total += prod.getPrice();
         }
         return total;
@@ -83,11 +83,15 @@ public class Order {
     }
 
     public String convertDateToString(Date date) {
-        GregorianCalendar greg = new GregorianCalendar();
-        greg.setTimeInMillis(date.getTime());
-        return (greg.get(GregorianCalendar.YEAR))
-                + "." + greg.get(GregorianCalendar.MONTH)
-                + "." + greg.get(GregorianCalendar.DATE);
+        if (date != null) {
+            GregorianCalendar greg = new GregorianCalendar();
+            greg.setTimeInMillis(date.getTime());
+            return (greg.get(GregorianCalendar.YEAR))
+                    + "." + greg.get(GregorianCalendar.MONTH)
+                    + "." + greg.get(GregorianCalendar.DATE);
+        } else {
+            return "Not delivered";
+        }
     }
 
     public void setDeliveryDate(Date date) {

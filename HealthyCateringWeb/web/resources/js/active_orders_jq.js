@@ -1,4 +1,3 @@
-var show_active = true;
 $(document).ready(function() {
 
     var show_popup = document.getElementById("active_orders_form:show_customer_detail").value === "true";
