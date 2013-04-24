@@ -5,6 +5,7 @@
 package info;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -57,8 +58,13 @@ public class StatisticsBean implements Serializable {
         return sthandler.getAverageOrderPrice();
     }
     
-    public double getStandardDeviation(){
-        return sthandler.getStandardDeviation();
+    public String getStandardDeviation(){
+        DecimalFormat df = new DecimalFormat("#.##");
+        return df.format(sthandler.getStandardDeviation());
+    }
+    
+    public String getAllOrdersAsString(){
+        return sthandler.getAllOrdersAsString();
     }
     
     
