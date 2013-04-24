@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package email;
 
 import java.io.File;
@@ -20,11 +16,11 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.servlet.ServletContext;
 
 /**
- *
- * Use this to send emails to customers. Inject this into handlers to use it.
+ * /*
+ * This file is used to send emails from the company email account that is
+ * noreply.healthycatering@gmail.com
  *
  * @author Karl
  */
@@ -38,6 +34,10 @@ public class EmailHandler {
     private String emailPassword;
     private Properties props;
 
+    /**
+     * the contructor initiates the properties required to connect to the gmail
+     * smtp server.
+     */
     public EmailHandler() {
         props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com");
@@ -98,6 +98,12 @@ public class EmailHandler {
         }
     }
 
+    /**
+     * Generates a 8-character long password with randomized capital,
+     * non-capital and numbers.
+     *
+     * @return A generated 8-length password
+     */
     public String generatePassword() {
         // Numbers are 48-57 (0-9)
         // Letters are 65-90 (A-Z)
@@ -122,6 +128,13 @@ public class EmailHandler {
         return b.toString();
     }
 
+    /**
+     * This gets the password of the gmail account from a local file. This is
+     * used to make sure the password is not commited to public records on the
+     * VCS (Github).
+     * 
+     * @return The local stored password
+     */
     private String getPasswordFromFile() {
         FileInputStream stream;
         System.out.println(FacesContext.getCurrentInstance().getExternalContext().getRealPath("/"));
@@ -135,10 +148,5 @@ public class EmailHandler {
             System.out.println(e.toString());
         }
         return "";
-    }
-
-    public static void main(String args[]) {
-        EmailHandler e = new EmailHandler();
-        e.getPasswordFromFile();
     }
 }
