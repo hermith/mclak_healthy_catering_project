@@ -63,16 +63,15 @@ public class DatabaseHandler {
     private static final String STM_UPDATE_PRODUCT = "UPDATE Product_Table SET product_name = ?, product_description = ? WHERE product_id = ?";
     private static final String STM_UPDATE_SINGLE_PRODUCT = "UPDATE Single_Product_Table SET product_price = ?, product_kcal = ? WHERE product_id = ?";
     private static final String STM_UPDATE_PACKAGE_PRODUCT = "UPDATE Package_Product_Table SET product_discount = ? WHERE product_id = ?";
-    private static final String STM_UPDATE_PACKAGE_SINGLE_PRODUCT = "UPDATE Package_Single_Product_Table SET quantity = ? WHERE package_product_id = ? AND single_product_id = ?";
     private static final String STM_UPDATE_PACKAGE_SINGLE_PRODUCT_INCREMENT_QUANTITY = "UPDATE Package_Single_Product_Table SET quantity = ((SELECT quantity FROM Package_Single_Product_Table WHERE package_product_id = ? AND single_product_id = ?) + 1) WHERE package_product_id = ? AND single_product_id = ?";
     private static final String STM_DELETE_PACKAGE_SINGLE_PRODUCTS = "DELETE FROM Package_Single_Product_Table WHERE package_product_id = ?";
-    private static final String STM_SELECT_ORDER = "SELECT customer_id AS customer_id, date_placed AS date_placed, date_to_be_delivered AS date_to_be_delivered, date_delivered AS date_delivered FROM Order_Table WHERE order_id = ?";
+    private static final String STM_SELECT_ORDER = "SELECT customer_id AS customer_id, date_placed AS date_placed, date_to_be_delivered AS date_to_be_delivered, date_delivered AS date_delivered, is_delivery AS is_delivery FROM Order_Table WHERE order_id = ?";
     private static final String STM_SELECT_ORDER_PRODUCTS = "SELECT product_id AS product_id, quantity AS quantity FROM Order_Product_Table WHERE order_id = ?";
     private static final String STM_SELECT_ORDER_IDS = "SELECT order_id AS order_id FROM Order_Table";
     private static final String STM_SELECT_ORDER_IDS_BASED_ON_CUSTOMER_ID = "SELECT order_id AS order_id FROM Order_Table WHERE customer_id = ?";
-    private static final String STM_INSERT_ORDER = "INSERT INTO Order_Table(customer_id, date_placed, date_to_be_delivered, date_delivered) VALUES(?, ?, ?, ?)";
+    private static final String STM_INSERT_ORDER = "INSERT INTO Order_Table(customer_id, date_placed, date_to_be_delivered, date_delivered, is_delivery) VALUES(?, ?, ?, ?, ?)";
     private static final String STM_INSERT_ORDER_PRODUCT = "INSERT INTO Order_Product_Table(order_id, product_id, quantity) VALUES(?, ?, ?)";
-    private static final String STM_UPDATE_ORDER = "UPDATE Order_Table SET customer_id = ?, date_placed = ?, date_to_be_delivered = ?, date_delivered = ? WHERE order_id = ?";
+    private static final String STM_UPDATE_ORDER = "UPDATE Order_Table SET customer_id = ?, date_placed = ?, date_to_be_delivered = ?, date_delivered = ?, is_delivery = ? WHERE order_id = ?";
     private static final String STM_UPDATE_ORDER_DATE_DELIVERED = "UPDATE Order_Table SET date_delivered = ? WHERE order_id = ?";
     private static final String STM_DELETE_ORDER = "DELETE FROM Order_Table WHERE order_id = ?";
     private static final String STM_DELETE_ORDER_PRODUCTS = "DELETE FROM Order_Product_Table WHERE order_id = ? ";
@@ -100,6 +99,7 @@ public class DatabaseHandler {
     private static final String COLUMN_DATE_PLACED = "date_placed";
     private static final String COLUMN_DATE_TO_BE_DELIVERED = "date_to_be_delivered";
     private static final String COLUMN_DATE_DELIVERED = "date_delivered";
+    private static final String COLUMN_IS_DELIVERY = "is_delivery";
     private boolean productsTableChanged;
     private DataSource dataSource;
 
@@ -924,7 +924,8 @@ public class DatabaseHandler {
                 Date datePlaced = resSet.getDate(COLUMN_DATE_PLACED);
                 Date dateToBeDelivered = resSet.getDate(COLUMN_DATE_TO_BE_DELIVERED);
                 Date dateDelivered = resSet.getDate(COLUMN_DATE_DELIVERED);
-                Order order = new Order(orderId, customerId, new ArrayList<Product>(), datePlaced, dateToBeDelivered, dateDelivered);
+                boolean delivery = resSet.getBoolean(COLUMN_IS_DELIVERY);
+                Order order = new Order(orderId, customerId, new ArrayList<Product>(), datePlaced, dateToBeDelivered, dateDelivered, delivery);
                 stm = conn.prepareStatement(STM_SELECT_ORDER_PRODUCTS);
                 stm.setInt(1, orderId);
                 resSet = stm.executeQuery();
@@ -1062,6 +1063,7 @@ public class DatabaseHandler {
             stm.setDate(2, order.getPlacedDate());
             stm.setDate(3, order.getDeliveryDate());
             stm.setDate(4, order.getDeliveredDate());
+            stm.setInt(5, ((order.isDelivery()) ? 1 : 0));
             numberOfRowsUpdated = stm.executeUpdate();
             if (numberOfRowsUpdated == 1) {
                 numberOfRowsUpdated = -1;
@@ -1136,7 +1138,8 @@ public class DatabaseHandler {
             stm.setDate(2, order.getPlacedDate());
             stm.setDate(3, order.getDeliveryDate());
             stm.setDate(4, order.getDeliveredDate());
-            stm.setInt(5, order.getOrderID());
+            stm.setInt(5, ((order.isDelivery()) ? 1 : 0));
+            stm.setInt(6, order.getOrderID());
             numberOfRowsUpdated = stm.executeUpdate();
             if (numberOfRowsUpdated == 1) {
                 numberOfRowsUpdated = -1;
@@ -1363,14 +1366,6 @@ public class DatabaseHandler {
     private boolean isProductInSingleProductTable(Connection conn, PreparedStatement stm, ResultSet resSet, int productId) throws SQLException {
         stm = conn.prepareStatement(STM_SELECT_SINGLE_PRODUCT);
         stm.setInt(1, productId);
-        resSet = stm.executeQuery();
-        return resSet.next();
-    }
-
-    private boolean isProductAlreadyPartOfThisPackageProduct(Connection conn, PreparedStatement stm, ResultSet resSet, int packageProductId, int singleProductId) throws SQLException {
-        stm = conn.prepareStatement(STM_SELECT_PACKAGE_SINGLE_PRODUCT_QUANTITY);
-        stm.setInt(1, packageProductId);
-        stm.setInt(2, singleProductId);
         resSet = stm.executeQuery();
         return resSet.next();
     }

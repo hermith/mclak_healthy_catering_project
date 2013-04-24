@@ -32,13 +32,14 @@ public class Order {
         delivery = false;
     }
 
-    public Order(int orderID, int customerID, ArrayList<Product> products, Date placedDate, Date deliveryDate, Date deliveredDate) {
+    public Order(int orderID, int customerID, ArrayList<Product> products, Date placedDate, Date deliveryDate, Date deliveredDate, boolean delivery) {
         this.orderID = orderID;
         this.products = products;
         this.customerID = customerID;
         this.placedDate = placedDate;
         this.deliveryDate = deliveryDate;
         this.deliveredDate = deliveredDate;
+        this.delivery = delivery;
     }
 
     public int numberOfProducts() {
