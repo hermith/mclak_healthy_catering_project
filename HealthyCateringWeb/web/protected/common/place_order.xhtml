@@ -27,18 +27,22 @@ Contains:
 
             <ui:define name="subsite_content">
                 <h:form id="place_order_form">
-                    <h:dataTable var="product" value="#{shoppingBean.products}" >
+                    <h:dataTable var="product" value="#{shoppingBean.shoppingCartProducts}" >
                         <h:column>
                             <f:facet name="header">#{texts.menu_product}</f:facet>
-                                #{product.name}
+                            #{product.name}
                         </h:column>
                         <h:column>
                             <f:facet name="header">#{texts.menu_description}</f:facet>
-                                #{product.description}
+                            #{product.description}
                         </h:column>
                         <h:column>
                             <f:facet name="header">#{texts.menu_price}</f:facet>
-                                #{product.price}
+                            #{product.price}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header" >#{texts.product_quantity}</f:facet>
+                            #{shoppingBean.findQuantityProduct(product)}
                         </h:column>
                     </h:dataTable>
                     <p>#{texts.menu_total}: #{shoppingBean.totalPrice},- </p>
@@ -58,7 +62,7 @@ Contains:
                     </div>
 
                     <h:messages /><br/><br/>
-                    
+
                     <h:commandButton value="#{texts.menu_place_order}" action="#{shoppingBean.placeOrder()}"/>
                 </h:form>
             </ui:define>

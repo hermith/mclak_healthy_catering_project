@@ -30,12 +30,15 @@ Contains:
             <h:form rendered="#{userBean.loggedIn}">
                 <h2>#{texts.menu_shoppingcart}:</h2>
                 <h:outputText rendered="#{shoppingBean.shoppingCartIsEmpty()}" value="#{texts.menu_noproducts}"/>
-                <h:dataTable style="width: 100%;" rendered="#{!shoppingBean.shoppingCartIsEmpty()}" var="product" value="#{shoppingBean.products}">
+                <h:dataTable style="width: 100%;" rendered="#{!shoppingBean.shoppingCartIsEmpty()}" var="product" value="#{shoppingBean.shoppingCartProducts}">
                     <h:column>
                         #{product.name} 
                     </h:column>
                     <h:column>
                         #{product.price}
+                    </h:column>
+                    <h:column>
+                        #{shoppingBean.findQuantityProduct(product)}
                     </h:column>
                     <h:column>
                         <h:commandButton image="/resources/img/info_icon.png" action="#{shoppingBean.deleteProduct(product)}" styleClass="cart_delete_button" />

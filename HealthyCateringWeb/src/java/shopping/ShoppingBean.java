@@ -5,6 +5,7 @@
 package shopping;
 
 import info.Order;
+import info.ProductHandler;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,6 +34,8 @@ public class ShoppingBean implements Serializable {
     private ShoppingHandler shoppingHandler;
     private Order order;
     private String username;
+    @Inject
+    private ProductHandler productHandler;
 
     public ShoppingBean() {
         privateCustomer = new PrivateCustomer();
@@ -342,10 +345,11 @@ public class ShoppingBean implements Serializable {
             String msg = MessageHandler.getLocalizedText(MessageType.TEKST, "order_placed");
             MessageHandler.addErrorMessage(msg);
             return "to_menu";
-        }else{
+        } else {
             String msg = MessageHandler.getLocalizedText(MessageType.ERROR, "order_failed_to_place");
             MessageHandler.addErrorMessage(msg);
-        }return "";
+        }
+        return "";
     }
 
     /**
@@ -413,10 +417,34 @@ public class ShoppingBean implements Serializable {
     }
 
     public ArrayList<Order> getOrderHistory() {
-        if(privateCustomer!=null){
+        if (privateCustomer != null) {
             return shoppingHandler.getOrderHistory(privateCustomer.getCustomerId());
-        }else if(corporateCustomer!=null){
+        } else if (corporateCustomer != null) {
             return shoppingHandler.getOrderHistory(corporateCustomer.getCustomerId());
-        }return null;
+        }
+        return null;
+    }
+
+    /**
+     * Calls findQuantity(product, selectedOrder.getProducts()).
+     *
+     * @param product
+     * @return quantity of the current product in the selectedOrder->productlist
+     */
+    public int findQuantityProduct(Product product) {
+        if (product != null) {
+            return productHandler.findQuantity(product, getProducts());
+        }
+        return 0;
+    }
+
+    /**
+     * Calls getUniqueProductsList(getProducts()). Sort the
+     * products in selectedOrder with only one of each product.
+     *
+     * @return Unique product list
+     */
+    public ArrayList<Product> getShoppingCartProducts() {
+        return productHandler.getUniqueProductsList(getProducts());
     }
 }
