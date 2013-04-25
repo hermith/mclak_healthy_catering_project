@@ -2,8 +2,10 @@ package info;
 
 import database.DatabaseHandler;
 import java.util.ArrayList;
+import java.util.Locale;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import shopping.product.Product;
 
 /**
  * @author aleksalr
@@ -12,6 +14,7 @@ import javax.inject.Inject;
 public class StatisticsHandler {
 
     private ArrayList<Order> allorders;
+    private ArrayList<Product> allproducts;
     @Inject
     DatabaseHandler dbhandler;
 
@@ -78,6 +81,26 @@ public class StatisticsHandler {
         return stdDev;
     }
 
+    public String getProductsNeverOrdered() {
+        allorders = dbhandler.selectOrders();
+        ArrayList<Product> notOrdered = dbhandler.selectProducts();
+        int[] ids;
+        
+        
+        
+        return "";
+
+    }
+
+    public boolean isInArray(int check, int[] array) {
+        for (int i : array) {
+            if (check == i) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public String getAllOrdersAsString() {
         allorders = dbhandler.selectOrders();
         String so = "";
@@ -117,14 +140,16 @@ public class StatisticsHandler {
 
         }
 
+        Product product;
         for (int i = 1; i < ids.length; i++) {
+            product = dbhandler.selectProduct(i);
             pf.add(new ProductFreq(i, ids[i]));
         }
 
         String pfAsString = "";
         for (int i = 1; i < pf.size(); i++) {
             if (pf.get(i).getFrequency() != 0) {
-                pfAsString += pf.get(i).getId() + " ";
+                pfAsString += pf.get(i).getId()+ " ";
                 pfAsString += pf.get(i).getFrequency() + " ";
             }
         }
