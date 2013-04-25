@@ -1,5 +1,7 @@
 package validators;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
@@ -17,6 +19,14 @@ import locale.MessageType;
 @FacesValidator("PasswordValidator")
 public class PasswordValidator implements Validator {
 
+    private static final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$";
+    private Pattern pattern;
+    private Matcher matcher;
+
+    public PasswordValidator() {
+        pattern = Pattern.compile(PASSWORD_PATTERN);
+    }
+
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) {
         UIInput fieldNewPassword = (UIInput) component.findComponent("newPassword");
@@ -33,39 +43,14 @@ public class PasswordValidator implements Validator {
             FacesMessage message = MessageHandler.getMessage("password_not_match", MessageType.ERROR);
             throw new ValidatorException(message);
         }
-        if (newPassword.length() < 6) {
+        if (newPassword.length() < 8) {
             FacesMessage message = MessageHandler.getMessage("password_not_min_length", MessageType.ERROR);
             throw new ValidatorException(message);
         }
-        if (!isValid(newPassword)) {
+        matcher = pattern.matcher(newPassword);
+        if (!matcher.matches()) {
             FacesMessage message = MessageHandler.getMessage("password_invalid", MessageType.ERROR);
             throw new ValidatorException(message);
         }
-    }
-
-    /**
-     * Checks if newPassword contains a special character and a number.
-     *
-     * @param newPassword
-     * @param newPassword1
-     * @return if the password is approved
-     */
-    public boolean isValid(String newPassword) {
-        String pattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$";
-        //TODO fikse regex.
-        final String NUMBERS = "1234567890";
-        boolean okNumbers = false;
-        for (int i = 0; i < newPassword.length(); i++) {
-            for (int j = 0; j < 10; j++) {
-                if (newPassword.charAt(i) == NUMBERS.charAt(j)) {
-                    okNumbers = true;
-                }
-            }
-        }
-        //if (okSpecial && okNumbers) {
-        if (okNumbers) {
-            return true;
-        }
-        return false;
     }
 }
