@@ -99,4 +99,26 @@ public class UserHandler {
     public ArrayList<User> getAllUsers() {
         return db.selectUsers();
     }
+
+    /**
+     * Checks whether or not the given username corresponds with the stored
+     * email for that user, if it does, it will generate a new password and send
+     * it to the user.
+     *
+     * @param email Input email
+     * @param username Input username
+     * @return If password has been generated and sent.
+     */
+    public boolean generateNewPasswordUser(String email, String username) {
+        User user = db.selectUser(username);
+        if (user.getEmail().equals(email)) {
+            String pw = this.email.generatePassword();
+            if (db.updateUserPassword(pw, user.getUsername())) {
+                this.email.sendGeneratedPassword(user.getEmail(), pw);
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

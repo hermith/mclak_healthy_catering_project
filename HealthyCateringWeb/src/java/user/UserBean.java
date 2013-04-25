@@ -130,6 +130,16 @@ public class UserBean implements Serializable {
         MessageHandler.addErrorMessage(msg);
         return "registration_failure";
     }
+    
+    public void generateNewPasswordUser() {
+        if (userhandler.generateNewPasswordUser(user.getEmail(), user.getUsername())) {
+            MessageHandler.addErrorMessage("New password sent");
+            loginFailed = true;
+        } else {
+            MessageHandler.addErrorMessage("Username nad password not like");
+            loginFailed = true;
+        }
+    }
 
     public String login() {
         FacesContext context = FacesContext.getCurrentInstance();

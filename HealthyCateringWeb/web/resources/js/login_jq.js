@@ -45,6 +45,18 @@ $(document).ready(function() {
         return false;
     });
     
+    $("#forgot_password_link").click(function() {
+        $(".login_form").fadeOut('fast', function() {
+            $(".forgot_password").fadeIn('slow');
+        });
+    });
+    
+    $("#forgot_password_back").click(function() {
+        $(".forgot_password").fadeOut('fast', function() {
+            $(".login_form").fadeIn('slow');
+        });
+    });
+    
     if(loggedInAsPrivate || loggedInAsCorporate) {
         $("article#primary_content").css("width", "685px");
         $("aside#sidebar").show();
