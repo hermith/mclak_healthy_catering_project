@@ -54,6 +54,8 @@ Contains:
                                              styleClass="menu_add_button"/>
                         </h:column>
                     </h:dataTable>
+                    <p:messages />
+
                     <br/>
                     <h:commandButton action="#{productBean.setShowAddProduct(true)}" 
                                      styleClass="button_style" 
@@ -156,7 +158,7 @@ Contains:
                                     <label>#{texts.product_name_en}: </label><h:inputText value="#{productBean.newProductNameEn}" required="true" requiredMessage="#{error.product_required_name}" /><br/>
                                     <label>#{texts.product_desc_no}: </label><h:inputText value="#{productBean.newProductDescriptionNo}" required="true" requiredMessage="#{error.product_required_desc}" /><br/>
                                     <label>#{texts.product_desc_en}: </label><h:inputText value="#{productBean.newProductDescriptionEn}" required="true" requiredMessage="#{error.product_required_desc}" /><br/>
-                                    <label>#{texts.product_kcal}:</label><h:inputText value="#{productBean.newProductKCAL}" required="true" requiredMessage="#{error.product_required_KCAL}" converterMessage="#{product_validate_kcal}" /><br/>
+                                    <label>#{texts.product_kcal}:</label><h:inputText value="#{productBean.newProductKCAL}" required="true" requiredMessage="#{error.product_required_KCAL}" converterMessage="#{error.product_validate_kcal}" /><br/>
                                     <label>#{texts.product_price}:</label><h:inputText value="#{productBean.newProductPrice}" required="true" requiredMessage="#{error.product_required_pris}" converterMessage="#{error.product_validate_price}" /><br/>
                                     <h:commandButton styleClass="button_style" value="#{texts.product_add}" action="#{productBean.addNewProduct()}" />
                                     <p:messages />
@@ -199,7 +201,7 @@ Contains:
                                             <h:commandButton styleClass="menu_add_button" action="#{productBean.deleteSingleProductPackage(singleProduct)}" value="#{texts.product_delete}" />
                                         </h:column>
                                     </h:dataTable>
-                                    
+
                                     #{texts.product_add_product}: 
                                     <h:selectOneMenu value="#{productBean.addedSingleProductID}" >
                                         <f:selectItems value="#{productBean.allSingleProducts}" 

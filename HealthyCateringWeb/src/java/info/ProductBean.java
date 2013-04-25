@@ -71,6 +71,7 @@ public class ProductBean implements Serializable {
                 reInitializeNewProduct();
                 String msg = MessageHandler.getLocalizedText(MessageType.TEKST, "product_add_success");
                 MessageHandler.addErrorMessage(msg);
+                closeAddProduct();
             } else {
                 String msg = MessageHandler.getLocalizedText(MessageType.ERROR, "product_add_error");
                 MessageHandler.addErrorMessage(msg);
@@ -193,6 +194,7 @@ public class ProductBean implements Serializable {
             if (productHandler.updateProduct(selectedProduct)) {
                 String msg = MessageHandler.getLocalizedText(MessageType.TEKST, "product_changes_saved");
                 MessageHandler.addErrorMessage(msg);
+                closeEditProduct();
             } else {
                 String msg = MessageHandler.getLocalizedText(MessageType.ERROR, "product_changes_not_saved");
                 MessageHandler.addErrorMessage(msg);
