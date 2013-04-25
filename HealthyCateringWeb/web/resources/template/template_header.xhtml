@@ -17,18 +17,25 @@ Contains:
     xmlns:ui="http://java.sun.com/jsf/facelets">
 
     <header id="primary_header">
-        <h1>HealthyStuff™</h1>
-    </header>
-    
-    <nav id="primary_nav">
-            <h:form>
+        <h:form>
+            <h:commandLink action="/index.xhtml">
+                <h:graphicImage library="img"
+                                name="logo.png"
+                                styleClass="primary_logo"/>
+            </h:commandLink>
+            <nav id="primary_nav">
                 <ul id="navul">
                     <li><h:commandLink action="/index.xhtml">#{texts.title_news}</h:commandLink></li>
                     <li><h:commandLink action="/menu.xhtml">#{texts.title_menu}</h:commandLink></li>
                     <li><h:commandLink action="/about.xhtml">#{texts.title_about}</h:commandLink></li>
                     <li><h:commandLink action="/contact.xhtml">#{texts.title_contact}</h:commandLink></li>
                 </ul>
-            </h:form>
-        </nav>  
+
+                <hr/>
+            </nav>
+        </h:form>
+
+    </header>
+
 
 </ui:composition>

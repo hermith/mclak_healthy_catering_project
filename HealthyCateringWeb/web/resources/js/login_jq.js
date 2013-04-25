@@ -2,6 +2,10 @@ var loggedIn = false;
 var loggedInAsPrivate = false;
 var loggedInAsCorporate = false;
 
+var global_color_dark = "#375D81";
+var global_color_light = "#ABC8E2";
+var global_color_selected = "#183152";
+
 $(document).ready(function() {
     var isUp = true;
     
