@@ -2,11 +2,11 @@ package database;
 
 import info.Order;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -979,9 +979,9 @@ public class DatabaseHandler {
             resSet = stm.executeQuery();
             if (resSet.next()) {
                 int customerId = resSet.getInt(COLUMN_CUSTOMER_ID);
-                Date datePlaced = resSet.getDate(COLUMN_DATE_PLACED);
-                Date dateToBeDelivered = resSet.getDate(COLUMN_DATE_TO_BE_DELIVERED);
-                Date dateDelivered = resSet.getDate(COLUMN_DATE_DELIVERED);
+                Timestamp datePlaced = resSet.getTimestamp(COLUMN_DATE_PLACED);
+                Timestamp dateToBeDelivered = resSet.getTimestamp(COLUMN_DATE_TO_BE_DELIVERED);
+                Timestamp dateDelivered = resSet.getTimestamp(COLUMN_DATE_DELIVERED);
                 boolean delivery = resSet.getBoolean(COLUMN_IS_DELIVERY);
                 Order order = new Order(orderId, customerId, new ArrayList<Product>(), datePlaced, dateToBeDelivered, dateDelivered, delivery);
                 stm = conn.prepareStatement(STM_SELECT_ORDER_PRODUCTS);
@@ -1118,9 +1118,9 @@ public class DatabaseHandler {
             setAutoCommit(conn, false);
             stm = conn.prepareStatement(STM_INSERT_ORDER, Statement.RETURN_GENERATED_KEYS);
             stm.setInt(1, order.getCustomerID());
-            stm.setDate(2, order.getPlacedDate());
-            stm.setDate(3, order.getDeliveryDate());
-            stm.setDate(4, order.getDeliveredDate());
+            stm.setTimestamp(2, order.getPlacedDate());
+            stm.setTimestamp(3, order.getDeliveryDate());
+            stm.setTimestamp(4, order.getDeliveredDate());
             stm.setInt(5, ((order.isDelivery()) ? 1 : 0));
             numberOfRowsUpdated = stm.executeUpdate();
             if (numberOfRowsUpdated == 1) {
@@ -1144,17 +1144,17 @@ public class DatabaseHandler {
                         if (numberOfRowsUpdated == 1) {
                             productsAdded.add(p);
                         } else {
-                            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Failed to insert order {0}.", order);
+                            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Failed to insert order {0}.", order);
                             rollBack(conn);
                             return false;
                         }
                     }
                 }
-                Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Order {0} successfully inserted.", order);
+                Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Order {0} successfully inserted.", order);
                 commit(conn);
                 return true;
             }
-            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Failed to insert order {0}.", order);
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Failed to insert order {0}.", order);
             rollBack(conn);
             return false;
         } catch (SQLException ex) {
@@ -1176,7 +1176,7 @@ public class DatabaseHandler {
             }
         }
         if (numberOfOrdersInserted == orders.size()) {
-            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Successfully inserted orders {0}", orders);
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Successfully inserted orders {0}", orders);
             return true;
         } else {
             Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Failed insert orders! Only {0} out of {1} products updated. See glassfish log for details.", new Object[]{numberOfOrdersInserted, orders.size()});
@@ -1193,9 +1193,9 @@ public class DatabaseHandler {
             setAutoCommit(conn, false);
             stm = conn.prepareStatement(STM_UPDATE_ORDER);
             stm.setInt(1, order.getCustomerID());
-            stm.setDate(2, order.getPlacedDate());
-            stm.setDate(3, order.getDeliveryDate());
-            stm.setDate(4, order.getDeliveredDate());
+            stm.setTimestamp(2, order.getPlacedDate());
+            stm.setTimestamp(3, order.getDeliveryDate());
+            stm.setTimestamp(4, order.getDeliveredDate());
             stm.setInt(5, ((order.isDelivery()) ? 1 : 0));
             stm.setInt(6, order.getOrderID());
             numberOfRowsUpdated = stm.executeUpdate();
@@ -1247,7 +1247,7 @@ public class DatabaseHandler {
         }
     }
 
-    public synchronized boolean updateOrderSetDateDelivered(int orderId, Date dateDelivered) {
+    public synchronized boolean updateOrderSetDateDelivered(int orderId, Timestamp dateDelivered) {
         Connection conn = null;
         PreparedStatement stm = null;
         int numberOfRowsUpdated = -1;
