@@ -1254,7 +1254,7 @@ public class DatabaseHandler {
         try {
             conn = dataSource.getConnection();
             stm = conn.prepareStatement(STM_UPDATE_ORDER_DATE_DELIVERED);
-            stm.setDate(1, dateDelivered);
+            stm.setTimestamp(1, dateDelivered);
             stm.setInt(2, orderId);
             numberOfRowsUpdated = stm.executeUpdate();
             if (numberOfRowsUpdated == 1) {
