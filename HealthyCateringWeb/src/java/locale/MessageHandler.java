@@ -43,7 +43,7 @@ public class MessageHandler {
      * @param text_id Message string id
      * @return Localized text
      */
-    private static String getLocalizedText(MessageType messageType, String text_id) {
+    public static String getLocalizedText(MessageType messageType, String text_id) {
         FacesContext context = FacesContext.getCurrentInstance();
         String type = "";
         switch (messageType) {
