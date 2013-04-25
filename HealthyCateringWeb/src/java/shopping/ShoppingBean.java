@@ -18,6 +18,7 @@ import shopping.customer.CorporateCustomer;
 import shopping.customer.Customer;
 import shopping.customer.PrivateCustomer;
 import shopping.product.Product;
+import shopping.product.SingleProduct;
 
 /**
  * @author aleksalr
@@ -284,8 +285,19 @@ public class ShoppingBean implements Serializable {
      *
      * @return the menu
      */
-    public ArrayList<Product> getMenu() {
-        return shoppingHandler.getMenu();
+    public ArrayList<Product> getMenu(boolean isCorporate) {
+        ArrayList<Product> products = shoppingHandler.getMenu();
+        ArrayList<Product> productList = new ArrayList<Product>();
+        if (isCorporate) {
+            return products;
+        } else {
+            for (Product p : products) {
+                if (p instanceof SingleProduct) {
+                    productList.add(p);
+                }
+            }
+        }
+        return productList;
     }
 
     /**
@@ -332,9 +344,9 @@ public class ShoppingBean implements Serializable {
      */
     public String placeOrder() {
         if (!getProducts().isEmpty()) {
-            if (privateCustomer != null) {
+            if (privateCustomer.getCustomerId() != -1) {
                 order.setCustomerID(privateCustomer.getCustomerId());
-            } else if (corporateCustomer != null) {
+            } else if (corporateCustomer.getCustomerId() != -1) {
                 order.setCustomerID(corporateCustomer.getCustomerId());
             }
             order.setProducts(getProducts());
@@ -418,9 +430,9 @@ public class ShoppingBean implements Serializable {
     }
 
     public ArrayList<Order> getOrderHistory() {
-        if (privateCustomer != null) {
+        if (privateCustomer.getCustomerId() != -1) {
             return shoppingHandler.getOrderHistory(privateCustomer.getCustomerId());
-        } else if (corporateCustomer != null) {
+        } else if (corporateCustomer.getCustomerId() != -1) {
             return shoppingHandler.getOrderHistory(corporateCustomer.getCustomerId());
         }
         return null;
