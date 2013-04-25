@@ -16,8 +16,6 @@ function drawGraph() {
 }
 
 function getData() {
-
-
     var numbers = document.getElementById("stat_form:orderstring").value;
     var split = numbers.split(" ");
 

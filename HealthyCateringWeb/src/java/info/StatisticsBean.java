@@ -42,20 +42,24 @@ public class StatisticsBean implements Serializable {
         return sthandler.getNumOfOrders();
     }
     
-    public double getTotalPriceAllOrders(){
-        return sthandler.getTotalPriceAllOrders();
+    public String getTotalPriceAllOrders(){
+        DecimalFormat df = new DecimalFormat("#.##");
+        return df.format(sthandler.getTotalPriceAllOrders());
     }
     
-    public double getHighestOrderPrice(){
-        return sthandler.getHighestOrder();
+    public String getHighestOrderPrice(){
+        DecimalFormat df = new DecimalFormat("#.##");
+        return df.format(sthandler.getHighestOrder());
     }
     
-    public double getLowestOrderPrice(){
-        return sthandler.getLowestOrder();
+    public String getLowestOrderPrice(){
+        DecimalFormat df = new DecimalFormat("#.##");
+        return df.format(sthandler.getLowestOrder());
     }
     
-    public double getAverageOrderPrice(){
-        return sthandler.getAverageOrderPrice();
+    public String getAverageOrderPrice(){
+        DecimalFormat df = new DecimalFormat("#.##");
+        return df.format(sthandler.getAverageOrderPrice());
     }
     
     public String getStandardDeviation(){
