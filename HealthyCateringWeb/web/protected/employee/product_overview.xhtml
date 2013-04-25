@@ -1,19 +1,20 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 
 <!--
-template.xhtml
+product_overview.xhtml
 
 Contains:
-    Copy this when you want to create a new subsite and replace any content.
+    Here employees can see, add and edit products.
 
-@author Karl
+@author Linn
 -->
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 
     <h:body>
         <ui:composition template="/resources/template/template_master.xhtml">
@@ -127,7 +128,7 @@ Contains:
                                                        itemLabel="#{selectedProduct.name}" 
                                                        itemValue="#{selectedProduct.id}" />
                                     </h:selectOneMenu>
-                                    <h:inputText value="#{productBean.addedSingleProductQuantity}" required="true" />
+                                    <p:spinner value="#{productBean.addedSingleProductQuantity}" required="true" />
                                     <h:commandButton styleClass="button_style" action="#{productBean.addProductPackageEdit()}" value="#{texts.product_add}" />
                                 </h:panelGroup><br/>
                                 <h:commandButton styleClass="button_style" action="#{productBean.saveChangesProduct()}" value="#{texts.product_save}" />
