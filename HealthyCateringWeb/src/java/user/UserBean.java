@@ -119,7 +119,7 @@ public class UserBean implements Serializable {
         System.out.println("Called registerCorporateUser() in UserBean");
         this.user.setNewPassword("");
         this.user.setRoleId(UserRoleHandler.USER_ROLE_ID_CORPORATE_CUSTOMER);
-        if(userhandler.registerCorporateUser(user)){
+        if (userhandler.registerCorporateUser(user)) {
             user = new User();
             String msg = MessageHandler.getLocalizedText(MessageType.TEKST, "user_reg_success");
             MessageHandler.addErrorMessage(msg);
@@ -130,7 +130,7 @@ public class UserBean implements Serializable {
         MessageHandler.addErrorMessage(msg);
         return "registration_failure";
     }
-    
+
     public void generateNewPasswordUser() {
         if (userhandler.generateNewPasswordUser(user.getEmail(), user.getUsername())) {
             MessageHandler.addErrorMessage("New password sent");
@@ -314,30 +314,40 @@ public class UserBean implements Serializable {
         return this.dummyUser.getEmail();
     }
 
-    public String changePassword() {
+    public ArrayList<User> getAllUsers() {
+        ArrayList<User> users = userhandler.getAllUsers();
+        Collections.sort(users);
+        return users;
+    }
+
+    /**
+     * Calls updateUserPassword(user) in UserHandler.java. Updates user password
+     * and sends email to the user.
+     *
+     * @param user
+     */
+    public void updateUserPassword(User user) {
+        if (userhandler.updateUserPassword(user)) {
+            String msg = MessageHandler.getLocalizedText(MessageType.TEKST, "edit_users_email_sent") + user.getEmail();
+            MessageHandler.addErrorMessage(msg);
+        } else {
+            String msg = MessageHandler.getLocalizedText(MessageType.ERROR, "edit_users_error_sending_email");
+            MessageHandler.addErrorMessage(msg);
+        }
+    }
+
+    /**
+     * Calls changePassword() in UserHandler.java. Updates current user
+     * password.
+     *
+     * @return
+     */
+    public void changePassword() {
         if (userhandler.changePassword(getNewPassword(), getUsername(), getPassword())) {
             String msg = MessageHandler.getLocalizedText(MessageType.TEKST, "edit_account_password_changed");
             MessageHandler.addErrorMessage(msg);
         }
         setPassword(null);
         setNewPassword(null);
-        return "";
-    }
-    
-    public ArrayList<User> getAllUsers() {
-        ArrayList<User> users = userhandler.getAllUsers();
-        Collections.sort(users);
-        return users;
-    }
-    
-    public String updateUserPassword(User user) {
-        if(userhandler.updateUserPassword(user)) {
-            String msg = MessageHandler.getLocalizedText(MessageType.TEKST, "edit_users_email_sent") + user.getEmail();
-            MessageHandler.addErrorMessage(msg);
-        }else {
-            String msg = MessageHandler.getLocalizedText(MessageType.ERROR, "edit_users_error_sending_email");
-            MessageHandler.addErrorMessage(msg);
-        }
-        return "";
     }
 }

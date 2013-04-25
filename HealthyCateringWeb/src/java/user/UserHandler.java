@@ -60,6 +60,13 @@ public class UserHandler {
         }
     }
 
+    /**
+     * Updates user's password in the database, and sends the password on email
+     * to the user.
+     *
+     * @param user
+     * @return if password was updated and sent to email
+     */
     public boolean updateUserPassword(User user) {
         try {
             String pw = email.generatePassword();
@@ -81,6 +88,15 @@ public class UserHandler {
         return db.selectUser(userName);
     }
 
+    /**
+     * Changes current users password in the database. Displays appropriate
+     * messages to the user if something went wrong.
+     *
+     * @param password
+     * @param username
+     * @param oldPassword
+     * @return password changed (true/false)
+     */
     public boolean changePassword(String password, String username, String oldPassword) {
         if (db.selectUserPassword(username).equals(oldPassword)) {
             if (!db.updateUserPassword(password, username)) {
