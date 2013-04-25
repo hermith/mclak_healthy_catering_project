@@ -38,7 +38,7 @@ public class Order {
 
     /**
      * Constructor for initiating object with data.
-     * 
+     *
      * @param orderID ID of the order
      * @param customerID ID of the customer of the order.
      * @param products ArrayList of products on the order
@@ -58,9 +58,9 @@ public class Order {
     }
 
     /**
-     * 
+     *
      * Returns the number of products in this order.
-     * 
+     *
      * @return Size of the product array
      */
     public int numberOfProducts() {
@@ -69,7 +69,7 @@ public class Order {
 
     /**
      * Gets the total price of all the products in this order.
-     * 
+     *
      * @return Total price of products
      */
     public double getPrice() {
@@ -80,9 +80,9 @@ public class Order {
         return total;
     }
 
-    /** 
+    /**
      * Gets all the IDs of the products as a string, seperated with ", "
-     * 
+     *
      * @return All product IDs
      */
     public String getProductIds() {
@@ -93,10 +93,29 @@ public class Order {
         b.delete(b.length() - 2, b.length());
         return b.toString();
     }
-    
+
+    /**
+     * Gets all the IDs of the products as an array
+     *
+     * @return All product IDs
+     */
+    public int[] getProductIdsArray() {
+        ArrayList<Integer> ints = new ArrayList<Integer>();
+        for (Product p : products) {
+            ints.add(p.getId());
+        }
+        int[] ids = new int[ints.size()];
+        
+        for(int i : ids){
+            ints.add(i);
+        }
+        
+        return ids;
+    }
+
     /**
      * Returns whether or not the order is delivered or not.
-     * 
+     *
      * @return Order delivered
      */
     public boolean isDelivered() {
@@ -109,7 +128,7 @@ public class Order {
     /**
      * Converts an java.util.Date object to a more humanly readable String. For
      * use in DataTables and such.
-     * 
+     *
      * @param date util.Date to convert
      * @return Friendly formatted String
      */

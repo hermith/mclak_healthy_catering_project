@@ -115,4 +115,9 @@
         <extension>less</extension>
         <mime-type>stylesheet/less</mime-type>
     </mime-mapping>
+    
+    <context-param>
+        <param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
+        <param-value>true</param-value>
+    </context-param>
 </web-app>
