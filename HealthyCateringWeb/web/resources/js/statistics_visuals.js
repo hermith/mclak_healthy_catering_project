@@ -20,14 +20,11 @@ function drawGraph() {
 function drawPieChart() {
     var numbers = document.getElementById("stat_form:productstring").value;
     var split = numbers.split(" ");
-    //var myData = new Array(['Sector 1', 2], ['Sector 2', 1], ['Sector 3', 3], ['Sector 4', 6], ['Sector 5', 8.5], ['Sector 6', 10]);
     var myData = new Array();
 
     for (var i = 0; i < split.length-1; i += 2) {
-        myData.push(['Product #' + parseFloat(split[i]), parseFloat(split[i + 1])]);
+        myData.push(['Product ID: ' + parseFloat(split[i]), parseFloat(split[i + 1])]);
     }
-
-    //var colors = ['#101', '#505', '#909'];
     
     var colors = [];
     
