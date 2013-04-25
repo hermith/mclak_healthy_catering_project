@@ -117,9 +117,11 @@ public class Order {
         if (date != null) {
             GregorianCalendar greg = new GregorianCalendar();
             greg.setTimeInMillis(date.getTime());
-            return (greg.get(GregorianCalendar.YEAR))
-                    + "." + greg.get(GregorianCalendar.MONTH)
-                    + "." + greg.get(GregorianCalendar.DATE);
+            return greg.get(GregorianCalendar.DATE)
+                    + "." + (greg.get(GregorianCalendar.MONTH) + 1)
+                    + "." + greg.get(GregorianCalendar.YEAR)
+                    + " " + greg.get(GregorianCalendar.HOUR_OF_DAY)
+                    + ":" + greg.get(GregorianCalendar.MINUTE);
         } else {
             return "Not delivered";
         }

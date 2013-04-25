@@ -962,6 +962,7 @@ public class DatabaseHandler {
             return false;
         } finally {
             setAutoCommit(conn, true);
+            closeResultSet(resSet);
             closeStatement(stm);
             closeConnection(conn);
         }
