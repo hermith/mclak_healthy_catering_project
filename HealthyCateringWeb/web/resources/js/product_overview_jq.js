@@ -22,13 +22,13 @@ $(document).ready(function() {
     }
 
     if(show_tab_left) {
-        $(".add_product_tab_single_left").css("background-color", "#333333");
-        $(".add_product_tab_package_right").css("background-color", "#555555");
+        $(".add_product_tab_single_left").css("background-color", global_color_selected);
+        $(".add_product_tab_package_right").css("background-color", global_color_dark);
         $("#add_product_package").hide();
         $("#add_product_single").show();
     } else {
-        $(".add_product_tab_single_left").css("background-color", "#555555");
-        $(".add_product_tab_package_right").css("background-color", "#333333");
+        $(".add_product_tab_single_left").css("background-color", global_color_dark);
+        $(".add_product_tab_package_right").css("background-color", global_color_selected);
         $("#add_product_single").hide();
         $("#add_product_package").show();
     }

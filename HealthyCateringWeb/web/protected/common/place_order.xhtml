@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 
 <!--
-template.xhtml
+place_order.xhtml
 
 Contains:
-    Copy this when you want to create a new subsite and replace any content.
+    Final site in the ordering process. 
 
-@author Karl
+@author Linn Kristin
 -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
@@ -17,16 +17,14 @@ Contains:
 
     <h:body>
         <ui:composition template="/resources/template/template_master.xhtml">
-            <ui:define name="subscript">
-                <h:outputScript library="js" name="/place_order_jq.js" />
-            </ui:define>
-
             <ui:define name="subsite_header">
                 <h1>#{texts.menu_place_order}</h1>
             </ui:define>
 
             <ui:define name="subsite_content">
                 <h:form id="place_order_form">
+
+                    <!--Table with all products--> 
                     <h:dataTable var="product" value="#{shoppingBean.shoppingCartProducts}" >
                         <h:column>
                             <f:facet name="header">#{texts.menu_product}</f:facet>
@@ -47,32 +45,23 @@ Contains:
                     </h:dataTable>
                     <p>#{texts.menu_total}: #{shoppingBean.totalPrice},- </p>
 
+                    <!--Choose delivery method-->
                     <p>#{texts.menu_deliveryMethod}:</p>
-
                     <h:selectOneRadio id="place_order_radio" value="#{shoppingBean.delivery}" >
                         <f:selectItem itemValue="#{false}" itemLabel="#{texts.menu_pickup}"/>
                         <f:selectItem itemValue="#{true}" itemLabel="#{texts.menu_delivery}"/>
                     </h:selectOneRadio>
 
-                    <div id="place_order_delivery_date_form">
-                        <h:outputText value="#{texts.menu_deliveryDate}: " />
-                        <h:inputText value="#{shoppingBean.deliveryDate}" >
-                            <f:convertDateTime pattern="dd/MM/yyyy"/>
-                        </h:inputText>
-                    </div>
+                    <!--Choose delivery date-->
+                    <h:outputText value="#{texts.menu_deliveryDate}: " />
+                    <h:inputText converterMessage="#{error.order_date_incorrect}" required="true" requiredMessage="#{error.order_required_date}" value="#{shoppingBean.deliveryDate}" >
+                        <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:inputText>
 
                     <h:messages /><br/><br/>
-
                     <h:commandButton value="#{texts.menu_place_order}" action="#{shoppingBean.placeOrder()}"/>
                 </h:form>
             </ui:define>
-
-            <!-- Optional!
-            <ui:define name="subsite_sidebar">
-                Sidebar from main file.
-            </ui:define>
-            If not overwritten, the sidebar will still be there but with stock
-            content. -->
         </ui:composition>
     </h:body>
 </html>

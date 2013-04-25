@@ -331,29 +331,30 @@ public class ShoppingBean implements Serializable {
      * @return
      */
     public String placeOrder() {
-        if (privateCustomer != null) {
-            order.setCustomerID(privateCustomer.getCustomerId());
-        } else if (corporateCustomer != null) {
-            order.setCustomerID(corporateCustomer.getCustomerId());
+        if (!getProducts().isEmpty()) {
+            if (privateCustomer != null) {
+                order.setCustomerID(privateCustomer.getCustomerId());
+            } else if (corporateCustomer != null) {
+                order.setCustomerID(corporateCustomer.getCustomerId());
+            }
+            order.setProducts(getProducts());
+            java.sql.Date date = new java.sql.Date(new Date().getTime());
+            order.setPlacedDate(date);
+            if (shoppingHandler.insertOrder(order)) {
+                shoppingCart = new ShoppingCart();
+                order = new Order();
+                String msg = MessageHandler.getLocalizedText(MessageType.TEKST, "order_placed");
+                MessageHandler.addErrorMessage(msg);
+                return "to_menu";
+            }
         }
-        order.setProducts(getProducts());
-        java.sql.Date date = new java.sql.Date(new Date().getTime());
-        order.setPlacedDate(date);
-        if (shoppingHandler.insertOrder(order)) {
-            shoppingCart = new ShoppingCart();
-            order = new Order();
-            String msg = MessageHandler.getLocalizedText(MessageType.TEKST, "order_placed");
-            MessageHandler.addErrorMessage(msg);
-            return "to_menu";
-        } else {
-            String msg = MessageHandler.getLocalizedText(MessageType.ERROR, "order_failed_to_place");
-            MessageHandler.addErrorMessage(msg);
-        }
+        String msg = MessageHandler.getLocalizedText(MessageType.ERROR, "order_failed_to_place");
+        MessageHandler.addErrorMessage(msg);
         return "";
     }
 
     /**
-     * @return total price
+     * @return total price of the shoppingCart
      */
     public float getTotalPrice() {
         return shoppingCart.getTotalPrice();
@@ -439,8 +440,8 @@ public class ShoppingBean implements Serializable {
     }
 
     /**
-     * Calls getUniqueProductsList(getProducts()). Sort the
-     * products in selectedOrder with only one of each product.
+     * Calls getUniqueProductsList(getProducts()). Sort the products in
+     * selectedOrder with only one of each product.
      *
      * @return Unique product list
      */

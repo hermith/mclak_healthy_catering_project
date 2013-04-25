@@ -1,5 +1,5 @@
 $(document).ready(function() {
-
+    
     var show_popup = document.getElementById("active_orders_form:show_customer_detail").value === "true";
     var show_active = true;
     if (show_popup) {
@@ -31,15 +31,15 @@ $(document).ready(function() {
 });
 
 function show_left() {
-    $("#order_tab_left").css("background-color", "#333333").fadeTo('fast');
-    $("#order_tab_right").css("background-color", "#555555");
+    $("#order_tab_left").css("background-color", global_color_selected).fadeTo('fast');
+    $("#order_tab_right").css("background-color", global_color_dark);
     $("#order_order_history").slideUp('fast');
     $("#order_active_orders").slideDown('fast');
 }
 
 function show_right() {
-    $("#order_tab_left").css("background-color", "#555555");
-    $("#order_tab_right").css("background-color", "#333333");
+    $("#order_tab_left").css("background-color", global_color_dark);
+    $("#order_tab_right").css("background-color", global_color_selected);
     $("#order_active_orders").slideUp('fast');
     $("#order_order_history").slideDown('fast');
 }
