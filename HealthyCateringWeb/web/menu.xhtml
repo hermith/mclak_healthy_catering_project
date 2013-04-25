@@ -1,4 +1,14 @@
 <?xml version='1.0' encoding='UTF-8' ?>
+
+<!--
+menu.xhtml
+
+Contains:
+    Displays the menu.
+
+@author Linn
+-->
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
@@ -13,6 +23,8 @@
 
             <ui:define name="subsite_content">
                 <h:form>
+                    
+                    <!--Table with all products -->
                     <h:dataTable var="product" value="#{shoppingBean.menu}">
                         <h:column>
                             <f:facet name="header">#{texts.menu_product}</f:facet>
@@ -28,19 +40,12 @@
                         </h:column>
                         <h:column rendered="#{userBean.loggedInAsCorporateCustomer or userBean.loggedInAsPrivateCustomer}">
                             <f:facet name="header"></f:facet>
-                            <h:commandButton value="#{texts.menu_add}" action="#{shoppingBean.addProduct(product)}"
-                                             styleClass="menu_add_button"/>
+                            <h:commandButton value="#{texts.menu_add}" action="#{shoppingBean.addProduct(product)}" styleClass="menu_add_button"/>
                         </h:column>
                     </h:dataTable>
                     <h:messages />
                 </h:form>
             </ui:define>
-
-            <!-- Optional!
-            <ui:define name="subsite_sidebar">
-                Sidebar from main file.
-            </ui:define>
-            -->
         </ui:composition>
     </h:body>
 </html>
