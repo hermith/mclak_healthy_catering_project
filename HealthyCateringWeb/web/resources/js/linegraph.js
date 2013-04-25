@@ -5,21 +5,15 @@
 function drawGraph() {
     var data = getData();
     var myData = new Array();
-    
-    var tuple;
-    for(var i = 0; i < data.length-1; i+=2){
-        myData.push([parseFloat(data[i]),parseFloat(data[i+1])]);
-    }
-    
-    for(var i = 0; i < myData.length; i++){
-        alert(myData[i]);
+
+    for (var i = 0; i < data.length - 1; i += 2) {
+        myData.push([parseFloat(data[i]), parseFloat(data[i + 1])]);
     }
 
     var myChart = new JSChart('graph', 'line');
     myChart.setDataArray(myData);
     myChart.draw();
 }
-
 
 function getData() {
 
