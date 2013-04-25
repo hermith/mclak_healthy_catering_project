@@ -70,4 +70,8 @@ public class StatisticsBean implements Serializable {
     public String getAllOrdersAsString(){
         return sthandler.getAllOrdersAsString();
     }
+    
+    public String getProductFrequency(){
+        return sthandler.getProductFrequency();
+    }
 }

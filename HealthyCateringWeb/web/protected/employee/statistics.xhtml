@@ -16,11 +16,11 @@ Contains:
       xmlns:p="http://primefaces.org/ui">
     xmlns:p="http://primefaces.org/ui"
     xmlns:ui="http://java.sun.com/jsf/facelets">
-    <h:body onload='init'>
+    <h:body>
         <ui:composition template="/resources/template/template_master.xhtml">
             <ui:define name="subscript">
                 <h:outputScript library="js" name="/jscharts.js" />
-                <h:outputScript library="js" name="/linegraph.js" />
+                <h:outputScript library="js" name="/statistics_visuals.js" />
             </ui:define>
             <ui:define name="subsite_header">
                 <h1>Statistics</h1>
@@ -44,14 +44,22 @@ Contains:
 
                 <h:outputText value="#{texts.stats_std_dev_order_price}" />:<br/>
                 <h:outputText value="#{statisticsBean.standardDeviation}"/><hr/>
+                
+                <h:outputText value="#{statisticsBean.productFrequency}"/>
                 <br/><br/>
                 <h:form id="stat_form">
                     <h:inputHidden id="orderstring" value="#{statisticsBean.allOrdersAsString}"/>
+                    <h:inputHidden id="productstring" value="#{statisticsBean.productFrequency}"/>
                 </h:form>
 
-                <div id="graph"></div>
+                <div id="graph" style="display: inline-block"></div>
                 <script type="text/javascript">
                     drawGraph();
+                </script>
+                
+                <div id="chart" style="display: inline-block"></div>
+                <script type="text/javascript">
+                    drawPieChart();
                 </script>
             </ui:define>
         </ui:composition>
