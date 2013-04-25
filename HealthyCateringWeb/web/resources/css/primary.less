@@ -3,7 +3,7 @@
 @primary_background: #E1E6FA;
 @accent_heavy: #375D81;
 @accent_light: rgba(171, 200, 226, 0.9);
-@tab_selected: #555511;
+@tab_selected: #183152;
 @tab_hover: #222211;
 
 @table_header: #375D81;
@@ -49,8 +49,9 @@ h1, h2, h3, h4, h5 {
 .button_style {
     background-color: @accent_heavy;
     border: none;
-    padding: 2px;
-    color: @font_color;
+    padding: 4px;
+    margin: 4px;
+    color: @font_header;
 }
 
 html {
@@ -379,7 +380,7 @@ tr:nth-child(even){
     display: inline-block;
     height: 30px;
     width: 49%;
-    background-color: @accent_heavy;
+    background-color: @tab_selected;
 }
 
 #register_tab_right {
@@ -387,11 +388,7 @@ tr:nth-child(even){
     display: inline-block;
     height: 30px;
     width: 49%;
-    background-color: @tab_selected;
-}
-
-#register_tab_left:hover, #register_tab_right:hover {
-    background-color: @tab_hover;
+    background-color: @accent_heavy;
 }
 
 #register_order_history {

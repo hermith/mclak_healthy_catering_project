@@ -74,7 +74,9 @@
 
                             </div>
 
-                            <h:commandButton action="#{userBean.registerPrivateUser()}" value="Create new private account" class="register_new_button"/>
+                            <h:commandButton action="#{userBean.registerPrivateUser()}"
+                                             value="Create new private account"
+                                             styleClass="button_style"/>
 
                         </fieldset>
                     </div>
@@ -126,7 +128,9 @@
                                 <label>#{texts.edit_account_phone}</label>
                                 <br/><br/>
                             </div>
-                            <h:commandButton action="#{userBean.registerCorporateUser()}" value="Create new corporate account" class="register_new_button" />
+                            <h:commandButton action="#{userBean.registerCorporateUser()}"
+                                             value="Create new corporate account"
+                                             styleClass="button_style"/>
                         </fieldset>
                     </div>
                 </h:form>

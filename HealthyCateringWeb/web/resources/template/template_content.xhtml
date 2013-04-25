@@ -41,11 +41,17 @@ Contains:
                         #{shoppingBean.findQuantityProduct(product)}
                     </h:column>
                     <h:column>
-                        <h:commandButton image="/resources/img/info_icon.png" action="#{shoppingBean.deleteProduct(product)}" styleClass="cart_delete_button" />
+                        <h:commandButton image="/resources/img/info_icon.png"
+                                         action="#{shoppingBean.deleteProduct(product)}"
+                                         styleClass="cart_delete_button" />
                     </h:column>
                 </h:dataTable><br/>
-                <h:commandButton rendered="#{!shoppingBean.shoppingCartIsEmpty()}" value="#{texts.menu_place_order}" action="/protected/common/place_order.xhtml"/>
-                <h:outputText value="#{texts.menu_total}: #{shoppingBean.totalPrice},-" rendered="#{!shoppingBean.shoppingCartIsEmpty()}"/>
+                <h:commandButton rendered="#{!shoppingBean.shoppingCartIsEmpty()}"
+                                 value="#{texts.menu_place_order}"
+                                 action="/protected/common/place_order.xhtml"
+                                 styleClass="button_style"/>
+                <h:outputText value="#{texts.menu_total}: #{shoppingBean.totalPrice},-"
+                              rendered="#{!shoppingBean.shoppingCartIsEmpty()}"/>
             </h:form>
         </ui:insert>
 
