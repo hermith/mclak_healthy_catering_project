@@ -11,6 +11,10 @@ import javax.faces.validator.ValidatorException;
 import locale.MessageHandler;
 import locale.MessageType;
 
+/**
+ *
+ * @author linnk
+ */
 @FacesValidator("ZipCodeValidator")
 public class ZipCodeValidator implements Validator {
 
@@ -25,11 +29,11 @@ public class ZipCodeValidator implements Validator {
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         String zipCode = value.toString().trim();
-        if(zipCode.equals("")){
+        if (zipCode.equals("")) {
             return;
         }
         matcher = pattern.matcher(value.toString());
-        if (!matcher.matches() || zipCode.length()!=4) {
+        if (!matcher.matches() || zipCode.length() != 4) {
             FacesMessage msg = MessageHandler.getMessage("zip_code_invalid", MessageType.ERROR);
             throw new ValidatorException(msg);
         }

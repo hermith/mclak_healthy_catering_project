@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package shopping;
 
 import info.Order;
@@ -21,7 +17,7 @@ import shopping.product.Product;
 import shopping.product.SingleProduct;
 
 /**
- * @author aleksalr
+ * @author aleksalr, Linn
  */
 @Named
 @SessionScoped
@@ -77,9 +73,7 @@ public class ShoppingBean implements Serializable {
         order = new Order();
     }
 
-    /*
-     * Getters and setters for privateCustomer
-     */
+    //Getters and setters for privateCustomer
     public String getFirstName() {
         if (privateCustomer != null) {
             return ((PrivateCustomer) privateCustomer).getFirstName();
@@ -283,7 +277,8 @@ public class ShoppingBean implements Serializable {
 
     /**
      *
-     * @return the menu
+     * @return the menu (includes PackageProducts if logged in user is a
+     * corporateCustomer)
      */
     public ArrayList<Product> getMenu(boolean isCorporate) {
         ArrayList<Product> products = shoppingHandler.getMenu();
@@ -301,46 +296,48 @@ public class ShoppingBean implements Serializable {
     }
 
     /**
-     * Add a product.
+     * Calls addProduct(product) in ShoppingCart.java. Adds the product to the
+     * shoppingCart.
      *
      * @return
      */
-    public String addProduct(Product product) {
-        if (shoppingCart.addProduct(product)) {
-            return "";
-        } else {
-            return "";
-        }
+    public void addProduct(Product product) {
+        shoppingCart.addProduct(product);
     }
 
     /**
+     * Calls isEmpty() in ShoppingCart.java.
      *
-     * @return
+     * @return if the current shoppingCart is empty.
      */
     public boolean shoppingCartIsEmpty() {
         return shoppingCart.isEmpty();
     }
 
     /**
+     * Calls getProducts() in ShoppingCart.java
      *
-     * @return
+     * @return products in the shoppingCart
      */
     public ArrayList<Product> getProducts() {
         return shoppingCart.getProducts();
     }
 
-    public String deleteProduct(Product product) {
-        if (shoppingCart.deleteProduct(product)) {
-            return "";
-        } else {
-            return "";
-        }
+    /**
+     * Calls deleteProduct(product) in ShoppingCart.java. Deletes the product
+     * from the shoppingCart.
+     *
+     * @param product
+     */
+    public void deleteProduct(Product product) {
+        shoppingCart.deleteProduct(product);
     }
 
     /**
-     * Places the order.
+     * Calls insertOrder() in ShoppingHandler.java. Places the order in the
+     * database.
      *
-     * @return
+     * @return String to viewId
      */
     public String placeOrder() {
         if (!getProducts().isEmpty()) {
@@ -398,11 +395,12 @@ public class ShoppingBean implements Serializable {
     }
 
     /**
-     * NB Husk å fikse en sjekk på zipCode
+     * Calls fixCustomer() in ShoppingHandler.java. Saves changes to logged in
+     * customer.
      *
      * @return
      */
-    public String saveChangesAccount() {
+    public void saveChangesAccount() {
         Customer customer = shoppingHandler.getCustomer(username);
         boolean status = false;
         if (customer instanceof PrivateCustomer) {
@@ -426,9 +424,13 @@ public class ShoppingBean implements Serializable {
             MessageHandler.addErrorMessage(msg);
         }
         initiateCustomer(username);
-        return "";
     }
 
+    /**
+     * Calls getOrderHistory(CustomerId) in ShoppingHandler.java.
+     *
+     * @return Order history for current customer.
+     */
     public ArrayList<Order> getOrderHistory() {
         if (privateCustomer.getCustomerId() != -1) {
             return shoppingHandler.getOrderHistory(privateCustomer.getCustomerId());

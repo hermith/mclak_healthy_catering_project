@@ -11,6 +11,10 @@ import javax.faces.validator.ValidatorException;
 import locale.MessageHandler;
 import locale.MessageType;
 
+/**
+ *
+ * @author linnk
+ */
 @FacesValidator("EmailValidator")
 public class EmailValidator implements Validator {
 
@@ -26,7 +30,7 @@ public class EmailValidator implements Validator {
 
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
-        if(value.toString().equals("")){
+        if (value.toString().equals("")) {
             return;
         }
         matcher = pattern.matcher(value.toString());

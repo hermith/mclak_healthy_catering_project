@@ -11,6 +11,10 @@ import javax.faces.validator.ValidatorException;
 import locale.MessageHandler;
 import locale.MessageType;
 
+/**
+ *
+ * @author linnk
+ */
 @FacesValidator("PhoneNumberValidator")
 public class PhoneNumberValidator implements Validator {
 
@@ -25,11 +29,11 @@ public class PhoneNumberValidator implements Validator {
     @Override
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         String phoneNumber = value.toString().trim();
-        if(phoneNumber.equals("")){
+        if (phoneNumber.equals("")) {
             return;
         }
         matcher = pattern.matcher(value.toString());
-        if (!matcher.matches() || phoneNumber.length()!=8) {
+        if (!matcher.matches() || phoneNumber.length() != 8) {
             FacesMessage msg = MessageHandler.getMessage("invalid_phone_number", MessageType.ERROR);
             throw new ValidatorException(msg);
         }

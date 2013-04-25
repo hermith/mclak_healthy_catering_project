@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package user;
 
 import database.DatabaseHandler;
@@ -16,7 +12,7 @@ import shopping.ShoppingBean;
 
 /**
  *
- * @author aleksalr
+ * @author aleksalr, Linn
  */
 @ApplicationScoped
 public class UserHandler {
