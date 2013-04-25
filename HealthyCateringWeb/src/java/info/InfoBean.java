@@ -16,7 +16,6 @@ import shopping.customer.CorporateCustomer;
 import shopping.customer.Customer;
 import shopping.customer.PrivateCustomer;
 import shopping.product.Product;
-import user.User;
 
 /**
  *
@@ -51,6 +50,11 @@ public class InfoBean implements Serializable {
         return orderHandler.getOrderHistory();
     }
 
+    /**
+     * Edit customer view. Set selectedCustomer=customer and editCustomer=true.
+     *
+     * @param customer
+     */
     public void editCustomer(Customer customer) {
         selectedCustomer = customer;
         editCustomer = true;
@@ -110,10 +114,7 @@ public class InfoBean implements Serializable {
         return customerHandler.getAllCustomers();
     }
 
-    public ArrayList<User> getAllUsers() {
-        return null;
-    }
-
+    //GETTER AND SETTER for selectedCustomer
     public String getFirstName() {
         if (selectedCustomer != null) {
             if (selectedCustomer instanceof PrivateCustomer) {
@@ -173,132 +174,69 @@ public class InfoBean implements Serializable {
 
     public String getEmail() {
         if (selectedCustomer != null) {
-            if (selectedCustomer instanceof PrivateCustomer) {
-                PrivateCustomer customer = (PrivateCustomer) selectedCustomer;
-                return customer.getEmail();
-            } else if (selectedCustomer instanceof CorporateCustomer) {
-                CorporateCustomer customer = (CorporateCustomer) selectedCustomer;
-                return customer.getEmail();
-            }
+            return selectedCustomer.getEmail();
         }
         return null;
     }
 
     public void setEmail(String email) {
         if (selectedCustomer != null) {
-            if (selectedCustomer instanceof PrivateCustomer) {
-                PrivateCustomer customer = (PrivateCustomer) selectedCustomer;
-                customer.setEmail(email);
-            } else if (selectedCustomer instanceof CorporateCustomer) {
-                CorporateCustomer customer = (CorporateCustomer) selectedCustomer;
-                customer.setEmail(email);
-            }
+            selectedCustomer.setEmail(email);
         }
     }
 
     public String getAddress() {
         if (selectedCustomer != null) {
-            if (selectedCustomer instanceof PrivateCustomer) {
-                PrivateCustomer customer = (PrivateCustomer) selectedCustomer;
-                return customer.getAddress();
-            } else if (selectedCustomer instanceof CorporateCustomer) {
-                CorporateCustomer customer = (CorporateCustomer) selectedCustomer;
-                return customer.getAddress();
-            }
+            return selectedCustomer.getAddress();
         }
         return null;
     }
 
     public void setAddress(String address) {
         if (selectedCustomer != null) {
-            if (selectedCustomer instanceof PrivateCustomer) {
-                PrivateCustomer customer = (PrivateCustomer) selectedCustomer;
-                customer.setAddress(address);
-            } else if (selectedCustomer instanceof CorporateCustomer) {
-                CorporateCustomer customer = (CorporateCustomer) selectedCustomer;
-                customer.setAddress(address);
-            }
+            selectedCustomer.setAddress(address);
         }
     }
 
     public String getZipCode() {
         if (selectedCustomer != null) {
-            if (selectedCustomer instanceof PrivateCustomer) {
-                PrivateCustomer customer = (PrivateCustomer) selectedCustomer;
-                return Integer.toString(customer.getZipCode());
-            } else if (selectedCustomer instanceof CorporateCustomer) {
-                CorporateCustomer customer = (CorporateCustomer) selectedCustomer;
-                return Integer.toString(customer.getZipCode());
-            }
+            return Integer.toString(selectedCustomer.getZipCode());
         }
         return null;
     }
 
     public void setZipCode(String zip) {
         if (selectedCustomer != null) {
-            if (selectedCustomer instanceof PrivateCustomer) {
-                PrivateCustomer customer = (PrivateCustomer) selectedCustomer;
-                try {
-                    customer.setZipCode(Integer.parseInt(zip));
-                } catch (Exception e) {
-                }
-            } else if (selectedCustomer instanceof CorporateCustomer) {
-                CorporateCustomer customer = (CorporateCustomer) selectedCustomer;
-                try {
-                    customer.setZipCode(Integer.parseInt(zip));
-                } catch (Exception e) {
-                }
+            try {
+                selectedCustomer.setZipCode(Integer.parseInt(zip));
+            } catch (Exception e) {
             }
         }
     }
 
     public String getCity() {
         if (selectedCustomer != null) {
-            if (selectedCustomer instanceof PrivateCustomer) {
-                PrivateCustomer customer = (PrivateCustomer) selectedCustomer;
-                return customer.getCity();
-            } else if (selectedCustomer instanceof CorporateCustomer) {
-                CorporateCustomer customer = (CorporateCustomer) selectedCustomer;
-                return customer.getCity();
-            }
+            return selectedCustomer.getCity();
         }
         return null;
     }
 
     public void setCity(String city) {
         if (selectedCustomer != null) {
-            if (selectedCustomer instanceof PrivateCustomer) {
-                PrivateCustomer customer = (PrivateCustomer) selectedCustomer;
-                customer.setCity(city);
-            } else if (selectedCustomer instanceof CorporateCustomer) {
-                CorporateCustomer customer = (CorporateCustomer) selectedCustomer;
-                customer.setCity(city);
-            }
+            selectedCustomer.setCity(city);
         }
     }
 
     public String getPhoneNumber() {
         if (selectedCustomer != null) {
-            if (selectedCustomer instanceof PrivateCustomer) {
-                PrivateCustomer customer = (PrivateCustomer) selectedCustomer;
-                return customer.getPhoneNumber();
-            } else if (selectedCustomer instanceof CorporateCustomer) {
-                CorporateCustomer customer = (CorporateCustomer) selectedCustomer;
-                return customer.getPhoneNumber();
-            }
+            return selectedCustomer.getPhoneNumber();
         }
         return null;
     }
 
     public void setPhoneNumber(String number) {
         if (selectedCustomer != null) {
-            if (selectedCustomer instanceof PrivateCustomer) {
-                PrivateCustomer customer = (PrivateCustomer) selectedCustomer;
-                customer.setPhoneNumber(number);
-            } else if (selectedCustomer instanceof CorporateCustomer) {
-                CorporateCustomer customer = (CorporateCustomer) selectedCustomer;
-                customer.setPhoneNumber(number);
-            }
+            selectedCustomer.setPhoneNumber(number);
         }
     }
 
