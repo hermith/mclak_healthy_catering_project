@@ -50,7 +50,7 @@ public class DatabaseHandler {
     private static final String STM_UPDATE_EMAIL_IN_CUSTOMER_TABLE = "UPDATE Customer_Table SET email = ? WHERE username = ?";
     private static final String STM_UPDATE_PRIVATE_CUSTOMER = "UPDATE Private_Customer_Table SET first_name = ?, last_name = ? WHERE customer_id = ?";
     private static final String STM_UPDATE_CORPORATE_CUSTOMER = "UPDATE Corporate_Customer_Table SET company_name = ? WHERE customer_id = ?";
-    private static final String STM_SELECT_PRODUCT = "SELECT product_name AS product_name, product_description AS product_description FROM Product_Table WHERE product_id = ?";
+    private static final String STM_SELECT_PRODUCT = "SELECT product_name_no AS product_name_no, product_name_en AS product_name_en, product_description_no AS product_description_no, product_description_en AS product_description_en FROM Product_Table WHERE product_id = ?";
     private static final String STM_SELECT_PRODUCT_IDS = "SELECT product_id AS product_id FROM Product_Table";
     private static final String STM_SELECT_SINGLE_PRODUCT = "SELECT product_price AS product_price, product_kcal AS product_kcal FROM Single_Product_Table WHERE product_id = ?";
     private static final String STM_SELECT_PACKAGE_PRODUCT = "SELECT product_discount AS product_discount FROM Package_Product_Table WHERE product_id = ?";
@@ -714,8 +714,10 @@ public class DatabaseHandler {
             conn = dataSource.getConnection();
             setAutoCommit(conn, false);
             stm = conn.prepareStatement(STM_INSERT_PRODUCT, Statement.RETURN_GENERATED_KEYS);
-            stm.setString(1, product.getName());
-            stm.setString(2, product.getDescription());
+            stm.setString(1, product.getNameNo());
+            stm.setString(2, product.getNameEn());
+            stm.setString(3, product.getDescriptionNo());
+            stm.setString(4, product.getDescriptionEn());
             numberOfRowsUpdated = stm.executeUpdate();
             if (numberOfRowsUpdated == 1) {
                 numberOfRowsUpdated = -1;
@@ -746,8 +748,10 @@ public class DatabaseHandler {
                             numberOfRowsUpdated = -1;
                             if (!isProductInSingleProductTable(conn, stm, resSet, p.getId())) {
                                 stm = conn.prepareStatement(STM_INSERT_PRODUCT, Statement.RETURN_GENERATED_KEYS);
-                                stm.setString(1, p.getName());
-                                stm.setString(2, p.getDescription());
+                                stm.setString(1, p.getNameNo());
+                                stm.setString(2, p.getNameEn());
+                                stm.setString(3, p.getDescriptionNo());
+                                stm.setString(4, p.getDescriptionEn());
                                 numberOfRowsUpdated = stm.executeUpdate();
                                 stm.getGeneratedKeys().next();
                                 p.setId(stm.getGeneratedKeys().getInt(1));
@@ -825,9 +829,11 @@ public class DatabaseHandler {
             conn = dataSource.getConnection();
             setAutoCommit(conn, false);
             stm = conn.prepareStatement(STM_UPDATE_PRODUCT);
-            stm.setString(1, product.getName());
-            stm.setString(2, product.getDescription());
-            stm.setInt(3, product.getId());
+            stm.setString(1, product.getNameNo());
+            stm.setString(2, product.getNameEn());
+            stm.setString(3, product.getDescriptionNo());
+            stm.setString(4, product.getDescriptionEn());
+            stm.setInt(5, product.getId());
             numberOfRowsUpdated = stm.executeUpdate();
             if (numberOfRowsUpdated == 1) {
                 numberOfRowsUpdated = -1;

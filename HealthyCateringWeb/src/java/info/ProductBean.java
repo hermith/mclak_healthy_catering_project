@@ -2,6 +2,7 @@ package info;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Locale;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.Application;
 import javax.faces.application.ViewHandler;
@@ -9,6 +10,7 @@ import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import locale.LocaleHandler;
 import locale.MessageHandler;
 import locale.MessageType;
 import shopping.product.PackageProduct;
@@ -23,12 +25,14 @@ import shopping.product.SingleProduct;
 @SessionScoped
 public class ProductBean implements Serializable {
 
+    @Inject
+    private ProductHandler productHandler;
+    @Inject
+    private LocaleHandler localeHandler;
     private Product newProduct;
     private int addedSingleProductID;
     private boolean newProductIsSingle;
     private int addedSingleProductQuantity;
-    @Inject
-    private ProductHandler productHandler;
     private Product selectedProduct;
     private boolean editProduct;
     private boolean showAddProduct;
@@ -291,10 +295,11 @@ public class ProductBean implements Serializable {
 
     //GETTERS AND SETTERS FOR newProduct
     public String getNewProductName() {
-        if (newProduct != null) {
-            return newProduct.getName();
+        if (localeHandler.getLang().equals(new Locale("no"))) {
+            return newProduct.getNameNo();
+        } else {
+            return newProduct.getNameEn();
         }
-        return null;
     }
 
     public String getNewProductNameNo() {
@@ -324,10 +329,11 @@ public class ProductBean implements Serializable {
     }
 
     public String getNewProductDescription() {
-        if (newProduct != null) {
-            return newProduct.getDescription();
+        if (localeHandler.getLang().equals(new Locale("no"))) {
+            return newProduct.getDescriptionNo();
+        } else {
+            return newProduct.getDescriptionEn();
         }
-        return null;
     }
 
     public String getNewProductDescriptionNo() {
@@ -410,10 +416,11 @@ public class ProductBean implements Serializable {
 
     // SETTERs AND GETTERs FOR selectedProduct
     public String getProductName() {
-        if (selectedProduct != null) {
-            return selectedProduct.getName();
+        if (localeHandler.getLang().equals(new Locale("no"))) {
+            return selectedProduct.getNameNo();
+        } else {
+            return selectedProduct.getNameEn();
         }
-        return null;
     }
 
     public String getProductNameNo() {
@@ -443,10 +450,11 @@ public class ProductBean implements Serializable {
     }
 
     public String getProductDescription() {
-        if (selectedProduct != null) {
-            return selectedProduct.getDescription();
+        if (localeHandler.getLang().equals(new Locale("no"))) {
+            return selectedProduct.getDescriptionNo();
+        } else {
+            return selectedProduct.getDescriptionEn();
         }
-        return null;
     }
 
     public String getProductDescriptionNo() {

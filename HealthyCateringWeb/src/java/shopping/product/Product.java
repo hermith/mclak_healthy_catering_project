@@ -1,8 +1,6 @@
 package shopping.product;
 
 import java.util.Locale;
-import javax.inject.Inject;
-import locale.LocaleHandler;
 
 /**
  * @author aleksalr
@@ -14,8 +12,6 @@ public abstract class Product {
     private String nameEn;
     private String descriptionNo;
     private String descriptionEn;
-    @Inject
-    private LocaleHandler localeHandler;
 
     public Product() {
         this.id = -1;
@@ -41,8 +37,8 @@ public abstract class Product {
         this.id = id;
     }
 
-    public String getName() {
-        if (localeHandler.getLang().equals(new Locale("no"))) {
+    public String getName(Locale locale) {
+        if (locale.equals(new Locale("no"))) {
             return nameNo;
         } else {
             return nameEn;
@@ -65,8 +61,8 @@ public abstract class Product {
         this.nameEn = nameEn;
     }
 
-    public String getDescription() {
-        if (localeHandler.getLang().equals(new Locale("no"))) {
+    public String getDescription(Locale locale) {
+        if (locale.equals(new Locale("no"))) {
             return descriptionNo;
         } else {
             return descriptionEn;
@@ -91,7 +87,7 @@ public abstract class Product {
 
     @Override
     public String toString() {
-        return "Product{" + "id=" + id + ", nameNo=" + nameNo + ", nameEn=" + nameEn + ", descriptionNo=" + descriptionNo + ", descriptionEn=" + descriptionEn + ", localeHandler=" + localeHandler + '}';
+        return "Product{" + "id=" + id + ", nameNo=" + nameNo + ", nameEn=" + nameEn + ", descriptionNo=" + descriptionNo + ", descriptionEn=" + descriptionEn + '}';
     }
 
     @Override
