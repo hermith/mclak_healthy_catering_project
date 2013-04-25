@@ -2,18 +2,22 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pom="http://primefaces.org/mobile">
 
     <h:body>
         <ui:composition template="resources/template/template_master.xhtml">
             <ui:define name="subsite_header">
-                <h1>#{texts.title_about}: HealthyCatering</h1>
+                <h1>#{texts.title_about}:</h1>
             </ui:define>
 
             <ui:define name="subsite_content">
-                <img src="resources/img/control_panel_icons/kitten.jpg"
-                     style="float: right; height: 200px; width: 300px; margin: 8px; margin-top: 26px;"/>
-                <p>#{texts.about_us_text}</p>
+                <img src="resources/img/salmon.jpg"
+                     style="float: right; height: 236px; width: 420px; margin: 8px;"/>
+                <p>#{texts.about_us_text_one}</p><br/>
+                <p>#{texts.about_us_text_two}</p><br/>
+                <p>#{texts.about_us_text_three}</p><br/>
+                <p>#{texts.about_us_text_four}</p>
             </ui:define>
 
             <!-- Optional!
