@@ -8,7 +8,7 @@ function drawGraph() {
     
     var tuple;
     for(var i = 0; i < data.length-1; i+=2){
-        myData.push([data[i]],data[i+1]);
+        myData.push([parseFloat(data[i]),parseFloat(data[i+1])]);
     }
     
     for(var i = 0; i < myData.length; i++){
