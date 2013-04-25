@@ -89,45 +89,46 @@ public class StatisticsHandler {
             so += allorders.get(i).getPrice();
             so += " ";
         }
-        
+
         return so;
     }
-    
-    public String getProductFrequency(){
+
+    public String getProductFrequency() {
         allorders = dbhandler.selectOrders();
         ArrayList<ProductFreq> pf = new ArrayList<ProductFreq>();
         String idString;
         String[] idArrayString;
-        int[] ids = new int[dbhandler.selectProducts().size()+1];
+        int[] ids = new int[dbhandler.selectProducts().size() + 1];
         int index;
-        
-        for(Order o : allorders){
+
+        for (Order o : allorders) {
             idString = o.getProductIds();
             idArrayString = idString.split(",");
-            
-            for(int i = 0; i < idArrayString.length; i++){
-               idArrayString[i] = idArrayString[i].replaceAll(" ", "");
+
+            for (int i = 0; i < idArrayString.length; i++) {
+                idArrayString[i] = idArrayString[i].replaceAll(" ", "");
                 System.out.println(idArrayString[i]);
             }
-            
-            for(String s : idArrayString){
+
+            for (String s : idArrayString) {
                 index = Integer.parseInt(s);
                 ids[index]++;
             }
-            
+
         }
-        
-        for(int i = 1; i < ids.length; i++){
+
+        for (int i = 1; i < ids.length; i++) {
             pf.add(new ProductFreq(i, ids[i]));
         }
-        
+
         String pfAsString = "";
-        for (int i = 1; i<  pf.size(); i++){
-            pfAsString += pf.get(i).getId() + " ";
-            pfAsString += pf.get(i).getFrequency() + " ";
+        for (int i = 1; i < pf.size(); i++) {
+            if (pf.get(i).getFrequency() != 0) {
+                pfAsString += pf.get(i).getId() + " ";
+                pfAsString += pf.get(i).getFrequency() + " ";
+            }
         }
-        
+
         return pfAsString;
     }
-    
 }
