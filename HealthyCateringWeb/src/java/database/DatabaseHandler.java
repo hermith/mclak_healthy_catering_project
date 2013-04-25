@@ -928,21 +928,27 @@ public class DatabaseHandler {
     public synchronized boolean deleteProduct(int productId) {
         Connection conn = null;
         PreparedStatement stm = null;
+        ResultSet resSet = null;
         try {
             conn = dataSource.getConnection();
             setAutoCommit(conn, false);
-            stm = conn.prepareStatement(STM_DELETE_PACKAGE_SINGLE_PRODUCT);
-            stm.setInt(1, productId);
-            stm.executeUpdate();
+            if (isProductInSingleProductTable(conn, stm, resSet, productId)) {
+                stm = conn.prepareStatement(STM_DELETE_PACKAGE_SINGLE_PRODUCT);
+                stm.setInt(1, productId);
+                stm.executeUpdate();
 
-            stm = conn.prepareStatement(STM_DELETE_PACKAGE_PRODUCT);
-            stm.setInt(1, productId);
-            stm.executeUpdate();
+                stm = conn.prepareStatement(STM_DELETE_SINGLE_PRODUCT);
+                stm.setInt(1, productId);
+                stm.executeUpdate();
+            } else {
+                stm = conn.prepareStatement(STM_DELETE_PACKAGE_SINGLE_PRODUCTS);
+                stm.setInt(1, productId);
+                stm.executeUpdate();
 
-            stm = conn.prepareStatement(STM_DELETE_SINGLE_PRODUCT);
-            stm.setInt(1, productId);
-            stm.executeUpdate();
-
+                stm = conn.prepareStatement(STM_DELETE_PACKAGE_PRODUCT);
+                stm.setInt(1, productId);
+                stm.executeUpdate();
+            }
             stm = conn.prepareStatement(STM_DELETE_PRODUCT);
             stm.setInt(1, productId);
             stm.executeUpdate();
