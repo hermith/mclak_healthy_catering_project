@@ -25,11 +25,11 @@ Contains:
                 <h:form id="order_history">
                     <h:dataTable var="order" value="#{shoppingBean.orderHistory}" >
                         <h:column>
-                            <f:facet name="header">#{texts.product_id}</f:facet>
+                            <f:facet name="header">#{texts.order_id}</f:facet>
                                 #{order.orderID}
                         </h:column>
                         <h:column>
-                            <f:facet name="header">Order placed</f:facet>
+                            <f:facet name="header">#{texts.order_placed_date}</f:facet>
                                 #{order.convertDateToString(order.getPlacedDate())}
                         </h:column>
                         <h:column>
@@ -37,8 +37,13 @@ Contains:
                             #{order.convertDateToString(order.getDeliveryDate())}
                         </h:column>
                         <h:column>
-                            <f:facet name="header">#{texts.menu_deliveryDate}</f:facet>
+                            <f:facet name="header">#{texts.order_date_delivered}</f:facet>
                                 #{order.convertDateToString(order.getDeliveredDate())}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">#{texts.menu_delivery}</f:facet>
+                            <h:outputText value="#{texts.no}" rendered="#{!order.delivery}" />
+                            <h:outputText value="#{texts.yes}" rendered="#{order.delivery}" />
                         </h:column>
                     </h:dataTable>
                 </h:form>

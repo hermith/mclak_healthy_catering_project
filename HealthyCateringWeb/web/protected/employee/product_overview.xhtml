@@ -54,7 +54,7 @@ Contains:
                                              styleClass="menu_add_button"/>
                         </h:column>
                     </h:dataTable>
-                    <p:messages />
+                    <p:messages rendered="#{!(productBean.editProduct or productBean.showAddProduct)}" />
 
                     <br/>
                     <h:commandButton action="#{productBean.setShowAddProduct(true)}" 
