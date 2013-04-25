@@ -225,10 +225,13 @@ public class ProductBean implements Serializable {
     }
 
     /**
-     *
+     * Deletes current product from database.
      * @param product
      */
     public void deleteProductDB(Product product) {
+        if (product != null) {
+            productHandler.deleteProductDb(product.getId());
+        }
     }
 
     //GETTERS AND SETTERS

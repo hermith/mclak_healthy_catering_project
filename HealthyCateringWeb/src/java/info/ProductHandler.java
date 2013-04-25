@@ -174,4 +174,14 @@ public class ProductHandler {
         }
         return false;
     }
+    
+    /**
+     * Calls deleteProduct(productId) in DatabaseHandler.
+     * Deletes the current product in the database.
+     * @param productId
+     * @return 
+     */
+    public boolean deleteProductDb(int productId) {
+        return databaseHandler.deleteProduct(productId);
+    }
 }

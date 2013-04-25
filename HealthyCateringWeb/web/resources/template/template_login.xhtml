@@ -17,40 +17,61 @@ Contains:
     xmlns:ui="http://java.sun.com/jsf/facelets">
 
     <div id="top_bar_span_login">
-        
+
         <!-- This is used for checking that the user is logged in via jQuery -->
         <h:form id="hidden_login_field">
             <h:inputHidden value="#{userBean.loggedIn}" id="is_user_logged_in"/>
             <h:inputHidden value="#{userBean.loggedInAsPrivateCustomer}" id="is_user_logged_in_as_private"/>
             <h:inputHidden value="#{userBean.loggedInAsCorporateCustomer}" id="is_user_logged_in_as_corporate"/>
-            
+
             <h:inputHidden value="#{userBean.didLastLoginFail()}" id="last_login_failed"/>
-            
+
         </h:form>
-        
+
         <h:form styleClass="login_form"
                 rendered="#{!userBean.loggedIn}">
-            
+
             <label>#{texts.login_username}:</label>
             <h:inputText styleClass="login_input"
                          value="#{userBean.username}"
                          /><br/>
-            
+
             <label>#{texts.login_password}:</label>
             <h:inputSecret styleClass="login_input"
                            value="#{userBean.password}"
                            /><br/>
-            
+
             <h:panelGroup styleClass="login_buttons_group">
                 <h:commandButton style="width: 100px;"
                                  styleClass="button_style"
                                  value="#{texts.login_login}"
                                  action="#{userBean.login()}" />
-                
+
                 #{texts.login_or}
-                
+
                 <h:commandLink value="#{texts.login_reg_new_user}"
                                action="/register.xhtml" />
+                , <a href="#" id="forgot_password_link">glemt passord</a>
+            </h:panelGroup>
+            <h:messages styleClass="error_message"/>
+        </h:form>
+
+        <h:form styleClass="forgot_password">
+            <label>Epost:</label>
+            <h:inputText styleClass="login_input"
+                         value="#{userBean.email}"
+                         /><br/>
+
+            <label>Brukernavn:</label>
+            <h:inputText styleClass="login_input"
+                           value="#{userBean.username}"
+                           /><br/>
+            <h:panelGroup styleClass="login_buttons_group">
+                <h:commandButton styleClass="button_style"
+                                 value="Send nytt passord"
+                                 action="#{userBean.generateNewPasswordUser()}" />
+                #{texts.login_or} 
+                <a href="#" id="forgot_password_back">tilbake til innlogging</a>
             </h:panelGroup>
             <h:messages styleClass="error_message"/>
         </h:form>
@@ -72,25 +93,25 @@ Contains:
                     class="localeimage"/>
             </h:commandLink>
         </h:form>
-        
+
         <!-- Text info in the middle of the spanning bar. -->
         <h:outputText rendered="#{!userBean.loggedIn}"
                       value="#{texts.login_click_here}." />
-        
+
         <h:outputText rendered="#{userBean.loggedIn}"
                       value="#{texts.login_logged_in_as}: #{userBean.username}"/>
-        
+
         <!-- The two links in the upper right corner of the spanning bar -->
         <h:form styleClass="logout_form">
             <h:commandLink value="#{texts.title_control_panel}"
                            action="/protected/common/control_panel.xhtml"
                            rendered="#{userBean.loggedIn}"/>
-            
+
             <h:commandLink value="#{texts.login_logout}"
                            action="#{userBean.logout()}"
                            rendered="#{userBean.loggedIn}"/>
         </h:form>
-        
+
     </div>
 
     <div id="site_opaque" />

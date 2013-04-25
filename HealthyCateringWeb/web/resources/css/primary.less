@@ -127,11 +127,11 @@ table {
 
 /* Log in form inside the sliding bar */
 
-.login_form a {
+.login_form a, .forgot_password a {
     color: @font_color;
 }
 
-.login_form {
+.login_form, .forgot_password {
     font-size: 10px;
     width: 350px;
     margin: 0 auto;
@@ -145,11 +145,15 @@ table {
     margin: 4px;
 }
 
+.forgot_password {
+    display: none;
+}
+
 .login_buttons_group {
     color: @font_color;
     margin: 0 auto;
     display: block;
-    width: 230px;
+    width: 320px;
 }
 
 .loginbutton {
@@ -160,7 +164,7 @@ table {
     border-radius: 4px;
 }
 
-.login_form label {
+.login_form label, .forgot_password label {
     font-size: 15px;
     color: @font_color;
     display: inline-block;
@@ -168,6 +172,7 @@ table {
     text-align: right;
     margin-right: 20px;
 }
+
 
 .logout_form {
     display: inline-block;
@@ -619,7 +624,7 @@ active_orders_main_form .delivered {
 
 
 /*product_overview.xhtml*/
-#popoup_add_product a {
+.add_product_tab_single_left, .add_product_tab_package_right {
     padding-top: 8px;
     padding-bottom: -16px;
     font-weight: bold;
