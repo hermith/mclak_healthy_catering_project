@@ -5,24 +5,89 @@
         xmlns:pm="http://primefaces.org/mobile"
         contentType="text/html"
         renderKitId="PRIMEFACES_MOBILE">
-    
-    <pm:page title="PrimeFaces Mobile Weather">
 
-        <!-- Main View -->
+    <style>
+        .header_label {
+            display: block;
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+        }
+    </style>
+
+    <pm:page title="HealthyCatering Mobile Employees">
+
         <pm:view id="main">
-            <pm:header title="Drivers UI: Not logged in">
+            <pm:header title="Not logged in">
+                <h:form class="ui-btn-right">
+                    <p:button value="Settings" icon="gear" href="#settings"/>
+                </h:form>
             </pm:header>
-            
-            <pm:content>
-                <h:form id="login_form">
 
-                    <p:outputLabel value="Username" /><h:inputText />
-                    <p:outputLabel value="Passord" /><h:inputSecret />
-                    
-                    <p:button value="Login"/>
+            <pm:content>
+                <h:form id="login_form" rendered="#{!userBean.loggedIn}">
+
+                    <p:outputLabel value="Username" />
+                    <p:inputText value="#{userBean.username}"
+                                 required="true"/>
+                    <p:outputLabel value="Passord" />
+                    <p:password value="#{userBean.password}"
+                                required="true"/>
+
+                    <h:commandButton value="Login" action="#{userBean.login()}"/>
+                    <p:messages/>
+                </h:form>
+                <pm:buttonGroup rendered="#{userBean.loggedInAsEmployee}">
+                    <p:outputLabel value="Are you.." styleClass="header_label"/>
+                    <p:button value="Driver" href="#order_list"/>
+                    <p:button value="Chef" href="#order_list"/>
+                </pm:buttonGroup>
+            </pm:content>
+
+            <pm:footer fixed="true">
+                <p style="text-align: center">Footer</p>
+            </pm:footer>
+        </pm:view>
+
+        <pm:view id="order_list">
+            <pm:header title="Settings">
+                <h:form class="ui-btn-left">
+                    <p:button value="Back" iconPos="right" icon="back" href="#main"/>
+                </h:form>
+            </pm:header>
+
+            <pm:content>
+                <p:dataList value="#{infoBean.activeOrders}" var="order">
+                    <p:panel collapsed="true"
+                             header="OrderID: #{order.orderID}, delivery on: #{order.deliveryDateAsString}">
+                        <div style="display: inline-block; width: 63%;">
+                            #{infoBean.getCustomer(order.getCustomerID()).getDriverInformation()}
+                        </div>
+                        <h:form class="ui-btn-right" style="width: 35%;">
+                            <h:commandButton value="Done"/>
+                        </h:form>
+                    </p:panel>
+                </p:dataList>
+            </pm:content>
+
+            <pm:footer fixed="true">
+                <p style="text-align: center">Footer</p>
+            </pm:footer>
+        </pm:view>
+
+        <pm:view id="settings">
+            <pm:header title="Settings">
+                <h:form class="ui-btn-left">
+                    <p:button value="Back" iconPos="right" icon="back" href="#main"/>
+                </h:form>
+            </pm:header>
+
+            <pm:content>
+                <h:form rendered="#{userBean.loggedIn}">
+                    <h:commandButton value="Logout" action="#{userBean.logout()}"/>
                 </h:form>
             </pm:content>
-            
+
             <pm:footer fixed="true">
                 <p style="text-align: center">Footer</p>
             </pm:footer>

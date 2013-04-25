@@ -65,6 +65,10 @@ public class InfoBean implements Serializable {
         selectedOrderCustomer = orderHandler.getCustomerFromID(selectedOrder.getCustomerID());
         detailOrder = true;
     }
+    
+    public Customer getCustomer(int customer_id) {
+        return customerHandler.selectCustomer(customer_id);
+    }
 
     public Customer getSelectedCustomer() {
         return selectedCustomer;

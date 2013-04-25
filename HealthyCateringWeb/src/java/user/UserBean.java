@@ -191,7 +191,7 @@ public class UserBean implements Serializable {
         } catch (ServletException ex) {
             Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, "Failed to log out " + user + ".", ex);
         }
-        return "return_frontpage";
+        return "";
     }
 
     public boolean isLoggedIn() {

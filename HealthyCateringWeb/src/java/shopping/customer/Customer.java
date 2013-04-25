@@ -94,6 +94,10 @@ public abstract class Customer {
     public void setCity(String city) {
         this.city = city;
     }
+    
+    public String getDriverInformation() {
+        return getName().toUpperCase() + ", " + address + "&lt;br /&gt;" + city +  " " + zipCode + ": " + phoneNumber;
+    }
 
     @Override
     public String toString() {
