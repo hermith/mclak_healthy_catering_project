@@ -311,7 +311,7 @@ public class InfoBean implements Serializable {
         return false;
     }
 
-    public String saveChangesCustomer() {
+    public void saveChangesCustomer() {
         if (customerHandler.fixCustomer(selectedCustomer)) {
             String msg = MessageHandler.getLocalizedText(MessageType.TEKST, "edit_account_changes_saved");
             MessageHandler.addErrorMessage(msg);
@@ -319,7 +319,6 @@ public class InfoBean implements Serializable {
             String msg = MessageHandler.getLocalizedText(MessageType.ERROR, "edit_account_changes_not_saved");
             MessageHandler.addErrorMessage(msg);
         }
-        return "";
     }
 
     public boolean isShowActiveOrders() {

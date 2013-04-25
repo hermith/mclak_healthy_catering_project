@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 
 <!--
-template.xhtml
+edit_users.xhtml
 
 Contains:
-    Copy this when you want to create a new subsite and replace any content.
+    Here system can see/edit all users.
 
-@author Karl
+@author Linn
 -->
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -23,6 +23,8 @@ Contains:
 
             <ui:define name="subsite_content">
                 <h:form>
+                    
+                    <!--Table with all users-->
                     <h:dataTable var="user" value="#{userBean.allUsers}">
                         <h:column>
                             <f:facet name="header">#{texts.edit_users_usertype}</f:facet>
@@ -38,7 +40,7 @@ Contains:
                         </h:column>
                         <h:column>
                             <f:facet name="header">#{texts.edit_users_password}</f:facet>
-                            <h:commandButton value="#{texts.edit_users_generate_new_password}" action="#{userBean.updateUserPassword(user)}" />
+                            <h:commandButton styleClass="menu_add_button" value="#{texts.edit_users_generate_new_password}" action="#{userBean.updateUserPassword(user)}" />
                         </h:column>
                     </h:dataTable>
                     <h:messages  />

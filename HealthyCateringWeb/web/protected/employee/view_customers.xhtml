@@ -1,19 +1,21 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 
 <!--
-template.xhtml
+view_customer.xhtml
 
 Contains:
-    Copy this when you want to create a new subsite and replace any content.
+    Displays all customers. 
+    Here the employees can edit customers information.
 
-@author Karl
+@author Linn
 -->
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
 
     <h:body>
         <ui:composition template="/resources/template/template_master.xhtml">
@@ -21,7 +23,7 @@ Contains:
                 <h:outputScript library="js" name="/edit_customers_jq.js" />
             </ui:define>
             <ui:define name="subsite_header">
-                <h1>View customers</h1>
+                <h1>#{texts.edit_customer_title}</h1>
             </ui:define>
 
             <ui:define name="subsite_content">
@@ -30,6 +32,8 @@ Contains:
                 </h:form>
                 
                 <h:form>
+                    
+                    <!--Table of all customers -->
                     <h:dataTable value="#{infoBean.allCustomers}"
                                  var="customer" >
                         <h:column>
@@ -62,7 +66,7 @@ Contains:
                         </h:column>
                         <h:column>
                                 <f:facet name="header">Edit</f:facet>
-                                <h:commandButton action="#{infoBean.editCustomer(customer)}" value ="Edit"/>
+                                <h:commandButton styleClass="menu_add_button" action="#{infoBean.editCustomer(customer)}" value ="Edit"/>
                             </h:column>
                     </h:dataTable>
 
@@ -73,7 +77,8 @@ Contains:
                                              action='#{infoBean.closeEditCustomer()}'
                                              immediate="true"/>
 
-                            <h2>Edit customer</h2>
+                            <!--Edit customer view-->
+                            <h2>#{texts.edit_customer_title}</h2>
                             
                             <!--Only private-->
                             <h:panelGroup rendered="#{infoBean.selectedLoggedInAsPrivate()}" styleClass="edit_account_employee">
@@ -84,13 +89,15 @@ Contains:
                                 <h:inputText value="#{infoBean.lastName}" />
                                 <br/>
                             </h:panelGroup>
+                            
                             <!--Only corporate-->
                             <h:panelGroup rendered="#{!infoBean.selectedLoggedInAsPrivate()}" styleClass="edit_account_employee">
                                 <label>#{texts.edit_account_company_name}</label>
                                 <h:inputText value="#{infoBean.companyName}" />
                                 <br/>
                             </h:panelGroup>
-                            <!--ALL-->
+                            
+                            <!--Both; private and corporate-->
                             <h:panelGroup styleClass="edit_account_employee">
                                 <label>#{texts.edit_account_email}</label>
                                 <h:inputText value="#{infoBean.email}" >
@@ -109,12 +116,12 @@ Contains:
                                 <h:inputText value="#{infoBean.city}" />
                                 <br/>
                                 <label>#{texts.edit_account_phone}</label>
-                                <h:inputText value="#{infoBean.phoneNumber}" />
+                                <h:inputText value="#{infoBean.phoneNumber}" >
+                                    <f:validator validatorId="PhoneNumberValidator" />
+                                </h:inputText>
                                 <br/><br/>
                             </h:panelGroup>
-                            <h:commandButton action="#{infoBean.saveChangesCustomer()}"
-                                             value="#{texts.edit_account_save_changes}"
-                                             />
+                            <h:commandButton styleClass="button_style" action="#{infoBean.saveChangesCustomer()}" value="#{texts.edit_account_save_changes}" />
                             <h:messages />
                         </div>
                     </div>
