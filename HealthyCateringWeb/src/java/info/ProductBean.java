@@ -43,9 +43,11 @@ public class ProductBean implements Serializable {
      * Reinitialize the newProduct-object
      */
     public void reInitializeNewProduct() {
-        newProduct = newProductIsSingle == true ? new SingleProduct() : new PackageProduct();
-        newProduct.setName("Name");
-        newProduct.setDescription("Desc");
+        newProduct = (newProductIsSingle == true) ? new SingleProduct() : new PackageProduct();
+        newProduct.setNameNo("Navn");
+        newProduct.setNameEn("Name");
+        newProduct.setDescriptionNo("Besrkivelse");
+        newProduct.setDescriptionEn("Description");
     }
 
     /**
@@ -219,7 +221,7 @@ public class ProductBean implements Serializable {
     }
 
     /**
-     * 
+     *
      * @param product
      */
     public void deleteProductDB(Product product) {
@@ -295,9 +297,29 @@ public class ProductBean implements Serializable {
         return null;
     }
 
-    public void setNewProductName(String name) {
+    public String getNewProductNameNo() {
         if (newProduct != null) {
-            newProduct.setName(name);
+            return newProduct.getNameNo();
+        }
+        return null;
+    }
+
+    public String getNewProductNameEn() {
+        if (newProduct != null) {
+            return newProduct.getNameEn();
+        }
+        return null;
+    }
+
+    public void setNewProductNameNo(String name) {
+        if (newProduct != null) {
+            newProduct.setNameNo(name);
+        }
+    }
+
+    public void setNewProductNameEn(String name) {
+        if (newProduct != null) {
+            newProduct.setNameEn(name);
         }
     }
 
@@ -308,9 +330,29 @@ public class ProductBean implements Serializable {
         return null;
     }
 
-    public void setNewProductDescription(String desc) {
+    public String getNewProductDescriptionNo() {
         if (newProduct != null) {
-            newProduct.setDescription(desc);
+            return newProduct.getDescriptionNo();
+        }
+        return null;
+    }
+
+    public String getNewProductDescriptionEn() {
+        if (newProduct != null) {
+            return newProduct.getDescriptionEn();
+        }
+        return null;
+    }
+
+    public void setNewProductDescriptionNo(String desc) {
+        if (newProduct != null) {
+            newProduct.setDescriptionNo(desc);
+        }
+    }
+
+    public void setNewProductDescriptionEn(String desc) {
+        if (newProduct != null) {
+            newProduct.setDescriptionEn(desc);
         }
     }
 
@@ -374,9 +416,29 @@ public class ProductBean implements Serializable {
         return null;
     }
 
-    public void setProductName(String name) {
+    public String getProductNameNo() {
+        if (selectedProduct != null) {
+            return selectedProduct.getNameNo();
+        }
+        return null;
+    }
+
+    public String getProductNameEn() {
+        if (selectedProduct != null) {
+            return selectedProduct.getNameEn();
+        }
+        return null;
+    }
+
+    public void setProductNameNo(String name) {
         if (selectedProduct != null && (!name.equals(""))) {
-            selectedProduct.setName(name);
+            selectedProduct.setNameNo(name);
+        }
+    }
+
+    public void setProductNameEn(String name) {
+        if (selectedProduct != null && (!name.equals(""))) {
+            selectedProduct.setNameEn(name);
         }
     }
 
@@ -387,9 +449,29 @@ public class ProductBean implements Serializable {
         return null;
     }
 
-    public void setProductDescription(String desc) {
+    public String getProductDescriptionNo() {
+        if (selectedProduct != null) {
+            return selectedProduct.getDescriptionNo();
+        }
+        return null;
+    }
+
+    public String getProductDescriptionEn() {
+        if (selectedProduct != null) {
+            return selectedProduct.getDescriptionEn();
+        }
+        return null;
+    }
+
+    public void setProductDescriptionNo(String desc) {
         if (selectedProduct != null && (!desc.equals(""))) {
-            selectedProduct.setDescription(desc);
+            selectedProduct.setDescriptionNo(desc);
+        }
+    }
+
+    public void setProductDescriptionEn(String desc) {
+        if (selectedProduct != null && (!desc.equals(""))) {
+            selectedProduct.setDescriptionEn(desc);
         }
     }
 

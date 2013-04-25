@@ -49,6 +49,14 @@ public abstract class Product {
         }
     }
 
+    public String getNameNo() {
+        return nameNo;
+    }
+
+    public String getNameEn() {
+        return nameEn;
+    }
+
     public void setNameNo(String nameNo) {
         this.nameNo = nameNo;
     }
@@ -63,6 +71,14 @@ public abstract class Product {
         } else {
             return descriptionEn;
         }
+    }
+
+    public String getDescriptionNo() {
+        return descriptionNo;
+    }
+
+    public String getDescriptionEn() {
+        return descriptionEn;
     }
 
     public void setDescriptionNo(String descriptionNo) {
