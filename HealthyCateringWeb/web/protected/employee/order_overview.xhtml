@@ -122,10 +122,10 @@ Contains:
                                         #{product.id}</h:column>
                                     <h:column>
                                         <f:facet name="header">Name</f:facet>
-                                        #{product.name}</h:column>
+                                        #{product.getName(localeHandler.getLang())}</h:column>
                                     <h:column>
                                         <f:facet name="header">Description</f:facet>
-                                        #{product.description}</h:column>
+                                        #{product.getDescription(localeHandler.getLang())}</h:column>
                                     <h:column>
                                         <f:facet name="header">Price</f:facet>
                                         #{product.price}</h:column>
