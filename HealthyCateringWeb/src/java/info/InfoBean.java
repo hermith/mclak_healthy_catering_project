@@ -1,6 +1,7 @@
 package info;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Any;
@@ -299,5 +300,10 @@ public class InfoBean implements Serializable {
             return productHandler.getUniqueProductsList(selectedOrder.getProducts());
         }
         return null;
+    }
+    
+    public void markOrderAsDelivered(int orderID) {
+        Timestamp stamp = new Timestamp(System.currentTimeMillis());
+        orderHandler.markOrderAsDelivered(orderID, stamp);
     }
 }

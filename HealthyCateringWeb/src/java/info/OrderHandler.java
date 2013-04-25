@@ -1,6 +1,7 @@
 package info;
 
 import database.DatabaseHandler;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -34,6 +35,10 @@ public class OrderHandler {
     
     public ArrayList<Order> getOrderHistory(int customerId){
         return db.selectOrders(customerId);
+    }
+
+    public void markOrderAsDelivered(int orderID, Timestamp stamp) {
+        db.updateOrderSetDateDelivered(orderID, stamp);
     }
     
 }

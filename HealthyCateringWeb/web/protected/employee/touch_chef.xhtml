@@ -18,34 +18,24 @@
     <pm:page title="HealthyCatering Mobile Employees">
 
         <pm:view id="main">
-            <pm:header title="HealthyMobile">
+            <pm:header title="CHEF UI">
                 <h:form class="ui-btn-right">
                     <p:button value="Settings" icon="gear" href="#settings"/>
+                </h:form>
+                <h:form class="ui-btn-left">
+                    <p:button value="Back" icon="back" href="/touch"/>
                 </h:form>
             </pm:header>
 
             <pm:content>
-                <h:form id="login_form" rendered="#{!userBean.loggedIn}">
-
-                    <p:outputLabel value="Username" />
-                    <p:inputText value="#{userBean.username}"
-                                 required="true"/>
-                    <p:outputLabel value="Passord" />
-                    <p:password value="#{userBean.password}"
-                                required="true"/>
-
-                    <h:commandButton value="Login" action="#{userBean.login()}"/>
-                    <p:messages/>
-                </h:form>
-                <pm:buttonGroup rendered="#{userBean.loggedInAsEmployee}">
-                    <p:outputLabel value="Are you.." styleClass="header_label"/>
-                    <p:button value="Driver" href="/protected/employee/touch_driver.xhtml"/>
-                    <p:button value="Chef" href="/protected/employee/touch_chef.xhtml"/>
-                </pm:buttonGroup>
+                CHEFFIE
             </pm:content>
 
+            <pm:footer fixed="true">
+                <p style="text-align: center">Footer</p>
+            </pm:footer>
         </pm:view>
-
+        
         <pm:view id="settings">
             <pm:header title="Settings">
                 <h:form class="ui-btn-left">
@@ -58,8 +48,10 @@
                     <h:commandButton value="Logout" action="#{userBean.logout()}"/>
                 </h:form>
             </pm:content>
+
+            <pm:footer fixed="true">
+                <p style="text-align: center">Footer</p>
+            </pm:footer>
         </pm:view>
-
     </pm:page>
-
 </f:view>
