@@ -15,7 +15,8 @@ Contains:
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:c="http://java.sun.com/jsp/jstl/core">
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui">
 
     <h:body>
         <ui:composition template="/resources/template/template_master.xhtml">
@@ -124,7 +125,7 @@ Contains:
                                 <br/><br/>
                             </h:panelGroup>
                             <h:commandButton styleClass="button_style" action="#{infoBean.saveChangesCustomer()}" value="#{texts.edit_account_save_changes}" />
-                            <h:messages />
+                            <p:messages />
                         </div>
                     </div>
                 </h:form>

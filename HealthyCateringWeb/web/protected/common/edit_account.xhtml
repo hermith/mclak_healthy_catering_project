@@ -13,7 +13,8 @@ Contains:
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 
     <h:body>
         <ui:composition template="/resources/template/template_master.xhtml">
@@ -75,8 +76,8 @@ Contains:
                                 <f:validator validatorId="EmailValidator"/>
                             </h:inputText>
                             <br/>
-                            <h:messages for="edit_account_email"/>
-                            <h:messages for="edit_account_email1"/>
+                            <p:messages for="edit_account_email"/>
+                            <p:messages for="edit_account_email1"/>
                             <br/>
                         </h:panelGroup>
                         <h:commandButton styleClass="button_style"
@@ -90,22 +91,18 @@ Contains:
                     <h:panelGroup styleClass="edit_account_employee">
                         <label>#{texts.edit_account_old_password}:</label>
                         <h:inputSecret value="#{userBean.password}" id="edit_account_old_pw" required="true" requiredMessage="#{error.login_required_password}"/>
-                        <h:message for="edit_account_old_pw"/>
                         <br/>
                         <label>#{texts.edit_account_new_password}:</label>
                         <h:inputSecret value="#{userBean.newPassword}" required="true" id="newPassword" requiredMessage="#{error.edit_account_required}" />
-                        <h:message for="newPassword"/>
                         <br/>
                         <label>#{texts.edit_account_repeat_password}:</label>
                         <h:inputSecret required="true" requiredMessage="#{error.edit_account_required}" id="newPassword1"/>
-                        <h:message for="newPassword1"/>
                         <br/>
                         <h:inputHidden id="msg" validator="PasswordValidator" value="needed" />
-                        <h:messages for="msg"/>
 
                     </h:panelGroup>
                     <h:commandButton styleClass="button_style" action="#{userBean.changePassword()}" value="#{texts.edit_account_save_changes}"/>
-                    <h:messages />
+                    <p:messages />
                 </h:form>
             </ui:define>
         </ui:composition>

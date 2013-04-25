@@ -78,11 +78,11 @@ Contains:
                                 <!--SingleProduct only-->
                                 <h:panelGroup rendered="#{productBean.selectedIsSingleProduct()}">
                                     <label>#{texts.product_kcal}: </label>
-                                    <h:inputText requiredMessage="#{error.product_required_KCAL}" required="true" value="#{productBean.productKCAL}" >
+                                    <h:inputText requiredMessage="#{error.product_required_KCAL}" required="true" value="#{productBean.productKCAL}" converterMessage="#{error.product_validate_kcal}" >
                                         <f:convertNumber integerOnly="true" />
                                     </h:inputText><br/>
                                     <label>#{texts.product_price}: </label>
-                                    <h:inputText required="true" requiredMessage="#{error.product_required_pris}" value="#{productBean.productPrice}" >
+                                    <h:inputText required="true" requiredMessage="#{error.product_required_pris}" value="#{productBean.productPrice}" converterMessage="#{error.product_validate_price}" >
                                     </h:inputText><br/>
                                 </h:panelGroup>
 
@@ -127,7 +127,7 @@ Contains:
                                     <h:commandButton styleClass="button_style" action="#{productBean.addProductPackageEdit()}" value="#{texts.product_add}" />
                                 </h:panelGroup><br/>
                                 <h:commandButton styleClass="button_style" action="#{productBean.saveChangesProduct()}" value="#{texts.product_save}" />
-                                <h:messages />
+                                <p:messages />
                             </h:panelGroup>
                         </div>
                     </div>
@@ -156,10 +156,10 @@ Contains:
                                     <label>#{texts.product_name_en}: </label><h:inputText value="#{productBean.newProductNameEn}" required="true" requiredMessage="#{error.product_required_name}" /><br/>
                                     <label>#{texts.product_desc_no}: </label><h:inputText value="#{productBean.newProductDescriptionNo}" required="true" requiredMessage="#{error.product_required_desc}" /><br/>
                                     <label>#{texts.product_desc_en}: </label><h:inputText value="#{productBean.newProductDescriptionEn}" required="true" requiredMessage="#{error.product_required_desc}" /><br/>
-                                    <label>#{texts.product_kcal}:</label><h:inputText value="#{productBean.newProductKCAL}" required="true" requiredMessage="#{error.product_required_KCAL}" /><br/>
-                                    <label>#{texts.product_price}:</label><h:inputText value="#{productBean.newProductPrice}" required="true" requiredMessage="#{error.product_required_pris}" /><br/>
+                                    <label>#{texts.product_kcal}:</label><h:inputText value="#{productBean.newProductKCAL}" required="true" requiredMessage="#{error.product_required_KCAL}" converterMessage="#{product_validate_kcal}" /><br/>
+                                    <label>#{texts.product_price}:</label><h:inputText value="#{productBean.newProductPrice}" required="true" requiredMessage="#{error.product_required_pris}" converterMessage="#{error.product_validate_price}" /><br/>
                                     <h:commandButton styleClass="button_style" value="#{texts.product_add}" action="#{productBean.addNewProduct()}" />
-                                    <h:messages />
+                                    <p:messages />
                                 </h:panelGroup>
                             </div>
 
@@ -209,7 +209,7 @@ Contains:
                                     </h:selectOneMenu>
                                     <p:spinner value="#{productBean.addedSingleProductQuantity}" required="true" />
                                     <h:commandButton value="#{texts.product_add}" styleClass="button_style" action="#{productBean.addProductPackage()}" />
-                                    <h:messages />
+                                    <p:messages />
                                     <br/><h:commandButton styleClass="button_style" action="#{productBean.addNewProduct()}" value="#{texts.product_add}"/>
                                 </h:panelGroup>
                             </div>

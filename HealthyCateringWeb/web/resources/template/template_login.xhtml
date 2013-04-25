@@ -14,7 +14,8 @@ Contains:
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:ui="http://java.sun.com/jsf/facelets">
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
 
     <div id="top_bar_span_login">
 
@@ -53,7 +54,7 @@ Contains:
                                action="/register.xhtml" />
                 , <a href="#" id="forgot_password_link">glemt passord</a>
             </h:panelGroup>
-            <h:messages styleClass="error_message"/>
+            <p:messages />
         </h:form>
 
         <h:form styleClass="forgot_password">
@@ -73,7 +74,7 @@ Contains:
                 #{texts.login_or} 
                 <a href="#" id="forgot_password_back">tilbake til innlogging</a>
             </h:panelGroup>
-            <h:messages styleClass="error_message"/>
+            <p:messages />
         </h:form>
 
     </div>
