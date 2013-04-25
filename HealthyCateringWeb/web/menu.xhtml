@@ -28,11 +28,11 @@ Contains:
                     <h:dataTable var="product" value="#{shoppingBean.menu}">
                         <h:column>
                             <f:facet name="header">#{texts.menu_product}</f:facet>
-                            #{product.name}
+                            #{product.getName(localeHandler.getLang())}
                         </h:column>
                         <h:column>
                             <f:facet name="header">#{texts.menu_description}</f:facet>
-                            #{product.description}
+                            #{product.getDescription(localeHandler.getLang())}
                         </h:column>
                         <h:column>
                             <f:facet name="header">#{texts.menu_price}</f:facet>
