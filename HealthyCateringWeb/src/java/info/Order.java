@@ -1,9 +1,9 @@
 package info;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import shopping.product.Product;
+import java.sql.Timestamp;
 
 /**
  *
@@ -18,9 +18,9 @@ public class Order {
     private int orderID;
     private int customerID;
     private ArrayList<Product> products;
-    private Date placedDate;
-    private Date deliveryDate;
-    private Date deliveredDate;
+    private Timestamp placedDate;
+    private Timestamp deliveryDate;
+    private Timestamp deliveredDate;
     public boolean delivery;
 
     /**
@@ -47,7 +47,7 @@ public class Order {
      * @param deliveredDate Was delievered date
      * @param delivery Is delievered
      */
-    public Order(int orderID, int customerID, ArrayList<Product> products, Date placedDate, Date deliveryDate, Date deliveredDate, boolean delivery) {
+    public Order(int orderID, int customerID, ArrayList<Product> products, Timestamp placedDate, Timestamp deliveryDate, Timestamp deliveredDate, boolean delivery) {
         this.orderID = orderID;
         this.products = products;
         this.customerID = customerID;
@@ -132,7 +132,7 @@ public class Order {
      * @param date util.Date to convert
      * @return Friendly formatted String
      */
-    public String convertDateToString(Date date) {
+    public String convertDateToString(Timestamp date) {
         if (date != null) {
             GregorianCalendar greg = new GregorianCalendar();
             greg.setTimeInMillis(date.getTime());
@@ -161,27 +161,27 @@ public class Order {
         return convertDateToString(deliveryDate);
     }
 
-    public void setDeliveryDate(Date date) {
+    public void setDeliveryDate(Timestamp date) {
         this.deliveryDate = date;
     }
 
-    public Date getDeliveryDate() {
+    public Timestamp getDeliveryDate() {
         return deliveryDate;
     }
 
-    public void setDeliveredDate(Date date) {
+    public void setDeliveredDate(Timestamp date) {
         this.deliveredDate = date;
     }
 
-    public Date getDeliveredDate() {
+    public Timestamp getDeliveredDate() {
         return deliveredDate;
     }
 
-    public void setPlacedDate(Date date) {
+    public void setPlacedDate(Timestamp date) {
         this.placedDate = date;
     }
 
-    public Date getPlacedDate() {
+    public Timestamp getPlacedDate() {
         return placedDate;
     }
 

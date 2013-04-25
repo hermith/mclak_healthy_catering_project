@@ -338,7 +338,7 @@ public class ShoppingBean implements Serializable {
                 order.setCustomerID(corporateCustomer.getCustomerId());
             }
             order.setProducts(getProducts());
-            java.sql.Date date = new java.sql.Date(new Date().getTime());
+            java.sql.Timestamp date = new java.sql.Timestamp(new Date().getTime());
             order.setPlacedDate(date);
             if (shoppingHandler.insertOrder(order)) {
                 shoppingCart = new ShoppingCart();
@@ -361,14 +361,14 @@ public class ShoppingBean implements Serializable {
     }
 
     /**
-     * Converts java.util.Date to java.sql.Date, and passes it to the
+     * Converts java.util.Date to java.sql.Timestamp, and passes it to the
      * order-object.
      *
      * @param dato
      */
     public void setDeliveryDate(Date date) {
         if (date != null) {
-            java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+            java.sql.Timestamp sqlDate = new java.sql.Timestamp(date.getTime());
             order.setDeliveryDate(sqlDate);
         }
     }
