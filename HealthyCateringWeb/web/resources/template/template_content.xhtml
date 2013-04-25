@@ -32,7 +32,7 @@ Contains:
                 <h:outputText rendered="#{shoppingBean.shoppingCartIsEmpty()}" value="#{texts.menu_noproducts}"/>
                 <h:dataTable style="width: 100%;" rendered="#{!shoppingBean.shoppingCartIsEmpty()}" var="product" value="#{shoppingBean.shoppingCartProducts}">
                     <h:column>
-                        #{product.name} 
+                        #{product.getName(localeHandler.getLang())} 
                     </h:column>
                     <h:column>
                         #{product.price}
