@@ -4,25 +4,10 @@
  */
 
 $(document).ready(function() {
-    /*
-     $("#rb_private").click(function() {
-     $("#registercorporate").fadeOut('fast', function() {
-     $("#registerprivate").fadeIn('fast');
-     });
-     
-     
-     });
-     
-     $("#rb_corporate").click(function() {
-     $("#registerprivate").fadeOut('fast', function() {
-     $("#registercorporate").fadeIn('fast');
-     });
-     
-     });*/
 
     $("#register_tab_left h3").click(function() {
-        $("#register_tab_left").css("background-color", "#333333").fadeTo('fast');
-        $("#register_tab_right").css("background-color", "#555555");
+        $("#register_tab_left").css("background-color", global_color_selected);
+        $("#register_tab_right").css("background-color", global_color_dark);
         $("#registercorporate").fadeOut('fast', function() {
             $("#registerprivate").fadeIn('fast');
         });
@@ -30,8 +15,8 @@ $(document).ready(function() {
     });
 
     $("#register_tab_right h3").click(function() {
-        $("#register_tab_left").css("background-color", "#555555");
-        $("#register_tab_right").css("background-color", "#333333");
+        $("#register_tab_left").css("background-color", global_color_dark);
+        $("#register_tab_right").css("background-color", global_color_selected);
         $("#registerprivate").fadeOut('fast', function() {
             $("#registercorporate").fadeIn('fast');
         });

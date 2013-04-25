@@ -59,7 +59,9 @@ Contains:
                     </h:inputText>
 
                     <h:messages /><br/><br/>
-                    <h:commandButton value="#{texts.menu_place_order}" action="#{shoppingBean.placeOrder()}"/>
+                    <h:commandButton value="#{texts.menu_place_order}"
+                                     action="#{shoppingBean.placeOrder()}"
+                                     styleClass="button_style"/>
                 </h:form>
             </ui:define>
         </ui:composition>
