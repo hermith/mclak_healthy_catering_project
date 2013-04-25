@@ -14,12 +14,13 @@ public class SingleProduct extends Product {
         this.kcal = 0;
     }
 
-    public SingleProduct(int id, String name, String description, float price, int kcal) {
-        super(id, name, description);
+    public SingleProduct(int id, String nameNo, String nameEn, String descriptionNo, String descriptionEn, float price, int kcal) {
+        super(id, nameNo, nameEn, descriptionNo, descriptionEn);
         this.price = price;
         this.kcal = kcal;
     }
 
+    @Override
     public float getPrice() {
         return price;
     }
@@ -38,7 +39,7 @@ public class SingleProduct extends Product {
 
     @Override
     public String toString() {
-        return "SingleProduct{" + "price=" + price + ", kcal=" + kcal + ", " + super.toString() + '}';
+        return "SingleProduct{" + super.toString() + ", price=" + price + ", kcal=" + kcal + '}';
     }
 
     @Override

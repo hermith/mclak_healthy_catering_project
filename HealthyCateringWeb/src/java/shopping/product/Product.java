@@ -1,24 +1,36 @@
 package shopping.product;
 
+import java.util.Locale;
+import javax.inject.Inject;
+import locale.LocaleHandler;
+
 /**
  * @author aleksalr
  */
 public abstract class Product {
 
     private int id;
-    private String name;
-    private String description;
+    private String nameNo;
+    private String nameEn;
+    private String descriptionNo;
+    private String descriptionEn;
+    @Inject
+    private LocaleHandler localeHandler;
 
     public Product() {
         this.id = -1;
-        this.name = null;
-        this.description = null;
+        this.nameNo = null;
+        this.nameEn = null;
+        this.descriptionNo = null;
+        this.descriptionEn = null;
     }
 
-    public Product(int id, String name, String description) {
+    public Product(int id, String nameNo, String nameEn, String descriptionNo, String descriptionEn) {
         this.id = id;
-        this.name = name;
-        this.description = description;
+        this.nameNo = nameNo;
+        this.nameEn = nameEn;
+        this.descriptionNo = descriptionNo;
+        this.descriptionEn = descriptionEn;
     }
 
     public int getId() {
@@ -30,24 +42,40 @@ public abstract class Product {
     }
 
     public String getName() {
-        return name;
+        if (localeHandler.getLang().equals(new Locale("no"))) {
+            return nameNo;
+        } else {
+            return nameEn;
+        }
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNameNo(String nameNo) {
+        this.nameNo = nameNo;
+    }
+
+    public void setNameEn(String nameEn) {
+        this.nameEn = nameEn;
     }
 
     public String getDescription() {
-        return description;
+        if (localeHandler.getLang().equals(new Locale("no"))) {
+            return descriptionNo;
+        } else {
+            return descriptionEn;
+        }
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescriptionNo(String descriptionNo) {
+        this.descriptionNo = descriptionNo;
+    }
+
+    public void setDescriptionEn(String descriptionEn) {
+        this.descriptionEn = descriptionEn;
     }
 
     @Override
     public String toString() {
-        return "Product{" + "id=" + id + ", name=" + name + ", description=" + description + '}';
+        return "Product{" + "id=" + id + ", nameNo=" + nameNo + ", nameEn=" + nameEn + ", descriptionNo=" + descriptionNo + ", descriptionEn=" + descriptionEn + ", localeHandler=" + localeHandler + '}';
     }
 
     @Override
@@ -70,7 +98,7 @@ public abstract class Product {
         }
         return true;
     }
-    
+
     /**
      * @return the price
      */

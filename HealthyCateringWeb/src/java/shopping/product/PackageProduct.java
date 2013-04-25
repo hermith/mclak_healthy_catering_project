@@ -16,8 +16,8 @@ public class PackageProduct extends Product {
         this.products = new ArrayList<SingleProduct>();
     }
 
-    public PackageProduct(int id, String name, String description, int discount, ArrayList<SingleProduct> products) {
-        super(id, name, description);
+    public PackageProduct(int id, String nameNo, String nameEn, String descriptionNo, String descriptionEn, int discount, ArrayList<SingleProduct> products) {
+        super(id, nameNo, nameEn, descriptionNo, descriptionEn);
         this.discount = discount;
         this.products = products;
     }
@@ -48,7 +48,7 @@ public class PackageProduct extends Product {
 
     @Override
     public String toString() {
-        return "PackageProduct{" + "discount=" + discount + ", products=" + products + ", " + super.toString() + '}';
+        return "PackageProduct{" + super.toString() + "discount=" + discount + ", products=" + products + '}';
     }
 
     @Override
@@ -60,13 +60,13 @@ public class PackageProduct extends Product {
     public boolean equals(Object obj) {
         return super.equals(obj);
     }
-    
+
     @Override
     public float getPrice() {
         float sum = 0.0f;
-        for(Product product : products) {
-            sum+=product.getPrice();
+        for (Product product : products) {
+            sum += product.getPrice();
         }
-        return sum-discount;
+        return sum - discount;
     }
 }

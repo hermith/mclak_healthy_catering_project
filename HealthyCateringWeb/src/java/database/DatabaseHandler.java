@@ -55,11 +55,11 @@ public class DatabaseHandler {
     private static final String STM_SELECT_SINGLE_PRODUCT = "SELECT product_price AS product_price, product_kcal AS product_kcal FROM Single_Product_Table WHERE product_id = ?";
     private static final String STM_SELECT_PACKAGE_PRODUCT = "SELECT product_discount AS product_discount FROM Package_Product_Table WHERE product_id = ?";
     private static final String STM_SELECT_PACKAGE_SINGLE_PRODUCT_CONNECTION = "SELECT single_product_id AS single_product_id, quantity AS quantity FROM Package_Single_Product_Table WHERE package_product_id = ?";
-    private static final String STM_INSERT_PRODUCT = "INSERT INTO Product_Table(product_name, product_description) VALUES(?, ?)";
+    private static final String STM_INSERT_PRODUCT = "INSERT INTO Product_Table(product_name_no, product_name_en, product_description_no, product_description_en) VALUES(?, ?, ?, ?)";
     private static final String STM_INSERT_SINGLE_PRODUCT = "INSERT INTO Single_Product_Table(product_id, product_price, product_kcal) VALUES(?, ?, ?)";
     private static final String STM_INSERT_PACKAGE_PRODUCT = "INSERT INTO Package_Product_Table(product_id, product_discount) VALUES(?, ?)";
     private static final String STM_INSERT_PACKAGE_SINGLE_PRODUCT = "INSERT INTO Package_Single_Product_Table(package_product_id, single_product_id, quantity) VALUES(?, ?, ?)";
-    private static final String STM_UPDATE_PRODUCT = "UPDATE Product_Table SET product_name = ?, product_description = ? WHERE product_id = ?";
+    private static final String STM_UPDATE_PRODUCT = "UPDATE Product_Table SET product_name_no = ?, product_name_en = ?, product_description_no = ?, product_description_en = ? WHERE product_id = ?";
     private static final String STM_DELETE_PRODUCT = "DELETE FROM Product_Table WHERE product_id = ?";
     private static final String STM_DELETE_SINGLE_PRODUCT = "DELETE FROM Single_Product_Table WHERE product_id = ?";
     private static final String STM_DELETE_PACKAGE_PRODUCT = "DELETE FROM Package_Product_Table WHERE product_id = ?";
@@ -91,8 +91,10 @@ public class DatabaseHandler {
     private static final String COLUMN_LAST_NAME = "last_name";
     private static final String COLUMN_COMPANY_NAME = "company_name";
     private static final String COLUMN_PRODUCT_ID = "product_id";
-    private static final String COLUMN_PRODUCT_NAME = "product_name";
-    private static final String COLUMN_PRODUCT_DESCRIPTION = "product_description";
+    private static final String COLUMN_PRODUCT_NAME_NO = "product_name_no";
+    private static final String COLUMN_PRODUCT_NAME_EN = "product_name_en";
+    private static final String COLUMN_PRODUCT_DESCRIPTION_NO = "product_description_no";
+    private static final String COLUMN_PRODUCT_DESCRIPTION_EN = "product_description_en";
     private static final String COLUMN_PRODUCT_PRICE = "product_price";
     private static final String COLUMN_PRODUCT_KCAL = "product_kcal";
     private static final String COLUMN_PRODUCT_DISCOUNT = "product_discount";
@@ -599,8 +601,10 @@ public class DatabaseHandler {
             stm1.setInt(1, productId);
             resSet1 = stm1.executeQuery();
             if (resSet1.next()) {
-                String name = resSet1.getString(COLUMN_PRODUCT_NAME);
-                String description = resSet1.getString(COLUMN_PRODUCT_DESCRIPTION);
+                String nameNo = resSet1.getString(COLUMN_PRODUCT_NAME_NO);
+                String nameEn = resSet1.getString(COLUMN_PRODUCT_NAME_EN);
+                String descriptionNo = resSet1.getString(COLUMN_PRODUCT_DESCRIPTION_NO);
+                String descriptionEn = resSet1.getString(COLUMN_PRODUCT_DESCRIPTION_EN);
                 if (isProductInSingleProductTable(conn, stm1, resSet1, productId)) {
                     stm1 = conn.prepareStatement(STM_SELECT_SINGLE_PRODUCT);
                     stm1.setInt(1, productId);
@@ -608,7 +612,7 @@ public class DatabaseHandler {
                     if (resSet1.next()) {
                         float price = resSet1.getFloat(COLUMN_PRODUCT_PRICE);
                         int kcal = resSet1.getInt(COLUMN_PRODUCT_KCAL);
-                        SingleProduct singleProduct = new SingleProduct(productId, name, description, price, kcal);
+                        SingleProduct singleProduct = new SingleProduct(productId, nameNo, nameEn, descriptionNo, descriptionEn, price, kcal);
                         Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Single product {0} retrieved.", singleProduct);
                         return singleProduct;
                     }
@@ -630,20 +634,22 @@ public class DatabaseHandler {
                             stm1.setInt(1, singleProductId);
                             resSet2 = stm1.executeQuery();
                             if (resSet2.next()) {
-                                String singleProductName = resSet2.getString(COLUMN_PRODUCT_NAME);
-                                String singleProductDescription = resSet2.getString(COLUMN_PRODUCT_DESCRIPTION);
+                                String singleProductNameNo = resSet2.getString(COLUMN_PRODUCT_NAME_NO);
+                                String singleProductNameEn = resSet2.getString(COLUMN_PRODUCT_NAME_EN);
+                                String singleProductDescriptionNo = resSet2.getString(COLUMN_PRODUCT_DESCRIPTION_NO);
+                                String singleProductDescriptionEn = resSet2.getString(COLUMN_PRODUCT_DESCRIPTION_EN);
                                 stm2.setInt(1, singleProductId);
                                 resSet2 = stm2.executeQuery();
                                 if (resSet2.next()) {
                                     float singleProductPrice = resSet2.getFloat(COLUMN_PRODUCT_PRICE);
                                     int singleProductKcal = resSet2.getInt(COLUMN_PRODUCT_KCAL);
                                     for (int i = 0; i < quantity; i++) {
-                                        products.add(new SingleProduct(singleProductId, singleProductName, singleProductDescription, singleProductPrice, singleProductKcal));
+                                        products.add(new SingleProduct(singleProductId, singleProductNameNo, singleProductNameEn, singleProductDescriptionNo, singleProductDescriptionEn, singleProductPrice, singleProductKcal));
                                     }
                                 }
                             }
                         }
-                        PackageProduct packageProduct = new PackageProduct(productId, name, description, discount, products);
+                        PackageProduct packageProduct = new PackageProduct(productId, nameNo, nameEn, descriptionNo, descriptionEn, discount, products);
                         Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Package product {0} retrieved.", packageProduct);
                         return packageProduct;
                     }
@@ -919,18 +925,18 @@ public class DatabaseHandler {
         try {
             conn = dataSource.getConnection();
             setAutoCommit(conn, false);
-            stm = conn.prepareStatement(STM_DELETE_PACKAGE_SINGLE_PRODUCTS);
+            stm = conn.prepareStatement(STM_DELETE_PACKAGE_SINGLE_PRODUCT);
             stm.setInt(1, productId);
             stm.executeUpdate();
-            
+
             stm = conn.prepareStatement(STM_DELETE_PACKAGE_PRODUCT);
             stm.setInt(1, productId);
             stm.executeUpdate();
-           
+
             stm = conn.prepareStatement(STM_DELETE_SINGLE_PRODUCT);
             stm.setInt(1, productId);
             stm.executeUpdate();
-           
+
             stm = conn.prepareStatement(STM_DELETE_PRODUCT);
             stm.setInt(1, productId);
             stm.executeUpdate();
