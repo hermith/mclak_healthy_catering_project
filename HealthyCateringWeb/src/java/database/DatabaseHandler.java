@@ -55,12 +55,15 @@ public class DatabaseHandler {
     private static final String STM_SELECT_SINGLE_PRODUCT = "SELECT product_price AS product_price, product_kcal AS product_kcal FROM Single_Product_Table WHERE product_id = ?";
     private static final String STM_SELECT_PACKAGE_PRODUCT = "SELECT product_discount AS product_discount FROM Package_Product_Table WHERE product_id = ?";
     private static final String STM_SELECT_PACKAGE_SINGLE_PRODUCT_CONNECTION = "SELECT single_product_id AS single_product_id, quantity AS quantity FROM Package_Single_Product_Table WHERE package_product_id = ?";
-    private static final String STM_SELECT_PACKAGE_SINGLE_PRODUCT_QUANTITY = "SELECT quantity AS quantity FROM Package_Single_Product_Table WHERE package_product_id = ? AND single_product_id = ?";
     private static final String STM_INSERT_PRODUCT = "INSERT INTO Product_Table(product_name, product_description) VALUES(?, ?)";
     private static final String STM_INSERT_SINGLE_PRODUCT = "INSERT INTO Single_Product_Table(product_id, product_price, product_kcal) VALUES(?, ?, ?)";
     private static final String STM_INSERT_PACKAGE_PRODUCT = "INSERT INTO Package_Product_Table(product_id, product_discount) VALUES(?, ?)";
     private static final String STM_INSERT_PACKAGE_SINGLE_PRODUCT = "INSERT INTO Package_Single_Product_Table(package_product_id, single_product_id, quantity) VALUES(?, ?, ?)";
     private static final String STM_UPDATE_PRODUCT = "UPDATE Product_Table SET product_name = ?, product_description = ? WHERE product_id = ?";
+    private static final String STM_DELETE_PRODUCT = "DELETE FROM Product_Table WHERE product_id = ?";
+    private static final String STM_DELETE_SINGLE_PRODUCT = "DELETE FROM Single_Product_Table WHERE product_id = ?";
+    private static final String STM_DELETE_PACKAGE_PRODUCT = "DELETE FROM Package_Product_Table WHERE product_id = ?";
+    private static final String STM_DELETE_PACKAGE_SINGLE_PRODUCT = "DELETE FROM Package_Single_Product_Table WHERE single_product_id = ?";
     private static final String STM_UPDATE_SINGLE_PRODUCT = "UPDATE Single_Product_Table SET product_price = ?, product_kcal = ? WHERE product_id = ?";
     private static final String STM_UPDATE_PACKAGE_PRODUCT = "UPDATE Package_Product_Table SET product_discount = ? WHERE product_id = ?";
     private static final String STM_UPDATE_PACKAGE_SINGLE_PRODUCT_INCREMENT_QUANTITY = "UPDATE Package_Single_Product_Table SET quantity = ((SELECT quantity FROM Package_Single_Product_Table WHERE package_product_id = ? AND single_product_id = ?) + 1) WHERE package_product_id = ? AND single_product_id = ?";
@@ -907,6 +910,42 @@ public class DatabaseHandler {
         } else {
             Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Failed update products! Only {0} out of {1} products updated. See glassfish log for details.", new Object[]{numberOfProductsUpdated, products.size()});
             return false;
+        }
+    }
+
+    public synchronized boolean deleteProduct(int productId) {
+        Connection conn = null;
+        PreparedStatement stm = null;
+        try {
+            conn = dataSource.getConnection();
+            setAutoCommit(conn, false);
+            stm = conn.prepareStatement(STM_DELETE_PACKAGE_SINGLE_PRODUCTS);
+            stm.setInt(1, productId);
+            stm.executeUpdate();
+            
+            stm = conn.prepareStatement(STM_DELETE_PACKAGE_PRODUCT);
+            stm.setInt(1, productId);
+            stm.executeUpdate();
+           
+            stm = conn.prepareStatement(STM_DELETE_SINGLE_PRODUCT);
+            stm.setInt(1, productId);
+            stm.executeUpdate();
+           
+            stm = conn.prepareStatement(STM_DELETE_PRODUCT);
+            stm.setInt(1, productId);
+            stm.executeUpdate();
+            commit(conn);
+            productsTableChanged = true;
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Product with product id {0} successfully deleted.", productId);
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Failed delete product with order id " + productId + ".", ex);
+            rollBack(conn);
+            return false;
+        } finally {
+            setAutoCommit(conn, true);
+            closeStatement(stm);
+            closeConnection(conn);
         }
     }
 
