@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import shopping.product.Product;
 import java.sql.Timestamp;
+import java.util.HashMap;
 
 /**
  *
@@ -81,14 +82,25 @@ public class Order {
     }
 
     /**
-     * Gets all the IDs of the products as a string, seperated with ", "
+     * Gets all the IDs of the products as a string, seperated with ", ", but
+     * grouped by id with count.
      *
      * @return All product IDs
      */
     public String getProductIds() {
-        StringBuilder b = new StringBuilder();
+        HashMap<String, Integer> keys = new HashMap<String, Integer>();
         for (Product p : products) {
-            b.append(p.getId()).append(", ");
+            String id = "" + p.getId();
+            if (keys.containsKey(id)) {
+                keys.put(id, keys.get(id) + 1);
+            } else {
+                keys.put(id, 1);
+            }
+        }
+
+        StringBuilder b = new StringBuilder();
+        for (String s : keys.keySet()) {
+            b.append(keys.get(s)).append((char) 215).append(s).append(", ");
         }
         b.delete(b.length() - 2, b.length());
         return b.toString();
@@ -105,11 +117,11 @@ public class Order {
             ints.add(p.getId());
         }
         int[] ids = new int[ints.size()];
-        
-        for(int i : ids){
+
+        for (int i : ids) {
             ints.add(i);
         }
-        
+
         return ids;
     }
 
@@ -207,5 +219,9 @@ public class Order {
 
     public void setOrderID(int orderID) {
         this.orderID = orderID;
+    }
+
+    public static void main(String[] args) {
+        System.out.println("" + ((int) ("×").charAt(0)));
     }
 }

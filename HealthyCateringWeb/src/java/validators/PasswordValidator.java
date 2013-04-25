@@ -51,21 +51,19 @@ public class PasswordValidator implements Validator {
      * @return if the password is approved
      */
     public boolean isValid(String newPassword) {
-        final String SPESIALTEGN = "§!?=+*@()/";
+        String pattern = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$";
+        //TODO fikse regex.
         final String NUMBERS = "1234567890";
         boolean okNumbers = false;
-        boolean okSpecial = false;
         for (int i = 0; i < newPassword.length(); i++) {
             for (int j = 0; j < 10; j++) {
-                if (newPassword.charAt(i) == SPESIALTEGN.charAt(j)) {
-                    okSpecial = true;
-                }
                 if (newPassword.charAt(i) == NUMBERS.charAt(j)) {
                     okNumbers = true;
                 }
             }
         }
-        if (okSpecial && okNumbers) {
+        //if (okSpecial && okNumbers) {
+        if (okNumbers) {
             return true;
         }
         return false;
