@@ -53,11 +53,6 @@ Contains:
                                              action="#{productBean.setSelectedProduct(product)}" 
                                              styleClass="menu_add_button"/>
                         </h:column>
-                        <h:column>
-                            <h:commandButton value="#{texts.product_delete}" 
-                                             action="#{productBean.deleteProductDB(product)}" 
-                                             styleClass="menu_add_button"/>
-                        </h:column>
                     </h:dataTable>
                     <br/>
                     <h:commandButton action="#{productBean.setShowAddProduct(true)}" 

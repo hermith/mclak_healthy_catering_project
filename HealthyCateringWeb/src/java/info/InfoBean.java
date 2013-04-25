@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package info;
 
 import java.io.Serializable;
@@ -20,12 +16,11 @@ import shopping.customer.CorporateCustomer;
 import shopping.customer.Customer;
 import shopping.customer.PrivateCustomer;
 import shopping.product.Product;
-import shopping.product.SingleProduct;
 import user.User;
 
 /**
  *
- * @author Karl
+ * @author Karl, Linn
  */
 @Any
 @Named
@@ -96,6 +91,9 @@ public class InfoBean implements Serializable {
         detailOrder = false;
     }
 
+    /**
+     * Close edit customer view.
+     */
     public void closeEditCustomer() {
         selectedCustomer = null;
         editCustomer = false;
@@ -304,6 +302,9 @@ public class InfoBean implements Serializable {
         }
     }
 
+    /**
+     * @return if the selectedCustomer is a PrivateCustomer-object.
+     */
     public boolean selectedLoggedInAsPrivate() {
         if (selectedCustomer instanceof PrivateCustomer) {
             return true;
@@ -311,6 +312,9 @@ public class InfoBean implements Serializable {
         return false;
     }
 
+    /**
+     * Save changes to the selectedCustomer.
+     */
     public void saveChangesCustomer() {
         if (customerHandler.fixCustomer(selectedCustomer)) {
             String msg = MessageHandler.getLocalizedText(MessageType.TEKST, "edit_account_changes_saved");

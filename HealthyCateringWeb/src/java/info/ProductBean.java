@@ -79,7 +79,8 @@ public class ProductBean implements Serializable {
     }
 
     /**
-     * Deletes the chosen singleProduct from (PackageProduct) newProduct
+     * Calls deleteProductFromPackage() in ProductHandler. Deletes the chosen
+     * singleProduct from (PackageProduct) newProduct.
      *
      * @param singleProduct
      */
@@ -106,7 +107,8 @@ public class ProductBean implements Serializable {
     }
 
     /**
-     * Add a SingleProduct to (PackageProduct) newProduct.
+     * Calls addProductToPackage() in ProductHandler.java. Adds selected
+     * SingleProduct to (PackageProduct) newProduct.
      */
     public void addProductPackage() {
         SingleProduct selectedSingleProduct = (SingleProduct) productHandler.findProductOnIdList(addedSingleProductID, getAllSingleProducts());
@@ -116,8 +118,8 @@ public class ProductBean implements Serializable {
     }
 
     /**
-     * Finds quantity of the current singleProduct in the SingleProduct list of
-     * the newProduct-object
+     * Calls findQuantity() in ProductHandler.java. Finds quantity of the
+     * current singleProduct in the SingleProduct list of the newProduct-object
      *
      * @param singleProduct
      * @return quantity
@@ -127,8 +129,9 @@ public class ProductBean implements Serializable {
     }
 
     /**
-     * Finds quantity of the current singleProduct in the SingleProduct list of
-     * the selectedProduct-object
+     * Calls findQuantity() in ProductHandler.java. Finds quantity of the
+     * current singleProduct in the SingleProduct list of the
+     * selectedProduct-object
      *
      * @param product
      * @return quantity
@@ -138,6 +141,7 @@ public class ProductBean implements Serializable {
     }
 
     /**
+     * Calls getUniqueProducts() in ProductHandler.java.
      *
      * @return newProduct.getProducts() with only one of each product
      */
@@ -148,14 +152,15 @@ public class ProductBean implements Serializable {
     /**
      * Calls getUniqueProducts(getPackageProducts()).
      *
-     * @return an array with onlye one of each SingleProduct
+     * @return an array with only one of each SingleProduct
      */
     public ArrayList<SingleProduct> getSingleProductsPackage() {
         return productHandler.getUniqueProducts(getPackageProducts());
     }
 
     /**
-     * Calls deleteProductFromPackage() in ProductHandler.java.
+     * Calls deleteProductFromPackage() in ProductHandler.java. Deletes product
+     * from (PackageProduct) selectedProduct.
      *
      * @param product
      */
@@ -164,7 +169,7 @@ public class ProductBean implements Serializable {
     }
 
     /**
-     * Add a singleProduct to (PackageProduct) selectedProduct
+     * Adds a singleProduct to (PackageProduct) selectedProduct
      */
     public void addProductPackageEdit() {
         SingleProduct selectedSingleProduct = (SingleProduct) productHandler.findProductOnIdList(addedSingleProductID, getAllSingleProducts());
@@ -174,7 +179,7 @@ public class ProductBean implements Serializable {
     }
 
     /**
-     * Save changes to a product
+     * Save changes to the selectedProduct-object in the database.
      */
     public void saveChangesProduct() {
         if (selectedProduct != null) {
@@ -222,16 +227,6 @@ public class ProductBean implements Serializable {
                 .getViewRoot().getViewId());
         context.setViewRoot(viewRoot);
         context.renderResponse();
-    }
-
-    /**
-     * Deletes current product from database.
-     * @param product
-     */
-    public void deleteProductDB(Product product) {
-        if (product != null) {
-            productHandler.deleteProductDb(product.getId());
-        }
     }
 
     //GETTERS AND SETTERS
@@ -545,6 +540,9 @@ public class ProductBean implements Serializable {
         return null;
     }
 
+    /** 
+     * @return if selectedProduct is a SingleProduct.
+     */
     public boolean selectedIsSingleProduct() {
         return selectedProduct instanceof SingleProduct;
     }

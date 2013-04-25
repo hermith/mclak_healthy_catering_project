@@ -66,6 +66,13 @@ public class ProductHandler {
         return counter;
     }
 
+    /**
+     * Find quantity of product in the list products.
+     *
+     * @param product
+     * @param products
+     * @return int quantity
+     */
     public int findQuantity(Product product, ArrayList<Product> products) {
         int counter = 0;
         for (Product p : products) {
@@ -173,15 +180,5 @@ public class ProductHandler {
             return true;
         }
         return false;
-    }
-    
-    /**
-     * Calls deleteProduct(productId) in DatabaseHandler.
-     * Deletes the current product in the database.
-     * @param productId
-     * @return 
-     */
-    public boolean deleteProductDb(int productId) {
-        return databaseHandler.deleteProduct(productId);
     }
 }
