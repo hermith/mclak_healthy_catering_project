@@ -37,11 +37,11 @@ Contains:
                     <h:dataTable var="product" value="#{productBean.allProductsDB}">
                         <h:column>
                             <f:facet name="header">#{texts.menu_product}</f:facet>
-                            #{product.name}
+                            #{product.getName(localeHandler.getLang())}
                         </h:column>
                         <h:column>
                             <f:facet name="header">#{texts.menu_description}</f:facet>
-                            #{product.description}
+                            #{product.getDescription(localeHandler.getLang())}
                         </h:column>
                         <h:column>
                             <f:facet name="header">#{texts.menu_price}</f:facet>
@@ -75,10 +75,10 @@ Contains:
                             <h:panelGroup styleClass="edit_account_employee" rendered="#{productBean.editProduct}">
                                 <label>#{texts.product_id}</label>
                                 <h:outputText value="#{productBean.productID}" /><br/>
-                                <label>#{texts.product_name}: </label>
-                                <h:inputText required="true" requiredMessage="#{error.product_required_name}" value="#{productBean.productName}" /><br/>
-                                <label>#{texts.product_description}: </label>
-                                <h:inputText required="true" requiredMessage="#{error.product_required_desc}" value="#{productBean.productDescription}" /><br/>
+                                <label>#{texts.product_name_no}: </label><h:inputText required="true" requiredMessage="#{error.product_required_name}" value="#{productBean.productNameNo}" /><br/>
+                                <label>#{texts.product_name_en}: </label><h:inputText required="true" requiredMessage="#{error.product_required_name}" value="#{productBean.productNameEn}" /><br/>
+                                <label>#{texts.product_desc_no}: </label><h:inputText required="true" requiredMessage="#{error.product_required_desc}" value="#{productBean.productDescriptionNo}" /><br/>
+                                <label>#{texts.product_desc_en}: </label><h:inputText required="true" requiredMessage="#{error.product_required_desc}" value="#{productBean.productDescriptionEn}" /><br/>
 
                                 <!--SingleProduct only-->
                                 <h:panelGroup rendered="#{productBean.selectedIsSingleProduct()}">
@@ -104,11 +104,11 @@ Contains:
                                     <h:dataTable value="#{productBean.singleProductsPackage}" var="productPackage" >
                                         <h:column >
                                             <f:facet name="header">#{texts.product_name}</f:facet>
-                                            #{productPackage.name}
+                                            #{productPackage.getName(localeHandler.getLang())}
                                         </h:column>
                                         <h:column>
                                             <f:facet name="header">#{texts.product_description}</f:facet>
-                                            #{productPackage.description}
+                                            #{productPackage.getDescription(localeHandler.getLang())}
                                         </h:column>
                                         <h:column>
                                             <f:facet name="header">#{texts.product_quantity}</f:facet>
@@ -125,7 +125,7 @@ Contains:
                                     <h:selectOneMenu value="#{productBean.addedSingleProductID}" >
                                         <f:selectItems value="#{productBean.allSingleProducts}" 
                                                        var="selectedProduct" 
-                                                       itemLabel="#{selectedProduct.name}" 
+                                                       itemLabel="#{selectedProduct.getName(localeHandler.getLang())}" 
                                                        itemValue="#{selectedProduct.id}" />
                                     </h:selectOneMenu>
                                     <p:spinner value="#{productBean.addedSingleProductQuantity}" required="true" />
@@ -147,20 +147,20 @@ Contains:
                                              action='#{productBean.closeAddProduct()}'
                                              immediate="true"/>
                             <h2>#{texts.product_add_new_product}</h2>
-                            <h:commandLink action="#{productBean.setNewProductIsSingle(true)}" immediate="true" 
-                                           styleClass="add_product_tab_single_left">
+                            <h:commandLink action="#{productBean.setNewProductIsSingle(true)}" immediate="true" styleClass="add_product_tab_single_left">
                                 #{texts.product_single}
                             </h:commandLink>
-                            <h:commandLink action="#{productBean.setNewProductIsSingle(false)}" immediate="true" 
-                                           styleClass="add_product_tab_package_right">
+                            <h:commandLink action="#{productBean.setNewProductIsSingle(false)}" immediate="true" styleClass="add_product_tab_package_right">
                                 #{texts.product_package}
                             </h:commandLink>
 
                             <!--ADD SINGLE PRODUCT-->
                             <div id="add_product_single">
                                 <h:panelGroup rendered="#{productBean.newProductIsSingle}" styleClass="edit_account_employee">
-                                    <label>#{texts.product_name}:</label><h:inputText value="#{productBean.newProductName}" required="true" requiredMessage="#{error.product_required_name}" /><br/>
-                                    <label>#{texts.product_description}:</label><h:inputText value="#{productBean.newProductDescription}" required="true" requiredMessage="#{error.product_required_desc}" /><br/>
+                                    <label>#{texts.product_name_no}: </label><h:inputText value="#{productBean.newProductNameNo}" required="true" requiredMessage="#{error.product_required_name}" /><br/>
+                                    <label>#{texts.product_name_en}: </label><h:inputText value="#{productBean.newProductNameEn}" required="true" requiredMessage="#{error.product_required_name}" /><br/>
+                                    <label>#{texts.product_desc_no}: </label><h:inputText value="#{productBean.newProductDescriptionNo}" required="true" requiredMessage="#{error.product_required_desc}" /><br/>
+                                    <label>#{texts.product_desc_en}: </label><h:inputText value="#{productBean.newProductDescriptionEn}" required="true" requiredMessage="#{error.product_required_desc}" /><br/>
                                     <label>#{texts.product_kcal}:</label><h:inputText value="#{productBean.newProductKCAL}" required="true" requiredMessage="#{error.product_required_KCAL}" /><br/>
                                     <label>#{texts.product_price}:</label><h:inputText value="#{productBean.newProductPrice}" required="true" requiredMessage="#{error.product_required_pris}" /><br/>
                                     <h:commandButton styleClass="button_style" value="#{texts.product_add}" action="#{productBean.addNewProduct()}" />
@@ -171,14 +171,10 @@ Contains:
                             <!--ADD PACKAGE PRODUCT-->
                             <div id="add_product_package">
                                 <h:panelGroup rendered="#{!productBean.newProductIsSingle}" styleClass="edit_account_employee">
-                                    <label>#{texts.product_name}:</label>
-                                    <h:inputText value="#{productBean.newProductName}" 
-                                                 required="true" 
-                                                 requiredMessage="#{error.product_required_name}"/><br/>
-                                    <label>#{texts.product_description}:</label>
-                                    <h:inputText value="#{productBean.newProductDescription}" 
-                                                 required="true" 
-                                                 requiredMessage="#{error.product_required_desc}" /><br/>
+                                    <label>#{texts.product_name_no}: </label><h:inputText value="#{productBean.newProductNameNo}" required="true" requiredMessage="#{error.product_required_name}" /><br/>
+                                    <label>#{texts.product_name_en}: </label><h:inputText value="#{productBean.newProductNameEn}" required="true" requiredMessage="#{error.product_required_name}" /><br/>
+                                    <label>#{texts.product_desc_no}: </label><h:inputText value="#{productBean.newProductDescriptionNo}" required="true" requiredMessage="#{error.product_required_desc}" /><br/>
+                                    <label>#{texts.product_desc_en}: </label><h:inputText value="#{productBean.newProductDescriptionEn}" required="true" requiredMessage="#{error.product_required_desc}" /><br/>
                                     <label>#{texts.product_discount}:</label>
                                     <h:inputText value="#{productBean.newProductDiscount}" 
                                                  required="true" 
@@ -190,11 +186,11 @@ Contains:
                                     <h:dataTable var="singleProduct" value="#{productBean.newProductProductsQuantity}">
                                         <h:column>
                                             <f:facet name="header">#{texts.product_name}</f:facet>
-                                            #{singleProduct.name}
+                                            #{singleProduct.getName(localeHandler.getLang())}
                                         </h:column>
                                         <h:column>
                                             <f:facet name="header">#{texts.product_description}</f:facet>
-                                            #{singleProduct.description}
+                                            #{singleProduct.getDescription(localeHandler.getLang())}
                                         </h:column>
                                         <h:column>
                                             <f:facet name="header">#{texts.product_price}</f:facet>
@@ -205,19 +201,18 @@ Contains:
                                             #{productBean.findQuantity(singleProduct)}
                                         </h:column>
                                         <h:column>
-                                            <h:commandButton styleClass="menu_add_button" 
-                                                             action="#{productBean.deleteSingleProductPackage(singleProduct)}" 
-                                                             value="#{texts.product_delete}" />
+                                            <h:commandButton styleClass="menu_add_button" action="#{productBean.deleteSingleProductPackage(singleProduct)}" value="#{texts.product_delete}" />
                                         </h:column>
                                     </h:dataTable>
+                                    
                                     #{texts.product_add_product}: 
                                     <h:selectOneMenu value="#{productBean.addedSingleProductID}" >
                                         <f:selectItems value="#{productBean.allSingleProducts}" 
                                                        var="selectedProduct" 
-                                                       itemLabel="#{selectedProduct.name}" 
+                                                       itemLabel="#{selectedProduct.getName(localeHandler.getLang())}" 
                                                        itemValue="#{selectedProduct.id}" />
                                     </h:selectOneMenu>
-                                    <h:inputText value="#{productBean.addedSingleProductQuantity}" required="true"/>
+                                    <p:spinner value="#{productBean.addedSingleProductQuantity}" required="true" />
                                     <h:commandButton value="#{texts.product_add}" styleClass="button_style" action="#{productBean.addProductPackage()}" />
                                     <h:messages />
                                     <br/><h:commandButton styleClass="button_style" action="#{productBean.addNewProduct()}" value="#{texts.product_add}"/>
