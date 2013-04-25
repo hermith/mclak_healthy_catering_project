@@ -204,10 +204,10 @@ nav#primary_nav {
     margin-right: 220px;
 }
 
-nav#primary_nav hr {
+nav#primary_nav #ruler {
     border: 2px solid black;
-    margin-left: -8px;
-    margin-right: -8px;
+    margin-top: 40px;
+    width: 100%;
 }
 
 article#primary_content {
@@ -247,11 +247,20 @@ ul#navul {
 
 ul#navul li {
     -webkit-transition: 0.1s ease-in;
+    -moz-transition: 0.1s ease-in;
+    -o-transition: 0.1s ease-in;
+    -ms-transition: 0.1s ease-in;
+    transition: 0.1s ease-in;
     float: left;
 }
 
 ul#navul li:hover {
+    
     -webkit-transform: scale(1.2);
+    -moz-transform: scale(1.2);
+    -o-transform: scale(1.2);
+    -ms--transform: scale(1.2);
+    transform: scale(1.2);
 }
 
 #navul a:link, a:visited {
