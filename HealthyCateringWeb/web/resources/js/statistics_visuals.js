@@ -28,6 +28,7 @@ function drawGraph() {
     myChart.setAxisNameX('Order IDs');
     myChart.setAxisNameY('Order total price');
     myChart.setPieUnitsColor('#000000');
+    myChart.setTitle('Price of orders registered');
     myChart.draw();
 }
 
@@ -65,6 +66,7 @@ function drawPieChart() {
     myChart.setTitleColor('#000000');
     myChart.setPieUnitsColor('#9B9B9B');
     myChart.setPieValuesColor('#6A0000');
+    myChart.setTitle('Product order frequency');
     myChart.draw();
 }
 
