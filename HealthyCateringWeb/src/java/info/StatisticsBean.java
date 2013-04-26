@@ -28,50 +28,85 @@ public class StatisticsBean implements Serializable {
         this.orders = new ArrayList<Order>();
     }
 
-    public ArrayList<Order> getActiveOrders() {
-        //TODO Get non-delivered orders from DB
-        return activeOrders;
-    }
-
-    public ArrayList<Order> getOrderHistory() {
-        //TODO Get delived orders from DB
-        return activeOrders;
-    }
-
+    /**
+     * Gets the number of orders registered.
+     *
+     * Includes both delivered and undelivered.
+     *
+     * @return Total number of orders.
+     */
     public int getNumOfOrders() {
         return sthandler.getNumOfOrders();
     }
-    
-    public String getTotalPriceAllOrders(){
+
+    /**
+     * Gets the running total of all orders ever registered.
+     *
+     * Includes both delivered and undelivered orders.
+     *
+     * @return Total price for all orders.
+     */
+    public String getTotalPriceAllOrders() {
         DecimalFormat df = new DecimalFormat("#.##");
         return df.format(sthandler.getTotalPriceAllOrders());
     }
-    
-    public String getHighestOrderPrice(){
+
+    /**
+     * Gets the price of the most expensive order registered.
+     *
+     * @return Highest order price registered.
+     */
+    public String getHighestOrderPrice() {
         DecimalFormat df = new DecimalFormat("#.##");
         return df.format(sthandler.getHighestOrder());
     }
-    
-    public String getLowestOrderPrice(){
+
+    /**
+     * Gets the price of the least expensive order registered.
+     *
+     * @return Lowest order price registered.
+     */
+    public String getLowestOrderPrice() {
         DecimalFormat df = new DecimalFormat("#.##");
         return df.format(sthandler.getLowestOrder());
     }
-    
-    public String getAverageOrderPrice(){
+
+    /**
+     * Gets the arithmetic mean price of all orders registered.
+     *
+     * @return Average price of all orders.
+     */
+    public String getAverageOrderPrice() {
         DecimalFormat df = new DecimalFormat("#.##");
         return df.format(sthandler.getAverageOrderPrice());
     }
-    
-    public String getStandardDeviation(){
+
+    /**
+     * Gets the standard deviation for all orders
+     *
+     * @return
+     */
+    public String getStandardDeviation() {
         DecimalFormat df = new DecimalFormat("#.##");
         return df.format(sthandler.getStandardDeviation());
     }
-    
-    public String getAllOrdersAsString(){
+
+    /**
+     * Gets the ID's and price of every order registered as a string.
+     *
+     * @return String containing ID's and price of every order registered.
+     */
+    public String getAllOrdersAsString() {
         return sthandler.getAllOrdersAsString();
     }
-    
-    public String getProductFrequency(){
+
+    /**
+     * Gets product ID's along with how many times each product has been
+     * ordered.
+     *
+     * @return String containing each product ID and frequency of order.
+     */
+    public String getProductFrequency() {
         return sthandler.getProductFrequency();
     }
 }
