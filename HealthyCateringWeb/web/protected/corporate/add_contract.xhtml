@@ -38,11 +38,12 @@ Contains:
                             #{shoppingBean.findQuantityProduct(product)}
                         </h:column>
                     </h:dataTable>
-                    <label>SKAL LEVERES</label>
-                    <p:selectBooleanCheckbox value="#{shoppingBean.newContractDelivery}" />
-                    <p:selectOneListbox  >
-                        <f:selectItems value="#{shoppingBean.daysOfWeek}" />
-                    </p:selectOneListbox>
+                    <label>#{texts.menu_delivery}:</label>
+                    <p:selectBooleanCheckbox value="#{shoppingBean.newContractDelivery}" /><br/>
+                    <label>#{texts.day}:</label>
+                    <h:selectOneMenu value="#{shoppingBean.newContractDayOfWeek}" >
+                        <f:selectItems value="#{shoppingBean.daysOfWeek}" var="day" itemLabel="#{shoppingBean.getDayLocalString(day)}"/>
+                    </h:selectOneMenu>
                 </h:panelGroup>
             </ui:define>
         </ui:composition>

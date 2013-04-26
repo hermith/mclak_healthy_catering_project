@@ -1,10 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package info;
 
-import java.sql.Timestamp;
+import java.sql.Time;
 
 /**
  *
@@ -15,13 +11,30 @@ public class Contract {
     private int contractId;
     private Order order;
     private int dayOfWeek;
+    private Time time;
     private boolean active;
 
     public Contract() {
         contractId = -1;
         order = new Order();
-        dayOfWeek = -1;
+        dayOfWeek = 1;
         active = false;
+    }
+
+    /**
+     * 
+     * @param contractId
+     * @param order
+     * @param dayOfWeek
+     * @param time
+     * @param active 
+     */
+    public Contract(int contractId, Order order, int dayOfWeek, Time time, boolean active) {
+        this.contractId = contractId;
+        this.order = order;
+        this.dayOfWeek = dayOfWeek;
+        this.time = time;
+        this.active = active;
     }
 
     //GETTER AND SETTER
@@ -63,5 +76,13 @@ public class Contract {
 
     public boolean isDelivery() {
         return this.order.isDelivery();
+    }
+
+    public Time getTime() {
+        return time;
+    }
+
+    public void setTime(Time time) {
+        this.time = time;
     }
 }
