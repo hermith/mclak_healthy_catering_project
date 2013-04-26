@@ -23,7 +23,7 @@ public class Order {
     private Timestamp deliveryDate;
     private Timestamp deliveredDate;
     private boolean delivery;
-    private boolean activ;
+    private boolean active;
 
     /**
      * Standard constructor, initiates all the relevant fields to be set later
@@ -36,7 +36,7 @@ public class Order {
         deliveredDate = null;
         deliveryDate = null;
         delivery = false;
-        activ = false;
+        active = false;
     }
 
     /**
@@ -58,7 +58,7 @@ public class Order {
         this.deliveryDate = deliveryDate;
         this.deliveredDate = deliveredDate;
         this.delivery = delivery;
-        activ = false;
+        active = false;
     }
 
     /**
@@ -237,12 +237,12 @@ public class Order {
         this.orderID = orderID;
     }
 
-    public boolean isActiv() {
-        return activ;
+    public boolean isActive() {
+        return active;
     }
 
-    public void setActiv(boolean activ) {
-        this.activ = activ;
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     public static void main(String[] args) {

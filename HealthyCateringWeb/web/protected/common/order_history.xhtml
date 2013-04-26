@@ -46,9 +46,9 @@ Contains:
                             <h:outputText value="#{texts.yes}" rendered="#{order.delivery}" />
                         </h:column>
                         <h:column>
-                            <f:facet name="header">#{texts.menu_delivery}</f:facet>
-                            <h:outputText value="#{texts.no}" rendered="#{!order.delivery}" />
-                            <h:outputText value="#{texts.yes}" rendered="#{order.delivery}" />
+                            <f:facet name="header">#{texts.order_active}</f:facet>
+                            <h:outputText value="#{texts.no}" rendered="#{!order.active}" />
+                            <h:outputText value="#{texts.yes}" rendered="#{order.active}" />
                         </h:column>
                     </h:dataTable>
                 </h:form>

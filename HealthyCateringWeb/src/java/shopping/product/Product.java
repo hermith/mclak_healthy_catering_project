@@ -12,7 +12,7 @@ public abstract class Product {
     private String nameEn;
     private String descriptionNo;
     private String descriptionEn;
-    private boolean activ;
+    private boolean active;
 
     public Product() {
         this.id = -1;
@@ -20,7 +20,7 @@ public abstract class Product {
         this.nameEn = null;
         this.descriptionNo = null;
         this.descriptionEn = null;
-        activ = false;
+        active = false;
     }
 
     public Product(int id, String nameNo, String nameEn, String descriptionNo, String descriptionEn) {
@@ -29,7 +29,7 @@ public abstract class Product {
         this.nameEn = nameEn;
         this.descriptionNo = descriptionNo;
         this.descriptionEn = descriptionEn;
-        activ = false;
+        active = false;
     }
 
     public int getId() {
@@ -114,12 +114,12 @@ public abstract class Product {
         return true;
     }
 
-    public boolean isActiv() {
-        return activ;
+    public boolean isActive() {
+        return active;
     }
 
-    public void setActiv(boolean activ) {
-        this.activ = activ;
+    public void setActive(boolean activ) {
+        this.active = activ;
     }
 
     /**
