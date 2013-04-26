@@ -13,20 +13,20 @@
             </ui:define>
 
             <ui:define name="subsite_header">
-                <h1>Register new user</h1>
+                <h1>#{texts.reg_new_user}</h1>
             </ui:define>
 
             <ui:define name="subsite_content">
 
-                <div id="register_tab_left"><h3>Private customer</h3></div>
-                <div id="register_tab_right"><h3>Corporate customer</h3></div>
+                <div id="register_tab_left"><h3>#{texts.priv_cust}</h3></div>
+                <div id="register_tab_right"><h3>#{texts.corp_cust}</h3></div>
 
                 <br/><br/>
 
                 <h:form id="registerprivate">
                     <div class="fieldset">
                         <fieldset>
-                            <legend>Register private user</legend>
+                            <legend>#{texts.create_priv_user}</legend>
                             <div class="half_box_left">
                                 <h:inputText class="inputfields" value="#{shoppingBean.firstName}" required="true" requiredMessage="#{texts.user_reg_firstname_error}"/>
                                 <label>#{texts.edit_account_firstname}</label>
@@ -76,7 +76,7 @@
                             </div>
 
                             <h:commandButton action="#{userBean.registerPrivateUser()}"
-                                             value="Create new private account"
+                                             value="#{texts.create_priv_user}"
                                              styleClass="button_style"/>
 
                         </fieldset>
@@ -87,7 +87,7 @@
                 <h:form id="registercorporate">
                     <div class="fieldset">
                         <fieldset>
-                            <legend>Register corporate user</legend>
+                            <legend>#{texts.create_corp_user}</legend>
                             <div class="half_box_left">
                                 <h:inputText class="inputfields" value="#{shoppingBean.companyName}" required="true" requiredMessage="#{texts.user_reg_company_error}"/>
                                 <label>#{texts.edit_account_company_name}</label>
@@ -130,7 +130,7 @@
                                 <br/><br/>
                             </div>
                             <h:commandButton action="#{userBean.registerCorporateUser()}"
-                                             value="Create new corporate account"
+                                             value="#{texts.create_corp_user}"
                                              styleClass="button_style"/>
                         </fieldset>
                     </div>
