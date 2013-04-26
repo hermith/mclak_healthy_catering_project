@@ -114,6 +114,7 @@ public class DatabaseHandler {
     private static final String COLUMN_DATE_DELIVERED = "date_delivered";
     private static final String COLUMN_IS_DELIVERY = "is_delivery";
     private static final String COLUMN_IS_ACTIVE = "is_active";
+    private static final String COLUMN_IS_PREPARED = "is_prepared";
     private static final String COLUMN_CONTRACT_ID = "cotract_id";
     private static final String COLUMN_DAY_OF_THE_WEEK = "day_of_the_week";
     private boolean productsTableChanged;
@@ -666,6 +667,7 @@ public class DatabaseHandler {
                             }
                         }
                         PackageProduct packageProduct = new PackageProduct(productId, nameNo, nameEn, descriptionNo, descriptionEn, discount, products);
+                        packageProduct.setActive(active);
                         Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Package product {0} retrieved.", packageProduct);
                         return packageProduct;
                     }
