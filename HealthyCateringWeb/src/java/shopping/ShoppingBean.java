@@ -489,9 +489,7 @@ public class ShoppingBean implements Serializable {
         return productHandler.getUniqueProductsList(getProducts());
     }
 
-    /*
-     * Getters and setters for new contract
-     */
+    //Getters and setters for new contract
     public boolean isNewContractDelivery() {
         return newContract.isDelivery();
     }
@@ -503,6 +501,15 @@ public class ShoppingBean implements Serializable {
     public ArrayList<Product> getNewContractProducts() {
         return newContract.getOrder().getProducts();
     }
+
+    public void setNewContractDayOfWeek(int dayOfWeek) {
+        newContract.setDayOfWeek(dayOfWeek);
+    }
+
+    public int getNewContractDayOfWeek() {
+        return newContract.getDayOfWeek();
+    }
+    
 
     public int findQuantityNewContract(Product product) {
         return productHandler.findQuantity(product, getNewContractProducts());
@@ -518,5 +525,10 @@ public class ShoppingBean implements Serializable {
         days[5] = Calendar.FRIDAY;
         days[6] = Calendar.SATURDAY;
         return days;
+    }
+
+    public String getDayLocalString(int day) {
+        String dayString = MessageHandler.getLocalizedText(MessageType.TEKST, "day" + day);
+        return dayString;
     }
 }
