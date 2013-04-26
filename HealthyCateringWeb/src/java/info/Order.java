@@ -1,10 +1,10 @@
 package info;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
-import shopping.product.Product;
-import java.sql.Timestamp;
 import java.util.HashMap;
+import shopping.product.Product;
 
 /**
  *
@@ -22,7 +22,8 @@ public class Order {
     private Timestamp placedDate;
     private Timestamp deliveryDate;
     private Timestamp deliveredDate;
-    public boolean delivery;
+    private boolean delivery;
+    private boolean activ;
 
     /**
      * Standard constructor, initiates all the relevant fields to be set later
@@ -35,6 +36,7 @@ public class Order {
         deliveredDate = null;
         deliveryDate = null;
         delivery = false;
+        activ = false;
     }
 
     /**
@@ -56,6 +58,7 @@ public class Order {
         this.deliveryDate = deliveryDate;
         this.deliveredDate = deliveredDate;
         this.delivery = delivery;
+        activ = false;
     }
 
     /**
@@ -141,7 +144,7 @@ public class Order {
     }
 
     /**
-     * Returns whether or not the order is delivered or not.
+     * Returns whether or not the order is delivered.
      *
      * @return Order delivered
      */
@@ -173,9 +176,7 @@ public class Order {
         }
     }
 
-    /**
-     * GETTERS AND SETTERS BELOW
-     */
+    //GETTERS AND SETTERS BELOW
     public int getCustomerID() {
         return customerID;
     }
@@ -234,6 +235,14 @@ public class Order {
 
     public void setOrderID(int orderID) {
         this.orderID = orderID;
+    }
+
+    public boolean isActiv() {
+        return activ;
+    }
+
+    public void setActiv(boolean activ) {
+        this.activ = activ;
     }
 
     public static void main(String[] args) {

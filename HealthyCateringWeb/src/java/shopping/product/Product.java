@@ -12,6 +12,7 @@ public abstract class Product {
     private String nameEn;
     private String descriptionNo;
     private String descriptionEn;
+    private boolean activ;
 
     public Product() {
         this.id = -1;
@@ -19,6 +20,7 @@ public abstract class Product {
         this.nameEn = null;
         this.descriptionNo = null;
         this.descriptionEn = null;
+        activ = false;
     }
 
     public Product(int id, String nameNo, String nameEn, String descriptionNo, String descriptionEn) {
@@ -27,6 +29,7 @@ public abstract class Product {
         this.nameEn = nameEn;
         this.descriptionNo = descriptionNo;
         this.descriptionEn = descriptionEn;
+        activ = false;
     }
 
     public int getId() {
@@ -109,6 +112,14 @@ public abstract class Product {
             return false;
         }
         return true;
+    }
+
+    public boolean isActiv() {
+        return activ;
+    }
+
+    public void setActiv(boolean activ) {
+        this.activ = activ;
     }
 
     /**

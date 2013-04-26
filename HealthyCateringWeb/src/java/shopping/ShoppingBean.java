@@ -387,7 +387,7 @@ public class ShoppingBean implements Serializable {
     }
 
     public boolean isDelivery() {
-        return order.delivery;
+        return order.isDelivery();
     }
 
     public void setDelivery(boolean del) {
