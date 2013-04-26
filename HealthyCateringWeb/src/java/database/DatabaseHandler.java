@@ -220,6 +220,7 @@ public class DatabaseHandler {
         Connection conn = null;
         PreparedStatement stm = null;
         ResultSet resSet = null;
+        boolean errorEncountered = false;
         try {
             conn = dataSource.getConnection();
             stm = conn.prepareStatement(STM_SELECT_USER_IDS);
@@ -231,11 +232,14 @@ public class DatabaseHandler {
                 if (user != null) {
                     users.add(user);
                 } else {
-                    Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Failed to retrieve ALL users.");
-                    return null;
+                    errorEncountered = true;
                 }
             }
-            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "ALL users retrieved successfully.");
+            if (errorEncountered) {
+                Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Failed to retrieve ALL users.");
+            } else {
+                Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "ALL users retrieved successfully.");
+            }
             return users;
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Failed to retrieve ALL users.", ex);
@@ -279,6 +283,7 @@ public class DatabaseHandler {
                 }
             }
             Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "User {0} NOT registered.", user);
+            rollBack(conn);
             return false;
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Failed to register new user " + user + ".", ex);
@@ -411,7 +416,7 @@ public class DatabaseHandler {
 
     /**
      * Method used for retrieving a customer from the database with a given
-     * username. The methods uses data in the Customer_Table and either the
+     * username. The method uses data in the Customer_Table and either the
      * Private_Customer_Table or the Corporate_Customer_Table to do this.
      *
      * @param username The username of the customer to retrieve.
@@ -469,9 +474,12 @@ public class DatabaseHandler {
     }
 
     /**
-     * 
-     * @param customerId
-     * @return 
+     * Method used for retrieving a customer from the database with a given
+     * customer id. The method uses data in the Customer_Table and either the
+     * Private_Customer_Table or the Corporate_Customer_Table to do this.
+     *
+     * @param customerId The customer id.
+     * @return A Customer object representing the customer.
      */
     public synchronized Customer selectCustomer(int customerId) {
         Connection conn = null;
@@ -523,6 +531,10 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public synchronized ArrayList<Customer> selectCustomers() {
         Connection conn = null;
         PreparedStatement stm = null;
@@ -1514,6 +1526,7 @@ public class DatabaseHandler {
         try {
             conn = dataSource.getConnection();
             stm = conn.prepareStatement(STM_SELECT_CONTRACT_IDS_BASED_ON_CUSTOMER_ID);
+            stm.setInt(1, customerId);
             resSet = stm.executeQuery();
             ArrayList<Contract> contracts = new ArrayList<Contract>();
             while (resSet.next()) {
