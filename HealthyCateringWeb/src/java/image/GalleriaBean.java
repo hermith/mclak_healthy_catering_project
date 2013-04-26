@@ -1,8 +1,12 @@
 
+
+
 package image;
 
 /**
- *
+ * This file adds images into a galley
+ * 
+ * 
  * @author Maria
  */
 
@@ -16,6 +20,10 @@ import javax.inject.Named;
 public class GalleriaBean {
     private List<String> images;  
     
+    
+    /**
+     *  Adds images
+     */
     @PostConstruct  
     public void init() {  
         images = new ArrayList<String>();  
@@ -27,6 +35,10 @@ public class GalleriaBean {
         images.add("food5.jpg");
     }
     
+    /**
+     * Get images
+     * @return images
+     */
     public List<String> getImages() {  
         return images;  
     } 

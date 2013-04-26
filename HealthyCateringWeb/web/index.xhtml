@@ -24,8 +24,8 @@
                 #{texts.news_two}<br/>
                 #{texts.news_three}</p>
                 
-                <p:galleria value="#{galleriaBean.images}" var="image" panelWidth="600" panelHeight="400" showCaption="true" rendered="true" style="float: right; margin: 8px">  
-                    <p:graphicImage value="/resources/img/galleria/#{image}" />  
+                <p:galleria value="#{galleriaBean.images}" var="image" panelWidth="600" panelHeight="400" showCaption="true" rendered="true" style="float: right; margin: 8px" autoPlay="true" transitionInterval="">  
+                    <p:graphicImage value="/resources/img/galleria/#{image}" title="#{texts.image_description}" />  
                 </p:galleria> 
                 
                 
