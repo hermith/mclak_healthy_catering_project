@@ -50,34 +50,29 @@ public class DatabaseHandler {
     private static final String STM_UPDATE_EMAIL_IN_CUSTOMER_TABLE = "UPDATE Customer_Table SET email = ? WHERE username = ?";
     private static final String STM_UPDATE_PRIVATE_CUSTOMER = "UPDATE Private_Customer_Table SET first_name = ?, last_name = ? WHERE customer_id = ?";
     private static final String STM_UPDATE_CORPORATE_CUSTOMER = "UPDATE Corporate_Customer_Table SET company_name = ? WHERE customer_id = ?";
-    /**/
     private static final String STM_SELECT_PRODUCT = "SELECT product_name_no AS product_name_no, product_name_en AS product_name_en, product_description_no AS product_description_no, product_description_en AS product_description_en, is_active AS is_active FROM Product_Table WHERE product_id = ?";
     private static final String STM_SELECT_PRODUCT_IDS = "SELECT product_id AS product_id FROM Product_Table";
     private static final String STM_SELECT_SINGLE_PRODUCT = "SELECT product_price AS product_price, product_kcal AS product_kcal FROM Single_Product_Table WHERE product_id = ?";
     private static final String STM_SELECT_PACKAGE_PRODUCT = "SELECT product_discount AS product_discount FROM Package_Product_Table WHERE product_id = ?";
     private static final String STM_SELECT_PACKAGE_SINGLE_PRODUCT_CONNECTION = "SELECT single_product_id AS single_product_id, quantity AS quantity FROM Package_Single_Product_Table WHERE package_product_id = ?";
-    /**/
     private static final String STM_INSERT_PRODUCT = "INSERT INTO Product_Table(product_name_no, product_name_en, product_description_no, product_description_en, is_active) VALUES(?, ?, ?, ?, ?)";
     private static final String STM_INSERT_SINGLE_PRODUCT = "INSERT INTO Single_Product_Table(product_id, product_price, product_kcal) VALUES(?, ?, ?)";
     private static final String STM_INSERT_PACKAGE_PRODUCT = "INSERT INTO Package_Product_Table(product_id, product_discount) VALUES(?, ?)";
     private static final String STM_INSERT_PACKAGE_SINGLE_PRODUCT = "INSERT INTO Package_Single_Product_Table(package_product_id, single_product_id, quantity) VALUES(?, ?, ?)";
-    /**/
     private static final String STM_UPDATE_PRODUCT = "UPDATE Product_Table SET product_name_no = ?, product_name_en = ?, product_description_no = ?, product_description_en = ?, is_active = ? WHERE product_id = ?";
     private static final String STM_UPDATE_PRODUCT_SET_IS_ACTIVE = "UPDATE Product_Table SET is_active = ? WHERE product_id = ?";
     private static final String STM_UPDATE_SINGLE_PRODUCT = "UPDATE Single_Product_Table SET product_price = ?, product_kcal = ? WHERE product_id = ?";
     private static final String STM_UPDATE_PACKAGE_PRODUCT = "UPDATE Package_Product_Table SET product_discount = ? WHERE product_id = ?";
     private static final String STM_UPDATE_PACKAGE_SINGLE_PRODUCT_INCREMENT_QUANTITY = "UPDATE Package_Single_Product_Table SET quantity = ((SELECT quantity FROM Package_Single_Product_Table WHERE package_product_id = ? AND single_product_id = ?) + 1) WHERE package_product_id = ? AND single_product_id = ?";
     private static final String STM_DELETE_PACKAGE_SINGLE_PRODUCTS = "DELETE FROM Package_Single_Product_Table WHERE package_product_id = ?";
-    /**/
-    private static final String STM_SELECT_ORDER = "SELECT customer_id AS customer_id, date_placed AS date_placed, date_to_be_delivered AS date_to_be_delivered, date_delivered AS date_delivered, is_delivery AS is_delivery, is_active AS is_active FROM Order_Table WHERE order_id = ?";
+    private static final String STM_SELECT_ORDER = "SELECT customer_id AS customer_id, date_placed AS date_placed, date_to_be_delivered AS date_to_be_delivered, date_delivered AS date_delivered, is_delivery AS is_delivery, is_active AS is_active, is_prepared AS is_prepared FROM Order_Table WHERE order_id = ?";
     private static final String STM_SELECT_ORDER_PRODUCTS = "SELECT product_id AS product_id, quantity AS quantity FROM Order_Product_Table WHERE order_id = ?";
     private static final String STM_SELECT_ORDER_IDS = "SELECT order_id AS order_id FROM Order_Table";
     private static final String STM_SELECT_ORDER_IDS_BASED_ON_CUSTOMER_ID = "SELECT order_id AS order_id FROM Order_Table WHERE customer_id = ?";
-    /**/
-    private static final String STM_INSERT_ORDER = "INSERT INTO Order_Table(customer_id, date_placed, date_to_be_delivered, date_delivered, is_delivery, is_active) VALUES(?, ?, ?, ?, ?, ?)";
+    private static final String STM_INSERT_ORDER = "INSERT INTO Order_Table(customer_id, date_placed, date_to_be_delivered, date_delivered, is_delivery, is_active, is_prepared) VALUES(?, ?, ?, ?, ?, ?, ?)";
     private static final String STM_INSERT_ORDER_PRODUCT = "INSERT INTO Order_Product_Table(order_id, product_id, quantity) VALUES(?, ?, ?)";
-    /**/
-    private static final String STM_UPDATE_ORDER = "UPDATE Order_Table SET customer_id = ?, date_placed = ?, date_to_be_delivered = ?, date_delivered = ?, is_delivery = ?, is_active = ? WHERE order_id = ?";
+    private static final String STM_UPDATE_ORDER = "UPDATE Order_Table SET customer_id = ?, date_placed = ?, date_to_be_delivered = ?, date_delivered = ?, is_delivery = ?, is_active = ?, is_prepared = ? WHERE order_id = ?";
+    private static final String STM_UPDATE_ORDER_SET_IS_PREPARED = "UPDATE Order_Table SET is_prepared = ? WHERE order_id = ?";
     private static final String STM_UPDATE_ORDER_SET_DATE_DELIVERED = "UPDATE Order_Table SET date_delivered = ? WHERE order_id = ?";
     private static final String STM_UPDATE_ORDER_SET_IS_ACTIVE = "UPDATE Order_Table SET is_active = ? WHERE order_id = ?";
     private static final String STM_DELETE_ORDER_PRODUCTS = "DELTE FROM Order_Product_Table WHERE order_id = ?";
@@ -956,10 +951,10 @@ public class DatabaseHandler {
             stm.setInt(2, productId);
             stm.executeUpdate();
             productsTableChanged = true;
-            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Product with product id {0} successfully deleted.", productId);
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Product with product id {0} got new status set to.", new Object[]{productId, active});
             return true;
         } catch (SQLException ex) {
-            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Failed delete product with order id " + productId + ".", ex);
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Failed set new status for product with product id " + productId + ".", ex);
             rollBack(conn);
             return false;
         } finally {
@@ -984,8 +979,10 @@ public class DatabaseHandler {
                 Timestamp dateDelivered = resSet.getTimestamp(COLUMN_DATE_DELIVERED);
                 boolean delivery = resSet.getBoolean(COLUMN_IS_DELIVERY);
                 boolean active = resSet.getBoolean(COLUMN_IS_ACTIVE);
+                boolean prepared = resSet.getBoolean(COLUMN_IS_PREPARED);
                 Order order = new Order(orderId, customerId, new ArrayList<Product>(), datePlaced, dateToBeDelivered, dateDelivered, delivery);
                 order.setActive(active);
+                order.setPrepared(prepared);
                 stm = conn.prepareStatement(STM_SELECT_ORDER_PRODUCTS);
                 stm.setInt(1, orderId);
                 resSet = stm.executeQuery();
@@ -1123,8 +1120,9 @@ public class DatabaseHandler {
             stm.setTimestamp(2, order.getPlacedDate());
             stm.setTimestamp(3, order.getDeliveryDate());
             stm.setTimestamp(4, order.getDeliveredDate());
-            stm.setInt(5, ((order.isActive()) ? 1 : 0));
-            stm.setInt(6, ((order.isDelivery()) ? 1 : 0));
+            stm.setInt(5, ((order.isDelivery()) ? 1 : 0));
+            stm.setInt(6, ((order.isActive()) ? 1 : 0));
+            stm.setInt(7, ((order.isPrepared()) ? 1 : 0));
             numberOfRowsUpdated = stm.executeUpdate();
             if (numberOfRowsUpdated == 1) {
                 numberOfRowsUpdated = -1;
@@ -1201,7 +1199,8 @@ public class DatabaseHandler {
             stm.setTimestamp(4, order.getDeliveredDate());
             stm.setInt(5, ((order.isDelivery()) ? 1 : 0));
             stm.setInt(6, ((order.isActive()) ? 1 : 0));
-            stm.setInt(7, order.getOrderID());
+            stm.setInt(7, ((order.isPrepared()) ? 1 : 0));
+            stm.setInt(8, order.getOrderID());
             numberOfRowsUpdated = stm.executeUpdate();
             if (numberOfRowsUpdated == 1) {
                 numberOfRowsUpdated = -1;
@@ -1276,6 +1275,31 @@ public class DatabaseHandler {
         }
     }
 
+    public synchronized boolean updateOrderSetPrepared(int orderId, boolean prepared) {
+        Connection conn = null;
+        PreparedStatement stm = null;
+        int numberOfRowsUpdated = -1;
+        try {
+            conn = dataSource.getConnection();
+            stm = conn.prepareStatement(STM_UPDATE_ORDER_SET_IS_PREPARED);
+            stm.setInt(1, ((prepared) ? 1 : 0));
+            stm.setInt(2, orderId);
+            numberOfRowsUpdated = stm.executeUpdate();
+            if (numberOfRowsUpdated == 1) {
+                Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Order with order id {0} successfully updated with prepared status {1}", new Object[]{orderId, prepared});
+                return true;
+            }
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Failed to update order with order id {0} with prepared status {1}", new Object[]{orderId, prepared});
+            return false;
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Failed to update order with order id " + orderId + " with prepared status " + prepared + ".", ex);
+            return false;
+        } finally {
+            closeStatement(stm);
+            closeConnection(conn);
+        }
+    }
+
     public synchronized boolean updateOrders(ArrayList<Order> orders) {
         int numberOfOrdersUpdated = 0;
         for (Order o : orders) {
@@ -1301,11 +1325,11 @@ public class DatabaseHandler {
             stm.setInt(1, ((active) ? 1 : 0));
             stm.setInt(2, orderId);
             stm.executeUpdate();
-            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Successfully deleted order with order id {0}.", orderId);
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Successfully update order with order id {0} with new status {1}.", new Object[]{orderId, active});
             commit(conn);
             return true;
         } catch (SQLException ex) {
-            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Failed to delete order with order id " + orderId + ".", ex);
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Failed to set new status for order with order id " + orderId + ".", ex);
             rollBack(conn);
             return false;
         } finally {

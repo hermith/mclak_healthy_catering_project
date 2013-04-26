@@ -90,7 +90,7 @@ public abstract class Product {
 
     @Override
     public String toString() {
-        return "Product{" + "id=" + id + ", nameNo=" + nameNo + ", nameEn=" + nameEn + ", descriptionNo=" + descriptionNo + ", descriptionEn=" + descriptionEn + '}';
+        return "Product{" + "id=" + id + ", nameNo=" + nameNo + ", nameEn=" + nameEn + ", descriptionNo=" + descriptionNo + ", descriptionEn=" + descriptionEn + ", active=" + active + '}';
     }
 
     @Override

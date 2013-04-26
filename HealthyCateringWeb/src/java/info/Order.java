@@ -256,7 +256,8 @@ public class Order {
         this.prepared = prepared;
     }
 
-    public static void main(String[] args) {
-        System.out.println("" + ((int) ("×").charAt(0)));
+    @Override
+    public String toString() {
+        return "Order{" + "orderID=" + orderID + ", customerID=" + customerID + ", products=" + products + ", placedDate=" + placedDate + ", deliveryDate=" + deliveryDate + ", deliveredDate=" + deliveredDate + ", delivery=" + delivery + ", active=" + active + ", prepared=" + prepared + '}';
     }
 }
