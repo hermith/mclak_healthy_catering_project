@@ -3,6 +3,8 @@ package info;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Any;
 import javax.faces.application.Application;
@@ -44,7 +46,20 @@ public class InfoBean implements Serializable {
     }
 
     public ArrayList<Order> getActiveOrders() {
-        return orderHandler.getActiveOrders();
+        ArrayList<Order> orders = orderHandler.getActiveOrders();
+        Collections.sort(orders);
+        return orders;
+    }
+
+    public ArrayList<Order> getUnpreparedOrders() {
+        ArrayList<Order> puorder = new ArrayList<Order>();
+        for (Order o : orderHandler.getActiveOrders()) {
+            if (!o.isPrepared()) {
+                puorder.add(o);
+            }
+        }
+        Collections.sort(puorder);
+        return puorder;
     }
 
     public ArrayList<Order> getOrderHistory() {
@@ -66,7 +81,7 @@ public class InfoBean implements Serializable {
         selectedOrderCustomer = orderHandler.getCustomerFromID(selectedOrder.getCustomerID());
         detailOrder = true;
     }
-    
+
     public Customer getCustomer(int customer_id) {
         return customerHandler.selectCustomer(customer_id);
     }
@@ -288,6 +303,16 @@ public class InfoBean implements Serializable {
         }
         return 0;
     }
+    
+        /**
+     * Calls findQuantity(product, selectedOrder.getProducts()).
+     *
+     * @param product
+     * @return quantity of the current product in the selectedOrder->productlist
+     */
+    public int findQuantityProductsFromList(Product product, ArrayList<Product> products) {
+        return productHandler.findQuantity(product, products);
+    }
 
     /**
      * Calls getUniqueProductsList(selectedOrder.getProducts()). Sort the
@@ -302,8 +327,26 @@ public class InfoBean implements Serializable {
         return null;
     }
     
+    public ArrayList<Product> getUniqueOrdersFromList(ArrayList<Product> products) {
+        return productHandler.getUniqueProductsList(products);
+    }
+
+    /**
+     * Marks an order as delivered with the timestamp of the current time.
+     * 
+     * @param orderID Order to set as delivered
+     */
     public void markOrderAsDelivered(int orderID) {
         Timestamp stamp = new Timestamp(System.currentTimeMillis());
         orderHandler.markOrderAsDelivered(orderID, stamp);
+    }
+
+    /**
+     * Marks and order as prepared.
+     * 
+     * @param orderID Order to be marked as prepared
+     */
+    public void markOrderAsPrepared(int orderID) {
+        orderHandler.markOrderAsPrepared(orderID);
     }
 }

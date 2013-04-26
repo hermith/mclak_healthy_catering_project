@@ -40,5 +40,9 @@ public class OrderHandler {
     public void markOrderAsDelivered(int orderID, Timestamp stamp) {
         db.updateOrderSetDateDelivered(orderID, stamp);
     }
+
+    void markOrderAsPrepared(int orderID) {
+        db.updateOrderSetPrepared(orderID, true);
+    }
     
 }

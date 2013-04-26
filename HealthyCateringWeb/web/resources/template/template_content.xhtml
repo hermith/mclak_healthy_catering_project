@@ -52,6 +52,7 @@ Contains:
                                  styleClass="button_style"/>
                 <h:outputText value="#{texts.menu_total}: #{shoppingBean.totalPrice},-"
                               rendered="#{!shoppingBean.shoppingCartIsEmpty()}"/>
+                <br/><h:commandButton styleClass="button_style" value="#{texts.add_contract_title}" rendered="#{userBean.loggedInAsCorporateCustomer and (!shoppingBean.shoppingCartIsEmpty())}" action="add_contract" />
             </h:form>
         </ui:insert>
 

@@ -96,7 +96,7 @@ public abstract class Customer {
     }
     
     public String getDriverInformation() {
-        return getName().toUpperCase() + ", " + address + "&lt;br /&gt;" + city +  " " + zipCode + ": " + phoneNumber;
+        return getName().toUpperCase() + ", " + address + ", " + city +  " " + zipCode + ", " + phoneNumber;
     }
 
     @Override

@@ -54,8 +54,15 @@
             </pm:header>
 
             <pm:content>
+                <h:form>
+                    <p:outputLabel value="Language"/>
+                    <pm:buttonGroup>
+                        <h:commandButton value="English" action="#{localeHandler.setEnglish()}"/>
+                        <h:commandButton value="Norsk" action="#{localeHandler.setNorwegian()}"/>
+                    </pm:buttonGroup>
+                </h:form>
                 <h:form rendered="#{userBean.loggedIn}">
-                    <h:commandButton value="Logout" action="#{userBean.logout()}"/>
+                    <h:commandButton value="Logout" action="#{userBean.logoutMobile()}"/>
                 </h:form>
             </pm:content>
         </pm:view>

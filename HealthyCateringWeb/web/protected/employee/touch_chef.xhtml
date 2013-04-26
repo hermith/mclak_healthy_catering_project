@@ -28,14 +28,24 @@
             </pm:header>
 
             <pm:content>
-                CHEFFIE
+                <p:dataList value="#{infoBean.unpreparedOrders}" var="order">
+                    <p:panel collapsed="true"
+                             header="ID: #{order.orderID}, delivery on: #{order.deliveryDateAsString}">
+                        <div style="display: inline-block; width: 63%;">
+                            <p:dataList value="#{infoBean.getUniqueOrdersFromList(order.getProducts())}"
+                                        var="prod">
+                                #{infoBean.findQuantityProductsFromList(prod, order.products)} &#215; #{prod.getName(localeHandler.getLang())} (#{prod.id})
+                            </p:dataList>
+                        </div>
+                        <h:form class="ui-btn-right" style="width: 35%;">
+                            <h:commandButton value="Done"
+                                             action="#{infoBean.markOrderAsPrepared(order.getOrderID())}"/>
+                        </h:form>
+                    </p:panel>
+                </p:dataList>
             </pm:content>
-
-            <pm:footer fixed="true">
-                <p style="text-align: center">Footer</p>
-            </pm:footer>
         </pm:view>
-        
+
         <pm:view id="settings">
             <pm:header title="Settings">
                 <h:form class="ui-btn-left">
@@ -44,14 +54,17 @@
             </pm:header>
 
             <pm:content>
+                <h:form>
+                    <p:outputLabel value="Language"/>
+                    <pm:buttonGroup>
+                        <h:commandButton value="English" action="#{localeHandler.setEnglish()}"/>
+                        <h:commandButton value="Norsk" action="#{localeHandler.setNorwegian()}"/>
+                    </pm:buttonGroup>
+                </h:form>
                 <h:form rendered="#{userBean.loggedIn}">
-                    <h:commandButton value="Logout" action="#{userBean.logout()}"/>
+                    <h:commandButton value="Logout" action="#{userBean.logoutMobile()}"/>
                 </h:form>
             </pm:content>
-
-            <pm:footer fixed="true">
-                <p style="text-align: center">Footer</p>
-            </pm:footer>
         </pm:view>
     </pm:page>
 </f:view>
