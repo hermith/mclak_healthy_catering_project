@@ -651,7 +651,7 @@ public class DatabaseHandler {
                                 String singleProductNameEn = resSet2.getString(COLUMN_PRODUCT_NAME_EN);
                                 String singleProductDescriptionNo = resSet2.getString(COLUMN_PRODUCT_DESCRIPTION_NO);
                                 String singleProductDescriptionEn = resSet2.getString(COLUMN_PRODUCT_DESCRIPTION_EN);
-                                boolean singleProductActive = resSet1.getBoolean(COLUMN_IS_ACTIVE);
+                                boolean singleProductActive = resSet2.getBoolean(COLUMN_IS_ACTIVE);
                                 stm2.setInt(1, singleProductId);
                                 resSet2 = stm2.executeQuery();
                                 if (resSet2.next()) {
