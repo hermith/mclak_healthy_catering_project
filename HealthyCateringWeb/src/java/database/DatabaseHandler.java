@@ -25,12 +25,22 @@ import shopping.product.SingleProduct;
 import user.User;
 
 /**
+ * The DatabaseHandler class is the applications only connection to the
+ * database. It contains methods for inserting, updating, retrieving data for
+ * customers, orders, users, products, contracts and so forth. The class is not
+ * named, but application scoped and injected only in other application scoped
+ * classes.
+ *
+ * Keep in mind that none of the methods in this class checks the integrity of
+ * parameters and such. All null-checks and so forth should be done before
+ * passing data to this class no matter what method.
+ *
  * @author Christer Olsen
  */
 @ApplicationScoped
 public class DatabaseHandler {
 
-    private static final String POOL_NAME = "jdbc/sysproj_res";
+    //Below are strings representing PreparedStatement objects used in this class.
     private static final String STM_SELECT_USER = "SELECT email AS email, user_role AS user_role FROM User_Table NATURAL JOIN User_Role_Table WHERE username = ?";
     private static final String STM_SELECT_USER_IDS = "SELECT username AS username FROM User_Table";
     private static final String STM_SELECT_EMAIL_FROM_USER_TABLE = "SELECT email AS email FROM User_Table WHERE username = ?";
@@ -77,14 +87,15 @@ public class DatabaseHandler {
     private static final String STM_UPDATE_ORDER_SET_IS_PREPARED = "UPDATE Order_Table SET is_prepared = ? WHERE order_id = ?";
     private static final String STM_UPDATE_ORDER_SET_DATE_DELIVERED = "UPDATE Order_Table SET date_delivered = ? WHERE order_id = ?";
     private static final String STM_UPDATE_ORDER_SET_IS_ACTIVE = "UPDATE Order_Table SET is_active = ? WHERE order_id = ?";
-    private static final String STM_DELETE_ORDER_PRODUCTS = "DELTE FROM Order_Product_Table WHERE order_id = ?";
-    private static final String STM_DELETE_ORDER = "DELTE FROM Order_Table WHERE order_id = ?";
+    private static final String STM_DELETE_ORDER_PRODUCTS = "DELETE FROM Order_Product_Table WHERE order_id = ?";
+    private static final String STM_DELETE_ORDER = "DELETE FROM Order_Table WHERE order_id = ?";
     private static final String STM_SELECT_CONTRACT = "SELECT order_id AS order_id, day_of_the_week AS day_of_the_week, is_active AS is_active WHERE contract_id = ?";
     private static final String STM_SELECT_CONTRACT_IDS = "SELECT contract_id AS contract_id FROM Contract_Table";
     private static final String STM_SELECT_CONTRACT_IDS_BASED_ON_CUSTOMER_ID = "SELECT contract_id AS contract_id FROM Contract_Table WHERE order_id = (SELECT DISTINCT order_id FROM Order_Table WHERE customer_id = ?)";
     private static final String STM_INSERT_CONTRACT = "INSERT INTO Contract_Table(order_id, day_of_the_week, time_of_delivery, is_active) VALUES(?, ?, ?, ?)";
     private static final String STM_UPDATE_CONTRACT = "UPDATE Contract_Table SET order_id = ?, day_of_the_week = ?, time_of_delivery = ?, is_active = ? WHERE contract_id = ?";
     private static final String STM_UPDATE_CONTRACT_SET_IS_ACTIVE = "UPDATE Contract_Table SET is_active = ? WHERE order_id = ?";
+    // Below are column names used in this class for retrieving data from ResultSet objects.
     private static final String COLUMN_USERNAME = "username";
     private static final String COLUMN_PASSWORD = "password";
     private static final String COLUMN_USER_ROLE = "user_role";
@@ -117,11 +128,20 @@ public class DatabaseHandler {
     private static final String COLUMN_CONTRACT_ID = "contract_id";
     private static final String COLUMN_DAY_OF_THE_WEEK = "day_of_the_week";
     private static final String COLUMN_TIME_OF_DELIVERY = "time_of_delivery";
+    /**
+     * String containing the name of the connection pool used for getting
+     * connections to the database.
+     */
+    private static final String POOL_NAME = "jdbc/sysproj_res";
     private boolean productsTableChanged;
     private DataSource dataSource;
 
     /**
-     * Constructor.
+     * This constructor initiates the object variable object 'dataSource' by
+     * looking up the pool name given by the POOL_NAME constant. The constructor
+     * also initiates the object variable productsTableChanged to true in order
+     * to force the ShoppingHandler class to retrieve the product menu from the
+     * database upon initiation.
      */
     public DatabaseHandler() {
         Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Attempting to creating a new database handler...");
@@ -134,14 +154,36 @@ public class DatabaseHandler {
         Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "New database handler successfully created!");
     }
 
-    public boolean hasProductsTableChanged() {
+    /**
+     * This method returns the productsTableChanged variable. This variable is
+     * set to false if the menu has been retrieved from the database since the
+     * last change in the product table, and set to true if it has not.
+     *
+     * @return productsTableChanged variable.
+     */
+    public synchronized boolean hasProductsTableChanged() {
         return productsTableChanged;
     }
 
-    public void setProductsTableChanged(boolean value) {
+    /**
+     * Sets the productsTableChanged variable to a new given value. This method
+     * should primarily be called by the ShoppingHandler when the menu has been
+     * retrieved from the database.
+     *
+     * @param value the new value of the productsTableChanged.
+     */
+    public synchronized void setProductsTableChanged(boolean value) {
         productsTableChanged = value;
     }
 
+    /**
+     * Method used in retrieving a user from the User_Table and User_Role_Table
+     * with a given username.
+     *
+     * @param username The username of the user to retrieve.
+     * @return The user object representing the username, null if the user does
+     * not exist or if an SQLException is thrown.
+     */
     public synchronized User selectUser(String username) {
         Connection conn = null;
         PreparedStatement stm = null;
@@ -168,6 +210,12 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * Method used for retrieving all users in the database. The method gets its
+     * data from the User_Table and the User_Role_Table.
+     *
+     * @return An ArrayList containing all User objects.
+     */
     public synchronized ArrayList<User> selectUsers() {
         Connection conn = null;
         PreparedStatement stm = null;
@@ -199,6 +247,13 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * Method user for inserting a new user into the database. Inserts data into
+     * the User_Table and User_Role_Table.
+     *
+     * @param user The User object representing the user to insert.
+     * @return True if the user was successfully inserted, false if not.
+     */
     public synchronized boolean insertUser(User user) {
         Connection conn = null;
         PreparedStatement stm = null;
@@ -236,6 +291,18 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * Method used for retrieving the password for a specific user represented
+     * by a username. This method should only be called when a user wishes to
+     * change his or her password and should never be printed, not even in the
+     * console or server log.
+     *
+     * <br><br>The method uses data from the User_Table to do this.
+     *
+     * @param username The username of the user which password to retrieve.
+     * @return The password for the given user, null if the user is not found or
+     * an SQLException is thrown.
+     */
     public synchronized String selectUserPassword(String username) {
         Connection conn = null;
         PreparedStatement stm = null;
@@ -262,6 +329,14 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * Method used for updating a given users password. The method uses and
+     * updates data in the User_Table to do this.
+     *
+     * @param password The new password.
+     * @param username The username of the user.
+     * @return True if the password was changed, false if not.
+     */
     public synchronized boolean updateUserPassword(String password, String username) {
         Connection conn = null;
         PreparedStatement stm = null;
@@ -288,6 +363,15 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * Method used for updating a users email address. The method updates data
+     * in the User_Table and in the Customer_Table.
+     *
+     * @param email The new email.
+     * @param username The username of the user.
+     * @return True if the email was changes successfully in both tables, false
+     * if not.
+     */
     public synchronized boolean updateUserEmail(String email, String username) {
         Connection conn = null;
         PreparedStatement stm = null;
@@ -325,6 +409,14 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * Method used for retrieving a customer from the database with a given
+     * username. The methods uses data in the Customer_Table and either the
+     * Private_Customer_Table or the Corporate_Customer_Table to do this.
+     *
+     * @param username The username of the customer to retrieve.
+     * @return A Customer object representing the customer.
+     */
     public synchronized Customer selectCustomer(String username) {
         Connection conn = null;
         PreparedStatement stm = null;
@@ -376,6 +468,11 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * 
+     * @param customerId
+     * @return 
+     */
     public synchronized Customer selectCustomer(int customerId) {
         Connection conn = null;
         PreparedStatement stm = null;
