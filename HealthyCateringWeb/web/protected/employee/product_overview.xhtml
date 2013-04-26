@@ -72,6 +72,7 @@ Contains:
                             <h:panelGroup styleClass="edit_account_employee" rendered="#{productBean.editProduct}">
                                 <label>#{texts.product_id}</label>
                                 <h:outputText value="#{productBean.productID}" /><br/>
+                                <label>#{texts.product_active}:</label><h:selectBooleanCheckbox value="#{productBean.productActive}" /><br/>
                                 <label>#{texts.product_name_no}: </label><h:inputText required="true" requiredMessage="#{error.product_required_name}" value="#{productBean.productNameNo}" /><br/>
                                 <label>#{texts.product_name_en}: </label><h:inputText required="true" requiredMessage="#{error.product_required_name}" value="#{productBean.productNameEn}" /><br/>
                                 <label>#{texts.product_desc_no}: </label><h:inputText required="true" requiredMessage="#{error.product_required_desc}" value="#{productBean.productDescriptionNo}" /><br/>
@@ -154,6 +155,7 @@ Contains:
                             <!--ADD SINGLE PRODUCT-->
                             <div id="add_product_single">
                                 <h:panelGroup rendered="#{productBean.newProductIsSingle}" styleClass="edit_account_employee">
+                                    <label>#{texts.product_active}</label><h:selectBooleanCheckbox value="#{productBean.newProductActive}" /><br/>
                                     <label>#{texts.product_name_no}: </label><h:inputText value="#{productBean.newProductNameNo}" required="true" requiredMessage="#{error.product_required_name}" /><br/>
                                     <label>#{texts.product_name_en}: </label><h:inputText value="#{productBean.newProductNameEn}" required="true" requiredMessage="#{error.product_required_name}" /><br/>
                                     <label>#{texts.product_desc_no}: </label><h:inputText value="#{productBean.newProductDescriptionNo}" required="true" requiredMessage="#{error.product_required_desc}" /><br/>
@@ -168,6 +170,7 @@ Contains:
                             <!--ADD PACKAGE PRODUCT-->
                             <div id="add_product_package">
                                 <h:panelGroup rendered="#{!productBean.newProductIsSingle}" styleClass="edit_account_employee">
+                                    <label>#{texts.product_active}</label><h:selectBooleanCheckbox value="#{productBean.newProductActive}" /><br/>
                                     <label>#{texts.product_name_no}: </label><h:inputText value="#{productBean.newProductNameNo}" required="true" requiredMessage="#{error.product_required_name}" /><br/>
                                     <label>#{texts.product_name_en}: </label><h:inputText value="#{productBean.newProductNameEn}" required="true" requiredMessage="#{error.product_required_name}" /><br/>
                                     <label>#{texts.product_desc_no}: </label><h:inputText value="#{productBean.newProductDescriptionNo}" required="true" requiredMessage="#{error.product_required_desc}" /><br/>

@@ -294,6 +294,19 @@ public class ProductBean implements Serializable {
     }
 
     //GETTERS AND SETTERS FOR newProduct
+    public boolean getNewProductActive() {
+        if (newProduct != null) {
+            return newProduct.isActive();
+        }
+        return false;
+    }
+
+    public void setNewProductActive(boolean active) {
+        if (newProduct != null) {
+            newProduct.setActive(active);
+        }
+    }
+
     public String getNewProductName() {
         if (localeHandler.getLang().equals(new Locale("no"))) {
             return newProduct.getNameNo();
@@ -415,6 +428,19 @@ public class ProductBean implements Serializable {
     }
 
     // SETTERs AND GETTERs FOR selectedProduct
+    public boolean getProductActive() {
+        if (selectedProduct != null) {
+            return selectedProduct.isActive();
+        }
+        return false;
+    }
+
+    public void setProductActive(boolean active) {
+        if (selectedProduct != null) {
+            selectedProduct.setActive(active);
+        }
+    }
+    
     public String getProductName() {
         if (localeHandler.getLang().equals(new Locale("no"))) {
             return selectedProduct.getNameNo();
@@ -542,7 +568,7 @@ public class ProductBean implements Serializable {
         return null;
     }
 
-    /** 
+    /**
      * @return if selectedProduct is a SingleProduct.
      */
     public boolean selectedIsSingleProduct() {
