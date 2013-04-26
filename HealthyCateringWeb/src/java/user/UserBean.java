@@ -15,6 +15,10 @@ import locale.MessageHandler;
 import locale.MessageType;
 import shopping.ShoppingBean;
 
+/**
+ *
+ * @author aleksalr, Linn
+ */
 @Named
 @SessionScoped
 public class UserBean implements Serializable {
@@ -30,6 +34,249 @@ public class UserBean implements Serializable {
         this.dummyUser = new User();
     }
 
+    //TODO - Remove?
+    public String ninja() {
+        user.setPassword("Passord1");
+        user.setUsername("testSystem");
+        login();
+        return "/protected/common/control_panel.xhtml";
+    }
+
+    /**
+     * Registers a new private user based on credentials they've typed.
+     *
+     * @return - Empty strings for refreshing instead of redirecting.
+     */
+    public String registerPrivateUser() {
+        System.out.println("Called registerPrivateUser() in UserBean");
+        this.user.setNewPassword("");
+        this.user.setRoleId(UserRoleHandler.USER_ROLE_ID_PRIVATE_CUSTOMER);
+        if (userhandler.registerPrivateUser(user)) {
+            user = new User();
+            String msg = MessageHandler.getLocalizedText(MessageType.TEKST, "user_reg_success");
+            MessageHandler.addErrorMessage(msg);
+            return "registration_success";
+        }
+        user = new User();
+        String msg = MessageHandler.getLocalizedText(MessageType.ERROR, "user_reg_fail");
+        MessageHandler.addErrorMessage(msg);
+        return "registration_failure";
+    }
+
+    /**
+     * Registers a new corporate user based on credentials they've typed.
+     *
+     * @return - Empty strings for refreshing instead of redirecting.
+     */
+    public String registerCorporateUser() {
+        System.out.println("Called registerCorporateUser() in UserBean");
+        this.user.setNewPassword("");
+        this.user.setRoleId(UserRoleHandler.USER_ROLE_ID_CORPORATE_CUSTOMER);
+        if (userhandler.registerCorporateUser(user)) {
+            user = new User();
+            String msg = MessageHandler.getLocalizedText(MessageType.TEKST, "user_reg_success");
+            MessageHandler.addErrorMessage(msg);
+            return "";
+        }
+        user = new User();
+        String msg = MessageHandler.getLocalizedText(MessageType.ERROR, "user_reg_fail");
+        MessageHandler.addErrorMessage(msg);
+        return "";
+    }
+
+    /**
+     * Generates new password for a user if they've forgotten it.
+     *
+     * User needs to enter valid email and username.
+     */
+    public void generateNewPasswordUser() {
+        if (userhandler.generateNewPasswordUser(user.getEmail(), user.getUsername())) {
+            MessageHandler.addErrorMessage("New password sent");
+            loginFailed = true;
+        } else {
+            MessageHandler.addErrorMessage("Username nad password not like");
+            loginFailed = true;
+        }
+    }
+
+    /**
+     * Method for logging in with the visitor's entered username/password.
+     *
+     * @return - String used to redirect visitor to intended page.
+     */
+    public String login() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+
+        loginFailed = false;
+        if (user.getUsername().trim().isEmpty()) {
+            MessageHandler.addErrorMessage(MessageHandler.getLocalizedText(MessageType.ERROR, "login_required_username"));
+            loginFailed = true;
+        }
+        if (user.getPassword().trim().isEmpty()) {
+            MessageHandler.addErrorMessage(MessageHandler.getLocalizedText(MessageType.ERROR, "login_required_password"));
+            loginFailed = true;
+        }
+        if (loginFailed) {
+            return "";
+        }
+
+        try {
+            Logger.getLogger(UserBean.class.getName()).log(Level.INFO, "Attempting to log in user {0}.", user);
+            request.login(user.getUsername(), user.getPassword());
+            user = userhandler.getUser(user.getUsername());
+            ((ShoppingBean) context.getApplication().evaluateExpressionGet(context, "#{shoppingBean}", ShoppingBean.class)).initiateCustomer(user.getUsername());
+            Logger.getLogger(UserBean.class.getName()).log(Level.INFO, "User {0} logged in.", user);
+            loginFailed = false;
+            return "";
+            // TODO Be shopping bean om å hente ned info fra databasen om et evt. kundeobjekt som er knyttet til denne brukeren.
+        } catch (ServletException ex1) {
+            loginFailed = true;
+            Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, "Failed to log in user " + user + ".", ex1);
+        } catch (NullPointerException ex2) {
+            Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, "Failed to log in user due to nullpointer exception!", ex2);
+        }
+
+        MessageHandler.addErrorMessage(MessageHandler.getLocalizedText(MessageType.ERROR, "login_wrong_username_or_password"));
+        return "";
+
+    }
+
+    /**
+     * Logout method for non-mobile users.
+     *
+     * @return - String for redirection to index.xhtml.
+     */
+    public String logout() {
+        logoutLogic();
+        return "return_frontpage";
+    }
+
+    /**
+     * Returns string for proper redirect if logging out on mobile device.
+     *
+     * @return - String used for redirection.
+     */
+    public String logoutMobile() {
+        logoutLogic();
+        return "/touch/";
+    }
+
+    /**
+     * Logs the user out and resets User object.
+     */
+    private void logoutLogic() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        try {
+            Logger.getLogger(UserBean.class.getName()).log(Level.INFO, "Attempting to log out {0}.", user);
+            request.logout();
+            ((ShoppingBean) context.getApplication().evaluateExpressionGet(context, "#{shoppingBean}", ShoppingBean.class)).resetVars();
+            Logger.getLogger(UserBean.class.getName()).log(Level.INFO, "User {0} logged out.", user);
+            user = new User();
+        } catch (ServletException ex) {
+            Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, "Failed to log out " + user + ".", ex);
+        }
+    }
+
+    /**
+     * Checks whether or not a user is logged in.
+     *
+     * @return - True if user is logged in.
+     */
+    public boolean isLoggedIn() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        if (request.getRemoteUser() != null) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Checks whether or not user is logged in as private customer
+     *
+     * @return - True if logged in as corporate private
+     */
+    public boolean isLoggedInAsPrivateCustomer() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        if (request.isUserInRole(UserRoleHandler.USER_ROLE_ID_PRIVATE_CUSTOMER)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Checks whether or not user is logged in as corporate customer
+     *
+     * @return - True if logged in as corporate customer
+     */
+    public boolean isLoggedInAsCorporateCustomer() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        if (request.isUserInRole(UserRoleHandler.USER_ROLE_ID_CORPORATE_CUSTOMER)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Checks whether or not user is logged in as employee
+     *
+     * @return - True if logged in as employee
+     */
+    public boolean isLoggedInAsEmployee() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        if (request.isUserInRole(UserRoleHandler.USER_ROLE_ID_EMPLOYEE)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Checks whether or not user is logged in as System/Administrator
+     *
+     * @return - True if logged in as System
+     */
+    public boolean isLoggedInAsSystem() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
+        if (request.isUserInRole(UserRoleHandler.USER_ROLE_ID_SYSTEM)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Checks whether or not the last login attempt failed.
+     *
+     * @return True if last login failed. False if last login was successful.
+     */
+    public boolean didLastLoginFail() {
+        if (loginFailed) {
+            loginFailed = false;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Sends the user object to the UserHandler for insertion into Database
+     */
+    public void createNewUser() {
+        if (!userhandler.registerUser(dummyUser)) {
+            MessageHandler.addErrorMessage("Unable to create account.");
+        } else {
+            MessageHandler.addErrorMessage("Account successfully created");
+        }
+    }
+
+    /**
+     * Getters and setters for User object contained in the bean
+     */
     public String getUsername() {
         if (user != null) {
             return user.getUsername();
@@ -90,179 +337,6 @@ public class UserBean implements Serializable {
 
     public String getEmail() {
         return this.user.getEmail();
-    }
-
-    public String ninja() {
-        user.setPassword("Passord1");
-        user.setUsername("testSystem");
-        login();
-        return "/protected/common/control_panel.xhtml";
-    }
-
-    public String registerPrivateUser() {
-        System.out.println("Called registerPrivateUser() in UserBean");
-        this.user.setNewPassword("");
-        this.user.setRoleId(UserRoleHandler.USER_ROLE_ID_PRIVATE_CUSTOMER);
-        if (userhandler.registerPrivateUser(user)) {
-            user = new User();
-            String msg = MessageHandler.getLocalizedText(MessageType.TEKST, "user_reg_success");
-            MessageHandler.addErrorMessage(msg);
-            return "registration_success";
-        }
-        user = new User();
-        String msg = MessageHandler.getLocalizedText(MessageType.ERROR, "user_reg_fail");
-        MessageHandler.addErrorMessage(msg);
-        return "registration_failure";
-    }
-
-    public String registerCorporateUser() {
-        System.out.println("Called registerCorporateUser() in UserBean");
-        this.user.setNewPassword("");
-        this.user.setRoleId(UserRoleHandler.USER_ROLE_ID_CORPORATE_CUSTOMER);
-        if (userhandler.registerCorporateUser(user)) {
-            user = new User();
-            String msg = MessageHandler.getLocalizedText(MessageType.TEKST, "user_reg_success");
-            MessageHandler.addErrorMessage(msg);
-            return "registration_success";
-        }
-        user = new User();
-        String msg = MessageHandler.getLocalizedText(MessageType.ERROR, "user_reg_fail");
-        MessageHandler.addErrorMessage(msg);
-        return "registration_failure";
-    }
-
-    public void generateNewPasswordUser() {
-        if (userhandler.generateNewPasswordUser(user.getEmail(), user.getUsername())) {
-            MessageHandler.addErrorMessage("New password sent");
-            loginFailed = true;
-        } else {
-            MessageHandler.addErrorMessage("Username nad password not like");
-            loginFailed = true;
-        }
-    }
-
-    public String login() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-
-        loginFailed = false;
-        if (user.getUsername().trim().isEmpty()) {
-            MessageHandler.addErrorMessage(MessageHandler.getLocalizedText(MessageType.ERROR, "login_required_username"));
-            loginFailed = true;
-        }
-        if (user.getPassword().trim().isEmpty()) {
-            MessageHandler.addErrorMessage(MessageHandler.getLocalizedText(MessageType.ERROR, "login_required_password"));
-            loginFailed = true;
-        }
-        if (loginFailed) {
-            return "";
-        }
-
-        try {
-            Logger.getLogger(UserBean.class.getName()).log(Level.INFO, "Attempting to log in user {0}.", user);
-            request.login(user.getUsername(), user.getPassword());
-            user = userhandler.getUser(user.getUsername());
-            ((ShoppingBean) context.getApplication().evaluateExpressionGet(context, "#{shoppingBean}", ShoppingBean.class)).initiateCustomer(user.getUsername());
-            Logger.getLogger(UserBean.class.getName()).log(Level.INFO, "User {0} logged in.", user);
-            loginFailed = false;
-            return "";
-            // TODO Be shopping bean om å hente ned info fra databasen om et evt. kundeobjekt som er knyttet til denne brukeren.
-        } catch (ServletException ex1) {
-            loginFailed = true;
-            Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, "Failed to log in user " + user + ".", ex1);
-        } catch (NullPointerException ex2) {
-            Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, "Failed to log in user due to nullpointer exception!", ex2);
-        }
-
-        MessageHandler.addErrorMessage(MessageHandler.getLocalizedText(MessageType.ERROR, "login_wrong_username_or_password"));
-        return "";
-
-    }
-
-    public String logout() {
-        logoutLogic();
-        return "return_frontpage";
-    }
-    
-    public String logoutMobile() {
-        logoutLogic();
-        return "/touch/";
-    }
-
-    private void logoutLogic() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-        try {
-            Logger.getLogger(UserBean.class.getName()).log(Level.INFO, "Attempting to log out {0}.", user);
-            request.logout();
-            ((ShoppingBean) context.getApplication().evaluateExpressionGet(context, "#{shoppingBean}", ShoppingBean.class)).resetVars();
-            Logger.getLogger(UserBean.class.getName()).log(Level.INFO, "User {0} logged out.", user);
-            user = new User();
-        } catch (ServletException ex) {
-            Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, "Failed to log out " + user + ".", ex);
-        }
-    }
-
-    public boolean isLoggedIn() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-        if (request.getRemoteUser() != null) {
-            return true;
-        }
-        return false;
-    }
-
-    public boolean isLoggedInAsPrivateCustomer() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-        if (request.isUserInRole(UserRoleHandler.USER_ROLE_ID_PRIVATE_CUSTOMER)) {
-            return true;
-        }
-        return false;
-    }
-
-    public boolean isLoggedInAsCorporateCustomer() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-        if (request.isUserInRole(UserRoleHandler.USER_ROLE_ID_CORPORATE_CUSTOMER)) {
-            return true;
-        }
-        return false;
-    }
-
-    public boolean isLoggedInAsEmployee() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-        if (request.isUserInRole(UserRoleHandler.USER_ROLE_ID_EMPLOYEE)) {
-            return true;
-        }
-        return false;
-    }
-
-    public boolean isLoggedInAsSystem() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
-        if (request.isUserInRole(UserRoleHandler.USER_ROLE_ID_SYSTEM)) {
-            return true;
-        }
-        return false;
-    }
-
-    public boolean didLastLoginFail() {
-        if (loginFailed) {
-            loginFailed = false;
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public void createNewUser() {
-        if (!userhandler.registerUser(dummyUser)) {
-            MessageHandler.addErrorMessage("Unable to create account.");
-        } else {
-            MessageHandler.addErrorMessage("Account successfully created");
-        }
     }
 
     /**

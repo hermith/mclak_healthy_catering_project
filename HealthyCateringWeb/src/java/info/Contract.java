@@ -4,16 +4,19 @@
  */
 package info;
 
+import java.sql.Timestamp;
+
 /**
  *
  * @author linnk
  */
 public class Contract {
+
     private int contractId;
     private Order order;
     private int dayOfWeek;
     private boolean active;
-    
+
     public Contract() {
         contractId = -1;
         order = new Order();
@@ -52,5 +55,13 @@ public class Contract {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public void setDelivery(boolean delivery) {
+        this.order.setDelivery(delivery);
+    }
+
+    public boolean isDelivery() {
+        return this.order.isDelivery();
     }
 }

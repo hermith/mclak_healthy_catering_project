@@ -25,6 +25,12 @@ public class UserHandler {
     public UserHandler() {
     }
 
+    /**
+     * Registers private user and enters the information in the database.
+     *
+     * @param user - User object containing the new user's credentials.
+     * @return - True if registration was successful. False if an error occured.
+     */
     public boolean registerPrivateUser(User user) {
         if (db.insertUser(user)) {
             FacesContext context = FacesContext.getCurrentInstance();
@@ -34,6 +40,12 @@ public class UserHandler {
         return false;
     }
 
+    /**
+     * Registers corporate user and enters the information in the database.
+     *
+     * @param user - User object containing the new user's credentials.
+     * @return - True if registration was successful. False if an error occured.
+     */
     public boolean registerCorporateUser(User user) {
         System.out.println("Got this user: " + user.getUsername() + " - " + user.getPassword() + " - "
                 + user.getEmail() + " - " + user.getNewPassword() + " - " + user.getRoleId());
