@@ -1,5 +1,6 @@
 package shopping;
 
+import info.Contract;
 import info.Order;
 import info.ProductHandler;
 import java.io.Serializable;
@@ -33,12 +34,14 @@ public class ShoppingBean implements Serializable {
     private String username;
     @Inject
     private ProductHandler productHandler;
+    private Contract newContract;
 
     public ShoppingBean() {
         privateCustomer = new PrivateCustomer();
         corporateCustomer = new CorporateCustomer();
         shoppingCart = new ShoppingCart();
         order = new Order();
+        newContract = new Contract();
     }
 
     public void initiateCustomer(String username) {
@@ -461,5 +464,18 @@ public class ShoppingBean implements Serializable {
      */
     public ArrayList<Product> getShoppingCartProducts() {
         return productHandler.getUniqueProductsList(getProducts());
+    }
+
+    //GETTER AND SETTER for newContract (add_contract.xhtml)
+    public boolean isNewContractDelivery() {
+        return newContract.isDelivery();
+    }
+
+    public void setNewContractDelivery(boolean delivery) {
+        newContract.setDelivery(delivery);
+    }
+
+    public ArrayList<Product> getNewContractProducts() {
+        return newContract.getOrder().getProducts();
     }
 }
