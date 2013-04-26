@@ -50,34 +50,42 @@ public class DatabaseHandler {
     private static final String STM_UPDATE_EMAIL_IN_CUSTOMER_TABLE = "UPDATE Customer_Table SET email = ? WHERE username = ?";
     private static final String STM_UPDATE_PRIVATE_CUSTOMER = "UPDATE Private_Customer_Table SET first_name = ?, last_name = ? WHERE customer_id = ?";
     private static final String STM_UPDATE_CORPORATE_CUSTOMER = "UPDATE Corporate_Customer_Table SET company_name = ? WHERE customer_id = ?";
-    private static final String STM_SELECT_PRODUCT = "SELECT product_name_no AS product_name_no, product_name_en AS product_name_en, product_description_no AS product_description_no, product_description_en AS product_description_en FROM Product_Table WHERE product_id = ?";
+    /**/
+    private static final String STM_SELECT_PRODUCT = "SELECT product_name_no AS product_name_no, product_name_en AS product_name_en, product_description_no AS product_description_no, product_description_en AS product_description_en, is_active AS is_active FROM Product_Table WHERE product_id = ?";
     private static final String STM_SELECT_PRODUCT_IDS = "SELECT product_id AS product_id FROM Product_Table";
     private static final String STM_SELECT_SINGLE_PRODUCT = "SELECT product_price AS product_price, product_kcal AS product_kcal FROM Single_Product_Table WHERE product_id = ?";
     private static final String STM_SELECT_PACKAGE_PRODUCT = "SELECT product_discount AS product_discount FROM Package_Product_Table WHERE product_id = ?";
     private static final String STM_SELECT_PACKAGE_SINGLE_PRODUCT_CONNECTION = "SELECT single_product_id AS single_product_id, quantity AS quantity FROM Package_Single_Product_Table WHERE package_product_id = ?";
-    private static final String STM_INSERT_PRODUCT = "INSERT INTO Product_Table(product_name_no, product_name_en, product_description_no, product_description_en) VALUES(?, ?, ?, ?)";
+    /**/
+    private static final String STM_INSERT_PRODUCT = "INSERT INTO Product_Table(product_name_no, product_name_en, product_description_no, product_description_en, is_active) VALUES(?, ?, ?, ?, ?)";
     private static final String STM_INSERT_SINGLE_PRODUCT = "INSERT INTO Single_Product_Table(product_id, product_price, product_kcal) VALUES(?, ?, ?)";
     private static final String STM_INSERT_PACKAGE_PRODUCT = "INSERT INTO Package_Product_Table(product_id, product_discount) VALUES(?, ?)";
     private static final String STM_INSERT_PACKAGE_SINGLE_PRODUCT = "INSERT INTO Package_Single_Product_Table(package_product_id, single_product_id, quantity) VALUES(?, ?, ?)";
-    private static final String STM_UPDATE_PRODUCT = "UPDATE Product_Table SET product_name_no = ?, product_name_en = ?, product_description_no = ?, product_description_en = ? WHERE product_id = ?";
-    private static final String STM_DELETE_PRODUCT = "DELETE FROM Product_Table WHERE product_id = ?";
-    private static final String STM_DELETE_SINGLE_PRODUCT = "DELETE FROM Single_Product_Table WHERE product_id = ?";
-    private static final String STM_DELETE_PACKAGE_PRODUCT = "DELETE FROM Package_Product_Table WHERE product_id = ?";
-    private static final String STM_DELETE_PACKAGE_SINGLE_PRODUCT = "DELETE FROM Package_Single_Product_Table WHERE single_product_id = ?";
+    /**/
+    private static final String STM_UPDATE_PRODUCT = "UPDATE Product_Table SET product_name_no = ?, product_name_en = ?, product_description_no = ?, product_description_en = ?, is_active = ? WHERE product_id = ?";
+    private static final String STM_UPDATE_PRODUCT_SET_IS_ACTIVE = "UPDATE Product_Table SET is_active = ? WHERE product_id = ?";
     private static final String STM_UPDATE_SINGLE_PRODUCT = "UPDATE Single_Product_Table SET product_price = ?, product_kcal = ? WHERE product_id = ?";
     private static final String STM_UPDATE_PACKAGE_PRODUCT = "UPDATE Package_Product_Table SET product_discount = ? WHERE product_id = ?";
     private static final String STM_UPDATE_PACKAGE_SINGLE_PRODUCT_INCREMENT_QUANTITY = "UPDATE Package_Single_Product_Table SET quantity = ((SELECT quantity FROM Package_Single_Product_Table WHERE package_product_id = ? AND single_product_id = ?) + 1) WHERE package_product_id = ? AND single_product_id = ?";
     private static final String STM_DELETE_PACKAGE_SINGLE_PRODUCTS = "DELETE FROM Package_Single_Product_Table WHERE package_product_id = ?";
-    private static final String STM_SELECT_ORDER = "SELECT customer_id AS customer_id, date_placed AS date_placed, date_to_be_delivered AS date_to_be_delivered, date_delivered AS date_delivered, is_delivery AS is_delivery FROM Order_Table WHERE order_id = ?";
+    /**/
+    private static final String STM_SELECT_ORDER = "SELECT customer_id AS customer_id, date_placed AS date_placed, date_to_be_delivered AS date_to_be_delivered, date_delivered AS date_delivered, is_delivery AS is_delivery, is_active AS is_active FROM Order_Table WHERE order_id = ?";
     private static final String STM_SELECT_ORDER_PRODUCTS = "SELECT product_id AS product_id, quantity AS quantity FROM Order_Product_Table WHERE order_id = ?";
     private static final String STM_SELECT_ORDER_IDS = "SELECT order_id AS order_id FROM Order_Table";
     private static final String STM_SELECT_ORDER_IDS_BASED_ON_CUSTOMER_ID = "SELECT order_id AS order_id FROM Order_Table WHERE customer_id = ?";
-    private static final String STM_INSERT_ORDER = "INSERT INTO Order_Table(customer_id, date_placed, date_to_be_delivered, date_delivered, is_delivery) VALUES(?, ?, ?, ?, ?)";
+    /**/
+    private static final String STM_INSERT_ORDER = "INSERT INTO Order_Table(customer_id, date_placed, date_to_be_delivered, date_delivered, is_delivery, is_active) VALUES(?, ?, ?, ?, ?, ?)";
     private static final String STM_INSERT_ORDER_PRODUCT = "INSERT INTO Order_Product_Table(order_id, product_id, quantity) VALUES(?, ?, ?)";
-    private static final String STM_UPDATE_ORDER = "UPDATE Order_Table SET customer_id = ?, date_placed = ?, date_to_be_delivered = ?, date_delivered = ?, is_delivery = ? WHERE order_id = ?";
-    private static final String STM_UPDATE_ORDER_DATE_DELIVERED = "UPDATE Order_Table SET date_delivered = ? WHERE order_id = ?";
-    private static final String STM_DELETE_ORDER = "DELETE FROM Order_Table WHERE order_id = ?";
-    private static final String STM_DELETE_ORDER_PRODUCTS = "DELETE FROM Order_Product_Table WHERE order_id = ? ";
+    /**/
+    private static final String STM_UPDATE_ORDER = "UPDATE Order_Table SET customer_id = ?, date_placed = ?, date_to_be_delivered = ?, date_delivered = ?, is_delivery = ?, is_active = ? WHERE order_id = ?";
+    private static final String STM_UPDATE_ORDER_SET_DATE_DELIVERED = "UPDATE Order_Table SET date_delivered = ? WHERE order_id = ?";
+    private static final String STM_UPDATE_ORDER_SET_IS_ACTIVE = "UPDATE Order_Table SET is_active = ? WHERE order_id = ?";
+    private static final String STM_DELETE_ORDER_PRODUCTS = "DELTE FROM Order_Product_Table WHERE order_id = ?";
+    private static final String STM_SELECT_CONTRACT_BY_CONTRACT_ID = "SELECT order_id AS order_id, day_of_the_week AS day_of_the_week, is_active AS is_active WHERE contract_id = ?";
+    private static final String STM_SELECT_CONTRACT_BY_CUSTOMER_ID = "SELECT contract_id AS contract_id, day_of_the_week AS day_of_the_week, is_active AS is_active WHERE customer_id = (SELECT customer_id FROM Order_Table WHERE order_id = ?)";
+    private static final String STM_INSERT_CONTRACT = "INSERT INTO Contract_Table(order_id, day_of_the_week, is_active) VALUES(?, ?, ?)";
+    private static final String STM_UPDATE_CONTRACT = "UPDATE Contract_Table SET order_id = ?, day_of_the_week = ?, is_active = ? WHERE contract_id = ?";
+    private static final String STM_UPDATE_CONTRACT_SET_IS_ACTIVE = "UPDATE Contract_Table SET is_active = ? WHERE order_id = ?";
     private static final String COLUMN_USERNAME = "username";
     private static final String COLUMN_PASSWORD = "password";
     private static final String COLUMN_USER_ROLE = "user_role";
@@ -105,6 +113,9 @@ public class DatabaseHandler {
     private static final String COLUMN_DATE_TO_BE_DELIVERED = "date_to_be_delivered";
     private static final String COLUMN_DATE_DELIVERED = "date_delivered";
     private static final String COLUMN_IS_DELIVERY = "is_delivery";
+    private static final String COLUMN_IS_ACTIVE = "is_active";
+    private static final String COLUMN_CONTRACT_ID = "cotract_id";
+    private static final String COLUMN_DAY_OF_THE_WEEK = "day_of_the_week";
     private boolean productsTableChanged;
     private DataSource dataSource;
 
@@ -605,6 +616,7 @@ public class DatabaseHandler {
                 String nameEn = resSet1.getString(COLUMN_PRODUCT_NAME_EN);
                 String descriptionNo = resSet1.getString(COLUMN_PRODUCT_DESCRIPTION_NO);
                 String descriptionEn = resSet1.getString(COLUMN_PRODUCT_DESCRIPTION_EN);
+                boolean active = resSet1.getBoolean(COLUMN_IS_ACTIVE);
                 if (isProductInSingleProductTable(conn, stm1, resSet1, productId)) {
                     stm1 = conn.prepareStatement(STM_SELECT_SINGLE_PRODUCT);
                     stm1.setInt(1, productId);
@@ -613,6 +625,7 @@ public class DatabaseHandler {
                         float price = resSet1.getFloat(COLUMN_PRODUCT_PRICE);
                         int kcal = resSet1.getInt(COLUMN_PRODUCT_KCAL);
                         SingleProduct singleProduct = new SingleProduct(productId, nameNo, nameEn, descriptionNo, descriptionEn, price, kcal);
+                        singleProduct.setActive(active);
                         Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Single product {0} retrieved.", singleProduct);
                         return singleProduct;
                     }
@@ -638,13 +651,16 @@ public class DatabaseHandler {
                                 String singleProductNameEn = resSet2.getString(COLUMN_PRODUCT_NAME_EN);
                                 String singleProductDescriptionNo = resSet2.getString(COLUMN_PRODUCT_DESCRIPTION_NO);
                                 String singleProductDescriptionEn = resSet2.getString(COLUMN_PRODUCT_DESCRIPTION_EN);
+                                boolean singleProductActive = resSet1.getBoolean(COLUMN_IS_ACTIVE);
                                 stm2.setInt(1, singleProductId);
                                 resSet2 = stm2.executeQuery();
                                 if (resSet2.next()) {
                                     float singleProductPrice = resSet2.getFloat(COLUMN_PRODUCT_PRICE);
                                     int singleProductKcal = resSet2.getInt(COLUMN_PRODUCT_KCAL);
                                     for (int i = 0; i < quantity; i++) {
-                                        products.add(new SingleProduct(singleProductId, singleProductNameNo, singleProductNameEn, singleProductDescriptionNo, singleProductDescriptionEn, singleProductPrice, singleProductKcal));
+                                        SingleProduct sp = new SingleProduct(singleProductId, singleProductNameNo, singleProductNameEn, singleProductDescriptionNo, singleProductDescriptionEn, singleProductPrice, singleProductKcal);
+                                        sp.setActive(singleProductActive);
+                                        products.add(sp);
                                     }
                                 }
                             }
@@ -718,6 +734,7 @@ public class DatabaseHandler {
             stm.setString(2, product.getNameEn());
             stm.setString(3, product.getDescriptionNo());
             stm.setString(4, product.getDescriptionEn());
+            stm.setInt(5, ((product.isActive()) ? 1 : 0));
             numberOfRowsUpdated = stm.executeUpdate();
             if (numberOfRowsUpdated == 1) {
                 numberOfRowsUpdated = -1;
@@ -752,6 +769,7 @@ public class DatabaseHandler {
                                 stm.setString(2, p.getNameEn());
                                 stm.setString(3, p.getDescriptionNo());
                                 stm.setString(4, p.getDescriptionEn());
+                                stm.setInt(5, ((product.isActive()) ? 1 : 0));
                                 numberOfRowsUpdated = stm.executeUpdate();
                                 stm.getGeneratedKeys().next();
                                 p.setId(stm.getGeneratedKeys().getInt(1));
@@ -833,7 +851,8 @@ public class DatabaseHandler {
             stm.setString(2, product.getNameEn());
             stm.setString(3, product.getDescriptionNo());
             stm.setString(4, product.getDescriptionEn());
-            stm.setInt(5, product.getId());
+            stm.setInt(5, ((product.isActive()) ? 1 : 0));
+            stm.setInt(6, product.getId());
             numberOfRowsUpdated = stm.executeUpdate();
             if (numberOfRowsUpdated == 1) {
                 numberOfRowsUpdated = -1;
@@ -925,34 +944,15 @@ public class DatabaseHandler {
         }
     }
 
-    public synchronized boolean deleteProduct(int productId) {
+    public synchronized boolean updateProductSetActive(boolean active, int productId) {
         Connection conn = null;
         PreparedStatement stm = null;
-        ResultSet resSet = null;
         try {
             conn = dataSource.getConnection();
-            setAutoCommit(conn, false);
-            if (isProductInSingleProductTable(conn, stm, resSet, productId)) {
-                stm = conn.prepareStatement(STM_DELETE_PACKAGE_SINGLE_PRODUCT);
-                stm.setInt(1, productId);
-                stm.executeUpdate();
-
-                stm = conn.prepareStatement(STM_DELETE_SINGLE_PRODUCT);
-                stm.setInt(1, productId);
-                stm.executeUpdate();
-            } else {
-                stm = conn.prepareStatement(STM_DELETE_PACKAGE_SINGLE_PRODUCTS);
-                stm.setInt(1, productId);
-                stm.executeUpdate();
-
-                stm = conn.prepareStatement(STM_DELETE_PACKAGE_PRODUCT);
-                stm.setInt(1, productId);
-                stm.executeUpdate();
-            }
-            stm = conn.prepareStatement(STM_DELETE_PRODUCT);
-            stm.setInt(1, productId);
+            stm = conn.prepareStatement(STM_UPDATE_PRODUCT_SET_IS_ACTIVE);
+            stm.setInt(1, ((active) ? 1 : 0));
+            stm.setInt(2, productId);
             stm.executeUpdate();
-            commit(conn);
             productsTableChanged = true;
             Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Product with product id {0} successfully deleted.", productId);
             return true;
@@ -961,8 +961,6 @@ public class DatabaseHandler {
             rollBack(conn);
             return false;
         } finally {
-            setAutoCommit(conn, true);
-            closeResultSet(resSet);
             closeStatement(stm);
             closeConnection(conn);
         }
@@ -983,7 +981,9 @@ public class DatabaseHandler {
                 Timestamp dateToBeDelivered = resSet.getTimestamp(COLUMN_DATE_TO_BE_DELIVERED);
                 Timestamp dateDelivered = resSet.getTimestamp(COLUMN_DATE_DELIVERED);
                 boolean delivery = resSet.getBoolean(COLUMN_IS_DELIVERY);
+                boolean active = resSet.getBoolean(COLUMN_IS_ACTIVE);
                 Order order = new Order(orderId, customerId, new ArrayList<Product>(), datePlaced, dateToBeDelivered, dateDelivered, delivery);
+                order.setActive(active);
                 stm = conn.prepareStatement(STM_SELECT_ORDER_PRODUCTS);
                 stm.setInt(1, orderId);
                 resSet = stm.executeQuery();
@@ -1121,7 +1121,8 @@ public class DatabaseHandler {
             stm.setTimestamp(2, order.getPlacedDate());
             stm.setTimestamp(3, order.getDeliveryDate());
             stm.setTimestamp(4, order.getDeliveredDate());
-            stm.setInt(5, ((order.isDelivery()) ? 1 : 0));
+            stm.setInt(5, ((order.isActive()) ? 1 : 0));
+            stm.setInt(6, ((order.isDelivery()) ? 1 : 0));
             numberOfRowsUpdated = stm.executeUpdate();
             if (numberOfRowsUpdated == 1) {
                 numberOfRowsUpdated = -1;
@@ -1197,7 +1198,8 @@ public class DatabaseHandler {
             stm.setTimestamp(3, order.getDeliveryDate());
             stm.setTimestamp(4, order.getDeliveredDate());
             stm.setInt(5, ((order.isDelivery()) ? 1 : 0));
-            stm.setInt(6, order.getOrderID());
+            stm.setInt(6, ((order.isActive()) ? 1 : 0));
+            stm.setInt(7, order.getOrderID());
             numberOfRowsUpdated = stm.executeUpdate();
             if (numberOfRowsUpdated == 1) {
                 numberOfRowsUpdated = -1;
@@ -1253,7 +1255,7 @@ public class DatabaseHandler {
         int numberOfRowsUpdated = -1;
         try {
             conn = dataSource.getConnection();
-            stm = conn.prepareStatement(STM_UPDATE_ORDER_DATE_DELIVERED);
+            stm = conn.prepareStatement(STM_UPDATE_ORDER_SET_DATE_DELIVERED);
             stm.setTimestamp(1, dateDelivered);
             stm.setInt(2, orderId);
             numberOfRowsUpdated = stm.executeUpdate();
@@ -1288,30 +1290,18 @@ public class DatabaseHandler {
         }
     }
 
-    public synchronized boolean deleteOrder(int orderId) {
+    public synchronized boolean updateOrderSetActive(boolean active, int orderId) {
         Connection conn = null;
         PreparedStatement stm = null;
-        int numberOfRowsUpdated = -1;
         try {
             conn = dataSource.getConnection();
-            setAutoCommit(conn, false);
-            stm = conn.prepareStatement(STM_DELETE_ORDER_PRODUCTS);
-            stm.setInt(1, orderId);
-            numberOfRowsUpdated = stm.executeUpdate();
-            if (numberOfRowsUpdated > 1) {
-                numberOfRowsUpdated = -1;
-                stm = conn.prepareStatement(STM_DELETE_ORDER);
-                stm.setInt(1, orderId);
-                numberOfRowsUpdated = stm.executeUpdate();
-                if (numberOfRowsUpdated == 1) {
-                    Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Successfully deleted order with order id {0}.", orderId);
-                    commit(conn);
-                    return true;
-                }
-            }
-            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Failed to delete order with order id {0}.", orderId);
-            rollBack(conn);
-            return false;
+            stm = conn.prepareStatement(STM_UPDATE_ORDER_SET_IS_ACTIVE);
+            stm.setInt(1, ((active) ? 1 : 0));
+            stm.setInt(2, orderId);
+            stm.executeUpdate();
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Successfully deleted order with order id {0}.", orderId);
+            commit(conn);
+            return true;
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Failed to delete order with order id " + orderId + ".", ex);
             rollBack(conn);
@@ -1320,22 +1310,6 @@ public class DatabaseHandler {
             setAutoCommit(conn, true);
             closeStatement(stm);
             closeConnection(conn);
-        }
-    }
-
-    public synchronized boolean deleteOrders(ArrayList<Order> orders) {
-        int numberOfOrdersDeleted = 0;
-        for (Order o : orders) {
-            if (deleteOrder(o.getOrderID())) {
-                numberOfOrdersDeleted++;
-            }
-        }
-        if (numberOfOrdersDeleted == orders.size()) {
-            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Successfully deleted orders {0}", orders);
-            return true;
-        } else {
-            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Failed to delete orders! Only {0} out of {1} orders deleted. See glassfish log for details.", new Object[]{numberOfOrdersDeleted, orders.size()});
-            return false;
         }
     }
 
