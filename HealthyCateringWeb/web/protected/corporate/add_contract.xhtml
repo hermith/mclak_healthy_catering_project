@@ -12,15 +12,38 @@ Contains:
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 
     <h:body>
         <ui:composition template="/resources/template/template_master.xhtml">
             <ui:define name="subsite_header">
                 <h1>#{texts.add_contract_title}</h1>
             </ui:define>
-            
+
             <ui:define name="subsite_content">
+                <h:panelGroup styleClass="edit_account_customer" >
+                    <h:dataTable var="product" value="#{shoppingBean.shoppingCartProducts}" >
+                        <h:column>
+                            <f:facet name="header">#{texts.product_name}</f:facet>
+                            #{product.getName(localeHandler.getLang())}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">#{texts.product_description}</f:facet>
+                            #{product.getDescription(localeHandler.getLang())}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">#{texts.product_quantity}</f:facet>
+                            #{shoppingBean.findQuantityProduct(product)}
+                        </h:column>
+                    </h:dataTable>
+                    <label>SKAL LEVERES</label>
+                    <p:selectBooleanCheckbox value="#{shoppingBean.newContractDelivery}" />
+                    <p:selectOneListbox  >
+                        <f:selectItems value="#{shoppingBean.daysOfWeek}" />
+                    </p:selectOneListbox>
+                </h:panelGroup>
             </ui:define>
         </ui:composition>
     </h:body>
