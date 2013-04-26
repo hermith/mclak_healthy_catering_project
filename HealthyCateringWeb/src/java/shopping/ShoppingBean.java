@@ -44,6 +44,12 @@ public class ShoppingBean implements Serializable {
         newContract = new Contract();
     }
 
+    /**
+     * Initiates customer object to private or corporate customer based on type
+     * of user.
+     *
+     * @param username - Username of user related to customer object.
+     */
     public void initiateCustomer(String username) {
         Customer customer = shoppingHandler.getCustomer(username);
         if (customer != null) {
@@ -56,6 +62,11 @@ public class ShoppingBean implements Serializable {
         this.username = username;
     }
 
+    /**
+     * Registers new private customer in database.
+     *
+     * @param username - Username related to the customer object.
+     */
     public void registerPrivateCustomer(String username) {
         System.out.println("REGISTERING PRIVATE CUSTOMER");
         shoppingHandler.insertCustomer(privateCustomer, username);
@@ -63,6 +74,11 @@ public class ShoppingBean implements Serializable {
         corporateCustomer = new CorporateCustomer();
     }
 
+    /**
+     * Registers new corporate customer in database.
+     *
+     * @param username - Username related to the customer object.
+     */
     public void registerCorporateCustomer(String username) {
         System.out.println("REGISTERING CORPORATE CUSTOMER");
         shoppingHandler.insertCustomer(corporateCustomer, username);
@@ -70,13 +86,19 @@ public class ShoppingBean implements Serializable {
         corporateCustomer = new CorporateCustomer();
     }
 
+    /**
+     * Resets customer and order objects when. Method used when objects have
+     * been processed and no longer need to remain alive.
+     */
     public void resetVars() {
         privateCustomer = new PrivateCustomer();
         corporateCustomer = new CorporateCustomer();
         order = new Order();
     }
 
-    //Getters and setters for privateCustomer
+    /*
+     * Getters and setters for private customer object. 
+     */
     public String getFirstName() {
         if (privateCustomer != null) {
             return ((PrivateCustomer) privateCustomer).getFirstName();
@@ -171,19 +193,6 @@ public class ShoppingBean implements Serializable {
         return null;
     }
 
-    public void setCorporateZipCodeString(String zip) {
-        if (corporateCustomer != null) {
-            this.corporateCustomer.setZipCode(Integer.parseInt(zip));
-        }
-    }
-
-    public String getCorporateZipCodeString() {
-        if (corporateCustomer != null) {
-            return Integer.toString(corporateCustomer.getZipCode());
-        }
-        return null;
-    }
-
     public String getPrivateCity() {
         if (privateCustomer != null) {
             return privateCustomer.getCity();
@@ -198,7 +207,7 @@ public class ShoppingBean implements Serializable {
     }
 
     /*
-     * Getters and setters for corporateCustomer
+     * Getters and setters for corporate customer object. 
      */
     public String getCompanyName() {
         if (corporateCustomer != null) {
@@ -276,6 +285,19 @@ public class ShoppingBean implements Serializable {
         if (corporateCustomer != null) {
             this.corporateCustomer.setCity(city);
         }
+    }
+
+    public void setCorporateZipCodeString(String zip) {
+        if (corporateCustomer != null) {
+            this.corporateCustomer.setZipCode(Integer.parseInt(zip));
+        }
+    }
+
+    public String getCorporateZipCodeString() {
+        if (corporateCustomer != null) {
+            return Integer.toString(corporateCustomer.getZipCode());
+        }
+        return null;
     }
 
     /**
@@ -466,7 +488,9 @@ public class ShoppingBean implements Serializable {
         return productHandler.getUniqueProductsList(getProducts());
     }
 
-    //GETTER AND SETTER for newContract (add_contract.xhtml)
+    /*
+     * Getters and setters for new contract
+     */
     public boolean isNewContractDelivery() {
         return newContract.isDelivery();
     }
