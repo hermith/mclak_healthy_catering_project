@@ -165,7 +165,7 @@ public class UserBean implements Serializable {
             ((ShoppingBean) context.getApplication().evaluateExpressionGet(context, "#{shoppingBean}", ShoppingBean.class)).initiateCustomer(user.getUsername());
             Logger.getLogger(UserBean.class.getName()).log(Level.INFO, "User {0} logged in.", user);
             loginFailed = false;
-            return "return_frontpage";
+            return "";
             // TODO Be shopping bean om å hente ned info fra databasen om et evt. kundeobjekt som er knyttet til denne brukeren.
         } catch (ServletException ex1) {
             loginFailed = true;
@@ -180,6 +180,16 @@ public class UserBean implements Serializable {
     }
 
     public String logout() {
+        logoutLogic();
+        return "return_frontpage";
+    }
+    
+    public String logoutMobile() {
+        logoutLogic();
+        return "/touch/";
+    }
+
+    private void logoutLogic() {
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request = (HttpServletRequest) context.getExternalContext().getRequest();
         try {
@@ -191,7 +201,6 @@ public class UserBean implements Serializable {
         } catch (ServletException ex) {
             Logger.getLogger(UserBean.class.getName()).log(Level.SEVERE, "Failed to log out " + user + ".", ex);
         }
-        return "return_frontpage";
     }
 
     public boolean isLoggedIn() {

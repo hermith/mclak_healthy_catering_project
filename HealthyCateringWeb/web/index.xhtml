@@ -8,39 +8,21 @@
 
     <h:body>
         <ui:composition template="resources/template/template_master.xhtml">
-            <ui:define name="subsite_header">
-                <h1>#{texts.title_news}</h1>
+            <ui:define name="subscript">
+                <h:outputScript library="js" name="/supersized.core.3.2.1.js" />
             </ui:define>
-
             <ui:define name="subsite_content">
-                <h:form>
-                    <h:commandButton action="#{userBean.ninja}"
-                                     value=" ! "
-                                     style="float: right"
-                                     styleClass="button_style"/>
-                </h:form>
-                <h3>Healthy Catering</h3><br/>
-                <p>#{texts.news_one}<br/>
-                #{texts.news_two}<br/>
-                #{texts.news_three}</p>
-                
-                <p:galleria value="#{galleriaBean.images}" var="image" panelWidth="600" panelHeight="400" showCaption="true" rendered="true" style="float: right; margin: 8px" autoPlay="true" transitionInterval="">  
+                <p:galleria value="#{galleriaBean.images}"
+                            var="image"
+                            id='galleria_front'
+                            panelWidth="680"
+                            panelHeight="300"
+                            showCaption="true"
+                            autoPlay="true"
+                            transitionInterval="2000">  
                     <p:graphicImage value="/resources/img/galleria/#{image}" title="#{texts.image_description}" />  
-                </p:galleria> 
-                
-                
-                <h:form>
-                    <p:messages />
-                </h:form>
+                </p:galleria>
             </ui:define>
-
-
-
-            <!-- Optional!
-            <ui:define name="subsite_sidebar">
-                Sidebar from main file.
-            </ui:define>
-            -->
         </ui:composition>
     </h:body>
 </html>

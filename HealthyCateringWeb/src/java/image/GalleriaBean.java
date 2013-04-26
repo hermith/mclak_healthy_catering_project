@@ -13,7 +13,6 @@ package image;
 import java.util.ArrayList;  
 import java.util.List;  
 import javax.annotation.PostConstruct;  
-import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
 @Named
@@ -28,10 +27,10 @@ public class GalleriaBean {
     public void init() {  
         images = new ArrayList<String>();  
    
-        images.add("food1.jpg");
+        images.add("food4.jpg");
         images.add("food2.jpg");
         images.add("food3.jpg");
-        images.add("food4.jpg");
+        images.add("food1.jpg");
         images.add("food5.jpg");
     }
     
