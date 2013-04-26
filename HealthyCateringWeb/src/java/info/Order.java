@@ -264,11 +264,11 @@ public class Order implements Comparable<Order> {
     @Override
     public int compareTo(Order o) {
         if (this.deliveryDate.before(o.getDeliveryDate())) {
-            return 1;
+            return -1;
         } else if (this.deliveryDate.equals(o.getDeliveredDate())) {
             return 0;
         } else {
-            return -1;
+            return 1;
         }
     }
 }
