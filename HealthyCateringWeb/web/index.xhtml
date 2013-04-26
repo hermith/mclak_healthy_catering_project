@@ -19,12 +19,14 @@
                                      style="float: right"
                                      styleClass="button_style"/>
                 </h:form>
-                <ui:include src="lorem.txt" />
-                <!-- <p:imageSwitch effect="fade">  
-                    <c:forEach items="#{imageBean.images}" var="image">  
-                        <p:graphicImage value="/resources/img/#{image}" />  
-                    </c:forEach>  
-                </p:imageSwitch> -->
+                <h3>Healthy Catering</h3><br/>
+                <p>#{texts.news_one}<br/>
+                #{texts.news_two}<br/>
+                #{texts.news_three}</p>
+                
+                <p:galleria value="#{galleriaBean.images}" var="image" panelWidth="600" panelHeight="400" showCaption="true" rendered="true" style="float: right; margin: 8px">  
+                    <p:graphicImage value="/resources/img/galleria/#{image}" />  
+                </p:galleria> 
                 
                 
                 <h:form>
