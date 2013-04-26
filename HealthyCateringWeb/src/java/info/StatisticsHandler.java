@@ -22,6 +22,13 @@ public class StatisticsHandler {
         this.allorders = new ArrayList<Order>();
     }
 
+    /**
+     * Gets the running total of all orders ever registered.
+     * 
+     * Includes both delivered and undelivered orders.
+     * 
+     * @return Total price for all orders.
+     */
     public double getTotalPriceAllOrders() {
         double total = 0;
         for (Order order : allorders) {
@@ -30,11 +37,23 @@ public class StatisticsHandler {
         return total;
     }
 
+    /**
+     * Gets the number of orders registered.
+     * 
+     * Includes both delivered and undelivered.
+     * 
+     * @return Total number of orders.
+     */
     public int getNumOfOrders() {
         allorders = dbhandler.selectOrders();
         return allorders.size();
     }
 
+    /**
+     * Gets the price of the most expensive order registered.
+     * 
+     * @return Highest order price registered.
+     */
     public double getHighestOrder() {
         allorders = dbhandler.selectOrders();
         double currentHigh = 0;
@@ -47,6 +66,11 @@ public class StatisticsHandler {
         return currentHigh;
     }
 
+    /**
+     * Gets the price of the least expensive order registered.
+     * 
+     * @return Lowest order price registered.
+     */
     public double getLowestOrder() {
         allorders = dbhandler.selectOrders();
         double currentLow = allorders.get(0).getPrice();
@@ -59,6 +83,11 @@ public class StatisticsHandler {
         return currentLow;
     }
 
+    /**
+     * Gets the arithmetic mean price of all orders registered.
+     * 
+     * @return Average price of all orders.
+     */
     public double getAverageOrderPrice() {
         allorders = dbhandler.selectOrders();
         double sum = 0;
@@ -69,6 +98,10 @@ public class StatisticsHandler {
         return average;
     }
 
+    /**
+     * Gets the standard deviation for all orders
+     * @return 
+     */
     public double getStandardDeviation() {
         allorders = dbhandler.selectOrders();
         double sum = 0;
@@ -79,17 +112,6 @@ public class StatisticsHandler {
         double dev = sum / allorders.size();
         double stdDev = Math.sqrt(dev);
         return stdDev;
-    }
-
-    public String getProductsNeverOrdered() {
-        allorders = dbhandler.selectOrders();
-        ArrayList<Product> notOrdered = dbhandler.selectProducts();
-        int[] ids;
-        
-        
-        
-        return "";
-
     }
 
     public boolean isInArray(int check, int[] array) {

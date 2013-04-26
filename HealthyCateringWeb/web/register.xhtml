@@ -40,11 +40,11 @@
                                 <label>#{texts.edit_users_username}</label>
                                 <br/><br/>
 
-                                <h:inputSecret id="pass1" onkeyup="checkPassPrivate();" class="inputfields" value="#{userBean.password}"/>
+                                <h:inputSecret id="pass1" onkeyup="checkPassPrivate();" class="inputfields" value="#{userBean.password}" required="true" requiredMessage="#{texts.user_reg_password_error}"/>
                                 <label>#{texts.user_password}</label>
                                 <br/><br/>
 
-                                <h:inputSecret id="pass2" onkeyup="checkPassPrivate();" class="inputfields"/>
+                                <h:inputSecret id="pass2" onkeyup="checkPassPrivate();" class="inputfields" required="true" requiredMessage="#{texts.user_reg_password2_error}"/>
                                 <label>#{texts.user_repeatpass}</label><br/>
                             </div>
                             <div class="half_box_right">
@@ -97,11 +97,11 @@
                                 <label>#{texts.edit_users_username}</label>
                                 <br/><br/>
 
-                                <h:inputSecret id="pass3" onkeyup="checkPassCorporate();" class="inputfields" value="#{userBean.password}"/>
+                                <h:inputSecret id="pass3" onkeyup="checkPassCorporate();" class="inputfields" value="#{userBean.password}" required="true" requiredMessage="#{texts.user_reg_password_error}"/>
                                 <label>#{texts.edit_users_password}</label>
                                 <br/><br/>
 
-                                <h:inputSecret id="pass4" onkeyup="checkPassCorporate();" class="inputfields"/>
+                                <h:inputSecret id="pass4" onkeyup="checkPassCorporate();" class="inputfields" required="true" requiredMessage="#{texts.user_reg_password2_error}"/>
                                 <label>#{texts.user_repeatpass}</label><br/>
                                 <br/><br/>
                             </div>
