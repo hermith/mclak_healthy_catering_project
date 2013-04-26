@@ -31,39 +31,49 @@ Contains:
             </ui:define>
 
             <ui:define name="subsite_content">
-                <h:outputText value="#{texts.stats_num_of_orders}"/>:<br/>
-                <h:outputText value="#{statisticsBean.numOfOrders}"/><hr/>
-
-                <h:outputText value="#{texts.stats_total_price_all_orders}"/>:<br/>
-                <h:outputText value="#{statisticsBean.totalPriceAllOrders}"/><hr/>
-
-                <h:outputText value="#{texts.stats_highest_price}" />:<br/>
-                <h:outputText value="#{statisticsBean.highestOrderPrice}"/><hr/>
-
-                <h:outputText value="#{texts.stats_lowest_price}" />:<br/>
-                <h:outputText value="#{statisticsBean.lowestOrderPrice}"/><hr/>
-
-                <h:outputText value="#{texts.stats_average_price}" />:<br/>
-                <h:outputText value="#{statisticsBean.averageOrderPrice}"/><hr/>
-
-                <h:outputText value="#{texts.stats_std_dev_order_price}" />:<br/>
-                <h:outputText value="#{statisticsBean.standardDeviation}"/><hr/>
-                
-                <br/><br/>
                 <h:form id="stat_form">
                     <h:inputHidden id="orderstring" value="#{statisticsBean.allOrdersAsString}"/>
                     <h:inputHidden id="productstring" value="#{statisticsBean.productFrequency}"/>
                 </h:form>
 
-                <div id="graph" style="display: inline-block"></div>
-                <script type="text/javascript">
-                    drawGraph();
-                </script>
-                
-                <div id="chart" style="display: inline-block"></div>
-                <script type="text/javascript">
-                    drawPieChart();
-                </script>
+                <div id="statistics_col_left">
+                    <label>#{texts.stats_num_of_orders}</label>
+                    <h:outputText value="#{statisticsBean.numOfOrders}"
+                                  styleClass="output_stat"/>
+
+                    <label>#{texts.stats_total_price_all_orders}</label>
+                    <h:outputText value="#{statisticsBean.totalPriceAllOrders}"
+                                  styleClass="output_stat"/>
+
+                    <label>#{texts.stats_highest_price}</label>
+                    <h:outputText value="#{statisticsBean.highestOrderPrice}"
+                                  styleClass="output_stat"/>
+                </div>
+                <div id="statistics_col_right">
+                    <label>#{texts.stats_lowest_price}</label>
+                    <h:outputText value="#{statisticsBean.lowestOrderPrice}"
+                                  styleClass="output_stat"/>
+
+                    <label>#{texts.stats_average_price}</label>
+                    <h:outputText value="#{statisticsBean.averageOrderPrice}"
+                                  styleClass="output_stat"/>
+
+                    <label>#{texts.stats_std_dev_order_price}</label>
+                    <h:outputText value="#{statisticsBean.standardDeviation}"
+                                  styleClass="output_stat"/>
+                </div>
+
+                <div id="statistics_graphs">
+                    <div id="graph_price_per_id" class="noko"></div>
+                    <script type="text/javascript">
+                        drawGraph();
+                    </script>
+
+                    <div id="chart_pie_popularity"></div>
+                    <script type="text/javascript">
+                        drawPieChart();
+                    </script>
+                </div>
             </ui:define>
         </ui:composition>
 

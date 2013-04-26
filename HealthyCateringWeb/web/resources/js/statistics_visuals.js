@@ -22,13 +22,14 @@ function drawGraph() {
         myData.push([parseFloat(split[i]), parseFloat(split[i + 1])]);
     }
 
-    var myChart = new JSChart('graph', 'line');
+    var myChart = new JSChart('graph_price_per_id', 'line');
     myChart.setDataArray(myData);
     myChart.setTitleColor('#000000');
     myChart.setAxisNameX('Order IDs');
     myChart.setAxisNameY('Order total price');
     myChart.setPieUnitsColor('#000000');
     myChart.setTitle('Price of orders registered');
+    myChart.setSize(500, 300);
     myChart.draw();
 }
 
@@ -60,13 +61,14 @@ function drawPieChart() {
         colors.push(getRandomColor());
     }
 
-    var myChart = new JSChart('chart', 'pie');
+    var myChart = new JSChart('chart_pie_popularity', 'pie');
     myChart.setDataArray(myData);
     myChart.colorizePie(colors);
     myChart.setTitleColor('#000000');
     myChart.setPieUnitsColor('#9B9B9B');
     myChart.setPieValuesColor('#6A0000');
     myChart.setTitle('Product order frequency');
+    myChart.setSize(500, 300);
     myChart.draw();
 }
 

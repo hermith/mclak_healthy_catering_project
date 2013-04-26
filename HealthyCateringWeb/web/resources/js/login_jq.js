@@ -34,8 +34,10 @@ $(document).ready(function() {
     });
 
     $("#site_opaque").click(function() {
-        $("#top_bar_span_login").slideUp('slow');
-        $("#site_opaque").fadeToggle('slow');
+        if (!loggedIn) {
+            $("#top_bar_span_login").slideUp('slow');
+            $("#site_opaque").fadeToggle('slow');
+        }
     });
 
     $("#forgot_password_link").click(function() {
