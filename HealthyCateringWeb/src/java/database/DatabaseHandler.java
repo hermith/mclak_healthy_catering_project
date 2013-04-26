@@ -31,9 +31,11 @@ import user.User;
  * named, but application scoped and injected only in other application scoped
  * classes.
  *
- * Keep in mind that none of the methods in this class checks the integrity of
- * parameters and such. All null-checks and so forth should be done before
- * passing data to this class no matter what method.
+ * <br><br>Keep in mind that none of the methods in this class checks the
+ * integrity of parameters and such. All null-checks and so forth should be done
+ * before passing data to this class.
+ *
+ * <br><br>Also this class logs
  *
  * @author Christer Olsen
  */
@@ -137,7 +139,7 @@ public class DatabaseHandler {
     private DataSource dataSource;
 
     /**
-     * This constructor initiates the object variable object 'dataSource' by
+     * This constructor initiates the object variable 'dataSource' by
      * looking up the pool name given by the POOL_NAME constant. The constructor
      * also initiates the object variable productsTableChanged to true in order
      * to force the ShoppingHandler class to retrieve the product menu from the
@@ -212,7 +214,9 @@ public class DatabaseHandler {
 
     /**
      * Method used for retrieving all users in the database. The method gets its
-     * data from the User_Table and the User_Role_Table.
+     * data from the User_Table and the User_Role_Table. If an error occurs
+     * during the retrieval of a user the user is skipped and the process
+     * continues.
      *
      * @return An ArrayList containing all User objects.
      */
@@ -253,7 +257,9 @@ public class DatabaseHandler {
 
     /**
      * Method user for inserting a new user into the database. Inserts data into
-     * the User_Table and User_Role_Table.
+     * the User_Table and User_Role_Table. If an error occurs during insertion
+     * the process is aborted and whatever data, if any, that got inserted get
+     * rolled back.
      *
      * @param user The User object representing the user to insert.
      * @return True if the user was successfully inserted, false if not.
@@ -532,8 +538,14 @@ public class DatabaseHandler {
     }
 
     /**
+     * Method used for retrieving all customers stored in the database. The
+     * method uses data in the Customer_Table and either the
+     * Private_Customer_Table or the Corporate_Customer_Table to do this. Also,
+     * if an error occurs while retrieving a customer, the customer is skipped
+     * and the process continues. In other words: as many customers as possible
+     * is retrieved.
      *
-     * @return
+     * @return An ArrayList containing all Customer objects.
      */
     public synchronized ArrayList<Customer> selectCustomers() {
         Connection conn = null;
@@ -570,6 +582,17 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * Method used for inserting a new customer into the database. The method
+     * updates data in the Customer_Table and either the Private_Customer_Table
+     * or the Corporate_Customer_Table. If an error occurs during insertion, the
+     * process is aborted the data data, if any, that got inserted gets rolled
+     * back.
+     *
+     * @param customer The customer to be inserted.
+     * @param username The username of the user connected to this customer.
+     * @return True if the customer was inserted, false if not.
+     */
     public synchronized boolean insertCustomer(Customer customer, String username) {
         Connection conn = null;
         PreparedStatement stm = null;
@@ -618,6 +641,7 @@ public class DatabaseHandler {
                 }
             }
             Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Customer {0} with username {1} NOT registered.", new Object[]{customer, username});
+            rollBack(conn);
             return false;
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Customer " + customer + " with username " + username + " NOT registered.", ex);
@@ -631,6 +655,15 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * Updates information about a customer in the database. The method updates
+     * data in the Customer_Table and either the Private_Customer_Table or the
+     * Corporate_Customer_Table. If an error occurs during insertion, the
+     * process is aborted the data data, if any, that got inserted gets rolled
+     *
+     * @param customer The customer object containing the updated information.
+     * @return True if the information was successfully updated, false if not.
+     */
     public synchronized boolean updateCustomer(Customer customer) {
         Connection conn = null;
         PreparedStatement stm = null;
@@ -694,6 +727,16 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * Method used for updating multiple customers at once. This method uses the
+     * updateCustomer(Customer) method to do this, and therefore it is not
+     * guaranteed that all customers passed gets updated. In other words: this
+     * method doesn't stop if an error occurs. It only skips the the customer
+     * that caused the error continues.
+     *
+     * @param customers The customers to be updated.
+     * @return True if ALL customers was successfully updated, false if not.
+     */
     public synchronized boolean updateCustomers(ArrayList<Customer> customers) {
         int numberOfCustomersUpdated = 0;
         for (Customer customer : customers) {
@@ -710,6 +753,16 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * Method used for retrieving a product from the database with a given
+     * product id. The Method uses data from the Product_Table, and possibly the
+     * Single_Product_Table, the Package_Product_Table and the
+     * Package_Single_Product_Table to do this.
+     *
+     * @param productId the id of the product to retrieve.
+     * @return The product corresponding to the product id. null if the product
+     * id is invalid or and SQLException was thrown.
+     */
     public synchronized Product selectProduct(int productId) {
         Connection conn = null;
         PreparedStatement stm1 = null;
@@ -796,6 +849,14 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * Method used for retrieving all products in the database. The method uses
+     * the selectProduct(int) to do this, and therefore only as many products as
+     * possible is retrieved. If and error occurs during the retrieval of a
+     * product, the product is skipped and the process continues.
+     *
+     * @return An ArrayList containing all products in the database.
+     */
     public synchronized ArrayList<Product> selectProducts() {
         Connection conn = null;
         PreparedStatement stm = null;
@@ -831,6 +892,16 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * Method used for inserting a new product into the database. The method
+     * updates data in the Product_Table, and possibly the Single_Product_Table,
+     * the Package_Product_Table and the Package_Single_Product_Table. If an
+     * error occurs during insertion, the process is aborted and any data
+     * inserted gets rolled back. this.
+     *
+     * @param product The product to be inserted.
+     * @return True if the product was successfully inserted, false if not.
+     */
     public synchronized boolean insertProduct(Product product) {
         Connection conn = null;
         PreparedStatement stm = null;
@@ -918,7 +989,7 @@ public class DatabaseHandler {
                     }
                 }
             }
-            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Failed to insert product {0}.", product);
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Failed to insert product {0}.", product);
             rollBack(conn);
             return false;
         } catch (SQLException ex) {
@@ -933,6 +1004,15 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * Method for inserting multiple products at once. The method uses the
+     * insertProduct(Product) method, and therefore only inserts as many
+     * products as possible. Any products that causes an error during insertion
+     * will be skipped.
+     *
+     * @param products The products to be inserted.
+     * @return true if ALL products got inserted successfully, false if not.
+     */
     public synchronized boolean insertProducts(ArrayList<Product> products) {
         int numberOfProductsInserted = 0;
         for (Product product : products) {
@@ -941,14 +1021,25 @@ public class DatabaseHandler {
             }
         }
         if (numberOfProductsInserted == products.size()) {
-            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Successfully inserted products {0}", products);
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Successfully inserted products {0}", products);
             return true;
         } else {
-            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Failed insert products! Only {0} out of {1} products updated. See glassfish log for details.", new Object[]{numberOfProductsInserted, products.size()});
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Failed insert products! Only {0} out of {1} products updated. See glassfish log for details.", new Object[]{numberOfProductsInserted, products.size()});
             return false;
         }
     }
 
+    /**
+     * Method used for updating a product in the database. The method updates
+     * data in the Product_Table, and possibly the Single_Product_Table, the
+     * Package_Product_Table and the Package_Single_Product_Table. If an error
+     * occurs during insertion, the process is aborted and any data inserted
+     * gets rolled back. this.
+     *
+     * @param product The Product object containing the updated information
+     * about the product.
+     * @return True if the product was updated successfully, false if not.
+     */
     public synchronized boolean updateProduct(Product product) {
         Connection conn = null;
         PreparedStatement stm = null;
@@ -1039,6 +1130,16 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * Method used for updating multiple products at once. The method uses the
+     * updateProduct(Product) method to do this, and therefore only updates as
+     * many products as possible. Any products the causes an error will be
+     * skipped.
+     *
+     * @param products The products to be updated.
+     * @return True if ALL products passed was updated successfully, false if
+     * not.
+     */
     public synchronized boolean updateProducts(ArrayList<Product> products) {
         int numberOfProductsUpdated = 0;
         for (Product product : products) {
@@ -1055,6 +1156,14 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * Method used for only updating whether or not a product is active or not.
+     * The method updates data in the Product_Table only.
+     *
+     * @param active The new status of the product.
+     * @param productId The product id.
+     * @return True if the new status was set successfully, false if not.
+     */
     public synchronized boolean updateProductSetActive(boolean active, int productId) {
         Connection conn = null;
         PreparedStatement stm = null;
@@ -1077,6 +1186,16 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * Method used for retrieving a specific order from the database. The method
+     * uses data from the Order_Table, Order_Product_Table, the Product_Table,
+     * and possibly the Single_Product_Table, the Package_Product_Table and the
+     * Package_Single_Product_Table to do this.
+     *
+     * @param orderId the id of the order to retrieve.
+     * @return An Order object representing the order, or null if the order id
+     * was invalid or if an SQLException was thrown.
+     */
     public synchronized Order selectOrder(int orderId) {
         Connection conn = null;
         PreparedStatement stm = null;
