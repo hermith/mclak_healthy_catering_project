@@ -79,7 +79,6 @@ public class StatisticsHandler {
                 currentLow = o.getPrice();
             }
         }
-
         return currentLow;
     }
 
