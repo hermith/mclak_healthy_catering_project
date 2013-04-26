@@ -35,7 +35,7 @@ public class Order implements Comparable<Order> {
         customerID = -1;
         products = null;
         deliveredDate = null;
-        deliveryDate = null;
+        deliveryDate = new Timestamp(00000);
         delivery = false;
         active = false;
         prepared = false;

@@ -1,6 +1,9 @@
 package info;
 
 import java.sql.Time;
+import java.util.ArrayList;
+import java.util.Date;
+import shopping.product.Product;
 
 /**
  *
@@ -19,15 +22,16 @@ public class Contract {
         order = new Order();
         dayOfWeek = 1;
         active = false;
+        time = new Time(new Date().getTime());
     }
 
     /**
-     * 
+     *
      * @param contractId
      * @param order
      * @param dayOfWeek
      * @param time
-     * @param active 
+     * @param active
      */
     public Contract(int contractId, Order order, int dayOfWeek, Time time, boolean active) {
         this.contractId = contractId;
@@ -84,5 +88,13 @@ public class Contract {
 
     public void setTime(Time time) {
         this.time = time;
+    }
+
+    public void setProducts(ArrayList<Product> products) {
+        this.order.setProducts(products);
+    }
+
+    public void setCustomerId(int id){
+        this.order.setCustomerID(id);
     }
 }

@@ -4,6 +4,7 @@ import info.Contract;
 import info.Order;
 import info.ProductHandler;
 import java.io.Serializable;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -498,10 +499,6 @@ public class ShoppingBean implements Serializable {
         newContract.setDelivery(delivery);
     }
 
-    public ArrayList<Product> getNewContractProducts() {
-        return newContract.getOrder().getProducts();
-    }
-
     public void setNewContractDayOfWeek(int dayOfWeek) {
         newContract.setDayOfWeek(dayOfWeek);
     }
@@ -509,10 +506,39 @@ public class ShoppingBean implements Serializable {
     public int getNewContractDayOfWeek() {
         return newContract.getDayOfWeek();
     }
-    
 
-    public int findQuantityNewContract(Product product) {
-        return productHandler.findQuantity(product, getNewContractProducts());
+    public void setNewContractTime(Date time) {
+        newContract.setTime(new Time(time.getTime()));
+    }
+
+    public Date getNewContractTime() {
+        return newContract.getTime();
+    }
+
+    public void saveNewContract() {
+        if (!shoppingCartIsEmpty()) {
+            if (privateCustomer.getCustomerId() != -1) {
+                newContract.setCustomerId(privateCustomer.getCustomerId());
+            } else if (corporateCustomer.getCustomerId() != -1) {
+                newContract.setCustomerId(corporateCustomer.getCustomerId());
+            }
+            newContract.setProducts(getProducts());
+            if (shoppingHandler.insertContract(newContract)) {
+                shoppingCart = new ShoppingCart();
+                order = new Order();
+                newContract = new Contract();
+                MessageHandler.addErrorMessage("JAAA");
+            }
+        } else {
+        }
+    }
+
+    public ArrayList<Contract> getContracts() {
+        if (privateCustomer.getCustomerId() != -1) {
+            return shoppingHandler.selectContracts(privateCustomer.getCustomerId());
+        } else if (corporateCustomer.getCustomerId() != -1) {
+            return shoppingHandler.selectContracts(corporateCustomer.getCustomerId());
+        }return null;
     }
 
     public int[] getDaysOfWeek() {

@@ -24,26 +24,34 @@ Contains:
 
             <ui:define name="subsite_content">
                 <h:panelGroup styleClass="edit_account_customer" >
-                    <h:dataTable var="product" value="#{shoppingBean.shoppingCartProducts}" >
-                        <h:column>
-                            <f:facet name="header">#{texts.product_name}</f:facet>
-                            #{product.getName(localeHandler.getLang())}
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">#{texts.product_description}</f:facet>
-                            #{product.getDescription(localeHandler.getLang())}
-                        </h:column>
-                        <h:column>
-                            <f:facet name="header">#{texts.product_quantity}</f:facet>
-                            #{shoppingBean.findQuantityProduct(product)}
-                        </h:column>
-                    </h:dataTable>
-                    <label>#{texts.menu_delivery}:</label>
-                    <p:selectBooleanCheckbox value="#{shoppingBean.newContractDelivery}" /><br/>
-                    <label>#{texts.day}:</label>
-                    <h:selectOneMenu value="#{shoppingBean.newContractDayOfWeek}" >
-                        <f:selectItems value="#{shoppingBean.daysOfWeek}" var="day" itemLabel="#{shoppingBean.getDayLocalString(day)}"/>
-                    </h:selectOneMenu>
+                    <h:form>
+                        <h:dataTable var="product" value="#{shoppingBean.shoppingCartProducts}" >
+                            <h:column>
+                                <f:facet name="header">#{texts.product_name}</f:facet>
+                                #{product.getName(localeHandler.getLang())}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">#{texts.product_description}</f:facet>
+                                #{product.getDescription(localeHandler.getLang())}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">#{texts.product_quantity}</f:facet>
+                                #{shoppingBean.findQuantityProduct(product)}
+                            </h:column>
+                        </h:dataTable>
+                        <label>#{texts.menu_delivery}:</label>
+                        <p:selectBooleanCheckbox value="#{shoppingBean.newContractDelivery}" /><br/>
+                        <label>#{texts.day}:</label>
+                        <h:selectOneMenu required="true" value="#{shoppingBean.newContractDayOfWeek}" >
+                            <f:selectItems value="#{shoppingBean.daysOfWeek}" var="day" itemLabel="#{shoppingBean.getDayLocalString(day)}"/>
+                        </h:selectOneMenu><br/>
+                        <label>TIME:</label>
+                        <p:inputText value="#{shoppingBean.newContractTime}" >
+                            <f:convertDateTime pattern="HH:mm" />
+                        </p:inputText><br/>
+                        <h:commandButton styleClass="button_style" value="#{texts.product_save}" />
+                        <p:messages />
+                    </h:form>
                 </h:panelGroup>
             </ui:define>
         </ui:composition>

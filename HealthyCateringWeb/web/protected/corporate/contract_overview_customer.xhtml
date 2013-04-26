@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+
+<!--
+contract_overview_customer.xhtml
+
+Contains:
+    Here the customer can manage contracts.
+
+@author Linn K
+-->
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:body>
+        <ui:composition template="/resources/template/template_master.xhtml">
+            <ui:define name="subsite_header">
+                <h1>#{texts.contracts_title}</h1>
+            </ui:define>
+            
+            <ui:define name="subsite_content">
+                <h:dataTable var="contract" value="#{shoppingBean.contracts}" >
+                    <h:column>
+                        <f:facet name="header"></f:facet>
+                        #{shoppingBean.dayLocalString(contract.dayOfWeek)}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header"></f:facet>
+                        #{contract.time}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header"></f:facet>
+                        #{contract.delivery}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header"></f:facet>
+                    </h:column>
+                </h:dataTable>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

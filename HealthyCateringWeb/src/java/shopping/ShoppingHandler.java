@@ -1,6 +1,7 @@
 package shopping;
 
 import database.DatabaseHandler;
+import info.Contract;
 import info.Order;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -136,5 +137,14 @@ public class ShoppingHandler implements Serializable {
      */
     public ArrayList<Order> getOrderHistory(int customerId) {
         return database.selectOrders(customerId);
+    }
+    
+    public boolean insertContract(Contract contract){
+        return false;
+        //return database.insertContract(contract);
+    }
+    
+    public ArrayList<Contract> selectContracts(int customerId){
+        return null;
     }
 }
