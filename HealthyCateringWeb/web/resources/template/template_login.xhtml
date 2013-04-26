@@ -33,12 +33,12 @@ Contains:
                 rendered="#{!userBean.loggedIn}">
 
             <label>#{texts.login_username}:</label>
-            <h:inputText styleClass="login_input"
+            <p:inputText styleClass="login_input"
                          value="#{userBean.username}"
                          /><br/>
 
             <label>#{texts.login_password}:</label>
-            <h:inputSecret styleClass="login_input"
+            <p:password styleClass="login_input"
                            value="#{userBean.password}"
                            /><br/>
 
@@ -59,12 +59,12 @@ Contains:
 
         <h:form styleClass="forgot_password">
             <label>Epost:</label>
-            <h:inputText styleClass="login_input"
+            <p:inputText styleClass="login_input"
                          value="#{userBean.email}"
                          /><br/>
 
             <label>Brukernavn:</label>
-            <h:inputText styleClass="login_input"
+            <p:inputText styleClass="login_input"
                            value="#{userBean.username}"
                            /><br/>
             <h:panelGroup styleClass="login_buttons_group">
