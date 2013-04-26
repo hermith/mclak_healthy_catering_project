@@ -5,7 +5,7 @@
 package info;
 
 /**
- *
+ * Helper class for dealing with the frequency of orders on a product
  * @author aleksalr
  */
 public class ProductFreq {

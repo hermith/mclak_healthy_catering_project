@@ -114,6 +114,12 @@ public class StatisticsHandler {
         return stdDev;
     }
 
+    /**
+     * Helper method for checking whether an int is contained in an int array
+     * @param check - Int to be checked towards an array
+     * @param array - The array towards which to check whether or not contains the int
+     * @return 
+     */
     public boolean isInArray(int check, int[] array) {
         for (int i : array) {
             if (check == i) {
@@ -123,6 +129,11 @@ public class StatisticsHandler {
         return false;
     }
 
+    /**
+     * Gets the ID's and price of every order registered as a string.
+     * 
+     * @return String containing ID's and price of every order registered.
+     */
     public String getAllOrdersAsString() {
         allorders = dbhandler.selectOrders();
         String so = "";
@@ -138,6 +149,11 @@ public class StatisticsHandler {
         return so;
     }
 
+    /**
+     * Gets product ID's along with how many times each product has been ordered.
+     * 
+     * @return String containing each product ID and frequency of order.
+     */
     public String getProductFrequency() {
         allorders = dbhandler.selectOrders();
         ArrayList<ProductFreq> pf = new ArrayList<ProductFreq>();
