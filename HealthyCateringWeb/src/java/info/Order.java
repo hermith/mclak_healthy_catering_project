@@ -24,6 +24,7 @@ public class Order {
     private Timestamp deliveredDate;
     private boolean delivery;
     private boolean active;
+    private boolean prepared;
 
     /**
      * Standard constructor, initiates all the relevant fields to be set later
@@ -37,6 +38,7 @@ public class Order {
         deliveryDate = null;
         delivery = false;
         active = false;
+        prepared = false;
     }
 
     /**
@@ -59,6 +61,7 @@ public class Order {
         this.deliveredDate = deliveredDate;
         this.delivery = delivery;
         active = false;
+        prepared = false;
     }
 
     /**
@@ -243,6 +246,14 @@ public class Order {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public boolean isPrepared() {
+        return prepared;
+    }
+
+    public void setPrepared(boolean prepared) {
+        this.prepared = prepared;
     }
 
     public static void main(String[] args) {
