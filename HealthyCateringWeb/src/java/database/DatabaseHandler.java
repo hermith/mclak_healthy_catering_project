@@ -1,11 +1,13 @@
 package database;
 
+import info.Contract;
 import info.Order;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -76,10 +78,12 @@ public class DatabaseHandler {
     private static final String STM_UPDATE_ORDER_SET_DATE_DELIVERED = "UPDATE Order_Table SET date_delivered = ? WHERE order_id = ?";
     private static final String STM_UPDATE_ORDER_SET_IS_ACTIVE = "UPDATE Order_Table SET is_active = ? WHERE order_id = ?";
     private static final String STM_DELETE_ORDER_PRODUCTS = "DELTE FROM Order_Product_Table WHERE order_id = ?";
-    private static final String STM_SELECT_CONTRACT_BY_CONTRACT_ID = "SELECT order_id AS order_id, day_of_the_week AS day_of_the_week, is_active AS is_active WHERE contract_id = ?";
-    private static final String STM_SELECT_CONTRACT_BY_CUSTOMER_ID = "SELECT contract_id AS contract_id, day_of_the_week AS day_of_the_week, is_active AS is_active WHERE customer_id = (SELECT customer_id FROM Order_Table WHERE order_id = ?)";
-    private static final String STM_INSERT_CONTRACT = "INSERT INTO Contract_Table(order_id, day_of_the_week, is_active) VALUES(?, ?, ?)";
-    private static final String STM_UPDATE_CONTRACT = "UPDATE Contract_Table SET order_id = ?, day_of_the_week = ?, is_active = ? WHERE contract_id = ?";
+    private static final String STM_DELETE_ORDER = "DELTE FROM Order_Table WHERE order_id = ?";
+    private static final String STM_SELECT_CONTRACT = "SELECT order_id AS order_id, day_of_the_week AS day_of_the_week, is_active AS is_active WHERE contract_id = ?";
+    private static final String STM_SELECT_CONTRACT_IDS = "SELECT contract_id AS contract_id FROM Contract_Table";
+    private static final String STM_SELECT_CONTRACT_IDS_BASED_ON_CUSTOMER_ID = "SELECT contract_id AS contract_id FROM Contract_Table WHERE order_id = (SELECT DISTINCT order_id FROM Order_Table WHERE customer_id = ?)";
+    private static final String STM_INSERT_CONTRACT = "INSERT INTO Contract_Table(order_id, day_of_the_week, time_of_delivery, is_active) VALUES(?, ?, ?, ?)";
+    private static final String STM_UPDATE_CONTRACT = "UPDATE Contract_Table SET order_id = ?, day_of_the_week = ?, time_of_delivery = ?, is_active = ? WHERE contract_id = ?";
     private static final String STM_UPDATE_CONTRACT_SET_IS_ACTIVE = "UPDATE Contract_Table SET is_active = ? WHERE order_id = ?";
     private static final String COLUMN_USERNAME = "username";
     private static final String COLUMN_PASSWORD = "password";
@@ -110,8 +114,9 @@ public class DatabaseHandler {
     private static final String COLUMN_IS_DELIVERY = "is_delivery";
     private static final String COLUMN_IS_ACTIVE = "is_active";
     private static final String COLUMN_IS_PREPARED = "is_prepared";
-    private static final String COLUMN_CONTRACT_ID = "cotract_id";
+    private static final String COLUMN_CONTRACT_ID = "contract_id";
     private static final String COLUMN_DAY_OF_THE_WEEK = "day_of_the_week";
+    private static final String COLUMN_TIME_OF_DELIVERY = "time_of_delivery";
     private boolean productsTableChanged;
     private DataSource dataSource;
 
@@ -354,7 +359,7 @@ public class DatabaseHandler {
                     if (resSet.next()) {
                         String companyName = resSet.getString(COLUMN_COMPANY_NAME);
                         CorporateCustomer corporateCustomer = new CorporateCustomer(customerId, email, address, phoneNumber, zip_code, city, companyName);
-                        Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Corporate customer {0} retrieved.", corporateCustomer);
+                        Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Corporate customer {0} retrieved.", corporateCustomer);
                         return corporateCustomer;
                     }
                 }
@@ -1128,6 +1133,7 @@ public class DatabaseHandler {
                 numberOfRowsUpdated = -1;
                 stm.getGeneratedKeys().next();
                 int orderId = stm.getGeneratedKeys().getInt(1);
+                order.setOrderID(orderId);
                 ArrayList<Product> productsAdded = new ArrayList<Product>();
                 stm = conn.prepareStatement(STM_INSERT_ORDER_PRODUCT);
                 for (Product p : order.getProducts()) {
@@ -1303,7 +1309,7 @@ public class DatabaseHandler {
     public synchronized boolean updateOrders(ArrayList<Order> orders) {
         int numberOfOrdersUpdated = 0;
         for (Order o : orders) {
-            if (insertOrder(o)) {
+            if (updateOrder(o)) {
                 numberOfOrdersUpdated++;
             }
         }
@@ -1334,6 +1340,192 @@ public class DatabaseHandler {
             return false;
         } finally {
             setAutoCommit(conn, true);
+            closeStatement(stm);
+            closeConnection(conn);
+        }
+    }
+
+    public synchronized Contract selectContract(int contractId) {
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet resSet = null;
+        try {
+            conn = dataSource.getConnection();
+            stm = conn.prepareStatement(STM_SELECT_CONTRACT);
+            stm.setInt(1, contractId);
+            resSet = stm.executeQuery();
+            if (resSet.next()) {
+                Order order = selectOrder(resSet.getInt(COLUMN_ORDER_ID));
+                int dayOfWeek = resSet.getInt(COLUMN_DAY_OF_THE_WEEK);
+                Time time = resSet.getTime(COLUMN_TIME_OF_DELIVERY);
+                boolean active = resSet.getBoolean(COLUMN_IS_ACTIVE);
+                Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Successfully retrieved contract with contract id {0}", contractId);
+                return new Contract(contractId, order, dayOfWeek, time, active);
+            }
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Faield to retrieve contract with contract id {0}", contractId);
+            return null;
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Faield to retrieve contract with contract id " + contractId + ".", ex);
+            return null;
+        } finally {
+            closeResultSet(resSet);
+            closeStatement(stm);
+            closeConnection(conn);
+        }
+    }
+
+    public synchronized ArrayList<Contract> selectContracts() {
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet resSet = null;
+        boolean errorEncountered = false;
+        try {
+            conn = dataSource.getConnection();
+            stm = conn.prepareStatement(STM_SELECT_CONTRACT_IDS);
+            resSet = stm.executeQuery();
+            ArrayList<Contract> contracts = new ArrayList<Contract>();
+            while (resSet.next()) {
+                int contractId = resSet.getInt(COLUMN_ORDER_ID);
+                Contract contract = selectContract(contractId);
+                if (contract != null) {
+                    contracts.add(contract);
+                } else {
+                    errorEncountered = true;
+                }
+            }
+            if (errorEncountered) {
+                Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Failed to retrieve ALL contracts. See glashfish log for details.");
+            } else {
+                Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "ALL contracts retrieved successfully.");
+            }
+            return contracts;
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Failed to retrieve ALL contracts.", ex);
+            return null;
+        } finally {
+            closeResultSet(resSet);
+            closeStatement(stm);
+            closeConnection(conn);
+        }
+    }
+
+    public synchronized ArrayList<Contract> selectContracts(int customerId) {
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet resSet = null;
+        boolean errorEncountered = false;
+        try {
+            conn = dataSource.getConnection();
+            stm = conn.prepareStatement(STM_SELECT_CONTRACT_IDS_BASED_ON_CUSTOMER_ID);
+            resSet = stm.executeQuery();
+            ArrayList<Contract> contracts = new ArrayList<Contract>();
+            while (resSet.next()) {
+                int contractId = resSet.getInt(COLUMN_CONTRACT_ID);
+                Contract contract = selectContract(contractId);
+                if (contract != null) {
+                    contracts.add(contract);
+                } else {
+                    errorEncountered = true;
+                }
+            }
+            if (errorEncountered) {
+                Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Failed to retrieve ALL contracts for customer with customer id {0}. See glashfish log for details.", customerId);
+            } else {
+                Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "ALL contracts retrieved successfully for customer with customer id {0}.");
+            }
+            return contracts;
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Failed to retrieve ALL contracts for customer with customer id " + customerId + ".", ex);
+            return null;
+        } finally {
+            closeResultSet(resSet);
+            closeStatement(stm);
+            closeConnection(conn);
+        }
+    }
+
+    public synchronized boolean insertContract(Contract contract) {
+        Connection conn = null;
+        PreparedStatement stm = null;
+        int numberOfRowsUpdated = -1;
+        try {
+            conn = dataSource.getConnection();
+            if (insertOrder(contract.getOrder())) {
+                stm = conn.prepareStatement(STM_INSERT_CONTRACT);
+                stm.setInt(1, contract.getOrder().getOrderID());
+                stm.setInt(2, contract.getDayOfWeek());
+                stm.setTime(3, contract.getTime());
+                stm.setInt(4, ((contract.isActive()) ? 1 : 0));
+                numberOfRowsUpdated = stm.executeUpdate();
+                if (numberOfRowsUpdated == 1) {
+                    Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Successfully inserted contract {0}.", contract);
+                    return true;
+                }
+            }
+            stm = conn.prepareStatement(STM_DELETE_ORDER);
+            stm.setInt(1, contract.getOrder().getOrderID());
+            stm.executeUpdate();
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Failed to insert contract {0}.", contract);
+            return false;
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Failed to insert contract " + contract + ".", ex);
+            return false;
+        } finally {
+            closeStatement(stm);
+            closeConnection(conn);
+        }
+    }
+
+    public synchronized boolean updateContract(Contract contract) {
+        Connection conn = null;
+        PreparedStatement stm = null;
+        int numberOfRowsUpdated = -1;
+        try {
+            conn = dataSource.getConnection();
+            if (updateOrder(contract.getOrder())) {
+                stm = conn.prepareStatement(STM_UPDATE_CONTRACT);
+                stm.setInt(1, contract.getOrder().getOrderID());
+                stm.setInt(2, contract.getDayOfWeek());
+                stm.setTime(3, contract.getTime());
+                stm.setInt(4, ((contract.isActive()) ? 1 : 0));
+                stm.setInt(5, contract.getContractId());
+                numberOfRowsUpdated = stm.executeUpdate();
+                if (numberOfRowsUpdated == 1) {
+                    Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Successfully updated contract {0}.", contract);
+                    return true;
+                }
+            }
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Failed to update contract {0}.", contract);
+            return false;
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Failed to update contract " + contract + ".", ex);
+            return false;
+        } finally {
+            closeStatement(stm);
+            closeConnection(conn);
+        }
+    }
+
+    public synchronized boolean updateContractSetActive(boolean active, int contractId) {
+        Connection conn = null;
+        PreparedStatement stm = null;
+        int numberOfRowsUpdated = -1;
+        try {
+            conn = dataSource.getConnection();
+            stm = conn.prepareStatement(STM_UPDATE_CONTRACT_SET_IS_ACTIVE);
+            stm.setInt(1, ((active) ? 1 : 0));
+            stm.setInt(2, contractId);
+            numberOfRowsUpdated = stm.executeUpdate();
+            if (numberOfRowsUpdated == 1) {
+                Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Successfully set new status for contract with contract id {0} to {1}.", new Object[]{contractId, active});
+                return true;
+            }
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Failed to set new status for contract with contract id {0} to {1}.", new Object[]{contractId, active});
+            return false;
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Successfully set new status for contract with contract id" + contractId + " to " + active + ".", ex);
+            return false;
+        } finally {
             closeStatement(stm);
             closeConnection(conn);
         }
