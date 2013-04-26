@@ -125,7 +125,7 @@ public class StatisticsHandler {
         int index;
 
         for (Order o : allorders) {
-            idString = o.getProductIds();
+            idString = o.getProductIdsWithCommaSeparator();
             idArrayString = idString.split(",");
 
             for (int i = 0; i < idArrayString.length; i++) {

@@ -82,7 +82,7 @@ public class Order {
     }
 
     /**
-     * Gets all the IDs of the products as a string, seperated with ", ", but
+     * Gets all the IDs of the products as a string, separated with ", ", but
      * grouped by id with count.
      *
      * @return All product IDs
@@ -101,6 +101,21 @@ public class Order {
         StringBuilder b = new StringBuilder();
         for (String s : keys.keySet()) {
             b.append(keys.get(s)).append((char) 215).append(s).append(", ");
+        }
+        b.delete(b.length() - 2, b.length());
+        return b.toString();
+    }
+
+    /**
+     * Gets all the IDs of the products as a string, separated with ", ", but
+     * grouped by id with count.
+     *
+     * @return All product IDs
+     */
+    public String getProductIdsWithCommaSeparator() {
+        StringBuilder b = new StringBuilder();
+        for (Product p : products) {
+            b.append(p.getId()).append(", ");
         }
         b.delete(b.length() - 2, b.length());
         return b.toString();
