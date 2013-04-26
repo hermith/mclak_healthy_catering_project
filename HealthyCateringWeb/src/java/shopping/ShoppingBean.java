@@ -5,6 +5,7 @@ import info.Order;
 import info.ProductHandler;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -466,10 +467,10 @@ public class ShoppingBean implements Serializable {
     }
 
     /**
-     * Calls findQuantity(product, selectedOrder.getProducts()).
+     * Calls findQuantity(product, getProducts()).
      *
      * @param product
-     * @return quantity of the current product in the selectedOrder->productlist
+     * @return quantity of the current product in the shoppingCart
      */
     public int findQuantityProduct(Product product) {
         if (product != null) {
@@ -501,5 +502,21 @@ public class ShoppingBean implements Serializable {
 
     public ArrayList<Product> getNewContractProducts() {
         return newContract.getOrder().getProducts();
+    }
+
+    public int findQuantityNewContract(Product product) {
+        return productHandler.findQuantity(product, getNewContractProducts());
+    }
+
+    public int[] getDaysOfWeek() {
+        int days[] = new int[7];
+        days[0] = Calendar.SUNDAY;
+        days[1] = Calendar.MONDAY;
+        days[2] = Calendar.TUESDAY;
+        days[3] = Calendar.WEDNESDAY;
+        days[4] = Calendar.THURSDAY;
+        days[5] = Calendar.FRIDAY;
+        days[6] = Calendar.SATURDAY;
+        return days;
     }
 }
