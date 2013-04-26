@@ -20,6 +20,9 @@ public class ProductFreq {
         this.frequency = frequency;
     }
 
+    /*
+     * Getters and setters
+     */
     public int getId() {
         return id;
     }
