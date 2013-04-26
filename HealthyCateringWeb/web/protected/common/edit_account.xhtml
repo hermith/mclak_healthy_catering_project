@@ -35,52 +35,52 @@ Contains:
                         <!--Only corporate-->
                         <h:panelGroup rendered="#{userBean.loggedInAsCorporateCustomer}">
                             <label>#{texts.edit_account_company_name}:</label>
-                            <h:inputText value="#{shoppingBean.companyName}"/>
+                            <p:inputText value="#{shoppingBean.companyName}"/>
                             <br/>
                             <label>#{texts.edit_account_address}:</label>
-                            <h:inputText value="#{shoppingBean.corporateAddress}"/>
+                            <p:inputText value="#{shoppingBean.corporateAddress}"/>
                             <br/>
                             <label>#{texts.edit_account_zipcode}:</label>
-                            <h:inputText value="#{shoppingBean.corporateZipCode}"/>
+                            <p:inputText value="#{shoppingBean.corporateZipCode}"/>
                             <br/>
                             <label>#{texts.edit_account_city}:</label>
-                            <h:inputText value="#{shoppingBean.corporateCity}"/>
+                            <p:inputText value="#{shoppingBean.corporateCity}"/>
                             <br/>
                             <label>#{texts.edit_account_phone}:</label>
-                            <h:inputText value="#{shoppingBean.corporatePhoneNumber}"/>
+                            <p:inputText value="#{shoppingBean.corporatePhoneNumber}"/>
                             <br/>
                             <label>#{texts.edit_account_email}:</label>
-                            <h:inputText id="edit_account_email1" value="#{shoppingBean.corporateEmail}">
+                            <p:inputText id="edit_account_email1" value="#{shoppingBean.corporateEmail}">
                                 <f:validator validatorId="EmailValidator"/>
-                            </h:inputText>
+                            </p:inputText>
                             <br/><br/>
                         </h:panelGroup>
                         <!--Only private-->
                         <h:panelGroup rendered="#{userBean.loggedInAsPrivateCustomer}">
                             <label>#{texts.edit_account_firstname}:</label>
-                            <h:inputText value="#{shoppingBean.firstName}"/>
+                            <p:inputText value="#{shoppingBean.firstName}"/>
                             <br/>
                             <label>#{texts.edit_account_lastname}:</label>
-                            <h:inputText value="#{shoppingBean.lastName}"/>
+                            <p:inputText value="#{shoppingBean.lastName}"/>
                             <br/>
                             <label>#{texts.edit_account_address}:</label>
-                            <h:inputText value="#{shoppingBean.privateAddress}"/>
+                            <p:inputText value="#{shoppingBean.privateAddress}"/>
                             <br/>
                             <label>#{texts.edit_account_zipcode}:</label>
-                            <h:inputText value="#{shoppingBean.privateZipCode}"/>
+                            <p:inputText value="#{shoppingBean.privateZipCode}"/>
                             <br/>
                             <label>#{texts.edit_account_city}:</label>
-                            <h:inputText value="#{shoppingBean.privateCity}"/>
+                            <p:inputText value="#{shoppingBean.privateCity}"/>
                             <br/>
                             <label>#{texts.edit_account_phone}:</label>
-                            <h:inputText value="#{shoppingBean.privatePhoneNumber}">
+                            <p:inputText value="#{shoppingBean.privatePhoneNumber}">
                                 <f:validator validatorId="PhoneNumberValidator" />
-                            </h:inputText>
+                            </p:inputText>
                             <br/>
                             <label>#{texts.edit_account_email}:</label>
-                            <h:inputText id="edit_account_email" value="#{shoppingBean.privateEmail}">
+                            <p:inputText id="edit_account_email" value="#{shoppingBean.privateEmail}">
                                 <f:validator validatorId="EmailValidator"/>
-                            </h:inputText>
+                            </p:inputText>
                             <br/>
                             <p:messages for="edit_account_email"/>
                             <p:messages for="edit_account_email1"/>
@@ -96,13 +96,13 @@ Contains:
                     <h3>#{texts.edit_account_change_password}</h3>
                     <h:panelGroup styleClass="edit_account_employee">
                         <label>#{texts.edit_account_old_password}:</label>
-                        <h:inputSecret value="#{userBean.password}" id="edit_account_old_pw" required="true" requiredMessage="#{error.login_required_password}"/>
+                        <p:password value="#{userBean.password}" id="edit_account_old_pw" required="true" requiredMessage="#{error.login_required_password}"/>
                         <br/>
                         <label>#{texts.edit_account_new_password}:</label>
-                        <h:inputSecret value="#{userBean.newPassword}" required="true" id="newPassword" requiredMessage="#{error.edit_account_required}" />
+                        <p:password value="#{userBean.newPassword}" required="true" id="newPassword" requiredMessage="#{error.edit_account_required}" />
                         <br/>
                         <label>#{texts.edit_account_repeat_password}:</label>
-                        <h:inputSecret required="true" requiredMessage="#{error.edit_account_required}" id="newPassword1"/>
+                        <p:password required="true" requiredMessage="#{error.edit_account_required}" id="newPassword1"/>
                         <br/>
                         <h:inputHidden id="msg" validator="PasswordValidator" value="needed" />
 

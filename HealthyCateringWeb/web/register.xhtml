@@ -28,48 +28,48 @@
                         <fieldset>
                             <legend>#{texts.create_priv_user}</legend>
                             <div class="half_box_left">
-                                <h:inputText class="inputfields" value="#{shoppingBean.firstName}" required="true" requiredMessage="#{texts.user_reg_firstname_error}"/>
+                                <p:inputText value="#{shoppingBean.firstName}" required="true" requiredMessage="#{texts.user_reg_firstname_error}"/>
                                 <label>#{texts.edit_account_firstname}</label>
                                 <br/><br/>
 
-                                <h:inputText class="inputfields" value="#{shoppingBean.lastName}" required="true" requiredMessage="#{texts.user_reg_lastname_error}"/>
+                                <p:inputText value="#{shoppingBean.lastName}" required="true" requiredMessage="#{texts.user_reg_lastname_error}"/>
                                 <label>#{texts.edit_account_lastname}</label>
                                 <br/><br/>
 
-                                <h:inputText class="inputfields" value="#{userBean.username}" required="true" requiredMessage="#{texts.user_reg_username_error}"/>
+                                <p:inputText value="#{userBean.username}" required="true" requiredMessage="#{texts.user_reg_username_error}"/>
                                 <label>#{texts.edit_users_username}</label>
                                 <br/><br/>
 
-                                <h:inputSecret id="pass1" onkeyup="checkPassPrivate();" class="inputfields" value="#{userBean.password}" required="true" requiredMessage="#{texts.user_reg_password_error}"/>
+                                <p:password id="pass1" onkeyup="checkPassPrivate();" value="#{userBean.password}" required="true" requiredMessage="#{texts.user_reg_password_error}"/>
                                 <label>#{texts.user_password}</label>
                                 <br/><br/>
 
-                                <h:inputSecret id="pass2" onkeyup="checkPassPrivate();" class="inputfields" required="true" requiredMessage="#{texts.user_reg_password2_error}"/>
+                                <p:password id="pass2" onkeyup="checkPassPrivate();" required="true" requiredMessage="#{texts.user_reg_password2_error}"/>
                                 <label>#{texts.user_repeatpass}</label><br/>
                             </div>
                             <div class="half_box_right">
 
-                                <h:inputText  class="inputfields" value="#{userBean.email}" required="true" requiredMessage="#{texts.user_reg_email_error}">
+                                <p:inputText  value="#{userBean.email}" required="true" requiredMessage="#{texts.user_reg_email_error}">
                                     <f:validator validatorId="EmailValidator"/>
-                                </h:inputText>
+                                </p:inputText>
                                 <label>#{texts.edit_account_email}</label>
                                 <br/><br/>
 
-                                <h:inputText class="inputfields" value="#{shoppingBean.privateAddress}" required="true" requiredMessage="#{texts.user_reg_address_error}"/>
+                                <p:inputText value="#{shoppingBean.privateAddress}" required="true" requiredMessage="#{texts.user_reg_address_error}"/>
                                 <label>#{texts.edit_account_address}</label>
                                 <br/><br/>
 
-                                <h:inputText class="inputfields" value="#{shoppingBean.privateZipCode}" required="true" requiredMessage="#{texts.user_reg_zip_error}">
+                                <p:inputText value="#{shoppingBean.privateZipCode}" required="true" requiredMessage="#{texts.user_reg_zip_error}">
                                     <f:validator validatorId="ZipCodeValidator"/>
-                                </h:inputText>
+                                </p:inputText>
                                 <label>#{texts.edit_account_zipcode}</label>
                                 <br/><br/>
 
-                                <h:inputText class="inputfields" value="#{shoppingBean.privateCity}" required="true" requiredMessage="#{texts.user_reg_city_error}"/>
+                                <p:inputText value="#{shoppingBean.privateCity}" required="true" requiredMessage="#{texts.user_reg_city_error}"/>
                                 <label>#{texts.edit_account_city}</label>
                                 <br/><br/>
 
-                                <h:inputText class="inputfields" value="#{shoppingBean.privatePhoneNumber}" required="true" requiredMessage="#{texts.user_reg_phone_error}"/>
+                                <p:inputText value="#{shoppingBean.privatePhoneNumber}" required="true" requiredMessage="#{texts.user_reg_phone_error}"/>
                                 <label>#{texts.edit_account_phone}</label>
                                 <br/><br/>
 
@@ -89,43 +89,43 @@
                         <fieldset>
                             <legend>#{texts.create_corp_user}</legend>
                             <div class="half_box_left">
-                                <h:inputText class="inputfields" value="#{shoppingBean.companyName}" required="true" requiredMessage="#{texts.user_reg_company_error}"/>
+                                <p:inputText value="#{shoppingBean.companyName}" required="true" requiredMessage="#{texts.user_reg_company_error}"/>
                                 <label>#{texts.edit_account_company_name}</label>
                                 <br/><br/>
 
-                                <h:inputText class="inputfields" value="#{userBean.username}" required="true" requiredMessage="#{texts.user_reg_username_error}"/>
+                                <p:inputText value="#{userBean.username}" required="true" requiredMessage="#{texts.user_reg_username_error}"/>
                                 <label>#{texts.edit_users_username}</label>
                                 <br/><br/>
 
-                                <h:inputSecret id="pass3" onkeyup="checkPassCorporate();" class="inputfields" value="#{userBean.password}" required="true" requiredMessage="#{texts.user_reg_password_error}"/>
+                                <p:password id="pass3" onkeyup="checkPassCorporate();" value="#{userBean.password}" required="true" requiredMessage="#{texts.user_reg_password_error}"/>
                                 <label>#{texts.edit_users_password}</label>
                                 <br/><br/>
 
-                                <h:inputSecret id="pass4" onkeyup="checkPassCorporate();" class="inputfields" required="true" requiredMessage="#{texts.user_reg_password2_error}"/>
+                                <p:password id="pass4" onkeyup="checkPassCorporate();" required="true" requiredMessage="#{texts.user_reg_password2_error}"/>
                                 <label>#{texts.user_repeatpass}</label><br/>
                                 <br/><br/>
                             </div>
 
                             <div class="half_box_right">
-                                <h:inputText class="inputfields" value="#{userBean.email}" required="true" requiredMessage="#{texts.user_reg_email_error}"/>
+                                <p:inputText value="#{userBean.email}" required="true" requiredMessage="#{texts.user_reg_email_error}"/>
                                 <label>#{texts.edit_account_email}</label>
                                 <br/><br/>
 
-                                <h:inputText class="inputfields" value="#{shoppingBean.corporateAddress}" required="true" requiredMessage="#{texts.user_reg_address_error}"/>
+                                <p:inputText value="#{shoppingBean.corporateAddress}" required="true" requiredMessage="#{texts.user_reg_address_error}"/>
                                 <label>#{texts.edit_account_address}</label>
                                 <br/><br/>
 
-                                <h:inputText class="inputfields" value="#{shoppingBean.corporateZipCode}" required="true" requiredMessage="#{texts.user_reg_zip_error}">
+                                <p:inputText value="#{shoppingBean.corporateZipCode}" required="true" requiredMessage="#{texts.user_reg_zip_error}">
                                     <f:validator validatorId="ZipCodeValidator"/>
-                                </h:inputText>
+                                </p:inputText>
                                 <label>#{texts.edit_account_zipcode}</label>
                                 <br/><br/>
 
-                                <h:inputText class="inputfields" value="#{shoppingBean.corporateCity}" required="true" requiredMessage="#{texts.user_reg_city_error}"/>
+                                <p:inputText value="#{shoppingBean.corporateCity}" required="true" requiredMessage="#{texts.user_reg_city_error}"/>
                                 <label>#{texts.edit_account_city}</label>
                                 <br/><br/>
 
-                                <h:inputText class="inputfields" value="#{shoppingBean.corporatePhoneNumber}" required="true" requiredMessage="#{texts.user_reg_phone_error}"/>
+                                <p:inputText value="#{shoppingBean.corporatePhoneNumber}" required="true" requiredMessage="#{texts.user_reg_phone_error}"/>
                                 <label>#{texts.edit_account_phone}</label>
                                 <br/><br/>
                             </div>

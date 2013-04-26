@@ -79,26 +79,26 @@ Contains:
                                 <label>#{texts.product_id}</label>
                                 <h:outputText value="#{productBean.productID}" /><br/>
                                 <label>#{texts.product_active}:</label><h:selectBooleanCheckbox value="#{productBean.productActive}" /><br/>
-                                <label>#{texts.product_name_no}: </label><h:inputText required="true" requiredMessage="#{error.product_required_name}" value="#{productBean.productNameNo}" /><br/>
-                                <label>#{texts.product_name_en}: </label><h:inputText required="true" requiredMessage="#{error.product_required_name}" value="#{productBean.productNameEn}" /><br/>
-                                <label>#{texts.product_desc_no}: </label><h:inputText required="true" requiredMessage="#{error.product_required_desc}" value="#{productBean.productDescriptionNo}" /><br/>
-                                <label>#{texts.product_desc_en}: </label><h:inputText required="true" requiredMessage="#{error.product_required_desc}" value="#{productBean.productDescriptionEn}" /><br/>
+                                <label>#{texts.product_name_no}: </label><p:inputText required="true" requiredMessage="#{error.product_required_name}" value="#{productBean.productNameNo}" /><br/>
+                                <label>#{texts.product_name_en}: </label><p:inputText required="true" requiredMessage="#{error.product_required_name}" value="#{productBean.productNameEn}" /><br/>
+                                <label>#{texts.product_desc_no}: </label><p:inputText required="true" requiredMessage="#{error.product_required_desc}" value="#{productBean.productDescriptionNo}" /><br/>
+                                <label>#{texts.product_desc_en}: </label><p:inputText required="true" requiredMessage="#{error.product_required_desc}" value="#{productBean.productDescriptionEn}" /><br/>
 
                                 <!--SingleProduct only-->
                                 <h:panelGroup rendered="#{productBean.selectedIsSingleProduct()}">
                                     <label>#{texts.product_kcal}: </label>
-                                    <h:inputText requiredMessage="#{error.product_required_KCAL}" required="true" value="#{productBean.productKCAL}" converterMessage="#{error.product_validate_kcal}" >
+                                    <p:inputText requiredMessage="#{error.product_required_KCAL}" required="true" value="#{productBean.productKCAL}" converterMessage="#{error.product_validate_kcal}" >
                                         <f:convertNumber integerOnly="true" />
-                                    </h:inputText><br/>
+                                    </p:inputText><br/>
                                     <label>#{texts.product_price}: </label>
-                                    <h:inputText required="true" requiredMessage="#{error.product_required_pris}" value="#{productBean.productPrice}" converterMessage="#{error.product_validate_price}" >
-                                    </h:inputText><br/>
+                                    <p:inputText required="true" requiredMessage="#{error.product_required_pris}" value="#{productBean.productPrice}" converterMessage="#{error.product_validate_price}" >
+                                    </p:inputText><br/>
                                 </h:panelGroup>
 
                                 <!--PackageProduct only-->
                                 <h:panelGroup rendered="#{!productBean.selectedIsSingleProduct()}" >
                                     <label>#{texts.product_discount}</label>
-                                    <h:inputText required="true" 
+                                    <p:inputText required="true" 
                                                  requiredMessage="#{error.product_required_discount}" 
                                                  value="#{productBean.productDiscount}" /><br/>
                                     <label>#{texts.menu_total}: </label>
@@ -162,12 +162,12 @@ Contains:
                             <div id="add_product_single">
                                 <h:panelGroup rendered="#{productBean.newProductIsSingle}" styleClass="edit_account_employee">
                                     <label>#{texts.product_active}</label><h:selectBooleanCheckbox value="#{productBean.newProductActive}" /><br/>
-                                    <label>#{texts.product_name_no}: </label><h:inputText value="#{productBean.newProductNameNo}" required="true" requiredMessage="#{error.product_required_name}" /><br/>
-                                    <label>#{texts.product_name_en}: </label><h:inputText value="#{productBean.newProductNameEn}" required="true" requiredMessage="#{error.product_required_name}" /><br/>
-                                    <label>#{texts.product_desc_no}: </label><h:inputText value="#{productBean.newProductDescriptionNo}" required="true" requiredMessage="#{error.product_required_desc}" /><br/>
-                                    <label>#{texts.product_desc_en}: </label><h:inputText value="#{productBean.newProductDescriptionEn}" required="true" requiredMessage="#{error.product_required_desc}" /><br/>
-                                    <label>#{texts.product_kcal}:</label><h:inputText value="#{productBean.newProductKCAL}" required="true" requiredMessage="#{error.product_required_KCAL}" converterMessage="#{error.product_validate_kcal}" /><br/>
-                                    <label>#{texts.product_price}:</label><h:inputText value="#{productBean.newProductPrice}" required="true" requiredMessage="#{error.product_required_pris}" converterMessage="#{error.product_validate_price}" /><br/>
+                                    <label>#{texts.product_name_no}: </label><p:inputText value="#{productBean.newProductNameNo}" required="true" requiredMessage="#{error.product_required_name}" /><br/>
+                                    <label>#{texts.product_name_en}: </label><p:inputText value="#{productBean.newProductNameEn}" required="true" requiredMessage="#{error.product_required_name}" /><br/>
+                                    <label>#{texts.product_desc_no}: </label><p:inputText value="#{productBean.newProductDescriptionNo}" required="true" requiredMessage="#{error.product_required_desc}" /><br/>
+                                    <label>#{texts.product_desc_en}: </label><p:inputText value="#{productBean.newProductDescriptionEn}" required="true" requiredMessage="#{error.product_required_desc}" /><br/>
+                                    <label>#{texts.product_kcal}:</label><p:inputText value="#{productBean.newProductKCAL}" required="true" requiredMessage="#{error.product_required_KCAL}" converterMessage="#{error.product_validate_kcal}" /><br/>
+                                    <label>#{texts.product_price}:</label><p:inputText value="#{productBean.newProductPrice}" required="true" requiredMessage="#{error.product_required_pris}" converterMessage="#{error.product_validate_price}" /><br/>
                                     <h:commandButton styleClass="button_style" value="#{texts.product_add}" action="#{productBean.addNewProduct()}" />
                                     <p:messages />
                                 </h:panelGroup>
@@ -177,12 +177,12 @@ Contains:
                             <div id="add_product_package">
                                 <h:panelGroup rendered="#{!productBean.newProductIsSingle}" styleClass="edit_account_employee">
                                     <label>#{texts.product_active}</label><h:selectBooleanCheckbox value="#{productBean.newProductActive}" /><br/>
-                                    <label>#{texts.product_name_no}: </label><h:inputText value="#{productBean.newProductNameNo}" required="true" requiredMessage="#{error.product_required_name}" /><br/>
-                                    <label>#{texts.product_name_en}: </label><h:inputText value="#{productBean.newProductNameEn}" required="true" requiredMessage="#{error.product_required_name}" /><br/>
-                                    <label>#{texts.product_desc_no}: </label><h:inputText value="#{productBean.newProductDescriptionNo}" required="true" requiredMessage="#{error.product_required_desc}" /><br/>
-                                    <label>#{texts.product_desc_en}: </label><h:inputText value="#{productBean.newProductDescriptionEn}" required="true" requiredMessage="#{error.product_required_desc}" /><br/>
+                                    <label>#{texts.product_name_no}: </label><p:inputText value="#{productBean.newProductNameNo}" required="true" requiredMessage="#{error.product_required_name}" /><br/>
+                                    <label>#{texts.product_name_en}: </label><p:inputText value="#{productBean.newProductNameEn}" required="true" requiredMessage="#{error.product_required_name}" /><br/>
+                                    <label>#{texts.product_desc_no}: </label><p:inputText value="#{productBean.newProductDescriptionNo}" required="true" requiredMessage="#{error.product_required_desc}" /><br/>
+                                    <label>#{texts.product_desc_en}: </label><p:inputText value="#{productBean.newProductDescriptionEn}" required="true" requiredMessage="#{error.product_required_desc}" /><br/>
                                     <label>#{texts.product_discount}:</label>
-                                    <h:inputText value="#{productBean.newProductDiscount}" 
+                                    <p:inputText value="#{productBean.newProductDiscount}" 
                                                  required="true" 
                                                  requiredMessage="#{error.product_required_discount}" /><br/>
                                     <label>#{texts.menu_total}: </label>

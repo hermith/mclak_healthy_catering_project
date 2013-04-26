@@ -30,14 +30,14 @@ Contains:
 
             <ui:define name="subsite_content">
                 <h:form id="create_account_system_form">
-                    <label>Username</label><h:inputText value="#{userBean.dummyUsername}"
+                    <label>Username</label><p:inputText value="#{userBean.dummyUsername}"
                                                         required="true"
                                                         requiredMessage="#{error.login_required_username}"/><br/>
-                    <label>Email</label><h:inputText value="#{userBean.dummyEmail}"
+                    <label>Email</label><p:inputText value="#{userBean.dummyEmail}"
                                                      required="true"
                                                      requiredMessage="#{error.login_required_email}">
                         <f:validator validatorId="EmailValidator" />
-                    </h:inputText><br/>
+                    </p:inputText><br/>
                     <label>Role</label>
                     <h:selectOneRadio id="create_account_system_radio"
                                       value="#{userBean.dummyRoleId}">

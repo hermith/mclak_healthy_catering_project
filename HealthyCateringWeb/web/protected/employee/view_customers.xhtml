@@ -92,42 +92,42 @@ Contains:
                             <!--Only private-->
                             <h:panelGroup rendered="#{infoBean.selectedLoggedInAsPrivate()}" styleClass="edit_account_employee">
                                 <label>#{texts.edit_account_firstname}</label>
-                                <h:inputText value="#{infoBean.firstName}" />
+                                <p:inputText value="#{infoBean.firstName}" />
                                 <br/>
                                 <label>#{texts.edit_account_lastname}</label>
-                                <h:inputText value="#{infoBean.lastName}" />
+                                <p:inputText value="#{infoBean.lastName}" />
                                 <br/>
                             </h:panelGroup>
                             
                             <!--Only corporate-->
                             <h:panelGroup rendered="#{!infoBean.selectedLoggedInAsPrivate()}" styleClass="edit_account_employee">
                                 <label>#{texts.edit_account_company_name}</label>
-                                <h:inputText value="#{infoBean.companyName}" />
+                                <p:inputText value="#{infoBean.companyName}" />
                                 <br/>
                             </h:panelGroup>
                             
                             <!--Both; private and corporate-->
                             <h:panelGroup styleClass="edit_account_employee">
                                 <label>#{texts.edit_account_email}</label>
-                                <h:inputText value="#{infoBean.email}" >
+                                <p:inputText value="#{infoBean.email}" >
                                     <f:validator validatorId="EmailValidator"/>
-                                </h:inputText>
+                                </p:inputText>
                                 <br/>
                                 <label>#{texts.edit_account_address}</label>
-                                <h:inputText value="#{infoBean.address}" />
+                                <p:inputText value="#{infoBean.address}" />
                                 <br/>
                                 <label>#{texts.edit_account_zipcode}</label>
-                                <h:inputText value="#{infoBean.zipCode}" >
+                                <p:inputText value="#{infoBean.zipCode}" >
                                     <f:validator validatorId="ZipCodeValidator"/>
-                                </h:inputText>
+                                </p:inputText>
                                 <br/>
                                 <label>#{texts.edit_account_city}</label>
-                                <h:inputText value="#{infoBean.city}" />
+                                <p:inputText value="#{infoBean.city}" />
                                 <br/>
                                 <label>#{texts.edit_account_phone}</label>
-                                <h:inputText value="#{infoBean.phoneNumber}" >
+                                <p:inputText value="#{infoBean.phoneNumber}" >
                                     <f:validator validatorId="PhoneNumberValidator" />
-                                </h:inputText>
+                                </p:inputText>
                                 <br/><br/>
                             </h:panelGroup>
                             <h:commandButton styleClass="button_style" action="#{infoBean.saveChangesCustomer()}" value="#{texts.edit_account_save_changes}" />

@@ -54,9 +54,9 @@ Contains:
 
                     <!--Choose delivery date-->
                     <h:outputText value="#{texts.menu_deliveryDate} (dd/MM/yyyy HH:mm): " />
-                    <h:inputText converterMessage="#{error.order_date_incorrect}" required="true" requiredMessage="#{error.order_required_date}" value="#{shoppingBean.deliveryDate}" >
+                    <p:inputText converterMessage="#{error.order_date_incorrect}" required="true" requiredMessage="#{error.order_required_date}" value="#{shoppingBean.deliveryDate}" >
                         <f:convertDateTime pattern="dd/MM/yyyy HH:mm" dateStyle="short" />
-                    </h:inputText>
+                    </p:inputText>
 
                     <p:messages /><br/><br/>
                     <h:commandButton value="#{texts.menu_place_order}" action="#{shoppingBean.placeOrder()}" styleClass="button_style"/>
