@@ -49,7 +49,7 @@ Contains:
                         <p:inputText value="#{shoppingBean.newContractTime}" >
                             <f:convertDateTime pattern="HH:mm" />
                         </p:inputText><br/>
-                        <h:commandButton styleClass="button_style" value="#{texts.product_save}" />
+                        <h:commandButton action="#{shoppingBean.saveNewContract()}" styleClass="button_style" value="#{texts.product_save}" />
                         <p:messages />
                     </h:form>
                 </h:panelGroup>

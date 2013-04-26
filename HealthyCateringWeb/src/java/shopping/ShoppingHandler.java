@@ -139,12 +139,15 @@ public class ShoppingHandler implements Serializable {
         return database.selectOrders(customerId);
     }
     
+    public boolean updateContractSetActive(boolean active, int contractId){
+        return database.updateContractSetActive(true, contractId);
+    }
+    
     public boolean insertContract(Contract contract){
-        return false;
-        //return database.insertContract(contract);
+        return database.insertContract(contract);
     }
     
     public ArrayList<Contract> selectContracts(int customerId){
-        return null;
+        return database.selectContracts(customerId);
     }
 }

@@ -1,6 +1,7 @@
 package info;
 
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import shopping.product.Product;
@@ -96,5 +97,9 @@ public class Contract {
 
     public void setCustomerId(int id){
         this.order.setCustomerID(id);
+    }
+    
+    public void setPlacedDate(Timestamp date) {
+        order.setPlacedDate(date);
     }
 }

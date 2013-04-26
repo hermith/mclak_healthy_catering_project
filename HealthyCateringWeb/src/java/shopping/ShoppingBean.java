@@ -5,6 +5,7 @@ import info.Order;
 import info.ProductHandler;
 import java.io.Serializable;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -523,6 +524,8 @@ public class ShoppingBean implements Serializable {
                 newContract.setCustomerId(corporateCustomer.getCustomerId());
             }
             newContract.setProducts(getProducts());
+            newContract.setPlacedDate(new Timestamp(new Date().getTime()));
+            newContract.setActive(true);
             if (shoppingHandler.insertContract(newContract)) {
                 shoppingCart = new ShoppingCart();
                 order = new Order();
