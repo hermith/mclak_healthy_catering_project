@@ -13,6 +13,19 @@
             font-size: 22px;
             font-weight: bold;
         }
+
+        .unprepared_order, .prepared_order {
+            padding: 4px;
+            border-radius: 4px;
+        }
+
+        .unprepared_order {
+            background-color: lightcoral;
+        }
+
+        .prepared_order {
+            background-color: #33ff33;
+        }
     </style>
 
     <pm:page title="HealthyCatering Mobile Employees">
@@ -29,22 +42,27 @@
 
             <pm:content>
                 <p:dataList value="#{infoBean.activeOrders}" var="order">
+                    <h:panelGroup rendered="#{order.prepared}"
+                                  styleClass="prepared_order">
+                        Ready for pickup
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{!order.prepared}"
+                                  styleClass="unprepared_order">
+                        Not prepared
+                    </h:panelGroup>
                     <p:panel collapsed="true"
-                             header="OrderID: #{order.orderID}, delivery on: #{order.deliveryDateAsString}">
+                             header="ID: #{order.orderID}, delivery on: #{order.deliveryDateAsString}">
                         <div style="display: inline-block; width: 63%;">
                             #{infoBean.getCustomer(order.getCustomerID()).getDriverInformation()}
                         </div>
                         <h:form class="ui-btn-right" style="width: 35%;">
                             <h:commandButton value="Done"
+                                             rendered="#{order.prepared}"
                                              action="#{infoBean.markOrderAsDelivered(order.getOrderID())}"/>
                         </h:form>
                     </p:panel>
                 </p:dataList>
             </pm:content>
-
-            <pm:footer fixed="true">
-                <p style="text-align: center">Footer</p>
-            </pm:footer>
         </pm:view>
 
         <pm:view id="settings">
@@ -55,14 +73,17 @@
             </pm:header>
 
             <pm:content>
+                <h:form>
+                    <p:outputLabel value="Language"/>
+                    <pm:buttonGroup>
+                        <h:commandButton value="English" action="#{localeHandler.setEnglish()}"/>
+                        <h:commandButton value="Norsk" action="#{localeHandler.setNorwegian()}"/>
+                    </pm:buttonGroup>
+                </h:form>
                 <h:form rendered="#{userBean.loggedIn}">
-                    <h:commandButton value="Logout" action="#{userBean.logout()}"/>
+                    <h:commandButton value="Logout" action="#{userBean.logoutMobile()}"/>
                 </h:form>
             </pm:content>
-
-            <pm:footer fixed="true">
-                <p style="text-align: center">Footer</p>
-            </pm:footer>
         </pm:view>
     </pm:page>
 </f:view>

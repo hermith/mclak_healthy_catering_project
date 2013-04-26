@@ -14,7 +14,7 @@ import shopping.product.Product;
  *
  * @author Karl, Linn
  */
-public class Order {
+public class Order implements Comparable<Order> {
 
     private int orderID;
     private int customerID;
@@ -259,5 +259,16 @@ public class Order {
     @Override
     public String toString() {
         return "Order{" + "orderID=" + orderID + ", customerID=" + customerID + ", products=" + products + ", placedDate=" + placedDate + ", deliveryDate=" + deliveryDate + ", deliveredDate=" + deliveredDate + ", delivery=" + delivery + ", active=" + active + ", prepared=" + prepared + '}';
+    }
+
+    @Override
+    public int compareTo(Order o) {
+        if (this.deliveryDate.before(o.getDeliveryDate())) {
+            return 1;
+        } else if (this.deliveryDate.equals(o.getDeliveredDate())) {
+            return 0;
+        } else {
+            return -1;
+        }
     }
 }
