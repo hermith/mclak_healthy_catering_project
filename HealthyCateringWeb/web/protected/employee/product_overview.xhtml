@@ -22,7 +22,13 @@ Contains:
                 <h:outputScript library="js" name="/product_overview_jq.js" />
             </ui:define>
             <ui:define name="subsite_header">
-                <h1>#{texts.product_title}</h1>
+                <h1>
+                    <h:form id="control_panel_path_link">
+                        <h:commandLink value="#{texts.title_control_panel}"
+                                       action="/protected/common/control_panel.xhtml"
+                                       />
+                    </h:form>
+                    - #{texts.product_title}</h1>
             </ui:define>
 
             <ui:define name="subsite_content">

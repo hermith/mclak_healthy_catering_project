@@ -18,7 +18,13 @@ Contains:
     <h:body>
         <ui:composition template="/resources/template/template_master.xhtml">
             <ui:define name="subsite_header">
-                <h1>#{texts.menu_order_history}</h1>
+                <h1>
+                    <h:form id="control_panel_path_link">
+                        <h:commandLink value="#{texts.title_control_panel}"
+                                       action="/protected/common/control_panel.xhtml"
+                                       />
+                    </h:form>
+                    - #{texts.menu_order_history}</h1>
             </ui:define>
 
             <ui:define name="subsite_content">

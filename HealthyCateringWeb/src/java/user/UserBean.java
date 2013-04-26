@@ -128,7 +128,7 @@ public class UserBean implements Serializable {
             ((ShoppingBean) context.getApplication().evaluateExpressionGet(context, "#{shoppingBean}", ShoppingBean.class)).initiateCustomer(user.getUsername());
             Logger.getLogger(UserBean.class.getName()).log(Level.INFO, "User {0} logged in.", user);
             loginFailed = false;
-            return "";
+            return "return_frontpage";
             // TODO Be shopping bean om å hente ned info fra databasen om et evt. kundeobjekt som er knyttet til denne brukeren.
         } catch (ServletException ex1) {
             loginFailed = true;
@@ -139,7 +139,10 @@ public class UserBean implements Serializable {
 
         MessageHandler.addErrorMessage(MessageHandler.getLocalizedText(MessageType.ERROR, "login_wrong_username_or_password"));
         return "";
-
+    }
+    
+    public void loginMobile() {
+        login();
     }
 
     /**

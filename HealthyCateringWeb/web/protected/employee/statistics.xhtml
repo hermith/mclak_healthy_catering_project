@@ -14,8 +14,6 @@ Contains:
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
-    xmlns:p="http://primefaces.org/ui"
-    xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:body>
         <ui:composition template="/resources/template/template_master.xhtml">
             <ui:define name="subscript">
@@ -23,7 +21,13 @@ Contains:
                 <h:outputScript library="js" name="/statistics_visuals.js" />
             </ui:define>
             <ui:define name="subsite_header">
-                <h1>Statistics</h1>
+                <h1>
+                    <h:form id="control_panel_path_link">
+                        <h:commandLink value="#{texts.title_control_panel}"
+                                       action="/protected/common/control_panel.xhtml"
+                                       />
+                    </h:form>
+                    - Statistics</h1>
             </ui:define>
 
             <ui:define name="subsite_content">

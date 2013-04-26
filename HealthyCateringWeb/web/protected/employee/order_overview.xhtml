@@ -22,7 +22,13 @@ Contains:
             </ui:define>
 
             <ui:define name="subsite_header">
-                <h1>Active Orders</h1>
+                <h1>
+                    <h:form id="control_panel_path_link">
+                        <h:commandLink value="#{texts.title_control_panel}"
+                                       action="/protected/common/control_panel.xhtml"
+                                       />
+                    </h:form>
+                    - Active Orders</h1>
             </ui:define>
 
             <ui:define name="subsite_content">
@@ -39,7 +45,7 @@ Contains:
                         <h:dataTable value="#{infoBean.activeOrders}"
                                      var="order"
                                      styleClass="active_orders_table"
-                                     columnClasses="customer_id, product_ids, placed_on, deliver_on, delivered, details">
+                                     columnClasses="customer_id, product_ids, placed_on, deliver_on, delivered, pickup details">
                             <h:column>
                                 <f:facet name="header">Customer ID</f:facet>
                                     #{order.customerID}
@@ -50,13 +56,17 @@ Contains:
                             </h:column>
                             <h:column>
                                 <f:facet name="header">Order placed</f:facet>
-                                #{order.convertDateToString(order.getPlacedDate())}</h:column>
+                                    #{order.convertDateToString(order.getPlacedDate())}
+                            </h:column>
                             <h:column>
                                 <f:facet name="header">Delivery</f:facet>
-                                #{order.convertDateToString(order.getDeliveryDate())}</h:column>
+                                    #{order.convertDateToString(order.getDeliveryDate())}
+                            </h:column>
                             <h:column>
-                                <f:facet name="header">Delivered</f:facet>
-                                #{order.delivered}</h:column>
+                                <f:facet name="header">Delivery</f:facet>
+                                <h:outputText value="#{texts.no}" rendered="#{!order.delivery}" />
+                                <h:outputText value="#{texts.yes}" rendered="#{order.delivery}" />
+                            </h:column>
                             <h:column>
                                 <f:facet name="header">Details</f:facet>
                                 <h:commandButton image="/resources/img/info_icon.png"
@@ -84,6 +94,16 @@ Contains:
                             <h:column>
                                 <f:facet name="header">Delivered on</f:facet>
                                     #{order.convertDateToString(order.getDeliveredDate())}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Delivered</f:facet>
+                                <h:outputText value="#{texts.no}" rendered="#{!order.delivered}" />
+                                <h:outputText value="#{texts.yes}" rendered="#{order.delivered}" />
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Delivery</f:facet>
+                                <h:outputText value="#{texts.no}" rendered="#{!order.delivery}" />
+                                <h:outputText value="#{texts.yes}" rendered="#{order.delivery}" />
                             </h:column>
                             <h:column>
                                 <f:facet name="header">Details</f:facet>

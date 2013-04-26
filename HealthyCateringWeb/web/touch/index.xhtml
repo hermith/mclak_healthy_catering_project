@@ -34,7 +34,7 @@
                     <p:password value="#{userBean.password}"
                                 required="true"/>
 
-                    <h:commandButton value="Login" action="#{userBean.login()}"/>
+                    <h:commandButton value="Login" action="#{userBean.loginMobile()}"/>
                     <p:messages/>
                 </h:form>
                 <pm:buttonGroup rendered="#{userBean.loggedInAsEmployee}">

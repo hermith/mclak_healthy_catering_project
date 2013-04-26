@@ -24,7 +24,13 @@ Contains:
                 <h:outputScript library="js" name="/edit_customers_jq.js" />
             </ui:define>
             <ui:define name="subsite_header">
-                <h1>#{texts.edit_customer_title}</h1>
+                <h1>
+                    <h:form id="control_panel_path_link">
+                        <h:commandLink value="#{texts.title_control_panel}"
+                                       action="/protected/common/control_panel.xhtml"
+                                       />
+                    </h:form>
+                    - #{texts.edit_customer_title}</h1>
             </ui:define>
 
             <ui:define name="subsite_content">
