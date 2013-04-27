@@ -1,6 +1,8 @@
-/* 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * 
+ * Used on statistics.xhtml to draw graphs with jschart.js
+ * 
+ * @author Aleks
  */
 
 /**

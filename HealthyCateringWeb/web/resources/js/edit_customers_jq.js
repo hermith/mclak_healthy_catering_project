@@ -1,4 +1,8 @@
-
+/**
+ * Used on edit_customers.xhtml to add more dynamic functinality
+ * 
+ * @author karl
+ */
 
 $(document).ready(function() {
 

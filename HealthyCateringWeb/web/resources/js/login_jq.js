@@ -1,3 +1,10 @@
+/**
+ * Used on all the xhtml to add more dynamic functinality, primary linked to
+ * the login bar, but also used for some global actions.
+ * 
+ * @author Karl
+ */
+
 var loggedIn = false;
 var loggedInAsPrivate = false;
 var loggedInAsCorporate = false;

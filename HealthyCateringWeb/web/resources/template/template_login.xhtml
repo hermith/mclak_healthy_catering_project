@@ -1,10 +1,8 @@
 <!--
-template_login.xhtml
-
 Contains:
     Contains a login form.
 
-    For any global stuff add it ti template_master.xhtml
+    For any global stuff add it to template_master.xhtml
 
 @author Karl
 -->
@@ -29,6 +27,7 @@ Contains:
 
         </h:form>
 
+        <!-- Loginform with input for username and password -->
         <h:form styleClass="login_form"
                 rendered="#{!userBean.loggedIn}">
 
@@ -39,8 +38,8 @@ Contains:
 
             <label>#{texts.login_password}:</label>
             <p:password styleClass="login_input"
-                           value="#{userBean.password}"
-                           /><br/>
+                        value="#{userBean.password}"
+                        /><br/>
 
             <h:panelGroup styleClass="login_buttons_group">
                 <h:commandButton style="width: 100px;"
@@ -54,19 +53,23 @@ Contains:
                                action="/register.xhtml" />
                 , <a href="#" id="forgot_password_link">#{texts.login_forgot_password}</a>
             </h:panelGroup>
+
             <p:messages />
         </h:form>
 
+        <!-- Forgot password form, shows instead of login -->
         <h:form styleClass="forgot_password">
+
             <label>#{texts.edit_account_email}:</label>
             <p:inputText styleClass="login_input"
-                         value="#{userBean.email}"
-                         /><br/>
+                         value="#{userBean.email}"/>
+            <br/>
 
             <label>#{texts.login_username}:</label>
             <p:inputText styleClass="login_input"
-                           value="#{userBean.username}"
-                           /><br/>
+                         value="#{userBean.username}"/>
+            <br/>
+
             <h:panelGroup styleClass="login_buttons_group">
                 <h:commandButton styleClass="button_style"
                                  value="Send nytt passord"
@@ -74,25 +77,31 @@ Contains:
                 #{texts.login_or} 
                 <a href="#" id="forgot_password_back">#{texts.back_login}</a>
             </h:panelGroup>
+
             <p:messages />
         </h:form>
 
     </div>
 
     <div id="top_bar_span_login_always_show" >
+
+        <!-- Locale form in the top left corner -->
         <h:form id="form_locale">
+
             <h:commandLink action="#{localeHandler.setEnglish()}">
                 <h:graphicImage 
                     library="img"
                     name="flag_en.png"
                     class="localeimage"/>
             </h:commandLink>
+
             <h:commandLink action="#{localeHandler.setNorwegian()}">
                 <h:graphicImage 
                     library="img"
                     name="flag_no.png"
                     class="localeimage"/>
             </h:commandLink>
+
         </h:form>
 
         <!-- Text info in the middle of the spanning bar. -->
@@ -115,5 +124,7 @@ Contains:
 
     </div>
 
+    <!-- Used as a overlay when the top bar slides down or popups show -->
     <div id="site_opaque" />
+
 </ui:composition>

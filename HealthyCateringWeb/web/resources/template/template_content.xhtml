@@ -1,11 +1,9 @@
 <!--
-template_content.xhtml
-
 Contains:
     Contains primary content such as the main part of the side and any potential
     side bar that is required.
 
-    For any global stuff add it ti template_master.xhtml
+    For any global stuff add it to template_master.xhtml
 
 @author Karl
 -->
@@ -24,37 +22,59 @@ Contains:
 
     </article>
 
+    <!-- Sidebar below, used to display shopping cart when custmers
+    are logged in -->
     <aside id="sidebar">
 
         <ui:insert name="subsite_sidebar">
             <h:form rendered="#{userBean.loggedIn}">
                 <h2>#{texts.menu_shoppingcart}:</h2>
                 <p>
-                    <h:outputText rendered="#{shoppingBean.shoppingCartIsEmpty()}" value="#{texts.menu_noproducts}"/>
+                    <h:outputText rendered="#{shoppingBean.shoppingCartIsEmpty()}"
+                                  value="#{texts.menu_noproducts}"/>
                 </p>
-                <h:dataTable style="width: 100%;" rendered="#{!shoppingBean.shoppingCartIsEmpty()}" var="product" value="#{shoppingBean.shoppingCartProducts}">
+
+                <!-- Datatable to show content of shopping cart. -->
+                <h:dataTable style="width: 100%;"
+                             rendered="#{!shoppingBean.shoppingCartIsEmpty()}"
+                             var="product"
+                             value="#{shoppingBean.shoppingCartProducts}">
+
                     <h:column>
                         #{product.getName(localeHandler.getLang())} 
                     </h:column>
+
                     <h:column>
                         #{product.price}
                     </h:column>
+
                     <h:column>
                         #{shoppingBean.findQuantityProduct(product)}
                     </h:column>
+
                     <h:column>
+
                         <h:commandButton image="/resources/img/info_icon.png"
                                          action="#{shoppingBean.deleteProduct(product)}"
                                          styleClass="cart_delete_button" />
                     </h:column>
-                </h:dataTable><br/>
+
+                </h:dataTable>
+                <br/>
+
                 <h:commandButton rendered="#{!shoppingBean.shoppingCartIsEmpty()}"
                                  value="#{texts.menu_place_order}"
                                  action="/protected/common/place_order.xhtml"
                                  styleClass="button_style"/>
+
                 <h:outputText value="#{texts.menu_total}: #{shoppingBean.totalPrice},-"
                               rendered="#{!shoppingBean.shoppingCartIsEmpty()}"/>
-                <br/><h:commandButton styleClass="button_style" value="#{texts.add_contract_title}" rendered="#{userBean.loggedInAsCorporateCustomer and (!shoppingBean.shoppingCartIsEmpty())}" action="add_contract" />
+
+                <br/><h:commandButton styleClass="button_style"
+                                      value="#{texts.add_contract_title}"
+                                      rendered="#{userBean.loggedInAsCorporateCustomer and
+                                                  !shoppingBean.shoppingCartIsEmpty()}"
+                                      action="add_contract" />
             </h:form>
         </ui:insert>
 

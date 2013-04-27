@@ -2,8 +2,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <!--
-template_master.xhtml
-
 Contains:
     This links all the template_x.xhtml sites together. All global CSS/JS and
     any other global preferences should be added to this file, and not any sub
@@ -20,19 +18,19 @@ Contains:
 
     <h:head>
         <f:view locale="#{localeHandler.lang}"/>
-        
+
         <h:outputStylesheet library="css" name="/layout_styles.css"  />
         <h:outputStylesheet library="css" name="/component_styles.css"  />
         <h:outputStylesheet library="css" name="/main_styles.css"  />
-        
+
         <link rel="stylesheet/less" href="/HealthyCateringWeb/javax.faces.resource/primary.less.xhtml?ln=css" />
-        
+
 
         <h:outputScript library="js" name="/jquery-1.9.1.js" />
         <h:outputScript library="js" name="/login_jq.js" />
         <h:outputScript library="js" name="/less-1.3.3.min.js" />
-        
-        
+
+
         <!-- Used to include scripts unique to one site -->
         <ui:insert name="subscript"/>
 
@@ -58,7 +56,8 @@ Contains:
             to be replaced by subsites -->
             <footer id="footer">#{texts.footer_info}</footer>
         </div>
-        
+
+        <!-- Used for the amazing salad and tomato in the background -->
         <div id="background-fixed"/>
     </h:body>
 </html>

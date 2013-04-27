@@ -1,5 +1,11 @@
-$(document).ready(function() {
+/**
+ * Used on product_overview.xhtml to add more dynamic functinality
+ * 
+ * @author Karl
+ */
 
+$(document).ready(function() {
+    
     var show_add_product = document.getElementById("product_overview_hidden_form:add_product_popup").value === "true";
     var show_edit_product = document.getElementById("product_overview_hidden_form:edit_product_popup").value === "true";
     var show_tab_left = document.getElementById("product_overview_hidden_form:show_left_tab").value === "true";
@@ -20,8 +26,8 @@ $(document).ready(function() {
     if (!show_add_product && !show_edit_product) {
         $("#site_opaque").hide();
     }
-
-    if(show_tab_left) {
+    
+    if (show_tab_left) {
         $(".add_product_tab_single_left").css("background-color", global_color_selected);
         $(".add_product_tab_package_right").css("background-color", global_color_dark);
         $("#add_product_package").hide();
@@ -32,5 +38,5 @@ $(document).ready(function() {
         $("#add_product_single").hide();
         $("#add_product_package").show();
     }
-
+    
 });

@@ -1,5 +1,11 @@
+/**
+ * Used on order_overview.xhtml to add more dynamic functinality
+ * 
+ * @author karl
+ */
+
 $(document).ready(function() {
-    
+
     var show_popup = document.getElementById("active_orders_form:show_customer_detail").value === "true";
     var show_active = true;
     if (show_popup) {
@@ -9,8 +15,8 @@ $(document).ready(function() {
         $("#detail_order_info").hide();
         $("#site_opaque").hide();
     }
-    
-    if(show_active) {
+
+    if (show_active) {
         show_left();
     } else {
         show_right();

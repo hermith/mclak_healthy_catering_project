@@ -1,6 +1,8 @@
-/* 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * Used on register.xhtml to check that two passwords match real time.
+ * 
+ * @author Aleks
+ * 
  */
 
 /**

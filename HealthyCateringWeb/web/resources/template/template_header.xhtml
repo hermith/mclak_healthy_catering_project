@@ -1,10 +1,8 @@
 <!--
-template_header.xhtml
-
 Contains:
     Contains things related to the top header and navigation (top menu).
 
-    For any global stuff add it ti template_master.xhtml
+    For any global stuff add it to template_master.xhtml
 
 @author Karl
 -->
@@ -17,19 +15,45 @@ Contains:
     xmlns:ui="http://java.sun.com/jsf/facelets">
 
     <header id="primary_header">
+
         <h:form>
             <h:commandLink action="/index.xhtml">
+
                 <h:graphicImage library="img"
                                 name="logo.png"
                                 styleClass="primary_logo"/>
+
             </h:commandLink>
+
+            <!-- Primary navigation menu floating in the header -->
             <nav id="primary_nav">
                 <ul id="navul">
-                    <li><h:commandLink action="/index.xhtml">#{texts.title_news}</h:commandLink></li>
-                    <li><h:commandLink action="/menu.xhtml">#{texts.title_menu}</h:commandLink></li>
-                    <li><h:commandLink action="/about.xhtml">#{texts.title_about}</h:commandLink></li>
-                    <li><h:commandLink action="/contact.xhtml">#{texts.title_contact}</h:commandLink></li>
+
+                    <li>
+                        <h:commandLink action="/index.xhtml">
+                            #{texts.title_news}
+                        </h:commandLink>
+                    </li>
+
+                    <li><h:commandLink action="/menu.xhtml">
+                            #{texts.title_menu}
+                        </h:commandLink>
+                    </li>
+
+                    <li><h:commandLink action="/about.xhtml">
+                            #{texts.title_about}
+                        </h:commandLink>
+                    </li>
+
+                    <li>
+                        <h:commandLink action="/contact.xhtml">
+                            #{texts.title_contact}
+                        </h:commandLink>
+                    </li>
+
                 </ul>
+
+                <!-- The blue line below the menu -->
                 <div id="ruler" />
             </nav>
         </h:form>
