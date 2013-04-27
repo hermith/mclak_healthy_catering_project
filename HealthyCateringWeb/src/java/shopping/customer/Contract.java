@@ -8,6 +8,7 @@ import java.util.Date;
 import shopping.product.Product;
 
 /**
+ * Storage object for Contracts used with customers.
  *
  * @author linnk
  */
@@ -19,6 +20,9 @@ public class Contract {
     private Time time;
     private boolean active;
 
+    /**
+     * Standard empty constructor.
+     */
     public Contract() {
         contractId = -1;
         order = new Order();
@@ -28,12 +32,13 @@ public class Contract {
     }
 
     /**
-     *
-     * @param contractId
-     * @param order
-     * @param dayOfWeek
-     * @param time
-     * @param active
+     * Standard constructor for creating object with data.
+     * 
+     * @param contractId Contract ID
+     * @param order Order to be added weekly
+     * @param dayOfWeek Day of week
+     * @param time Time of the day of the week
+     * @param active Active or not
      */
     public Contract(int contractId, Order order, int dayOfWeek, Time time, boolean active) {
         this.contractId = contractId;
@@ -42,7 +47,7 @@ public class Contract {
         this.time = time;
         this.active = active;
     }
-
+    
     //GETTER AND SETTER
     public int getContractId() {
         return contractId;
@@ -96,10 +101,10 @@ public class Contract {
         this.order.setProducts(products);
     }
 
-    public void setCustomerId(int id){
+    public void setCustomerId(int id) {
         this.order.setCustomerID(id);
     }
-    
+
     public void setPlacedDate(Timestamp date) {
         order.setPlacedDate(date);
     }

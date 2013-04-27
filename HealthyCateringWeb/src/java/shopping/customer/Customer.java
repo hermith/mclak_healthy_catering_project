@@ -1,10 +1,7 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package shopping.customer;
 
 /**
+ * Storage object for Customers.
  *
  * @author aleksalr
  */
@@ -17,6 +14,9 @@ public abstract class Customer {
     private int zipCode;
     private String city;
 
+    /**
+     * Standard empty constructor
+     */
     public Customer() {
         this.customerId = -1;
         this.email = null;
@@ -29,12 +29,12 @@ public abstract class Customer {
     /**
      * Constructor for creating new customer with appropriate information.
      *
-     * @param companyId
-     * @param email
-     * @param address
-     * @param phoneNumber
-     * @param zipCode
-     * @param city
+     * @param companyId Customer ID
+     * @param email Customer email
+     * @param address Customer address
+     * @param phoneNumber Customer phone number
+     * @param zipCode Customer zip-code
+     * @param city Customer city
      */
     public Customer(int customerId, String email, String address, String phoneNumber, int zipCode, String city) {
         this.customerId = customerId;
@@ -44,9 +44,36 @@ public abstract class Customer {
         this.zipCode = zipCode;
         this.city = city;
     }
-    
+
+    /**
+     * Will return the combined name of the private customer or the company
+     * name.
+     *
+     * @return Customer name
+     */
     public abstract String getName();
 
+    /**
+     * A "toString" method used in the drivers UI, to give relevant customer
+     * information to the drivers.
+     *
+     * @return
+     */
+    public String getDriverInformation() {
+        return getName().toUpperCase() + ", " + address + ", " + city + " " + zipCode + ", " + phoneNumber;
+    }
+
+    /**
+     * Standard generated toString
+     * 
+     * @return All variables as string
+     */
+    @Override
+    public String toString() {
+        return "Customer{" + "customerId=" + customerId + ", email=" + email + ", address=" + address + ", phoneNumber=" + phoneNumber + ", zipCode=" + zipCode + ", city=" + city + '}';
+    }
+
+    // GETTERS AND SETTERS
     public int getCustomerId() {
         return customerId;
     }
@@ -93,14 +120,5 @@ public abstract class Customer {
 
     public void setCity(String city) {
         this.city = city;
-    }
-    
-    public String getDriverInformation() {
-        return getName().toUpperCase() + ", " + address + ", " + city +  " " + zipCode + ", " + phoneNumber;
-    }
-
-    @Override
-    public String toString() {
-        return "Customer{" + "customerId=" + customerId + ", email=" + email + ", address=" + address + ", phoneNumber=" + phoneNumber + ", zipCode=" + zipCode + ", city=" + city + '}';
     }
 }
