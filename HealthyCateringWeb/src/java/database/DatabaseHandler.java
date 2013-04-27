@@ -1730,7 +1730,7 @@ public class DatabaseHandler {
             resSet = stm.executeQuery();
             ArrayList<Contract> contracts = new ArrayList<Contract>();
             while (resSet.next()) {
-                int contractId = resSet.getInt(COLUMN_ORDER_ID);
+                int contractId = resSet.getInt(COLUMN_CONTRACT_ID);
                 Contract contract = selectContract(contractId);
                 if (contract != null) {
                     contracts.add(contract);
