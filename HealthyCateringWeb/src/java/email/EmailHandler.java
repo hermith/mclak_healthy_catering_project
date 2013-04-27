@@ -18,11 +18,10 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 /**
- * /*
  * This file is used to send emails from the company email account that is
  * noreply.healthycatering@gmail.com
  *
- * @author Karl
+ * @author Karl Jørgen Overå
  */
 @ApplicationScoped
 public class EmailHandler {
@@ -35,7 +34,7 @@ public class EmailHandler {
     private Properties props;
 
     /**
-     * the contructor initiates the properties required to connect to the gmail
+     * The contructor initiates the properties required to connect to the gmail
      * smtp server.
      */
     public EmailHandler() {
@@ -46,7 +45,6 @@ public class EmailHandler {
                 "javax.net.ssl.SSLSocketFactory");
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.port", "465");
-
         emailPassword = getPasswordFromFile();
     }
 
@@ -54,19 +52,20 @@ public class EmailHandler {
      * Sends an custom email, to format body text use \n (newline) and \t
      * (tablature)
      *
-     * @param recipient
-     * @param title
-     * @param body
-     * @return Success, throws an exception if it's unable to send the email.
+     * @param recipient The recipient of the email.
+     * @param title The title, or subject, of the email.
+     * @param body The body, or text, of the email.
+     * @return True if the email was sent successfully. Throwns an Error if the
+     * email wasn't sent.
      */
     public boolean sendMail(String recipient, String title, String body) {
         Session session = Session.getInstance(props,
                 new javax.mail.Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(EMAIL_LOGIN, emailPassword);
-            }
-        });
+                    @Override
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(EMAIL_LOGIN, emailPassword);
+                    }
+                });
         try {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(FROM_ADRESS));
@@ -84,18 +83,16 @@ public class EmailHandler {
     }
 
     /**
+     * Method for sending a new password to e given recipient.
      *
      * @param recipient The recipient of the generated password
+     * @param pw The generated password.
      * @return The generated password as a String, throws an error if email
      * failed.
      */
-    public boolean sendGeneratedPassword(String recipient, String pw) {
-        try {
-            sendMail(recipient, PASSWORD_MAIL_SUBJECT, PASSWORD_MAIL_BODY.replace("%PW%", pw));
-            return true;
-        } catch (Error e) {
-            throw e;
-        }
+    public boolean sendGeneratedPassword(String recipient, String pw) throws Error {
+        sendMail(recipient, PASSWORD_MAIL_SUBJECT, PASSWORD_MAIL_BODY.replace("%PW%", pw));
+        return true;
     }
 
     /**
@@ -132,7 +129,7 @@ public class EmailHandler {
      * This gets the password of the gmail account from a local file. This is
      * used to make sure the password is not commited to public records on the
      * VCS (Github).
-     * 
+     *
      * @return The local stored password
      */
     private String getPasswordFromFile() {

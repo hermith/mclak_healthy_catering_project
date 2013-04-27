@@ -16,8 +16,13 @@ import locale.MessageType;
 import shopping.ShoppingBean;
 
 /**
+ * The UserBean class handler everything that has to do with login and user
+ * access. It stores information about the current user, temporarily variables
+ * for changing user information as well as logic for doing so.
  *
- * @author aleksalr, Linn
+ * <br><br>The class is session scoped.
+ *
+ * @author Aleksander L. Rasch, Linn Stokvik
  */
 @Named
 @SessionScoped
@@ -32,14 +37,6 @@ public class UserBean implements Serializable {
     public UserBean() {
         this.user = new User();
         this.dummyUser = new User();
-    }
-
-    //TODO - Remove?
-    public String ninja() {
-        user.setPassword("Passord1");
-        user.setUsername("testSystem");
-        login();
-        return "/protected/common/control_panel.xhtml";
     }
 
     /**
@@ -140,7 +137,7 @@ public class UserBean implements Serializable {
         MessageHandler.addErrorMessage(MessageHandler.getLocalizedText(MessageType.ERROR, "login_wrong_username_or_password"));
         return "";
     }
-    
+
     public void loginMobile() {
         login();
     }
