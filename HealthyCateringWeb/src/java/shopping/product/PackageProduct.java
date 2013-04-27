@@ -1,5 +1,6 @@
 package shopping.product;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /**
@@ -22,30 +23,26 @@ public class PackageProduct extends Product {
         this.products = products;
     }
 
-    public int getDiscount() {
-        return discount;
-    }
-
-    public void setDiscount(int discount) {
-        this.discount = discount;
-    }
-
-    public ArrayList<SingleProduct> getProducts() {
-        return products;
-    }
-
-    public void setProducts(ArrayList<SingleProduct> products) {
-        this.products = products;
-    }
-
+    /**
+     * Add product to the list products.
+     * @param product 
+     */
     public void addProduct(SingleProduct product) {
         this.products.add(product);
     }
 
+    /**
+     * Remove product from the list products.
+     * @param product 
+     */
     public void removeProduct(SingleProduct product) {
         this.products.remove(product);
     }
 
+    /**
+     * toString-method.
+     * @return a readable text representation of this object
+     */
     @Override
     public String toString() {
         return "PackageProduct{" + super.toString() + "discount=" + discount + ", products=" + products + '}';
@@ -61,12 +58,34 @@ public class PackageProduct extends Product {
         return super.equals(obj);
     }
 
+    /**
+     * Finds the price of the PackageProduct.
+     * @return total price 
+     */
     @Override
     public float getPrice() {
         float sum = 0.0f;
         for (Product product : products) {
             sum += product.getPrice();
         }
-        return sum - discount;
+        return Float.parseFloat(new DecimalFormat("#.##").format(sum - discount).replace(",", "."));
+
+    }
+    
+     //Getters and setters
+    public int getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(int discount) {
+        this.discount = discount;
+    }
+
+    public ArrayList<SingleProduct> getProducts() {
+        return products;
+    }
+
+    public void setProducts(ArrayList<SingleProduct> products) {
+        this.products = products;
     }
 }

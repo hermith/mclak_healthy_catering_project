@@ -32,6 +32,46 @@ public abstract class Product {
         active = false;
     }
 
+    /**
+     * toString-method.
+     * @return a readable text representation of this object
+     */
+    @Override
+    public String toString() {
+        return "Product{" + "id=" + id + ", nameNo=" + nameNo + ", nameEn=" + nameEn + ", descriptionNo=" + descriptionNo + ", descriptionEn=" + descriptionEn + ", active=" + active + '}';
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Product other = (Product) obj;
+        if (this.getId() != other.getId()) {
+            return false;
+        }
+        return true;
+    }
+    
+    //Getters and setters below
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean activ) {
+        this.active = activ;
+    }
+
+    
     public int getId() {
         return id;
     }
@@ -87,41 +127,7 @@ public abstract class Product {
     public void setDescriptionEn(String descriptionEn) {
         this.descriptionEn = descriptionEn;
     }
-
-    @Override
-    public String toString() {
-        return "Product{" + "id=" + id + ", nameNo=" + nameNo + ", nameEn=" + nameEn + ", descriptionNo=" + descriptionNo + ", descriptionEn=" + descriptionEn + ", active=" + active + '}';
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 3;
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Product other = (Product) obj;
-        if (this.getId() != other.getId()) {
-            return false;
-        }
-        return true;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean activ) {
-        this.active = activ;
-    }
-
+    
     /**
      * @return the price
      */

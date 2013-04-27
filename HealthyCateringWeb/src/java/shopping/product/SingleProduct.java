@@ -1,5 +1,7 @@
 package shopping.product;
 
+import java.text.DecimalFormat;
+
 /**
  * @author colsen91
  */
@@ -20,23 +22,10 @@ public class SingleProduct extends Product {
         this.kcal = kcal;
     }
 
-    @Override
-    public float getPrice() {
-        return price;
-    }
-
-    public void setPrice(float price) {
-        this.price = price;
-    }
-
-    public int getKcal() {
-        return kcal;
-    }
-
-    public void setKcal(int kcal) {
-        this.kcal = kcal;
-    }
-
+    /**
+     * toString-method.
+     * @return a readable text representation of this object
+     */
     @Override
     public String toString() {
         return "SingleProduct{" + super.toString() + ", price=" + price + ", kcal=" + kcal + '}';
@@ -50,5 +39,23 @@ public class SingleProduct extends Product {
     @Override
     public boolean equals(Object obj) {
         return super.equals(obj);
+    }
+
+    //Getters and setters
+    @Override
+    public float getPrice() {
+        return Float.parseFloat(new DecimalFormat("#.##").format(price).replace(",", "."));
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
+    }
+
+    public int getKcal() {
+        return kcal;
+    }
+
+    public void setKcal(int kcal) {
+        this.kcal = kcal;
     }
 }

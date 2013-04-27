@@ -187,7 +187,7 @@ public class ShoppingBean implements Serializable {
     /**
      * @return total price of the shoppingCart
      */
-    public float getTotalPrice() {
+    public String getTotalPrice() {
         return shoppingCart.getTotalPrice();
     }
 

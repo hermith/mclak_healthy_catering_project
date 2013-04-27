@@ -54,12 +54,12 @@ public class ShoppingCart {
     /**
      * @return the total price of the products in the shoppingCart-object.
      */
-    public float getTotalPrice() {
+    public String getTotalPrice() {
         float sum = 0.0f;
         for (Product product : products) {
             sum += product.getPrice();
         }
-        return Float.parseFloat(new DecimalFormat("#.##").format(sum));
+        return (new DecimalFormat("#.##").format(sum));
     }
 
     //GETTER & SETTER
