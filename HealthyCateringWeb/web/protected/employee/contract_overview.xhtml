@@ -24,7 +24,9 @@ Contains:
             <ui:define name="subsite_content">
                 <h:form>
                     <!--Array with all contracts -->
-                    <h:dataTable var="contract" value="#{shoppingBean.allContracts}" >
+                    <h:dataTable var="contract" value="#{shoppingBean.allContracts}"
+                                 styleClass="contract_overview_table"
+                                 columnClasses="contract_id, products, customer_id, active">
                         <h:column>
                             <f:facet name="header">ID</f:facet>
                             #{contract.contractId}

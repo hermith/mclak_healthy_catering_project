@@ -45,7 +45,7 @@ Contains:
                         <h:dataTable value="#{infoBean.activeOrders}"
                                      var="order"
                                      styleClass="active_orders_table"
-                                     columnClasses="customer_id, product_ids, placed_on, deliver_on, delivered, pickup details">
+                                     columnClasses="customer_id, product_ids, placed_on, deliver_on, delivery, details">
                             <h:column>
                                 <f:facet name="header">#{texts.id_customer}</f:facet>
                                     #{order.customerID}
@@ -59,7 +59,7 @@ Contains:
                                     #{order.convertDateToString(order.getPlacedDate())}
                             </h:column>
                             <h:column>
-                                <f:facet name="header">#{texts.menu_delivery}</f:facet>
+                                <f:facet name="header">#{texts.menu_delivered_on}</f:facet>
                                     #{order.convertDateToString(order.getDeliveryDate())}
                             </h:column>
                             <h:column>
@@ -78,7 +78,7 @@ Contains:
                         <h:dataTable value="#{infoBean.orderHistory}"
                                      var="order"
                                      styleClass="active_orders_table"
-                                     columnClasses="customer_id, product_ids, delivered_on, details">
+                                     columnClasses="customer_id, product_ids, placed_on, deliver_on, delivered ,delivery, details">
                             <h:column>
                                 <f:facet name="header">#{texts.id_customer}</f:facet>
                                     #{order.customerID}
@@ -96,7 +96,7 @@ Contains:
                                     #{order.convertDateToString(order.getDeliveredDate())}
                             </h:column>
                             <h:column>
-                                <f:facet name="header">#{texts.delivered}</f:facet>
+                                <f:facet name="header">#{texts.menu_delivered}</f:facet>
                                 <h:outputText value="#{texts.no}" rendered="#{!order.delivered}" />
                                 <h:outputText value="#{texts.yes}" rendered="#{order.delivered}" />
                             </h:column>

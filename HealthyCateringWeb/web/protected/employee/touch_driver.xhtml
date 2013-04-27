@@ -14,16 +14,17 @@
             font-weight: bold;
         }
 
-        .unprepared_order, .prepared_order {
+        .unprepared_order p, .prepared_order p {
+            display: inline-block;
             padding: 4px;
             border-radius: 4px;
         }
 
-        .unprepared_order {
-            background-color: lightcoral;
+        .unprepared_order p {
+            background-color: #ffcccc;
         }
 
-        .prepared_order {
+        .prepared_order p {
             background-color: #33ff33;
         }
     </style>
@@ -44,7 +45,7 @@
                 <p:dataList value="#{infoBean.activeOrders}" var="order">
                     <h:panelGroup rendered="#{order.prepared}"
                                   styleClass="prepared_order">
-                        <p>#{texts.settings}</p>
+                        <p>#{texts.ready_pickup}</p>
                     </h:panelGroup>
                     <h:panelGroup rendered="#{!order.prepared}"
                                   styleClass="unprepared_order">
