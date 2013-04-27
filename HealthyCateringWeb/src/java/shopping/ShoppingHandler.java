@@ -144,7 +144,13 @@ public class ShoppingHandler implements Serializable {
      * @return order history to the given customer id.
      */
     public ArrayList<Order> getOrderHistory(int customerId) {
-        return database.selectOrders(customerId);
+        ArrayList<Order> orders = new ArrayList<Order>();
+        for(Order o : database.selectOrders(customerId)){
+            if(o.isActive()){
+                orders.add(o);
+            }
+        }
+        return orders;
     }
 
     /**

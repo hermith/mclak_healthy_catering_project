@@ -56,11 +56,15 @@ Contains:
                             </h:column>
                             <h:column>
                                 <f:facet name="header">#{texts.order_placed}</f:facet>
-                                    #{order.convertDateToString(order.getPlacedDate())}
+                                <h:outputText value="#{order.convertDateToString(order.getPlacedDate())}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                                </h:outputText>
                             </h:column>
                             <h:column>
                                 <f:facet name="header">#{texts.menu_delivered_on}</f:facet>
-                                    #{order.convertDateToString(order.getDeliveryDate())}
+                                <h:outputText value="#{order.convertDateToString(order.getDeliveryDate())}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+                                </h:outputText>
                             </h:column>
                             <h:column>
                                 <f:facet name="header">#{texts.menu_delivery}</f:facet>

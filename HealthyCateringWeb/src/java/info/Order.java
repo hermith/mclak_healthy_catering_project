@@ -2,6 +2,7 @@ package info;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import shopping.product.Product;
@@ -35,7 +36,7 @@ public class Order implements Comparable<Order> {
         customerID = -1;
         products = null;
         deliveredDate = null;
-        deliveryDate = new Timestamp(00000);
+        deliveryDate = new Timestamp(new Date().getTime());
         delivery = false;
         active = false;
         prepared = false;
@@ -169,11 +170,15 @@ public class Order implements Comparable<Order> {
         if (date != null) {
             GregorianCalendar greg = new GregorianCalendar();
             greg.setTimeInMillis(date.getTime());
-            return greg.get(GregorianCalendar.DATE)
-                    + "." + (greg.get(GregorianCalendar.MONTH) + 1)
+            String hour = (greg.get(GregorianCalendar.HOUR_OF_DAY)<10)?"0"+(greg.get(GregorianCalendar.HOUR_OF_DAY)):""+(greg.get(GregorianCalendar.HOUR_OF_DAY));
+            String minute = (greg.get(GregorianCalendar.MINUTE)<10)?"0"+(greg.get(GregorianCalendar.MINUTE)):""+(greg.get(GregorianCalendar.MINUTE));
+            String month = (greg.get(GregorianCalendar.MONTH) + 1)<10?"0"+(greg.get(GregorianCalendar.MONTH) + 1):""+(greg.get(GregorianCalendar.MONTH) + 1);
+            String dateout = (greg.get(GregorianCalendar.DATE)<10)?"0"+greg.get(GregorianCalendar.DATE):""+greg.get(GregorianCalendar.DATE);
+            return dateout
+                    + "." + month
                     + "." + greg.get(GregorianCalendar.YEAR)
-                    + " " + greg.get(GregorianCalendar.HOUR_OF_DAY)
-                    + ":" + greg.get(GregorianCalendar.MINUTE);
+                    + " " + hour
+                    + ":" + minute;
         } else {
             return "Not delivered";
         }

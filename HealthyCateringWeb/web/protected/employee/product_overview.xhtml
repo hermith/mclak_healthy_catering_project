@@ -103,9 +103,7 @@ Contains:
                                 <!--PackageProduct only-->
                                 <h:panelGroup rendered="#{!productBean.selectedIsSingleProduct()}" >
                                     <label>#{texts.product_discount}</label>
-                                    <p:inputText required="true" 
-                                                 requiredMessage="#{error.product_required_discount}" 
-                                                 value="#{productBean.productDiscount}" /><br/>
+                                    <p:inputText converterMessage="#{error.discount_invalid}" required="true" requiredMessage="#{error.product_required_discount}" value="#{productBean.productDiscount}" /><br/>
                                     <label>#{texts.menu_total}: </label>
                                     <h:outputText value="#{productBean.productPrice}" /><br/>
 
@@ -188,9 +186,7 @@ Contains:
                                     <label>#{texts.product_desc_no}: </label><p:inputText value="#{productBean.newProductDescriptionNo}" required="true" requiredMessage="#{error.product_required_desc}" /><br/>
                                     <label>#{texts.product_desc_en}: </label><p:inputText value="#{productBean.newProductDescriptionEn}" required="true" requiredMessage="#{error.product_required_desc}" /><br/>
                                     <label>#{texts.product_discount}:</label>
-                                    <p:inputText value="#{productBean.newProductDiscount}" 
-                                                 required="true" 
-                                                 requiredMessage="#{error.product_required_discount}" /><br/>
+                                    <p:inputText converterMessage="#{error.discount_invalid}" value="#{productBean.newProductDiscount}" required="true" requiredMessage="#{error.product_required_discount}"/><br/>
                                     <label>#{texts.menu_total}: </label>
                                     <h:outputText value="#{productBean.newProductPrice}" /><br/>
 
