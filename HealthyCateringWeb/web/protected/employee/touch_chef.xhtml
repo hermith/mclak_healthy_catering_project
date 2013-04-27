@@ -15,15 +15,15 @@
         }
     </style>
 
-    <pm:page title="HealthyCatering Mobile Employees">
+    <pm:page title="#{texts.mobile_employee_title}">
 
         <pm:view id="main">
-            <pm:header title="CHEF UI">
+            <pm:header title="#{texts.chef_title}">
                 <h:form class="ui-btn-right">
-                    <p:button value="Settings" icon="gear" href="#settings"/>
+                    <p:button value="#{texts.settings}" icon="gear" href="#settings"/>
                 </h:form>
                 <h:form class="ui-btn-left">
-                    <p:button value="Back" icon="back" href="/touch"/>
+                    <p:button value="#{texts.back}" icon="back" href="/touch"/>
                 </h:form>
             </pm:header>
 
@@ -38,7 +38,7 @@
                             </p:dataList>
                         </div>
                         <h:form class="ui-btn-right" style="width: 35%;">
-                            <h:commandButton value="Done"
+                            <h:commandButton value="#{texts.done}"
                                              action="#{infoBean.markOrderAsPrepared(order.getOrderID())}"/>
                         </h:form>
                     </p:panel>
@@ -47,22 +47,22 @@
         </pm:view>
 
         <pm:view id="settings">
-            <pm:header title="Settings">
+            <pm:header title="S#{texts.settings}">
                 <h:form class="ui-btn-left">
-                    <p:button value="Back" iconPos="right" icon="back" href="#main"/>
+                    <p:button value="#{texts.back}" iconPos="right" icon="back" href="#main"/>
                 </h:form>
             </pm:header>
 
             <pm:content>
                 <h:form>
-                    <p:outputLabel value="Language"/>
+                    <p:outputLabel value="#{texts.language}"/>
                     <pm:buttonGroup>
-                        <h:commandButton value="English" action="#{localeHandler.setEnglish()}"/>
-                        <h:commandButton value="Norsk" action="#{localeHandler.setNorwegian()}"/>
+                        <h:commandButton value="#{texts.language_en}" action="#{localeHandler.setEnglish()}"/>
+                        <h:commandButton value="#{texts.language_no}" action="#{localeHandler.setNorwegian()}"/>
                     </pm:buttonGroup>
                 </h:form>
                 <h:form rendered="#{userBean.loggedIn}">
-                    <h:commandButton value="Logout" action="#{userBean.logoutMobile()}"/>
+                    <h:commandButton value="#{texts.login_logout}" action="#{userBean.logoutMobile()}"/>
                 </h:form>
             </pm:content>
         </pm:view>

@@ -52,18 +52,18 @@ Contains:
 
                 <h:commandLink value="#{texts.login_reg_new_user}"
                                action="/register.xhtml" />
-                , <a href="#" id="forgot_password_link">glemt passord</a>
+                , <a href="#" id="forgot_password_link">#{texts.login_forgot_password}</a>
             </h:panelGroup>
             <p:messages />
         </h:form>
 
         <h:form styleClass="forgot_password">
-            <label>Epost:</label>
+            <label>#{texts.edit_account_email}:</label>
             <p:inputText styleClass="login_input"
                          value="#{userBean.email}"
                          /><br/>
 
-            <label>Brukernavn:</label>
+            <label>#{texts.login_username}:</label>
             <p:inputText styleClass="login_input"
                            value="#{userBean.username}"
                            /><br/>
@@ -72,7 +72,7 @@ Contains:
                                  value="Send nytt passord"
                                  action="#{userBean.generateNewPasswordUser()}" />
                 #{texts.login_or} 
-                <a href="#" id="forgot_password_back">tilbake til innlogging</a>
+                <a href="#" id="forgot_password_back">#{texts.back_login}</a>
             </h:panelGroup>
             <p:messages />
         </h:form>

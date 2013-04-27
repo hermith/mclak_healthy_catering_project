@@ -44,11 +44,11 @@ Contains:
                     <h:dataTable value="#{infoBean.allCustomers}"
                                  var="customer" >
                         <h:column>
-                            <f:facet name="header">ID</f:facet>
+                            <f:facet name="header">#{texts.id}</f:facet>
                                 #{customer.customerId}
                         </h:column>
                         <h:column>
-                            <f:facet name="header">#{texts.edit_eccount_name}</f:facet>
+                            <f:facet name="header">#{texts.edit_account_name}</f:facet>
                                 #{customer.name}
                         </h:column>
                         <h:column>
@@ -72,10 +72,10 @@ Contains:
                                 #{customer.phoneNumber}
                         </h:column>
                         <h:column>
-                                <f:facet name="header">Edit</f:facet>
+                            <f:facet name="header">#{texts.edit_users_edit_user}</f:facet>
                                 <h:commandButton styleClass="menu_add_button"
                                                  action="#{infoBean.editCustomer(customer)}"
-                                                 value ="Edit"/>
+                                                 value ="#{texts.edit_users_edit_user}"/>
                             </h:column>
                     </h:dataTable>
 

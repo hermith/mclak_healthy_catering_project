@@ -28,7 +28,7 @@ Contains:
                                        action="/protected/common/control_panel.xhtml"
                                        />
                     </h:form>
-                    - Active Orders</h1>
+                    - #{texts.active_order}</h1>
             </ui:define>
 
             <ui:define name="subsite_content">
@@ -39,36 +39,36 @@ Contains:
 
                 <h:form styleClass="active_orders_main_form">
 
-                    <div id="order_tab_left"><h3>Active orders</h3></div>
-                    <div id="order_tab_right"><h3>Order history</h3></div>
+                    <div id="order_tab_left"><h3>#{texts.active_order}</h3></div>
+                    <div id="order_tab_right"><h3>#{texts.menu_order_history}</h3></div>
                     <div id="order_active_orders">
                         <h:dataTable value="#{infoBean.activeOrders}"
                                      var="order"
                                      styleClass="active_orders_table"
                                      columnClasses="customer_id, product_ids, placed_on, deliver_on, delivered, pickup details">
                             <h:column>
-                                <f:facet name="header">Customer ID</f:facet>
+                                <f:facet name="header">#{texts.id_customer}</f:facet>
                                     #{order.customerID}
                             </h:column>
                             <h:column>
-                                <f:facet name="header">Product IDs</f:facet>
+                                <f:facet name="header">#{texts.id_products}</f:facet>
                                     #{order.productIds}
                             </h:column>
                             <h:column>
-                                <f:facet name="header">Order placed</f:facet>
+                                <f:facet name="header">#{texts.order_placed}</f:facet>
                                     #{order.convertDateToString(order.getPlacedDate())}
                             </h:column>
                             <h:column>
-                                <f:facet name="header">Delivery</f:facet>
+                                <f:facet name="header">#{texts.menu_delivery}</f:facet>
                                     #{order.convertDateToString(order.getDeliveryDate())}
                             </h:column>
                             <h:column>
-                                <f:facet name="header">Delivery</f:facet>
+                                <f:facet name="header">#{texts.menu_delivery}</f:facet>
                                 <h:outputText value="#{texts.no}" rendered="#{!order.delivery}" />
                                 <h:outputText value="#{texts.yes}" rendered="#{order.delivery}" />
                             </h:column>
                             <h:column>
-                                <f:facet name="header">Details</f:facet>
+                                <f:facet name="header">#{texts.detail}</f:facet>
                                 <h:commandButton image="/resources/img/info_icon.png"
                                                  action="#{infoBean.lookUpOrder(order.getOrderID())}"/></h:column>
                         </h:dataTable>
@@ -80,33 +80,33 @@ Contains:
                                      styleClass="active_orders_table"
                                      columnClasses="customer_id, product_ids, delivered_on, details">
                             <h:column>
-                                <f:facet name="header">Customer ID</f:facet>
+                                <f:facet name="header">#{texts.id_customer}</f:facet>
                                     #{order.customerID}
                             </h:column>
                             <h:column>
-                                <f:facet name="header">Product IDs</f:facet>
+                                <f:facet name="header">#{texts.id_products}</f:facet>
                                     #{order.productIds}
                             </h:column>
                             <h:column>
-                                <f:facet name="header">Order placed</f:facet>
+                                <f:facet name="header">#{texts.order_placed}</f:facet>
                                     #{order.convertDateToString(order.getPlacedDate())}
                             </h:column>
                             <h:column>
-                                <f:facet name="header">Delivered on</f:facet>
+                                <f:facet name="header">#{texts.menu_delivered_on}</f:facet>
                                     #{order.convertDateToString(order.getDeliveredDate())}
                             </h:column>
                             <h:column>
-                                <f:facet name="header">Delivered</f:facet>
+                                <f:facet name="header">#{texts.delivered}</f:facet>
                                 <h:outputText value="#{texts.no}" rendered="#{!order.delivered}" />
                                 <h:outputText value="#{texts.yes}" rendered="#{order.delivered}" />
                             </h:column>
                             <h:column>
-                                <f:facet name="header">Delivery</f:facet>
+                                <f:facet name="header">#{texts.menu_delivery}</f:facet>
                                 <h:outputText value="#{texts.no}" rendered="#{!order.delivery}" />
                                 <h:outputText value="#{texts.yes}" rendered="#{order.delivery}" />
                             </h:column>
                             <h:column>
-                                <f:facet name="header">Details</f:facet>
+                                <f:facet name="header">#{texts.detail}</f:facet>
                                 <h:commandButton image="/resources/img/info_icon.png"
                                                  action="#{infoBean.lookUpOrder(order.getOrderID())}"/>
                             </h:column>
@@ -119,35 +119,35 @@ Contains:
                                              image="/resources/img/close_popup.png"
                                              action='#{infoBean.closeDetailedInfo()}'/>
 
-                            <h2>Detailed order information</h2>
+                            <h2>#{texts.detail_text}</h2>
 
                             <div id='details_left_col'>
-                                <label>ID</label><h:outputText value="#{infoBean.selectedOrderCustomer.customerId}" styleClass="text"/>
-                                <label>Name</label><h:outputText value="#{infoBean.selectedOrderCustomer.name}" styleClass="text"/><br/>
-                                <label>Adress</label><h:outputText value="#{infoBean.selectedOrderCustomer.address}" styleClass="text"/>
-                                <label>City</label><h:outputText value="#{infoBean.selectedOrderCustomer.city}" styleClass="text"/><br/>
-                                <label>Zip-code</label><h:outputText value="#{infoBean.selectedOrderCustomer.zipCode}" styleClass="text"/>
-                                <label>Phone</label><h:outputText value="#{infoBean.selectedOrderCustomer.phoneNumber}" styleClass="text"/><br/>
-                                <label>Email</label><h:outputText value="#{infoBean.selectedOrderCustomer.email}" styleClass="text"/>
+                                <label>#{texts.id}</label><h:outputText value="#{infoBean.selectedOrderCustomer.customerId}" styleClass="text"/>
+                                <label>#{texts.edit_account_name}</label><h:outputText value="#{infoBean.selectedOrderCustomer.name}" styleClass="text"/><br/>
+                                <label>#{texts.edit_account_address}</label><h:outputText value="#{infoBean.selectedOrderCustomer.address}" styleClass="text"/>
+                                <label>#{texts.edit_account_city}</label><h:outputText value="#{infoBean.selectedOrderCustomer.city}" styleClass="text"/><br/>
+                                <label>#{texts.edit_account_zipcode}</label><h:outputText value="#{infoBean.selectedOrderCustomer.zipCode}" styleClass="text"/>
+                                <label>#{texts.edit_account_phone}</label><h:outputText value="#{infoBean.selectedOrderCustomer.phoneNumber}" styleClass="text"/><br/>
+                                <label>#{texts.edit_account_email}</label><h:outputText value="#{infoBean.selectedOrderCustomer.email}" styleClass="text"/>
 
                             </div>
-                            <h3>Products</h3>
+                            <h3>#{texts.products}</h3>
                             <div id='details_right_col'>
                                 <h:dataTable styleClass="active_orders_item_details_popup"
                                              value="#{infoBean.orderProducts}"
                                              var="product"
                                              >
                                     <h:column>
-                                        <f:facet name="header">ID</f:facet>
+                                        <f:facet name="header">#{texts.id}</f:facet>
                                         #{product.id}</h:column>
                                     <h:column>
-                                        <f:facet name="header">Name</f:facet>
+                                        <f:facet name="header">#{texts.edit_account_name}</f:facet>
                                         #{product.getName(localeHandler.getLang())}</h:column>
                                     <h:column>
-                                        <f:facet name="header">Description</f:facet>
+                                        <f:facet name="header">#{texts.menu_description}</f:facet>
                                         #{product.getDescription(localeHandler.getLang())}</h:column>
                                     <h:column>
-                                        <f:facet name="header">Price</f:facet>
+                                        <f:facet name="header">#{texts.menu_price}</f:facet>
                                         #{product.price}</h:column>
                                     <h:column><f:facet name="header">#{texts.product_quantity}</f:facet>
                                         #{infoBean.findQuantityProduct(product)}</h:column>

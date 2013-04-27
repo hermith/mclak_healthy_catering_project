@@ -25,26 +25,26 @@ Contains:
                                        action="/protected/common/control_panel.xhtml"
                                        />
                     </h:form>
-                    - Add new user</h1>
+                    - #{texts.add_user}</h1>
             </ui:define>
 
             <ui:define name="subsite_content">
                 <h:form id="create_account_system_form">
-                    <label>Username</label><p:inputText value="#{userBean.dummyUsername}"
+                    <label>#{texts.login_username}</label><p:inputText value="#{userBean.dummyUsername}"
                                                         required="true"
                                                         requiredMessage="#{error.login_required_username}"/><br/>
-                    <label>Email</label><p:inputText value="#{userBean.dummyEmail}"
+                    <label>#{texts.edit_account_email}</label><p:inputText value="#{userBean.dummyEmail}"
                                                      required="true"
                                                      requiredMessage="#{error.login_required_email}">
                         <f:validator validatorId="EmailValidator" />
                     </p:inputText><br/>
-                    <label>Role</label>
+                    <label>#{texts.role}</label>
                     <h:selectOneRadio id="create_account_system_radio"
                                       value="#{userBean.dummyRoleId}">
-                        <f:selectItem itemLabel="System" itemValue="system" />
-                        <f:selectItem itemLabel="Employee" itemValue="employee" />
+                        <f:selectItem itemLabel="#{texts.system}" itemValue="system" />
+                        <f:selectItem itemLabel="#{texts.employee}" itemValue="employee" />
                     </h:selectOneRadio><br/>
-                    <h:commandButton value="Send user a generated password and create account"
+                    <h:commandButton value="#{texts.button_send_password}"
                                      action="#{userBean.createNewUser()}"
                                      styleClass="button_style"/><br/><br/>
                     <p:messages />
