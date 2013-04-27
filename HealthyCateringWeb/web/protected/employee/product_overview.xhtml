@@ -43,15 +43,20 @@ Contains:
                     <h:dataTable var="product" value="#{productBean.allProductsDB}">
                         <h:column>
                             <f:facet name="header">#{texts.menu_product}</f:facet>
-                            #{product.getName(localeHandler.getLang())}
+                                #{product.getName(localeHandler.getLang())}
                         </h:column>
                         <h:column>
                             <f:facet name="header">#{texts.menu_description}</f:facet>
-                            #{product.getDescription(localeHandler.getLang())}
+                                #{product.getDescription(localeHandler.getLang())}
                         </h:column>
                         <h:column>
                             <f:facet name="header">#{texts.menu_price}</f:facet>
-                            #{product.price}
+                                #{product.price}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">#{texts.order_active}</f:facet>
+                            <h:outputText value="#{texts.no}" rendered="#{!product.active}" />
+                            <h:outputText value="#{texts.yes}" rendered="#{product.active}" />
                         </h:column>
                         <h:column>
                             <f:facet name="header"></f:facet>
@@ -108,19 +113,20 @@ Contains:
                                     <h:dataTable value="#{productBean.singleProductsPackage}" var="productPackage" >
                                         <h:column >
                                             <f:facet name="header">#{texts.product_name}</f:facet>
-                                            #{productPackage.getName(localeHandler.getLang())}
+                                                #{productPackage.getName(localeHandler.getLang())}
                                         </h:column>
                                         <h:column>
                                             <f:facet name="header">#{texts.product_description}</f:facet>
-                                            #{productPackage.getDescription(localeHandler.getLang())}
+                                                #{productPackage.getDescription(localeHandler.getLang())}
                                         </h:column>
                                         <h:column>
                                             <f:facet name="header">#{texts.product_quantity}</f:facet>
-                                            #{productBean.findQuantitySelected(productPackage)}
+                                                #{productBean.findQuantitySelected(productPackage)}
                                         </h:column>
                                         <h:column>
-                                            <h:commandButton action="#{productBean.deleteProductPackage(productPackage)}" 
-                                                             styleClass="menu_add_button" value="#{texts.product_delete}" />
+                                            <h:commandButton action="#{productBean.deleteProductPackage(productPackage)}"
+                                                             styleClass="cart_delete_button" 
+                                                             image="/resources/img/info_icon.png"/>
                                         </h:column>
                                     </h:dataTable>
 
@@ -188,29 +194,6 @@ Contains:
                                     <label>#{texts.menu_total}: </label>
                                     <h:outputText value="#{productBean.newProductPrice}" /><br/>
 
-                                    <!--All products in package-->
-                                    <h:dataTable var="singleProduct" value="#{productBean.newProductProductsQuantity}">
-                                        <h:column>
-                                            <f:facet name="header">#{texts.product_name}</f:facet>
-                                            #{singleProduct.getName(localeHandler.getLang())}
-                                        </h:column>
-                                        <h:column>
-                                            <f:facet name="header">#{texts.product_description}</f:facet>
-                                            #{singleProduct.getDescription(localeHandler.getLang())}
-                                        </h:column>
-                                        <h:column>
-                                            <f:facet name="header">#{texts.product_price}</f:facet>
-                                            #{singleProduct.price}
-                                        </h:column>
-                                        <h:column>
-                                            <f:facet name="header">#{texts.product_quantity}</f:facet>
-                                            #{productBean.findQuantity(singleProduct)}
-                                        </h:column>
-                                        <h:column>
-                                            <h:commandButton styleClass="menu_add_button" action="#{productBean.deleteSingleProductPackage(singleProduct)}" value="#{texts.product_delete}" />
-                                        </h:column>
-                                    </h:dataTable>
-
                                     #{texts.product_add_product}: 
                                     <h:selectOneMenu value="#{productBean.addedSingleProductID}" >
                                         <f:selectItems value="#{productBean.allSingleProducts}" 
@@ -221,7 +204,32 @@ Contains:
                                     <p:spinner value="#{productBean.addedSingleProductQuantity}" required="true" />
                                     <h:commandButton value="#{texts.product_add}" styleClass="button_style" action="#{productBean.addProductPackage()}" />
                                     <p:messages />
-                                    <br/><h:commandButton styleClass="button_style" action="#{productBean.addNewProduct()}" value="#{texts.product_add}"/>
+                                    <br/><h:commandButton styleClass="button_style" action="#{productBean.addNewProduct()}" value="#{texts.product_add_to_database}"/>
+
+                                    <!--All products in package-->
+                                    <h:dataTable var="singleProduct" value="#{productBean.newProductProductsQuantity}">
+                                        <h:column>
+                                            <f:facet name="header">#{texts.product_name}</f:facet>
+                                                #{singleProduct.getName(localeHandler.getLang())}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">#{texts.product_description}</f:facet>
+                                                #{singleProduct.getDescription(localeHandler.getLang())}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">#{texts.product_price}</f:facet>
+                                                #{singleProduct.price}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">#{texts.product_quantity}</f:facet>
+                                                #{productBean.findQuantity(singleProduct)}
+                                        </h:column>
+                                        <h:column>
+                                            <h:commandButton styleClass="cart_delete_button" 
+                                                             image="/resources/img/info_icon.png"
+                                                             action="#{productBean.deleteSingleProductPackage(singleProduct)}"/>
+                                        </h:column>
+                                    </h:dataTable>
                                 </h:panelGroup>
                             </div>
                         </div>

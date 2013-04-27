@@ -29,7 +29,9 @@ Contains:
         <ui:insert name="subsite_sidebar">
             <h:form rendered="#{userBean.loggedIn}">
                 <h2>#{texts.menu_shoppingcart}:</h2>
-                <h:outputText rendered="#{shoppingBean.shoppingCartIsEmpty()}" value="#{texts.menu_noproducts}"/>
+                <p>
+                    <h:outputText rendered="#{shoppingBean.shoppingCartIsEmpty()}" value="#{texts.menu_noproducts}"/>
+                </p>
                 <h:dataTable style="width: 100%;" rendered="#{!shoppingBean.shoppingCartIsEmpty()}" var="product" value="#{shoppingBean.shoppingCartProducts}">
                     <h:column>
                         #{product.getName(localeHandler.getLang())} 

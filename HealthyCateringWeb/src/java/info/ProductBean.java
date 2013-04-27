@@ -40,6 +40,7 @@ public class ProductBean implements Serializable {
     public ProductBean() {
         newProductIsSingle = true;
         newProduct = new SingleProduct();
+        newProduct.setActive(true);
         addedSingleProductQuantity = 1;
     }
 
@@ -52,6 +53,7 @@ public class ProductBean implements Serializable {
         newProduct.setNameEn("Name");
         newProduct.setDescriptionNo("Besrkivelse");
         newProduct.setDescriptionEn("Description");
+        newProduct.setActive(true);
     }
 
     /**

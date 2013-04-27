@@ -1,5 +1,6 @@
 package shopping;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import shopping.product.Product;
 
@@ -58,7 +59,7 @@ public class ShoppingCart {
         for (Product product : products) {
             sum += product.getPrice();
         }
-        return sum;
+        return Float.parseFloat(new DecimalFormat("#.##").format(sum));
     }
 
     //GETTER & SETTER
