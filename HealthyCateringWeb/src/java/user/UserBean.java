@@ -48,7 +48,7 @@ public class UserBean implements Serializable {
      * @return - Empty strings for refreshing instead of redirecting.
      */
     public String registerPrivateUser() {
-        System.out.println("Called registerPrivateUser() in UserBean");
+        Logger.getLogger(UserBean.class.getName()).log(Level.INFO, "Attempting to register private user.", user);
         this.user.setNewPassword("");
         this.user.setRoleId(UserRoleHandler.USER_ROLE_ID_PRIVATE_CUSTOMER);
         if (userhandler.registerPrivateUser(user)) {
@@ -69,7 +69,7 @@ public class UserBean implements Serializable {
      * @return - Empty strings for refreshing instead of redirecting.
      */
     public String registerCorporateUser() {
-        System.out.println("Called registerCorporateUser() in UserBean");
+        Logger.getLogger(UserBean.class.getName()).log(Level.INFO, "Attempting to register corporate user.", user);
         this.user.setNewPassword("");
         this.user.setRoleId(UserRoleHandler.USER_ROLE_ID_CORPORATE_CUSTOMER);
         if (userhandler.registerCorporateUser(user)) {

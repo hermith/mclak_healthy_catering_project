@@ -2,7 +2,6 @@ package info;
 
 import database.DatabaseHandler;
 import java.util.ArrayList;
-import java.util.Locale;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import shopping.product.Product;
