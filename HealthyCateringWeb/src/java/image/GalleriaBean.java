@@ -4,41 +4,61 @@
 package image;
 
 /**
- * This file adds images into a galley
- * 
+ * This file adds images into a gallery with diffrent titles
+ * in different language
  * 
  * @author Maria
  */
 
 import java.util.ArrayList;  
 import java.util.List;  
-import javax.annotation.PostConstruct;  
+import java.util.Locale; 
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 @Named
 public class GalleriaBean {
-    private List<String> images;  
+    private List<GalleriaImages> images_no;
+    private List<GalleriaImages> images_en;
+    
+    private String[] foodnames_no = {null, "Biff", "Laks", "Gresk salat", "Ferske råvarer", "Kyllingbryst"};
+    private String[] foodnames_en = {null, "Steak", "Salmon", "Greek salad", "Fresh ingredients", "Chicken breast"};
     
     
-    /**
-     *  Adds images
-     */
-    @PostConstruct  
-    public void init() {  
-        images = new ArrayList<String>();  
+     
+    public GalleriaBean() {  
+        images_no = new ArrayList<GalleriaImages>();
+        for(int i=1; i<=5; i++){
+            images_no.add(new GalleriaImages(foodnames_no[i], "food" + i + ".jpg"));
+        }
+        
+         images_en = new ArrayList<GalleriaImages>();
+        for(int i=1; i<=5; i++){
+            images_en.add(new GalleriaImages(foodnames_en[i], "food" + i + ".jpg"));
    
-        images.add("food4.jpg");
-        images.add("food2.jpg");
-        images.add("food3.jpg");
-        images.add("food1.jpg");
-        images.add("food5.jpg");
+        }
     }
     
     /**
-     * Get images
+     * Get images in different language
      * @return images
      */
-    public List<String> getImages() {  
-        return images;  
+    public List<GalleriaImages> getImages_no() {  
+        return images_no;  
     } 
+    
+    public List<GalleriaImages> getImages_en() {  
+        return images_en;  
+    } 
+    
+    /**
+     * Check for current language
+     * @return current language
+     */
+    
+    public boolean isNo(){
+        FacesContext context = FacesContext.getCurrentInstance();
+        Locale locale = context.getViewRoot().getLocale();
+        return locale.getLanguage().equals("no");
+    }
 }

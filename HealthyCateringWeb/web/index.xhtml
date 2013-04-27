@@ -11,16 +11,29 @@
                 <h:outputScript library="js" name="/supersized.core.3.2.1.js" />
             </ui:define>
             <ui:define name="subsite_content">
-                <p:galleria value="#{galleriaBean.images}"
+                <p:galleria value="#{galleriaBean.images_en}"
                             var="image"
                             id='galleria_front'
                             panelWidth="680"
                             panelHeight="300"
                             showCaption="true"
                             autoPlay="true"
-                            transitionInterval="2000">  
-                    <p:graphicImage value="/resources/img/galleria/#{image}" title="#{texts.image_description}" />  
+                            transitionInterval="2000"
+                            rendered="#{!galleriaBean.no}">  
+                    <p:graphicImage value="/resources/img/galleria/#{image.path}" title="#{image.name}" />  
                 </p:galleria>
+                <p:galleria value="#{galleriaBean.images_no}"
+                            var="image"
+                            id='galleria_front_two'
+                            panelWidth="680"
+                            panelHeight="300"
+                            showCaption="true"
+                            autoPlay="true"
+                            transitionInterval="2000"
+                            rendered="#{galleriaBean.no}">  
+                    <p:graphicImage value="/resources/img/galleria/#{image.path}" title="#{image.name}" />  
+                </p:galleria>
+                
             </ui:define>
         </ui:composition>
     </h:body>
