@@ -595,8 +595,12 @@ public class ShoppingBean implements Serializable {
         String dayString = MessageHandler.getLocalizedText(MessageType.TEKST, "day" + day);
         return dayString;
     }
-    
+
     public void setNewContractInactive(Contract contract) {
-        shoppingHandler.updateContractSetActive(false, contract.getContractId());
+        if (shoppingHandler.updateContractSetActive(false, contract.getContractId())) {
+            MessageHandler.addErrorMessage("JANK");
+        } else {
+            MessageHandler.addErrorMessage("NE");
+        }
     }
 }
