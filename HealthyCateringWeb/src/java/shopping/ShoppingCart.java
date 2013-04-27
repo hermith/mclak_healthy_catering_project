@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import shopping.product.Product;
 
 /**
+ * Storage object for a shopping cart.
+ *
  * @author Linn K
  */
 public class ShoppingCart {
