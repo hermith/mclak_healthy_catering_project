@@ -87,21 +87,21 @@ Contains:
                             <label class="control_panel_label">#{texts.account_edit}</label>
                         </div>
                         <div class="control_panel_button_section">
-                            <h:panelGroup rendered="#{userBean.loggedInAsCorporateCustomer || userBean.loggedInAsSystem}">
-                                <h:commandButton
-                                    styleClass="control_panel_button"
-                                    image="/resources/img/control_panel_icons/icon_order_history.png"
-                                    action="/protected/corporate/add_contract.xhtml"/>
-                                <label class="control_panel_label">#{texts.add_contract_title}</label>
-                            </h:panelGroup>
-                        </div>
-                        <div class="control_panel_button_section">
                             <h:panelGroup rendered="#{userBean.loggedInAsCorporateCustomer || userBean.loggedInAsPrivateCustomer}">
                                 <h:commandButton
                                     styleClass="control_panel_button"
                                     image="/resources/img/control_panel_icons/icon_order_history.png"
                                     action="/protected/common/order_history.xhtml"/>
                                 <label class="control_panel_label">#{texts.menu_order_history}</label>
+                            </h:panelGroup>
+                        </div>
+                        <div class="control_panel_button_section">
+                            <h:panelGroup rendered="#{userBean.loggedInAsCorporateCustomer || userBean.loggedInAsSystem}">
+                                <h:commandButton
+                                    styleClass="control_panel_button"
+                                    image="/resources/img/control_panel_icons/icon_order_history.png"
+                                    action="/protected/corporate/contract_overview_customer.xhtml"/>
+                                <label class="control_panel_label">#{texts.contracts_title}</label>
                             </h:panelGroup>
                         </div>
                     </h:panelGroup>

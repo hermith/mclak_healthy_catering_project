@@ -45,8 +45,8 @@ Contains:
                         <h:selectOneMenu required="true" value="#{shoppingBean.newContractDayOfWeek}" >
                             <f:selectItems value="#{shoppingBean.daysOfWeek}" var="day" itemLabel="#{shoppingBean.getDayLocalString(day)}"/>
                         </h:selectOneMenu><br/>
-                        <label>TIME:</label>
-                        <p:inputText value="#{shoppingBean.newContractTime}" >
+                        <label>#{texts.contract_time}: </label>
+                        <p:inputText converterMessage="#{error.time_invalid}" required="true" requiredMessage="#{error.time_required}" value="#{shoppingBean.newContractTime}" >
                             <f:convertDateTime pattern="HH:mm" />
                         </p:inputText><br/>
                         <h:commandButton action="#{shoppingBean.saveNewContract()}" styleClass="button_style" value="#{texts.product_save}" />

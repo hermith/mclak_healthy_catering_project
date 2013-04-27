@@ -71,7 +71,6 @@ public class ShoppingBean implements Serializable {
      * @param username - Username related to the customer object.
      */
     public void registerPrivateCustomer(String username) {
-        System.out.println("REGISTERING PRIVATE CUSTOMER");
         shoppingHandler.insertCustomer(privateCustomer, username);
         privateCustomer = new PrivateCustomer();
         corporateCustomer = new CorporateCustomer();
@@ -83,15 +82,14 @@ public class ShoppingBean implements Serializable {
      * @param username - Username related to the customer object.
      */
     public void registerCorporateCustomer(String username) {
-        System.out.println("REGISTERING CORPORATE CUSTOMER");
         shoppingHandler.insertCustomer(corporateCustomer, username);
         privateCustomer = new PrivateCustomer();
         corporateCustomer = new CorporateCustomer();
     }
 
     /**
-     * Resets customer and order objects when. Method used when objects have
-     * been processed and no longer need to remain alive.
+     * Resets customer and order objects. Method used when objects have been
+     * processed and no longer need to remain alive.
      */
     public void resetVars() {
         privateCustomer = new PrivateCustomer();
@@ -99,9 +97,7 @@ public class ShoppingBean implements Serializable {
         order = new Order();
     }
 
-    /*
-     * Getters and setters for private customer object. 
-     */
+    //Getters and setters for private customer object. 
     public String getFirstName() {
         if (privateCustomer != null) {
             return ((PrivateCustomer) privateCustomer).getFirstName();
@@ -209,9 +205,7 @@ public class ShoppingBean implements Serializable {
         }
     }
 
-    /*
-     * Getters and setters for corporate customer object. 
-     */
+    //Getters and setters for corporate customer object. 
     public String getCompanyName() {
         if (corporateCustomer != null) {
             return corporateCustomer.getCompanyName();
@@ -410,6 +404,7 @@ public class ShoppingBean implements Serializable {
         }
     }
 
+    //GETTER AND SETTER for order
     public Date getDeliveryDate() {
         return order.getDeliveryDate();
     }
@@ -425,8 +420,6 @@ public class ShoppingBean implements Serializable {
     /**
      * Calls fixCustomer() in ShoppingHandler.java. Saves changes to logged in
      * customer.
-     *
-     * @return
      */
     public void saveChangesAccount() {
         Customer customer = shoppingHandler.getCustomer(username);
@@ -516,11 +509,16 @@ public class ShoppingBean implements Serializable {
         return newContract.getTime();
     }
 
-    public void saveNewContract() {
+    /**
+     * Calls insertContract(newContract) in ShoppingHandler.java. Saves a new
+     * contract in the database.
+     *
+     * @return navigation case string
+     */
+    public String saveNewContract() {
+        String msg;
         if (!shoppingCartIsEmpty()) {
-            if (privateCustomer.getCustomerId() != -1) {
-                newContract.setCustomerId(privateCustomer.getCustomerId());
-            } else if (corporateCustomer.getCustomerId() != -1) {
+            if (corporateCustomer.getCustomerId() != -1) {
                 newContract.setCustomerId(corporateCustomer.getCustomerId());
             }
             newContract.setProducts(getProducts());
@@ -530,20 +528,51 @@ public class ShoppingBean implements Serializable {
                 shoppingCart = new ShoppingCart();
                 order = new Order();
                 newContract = new Contract();
-                MessageHandler.addErrorMessage("JAAA");
+                msg = MessageHandler.getLocalizedText(MessageType.TEKST, "contract_saved");
+                MessageHandler.addErrorMessage(msg);
+                return "contract_overview_customer";
+            } else {
+                msg = MessageHandler.getLocalizedText(MessageType.TEKST, "contract_not_saved");
             }
         } else {
+            msg = MessageHandler.getLocalizedText(MessageType.TEKST, "menu_noproducts");
         }
+        MessageHandler.addErrorMessage(msg);
+        return "";
     }
 
+    /**
+     * Calls selectContracts(customerId) in ShoppingHandler.java. Finds active
+     * contracts on the logged in customer.
+     *
+     * @return contracts
+     */
     public ArrayList<Contract> getContracts() {
-        if (privateCustomer.getCustomerId() != -1) {
-            return shoppingHandler.selectContracts(privateCustomer.getCustomerId());
-        } else if (corporateCustomer.getCustomerId() != -1) {
+        if (corporateCustomer.getCustomerId() != -1) {
             return shoppingHandler.selectContracts(corporateCustomer.getCustomerId());
-        }return null;
+        }
+        return null;
     }
 
+    /**
+     *
+     * @return whether the customer has active contracts.
+     */
+    public boolean hasContracts() {
+        ArrayList<Contract> contracts = getContracts();
+        if (contracts != null) {
+            if (!contracts.isEmpty()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Used to display days of week.
+     *
+     * @return int[] with Calendar days
+     */
     public int[] getDaysOfWeek() {
         int days[] = new int[7];
         days[0] = Calendar.SUNDAY;
@@ -556,6 +585,12 @@ public class ShoppingBean implements Serializable {
         return days;
     }
 
+    /**
+     * Used to display days of week.
+     *
+     * @param day
+     * @return The local string of day.
+     */
     public String getDayLocalString(int day) {
         String dayString = MessageHandler.getLocalizedText(MessageType.TEKST, "day" + day);
         return dayString;
