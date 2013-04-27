@@ -139,10 +139,10 @@ public class DatabaseHandler {
     private DataSource dataSource;
 
     /**
-     * This constructor initiates the object variable 'dataSource' by
-     * looking up the pool name given by the POOL_NAME constant. The constructor
-     * also initiates the object variable productsTableChanged to true in order
-     * to force the ShoppingHandler class to retrieve the product menu from the
+     * This constructor initiates the object variable 'dataSource' by looking up
+     * the pool name given by the POOL_NAME constant. The constructor also
+     * initiates the object variable productsTableChanged to true in order to
+     * force the ShoppingHandler class to retrieve the product menu from the
      * database upon initiation.
      */
     public DatabaseHandler() {
@@ -1242,6 +1242,17 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * Method used for retrieving all orders for a specific customer with a
+     * given customer id. The method uses selectOrder(int) to do this, and
+     * therefore only retrieves as many orders as possible. If an error occurs
+     * during the retrieval of an order, that order is skipped and the process
+     * continues.
+     *
+     * @param customerId The customer id.
+     * @return An ArrayList containing all orders connected to the given
+     * customer id. null if an SQLException occurs.
+     */
     public synchronized ArrayList<Order> selectOrders(int customerId) {
         Connection conn = null;
         PreparedStatement stm = null;
@@ -1274,6 +1285,15 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * Method used for retrieving all orders in the database. The method uses
+     * selectOrder(int) to do this, and therefore only retrieves as many orders
+     * as possible. If an error occurs during the retrieval of an order, that
+     * order is skipped and the process continues.
+     *
+     * @return An ArrayList containing all orders. null if an SQLException
+     * occurs.
+     */
     public synchronized ArrayList<Order> selectOrders() {
         Connection conn = null;
         PreparedStatement stm = null;
@@ -1309,6 +1329,15 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * Method used for retrieving all undelivered orders. The method uses
+     * selectOrder(int) to do this, and therefore only retrieves as many orders
+     * as possible. If an error occurs during the retrieval of an order, that
+     * order is skipped and the process continues.
+     *
+     * @return An ArrayList containing all orders that are undelivered. null if
+     * an SQLException occurs.
+     */
     public synchronized ArrayList<Order> selectUndeliveredOrders() {
         ArrayList<Order> allOrders = selectOrders();
         if (allOrders != null) {
@@ -1325,6 +1354,15 @@ public class DatabaseHandler {
         return null;
     }
 
+    /**
+     * Method used for retrieving all delivered orders. The method uses
+     * selectOrder(int) to do this, and therefore only retrieves as many orders
+     * as possible. If an error occurs during the retrieval of an order, that
+     * order is skipped and the process continues.
+     *
+     * @return An ArrayList containing all orders that are delivered. null if an
+     * SQLException occurs.
+     */
     public synchronized ArrayList<Order> selectDeliveredOrders() {
         ArrayList<Order> allOrders = selectOrders();
         if (allOrders != null) {
@@ -1341,6 +1379,15 @@ public class DatabaseHandler {
         return null;
     }
 
+    /**
+     * Method used for inserting a new order into the database. The method
+     * inserts data into the Order_Table and the Order_Product_Table. If an
+     * error occurs during insertion, any data that got successfully inserted
+     * will be rolled back and the process aborted.
+     *
+     * @param order The order to insert.
+     * @return True if the order was successfully inserted, false if not.
+     */
     public synchronized boolean insertOrder(Order order) {
         Connection conn = null;
         PreparedStatement stm = null;
@@ -1403,6 +1450,16 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * Method used for inserting multiple orders at once into the database. The
+     * method inserts data into the Order_Table and the Order_Product_Table.
+     * This method uses the insertOrder(Order) method, and therefore only
+     * inserts as many orders as possible. If an error occurs during insertion
+     * of an order, that order will be skipped and the process continues.
+     *
+     * @param orders The orders to be inserted.
+     * @return True if ALL orders got inserted successfully, false if not.
+     */
     public synchronized boolean insertOrders(ArrayList<Order> orders) {
         int numberOfOrdersInserted = 0;
         for (Order o : orders) {
@@ -1419,6 +1476,15 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * Method used for updating an order in the database. The method updates
+     * data into the Order_Table and the Order_Product_Table. If an error occurs
+     * during updating, any data that got successfully inserted will be rolled
+     * back and the process aborted.
+     *
+     * @param order The order containing the updated data.
+     * @return True if the order was successfully updated, false if not.
+     */
     public synchronized boolean updateOrder(Order order) {
         Connection conn = null;
         PreparedStatement stm = null;
@@ -1484,6 +1550,14 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * Method used for updating the date_delivered attribute for a specific
+     * order in the database. The method updates data into the Order_Table.
+     *
+     * @param orderId The order id.
+     * @param dateDelivered The date and time the order was delivered.
+     * @return True if the order was successfully updated, false if not.
+     */
     public synchronized boolean updateOrderSetDateDelivered(int orderId, Timestamp dateDelivered) {
         Connection conn = null;
         PreparedStatement stm = null;
@@ -1509,6 +1583,14 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * Method used for updating the is_prepared attribute for a specific order
+     * in the database. The method updates data in the Order_Table.
+     *
+     * @param orderId The order id.
+     * @param prepared The new is_prepared status.
+     * @return True if the order was updated successfully, false if not.
+     */
     public synchronized boolean updateOrderSetPrepared(int orderId, boolean prepared) {
         Connection conn = null;
         PreparedStatement stm = null;
@@ -1534,6 +1616,16 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * Method used for updating multiple orders at once in the database. The
+     * method inserts data into the Order_Table. This method uses the
+     * updateOrder(Order) method, and therefore only updates as many orders as
+     * possible. If an error occurs during the updating of an order, that order
+     * will be skipped and the process continues.
+     *
+     * @param orders The orders to be updated.
+     * @return True if ALL orders got updated successfully, false if not.
+     */
     public synchronized boolean updateOrders(ArrayList<Order> orders) {
         int numberOfOrdersUpdated = 0;
         for (Order o : orders) {
@@ -1550,6 +1642,14 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * Method used for updating the is_active attribute for a specific order in
+     * the database. The method updates data in the Order_Table.
+     *
+     * @param active The order id.
+     * @param orderId The new is_active status.
+     * @return True if the order was updated successfully, false if not.
+     */
     public synchronized boolean updateOrderSetActive(boolean active, int orderId) {
         Connection conn = null;
         PreparedStatement stm = null;
@@ -1573,6 +1673,14 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * Method used for retrieving a specific contract from the database. The
+     * method uses data from the Contract_Table and Order_Table to do this.
+     *
+     * @param contractId the id of the contract to retrieve.
+     * @return A Contract object representing the contract, or null if the
+     * contract id was invalid or if an SQLException was thrown.
+     */
     public synchronized Contract selectContract(int contractId) {
         Connection conn = null;
         PreparedStatement stm = null;
@@ -1602,6 +1710,15 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * Method used for retrieving all contracts in the database. The method uses
+     * selectContract(int) to do this, and therefore only retrieves as many
+     * contracts as possible. If an error occurs during the retrieval of a
+     * contract, that contract is skipped and the process continues.
+     *
+     * @return An ArrayList containing all contracts. null if an SQLException
+     * occurs.
+     */
     public synchronized ArrayList<Contract> selectContracts() {
         Connection conn = null;
         PreparedStatement stm = null;
@@ -1637,6 +1754,16 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * Method used for retrieving all contracts in the database related to a
+     * specific customerId. The method uses selectContract(int) to do this, and
+     * therefore only retrieves as many contracts as possible. If an error
+     * occurs during the retrieval of a contract, that contract is skipped and
+     * the process continues.
+     *
+     * @return An ArrayList containing all contracts related to the customer id.
+     * null if an SQLException occurs.
+     */
     public synchronized ArrayList<Contract> selectContracts(int customerId) {
         Connection conn = null;
         PreparedStatement stm = null;
@@ -1673,6 +1800,15 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * Method used for inserting a new contract into the database. The method
+     * updates data in the Contract_Table and the Order_Table. If an error
+     * occurs during the process, any data that may have gotten inserted gets
+     * rolled back and the process is aborted.
+     *
+     * @param contract The new contract to be inserted.
+     * @return True if the contract got inserted successfully, false if not.
+     */
     public synchronized boolean insertContract(Contract contract) {
         Connection conn = null;
         PreparedStatement stm = null;
@@ -1705,6 +1841,13 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * Method used for updating a new contract into the database. The method
+     * updates data in the Contract_Table and the Order_Table.
+     *
+     * @param contract The contract containing the updated data.
+     * @return True if the contract got updated successfully, false if not.
+     */
     public synchronized boolean updateContract(Contract contract) {
         Connection conn = null;
         PreparedStatement stm = null;
@@ -1735,6 +1878,14 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * Method used for updating the is_active attribute for a given contract.
+     * The method updates data in the Contract_Table only.
+     *
+     * @param active The new is_active status for the contract.
+     * @param contractId The contract id.
+     * @return True if the new status was set successfully, false if not.
+     */
     public synchronized boolean updateContractSetActive(boolean active, int contractId) {
         Connection conn = null;
         PreparedStatement stm = null;
@@ -1778,7 +1929,7 @@ public class DatabaseHandler {
     /**
      * Closes a Statement in a safe manner.
      *
-     * @param stm The statement to close
+     * @param stm The statement to close.
      */
     private void closeStatement(Statement stm) {
         try {
@@ -1805,6 +1956,11 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * Rolls back a connection in a safe manner.
+     *
+     * @param conn The connection to be rolled back.
+     */
     private void rollBack(Connection conn) {
         try {
             if (conn != null) {
@@ -1815,6 +1971,12 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * Set a new auto commit status for a given connection.
+     *
+     * @param conn The connection.
+     * @param newState The new auto commit status.
+     */
     private void setAutoCommit(Connection conn, boolean newState) {
         try {
             if (conn != null) {
@@ -1825,6 +1987,11 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * Commits data for a given connection.
+     *
+     * @param conn The connection.
+     */
     private void commit(Connection conn) {
         try {
             if (conn != null) {
@@ -1835,6 +2002,18 @@ public class DatabaseHandler {
         }
     }
 
+    /**
+     * Checks whether or not a customer, given a customer id, is in the
+     * Private_Customer_Table.
+     *
+     * @param conn The connection to use,
+     * @param stm The prepared statement to use.
+     * @param resSet The result set to use.
+     * @param customerId The id of the customer to check.
+     * @return True if the customer id was found in the Private_Customer_Table,
+     * false if not.
+     * @throws SQLException
+     */
     private boolean isCustomerAPrivateCustomer(Connection conn, PreparedStatement stm, ResultSet resSet, int customerId) throws SQLException {
         stm = conn.prepareStatement(STM_SELECT_PRIVATE_CUSTOMER);
         stm.setInt(1, customerId);
@@ -1842,6 +2021,18 @@ public class DatabaseHandler {
         return resSet.next();
     }
 
+    /**
+     * Checks whether or not a product, given a product id, is in the
+     * Single_Product_Table.
+     *
+     * @param conn The connection to use,
+     * @param stm The prepared statement to use.
+     * @param resSet The result set to use.
+     * @param productId The id of the product to check.
+     * @return True if the product id was found in the Private_Customer_Table,
+     * false if not.
+     * @throws SQLException
+     */
     private boolean isProductInSingleProductTable(Connection conn, PreparedStatement stm, ResultSet resSet, int productId) throws SQLException {
         stm = conn.prepareStatement(STM_SELECT_SINGLE_PRODUCT);
         stm.setInt(1, productId);
