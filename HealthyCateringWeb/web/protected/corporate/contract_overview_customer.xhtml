@@ -21,40 +21,40 @@ Contains:
             <ui:define name="subsite_header">
                 <h1>#{texts.contracts_title}</h1>
             </ui:define>
-            
+
             <ui:define name="subsite_content">
-                <h:dataTable rendered="#{shoppingBean.hasContracts()}" var="contract" value="#{shoppingBean.contracts}" >
-                    <h:column>
-                        <f:facet name="header">ID</f:facet>
-                        #{contract.contractId}
-                        #{shoppingBean.dayLocalString(contract.dayOfWeek)}
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">#{texts.products}</f:facet>
-                        <h:dataTable var="product" value="#{contract.order.products}" >
-                            <h:column>
-                                #{product.name}
-                            </h:column>
-                            <h:column>
-                                
-                            </h:column>
-                        </h:dataTable>
-                        #{shoppingBean.dayLocalString(contract.dayOfWeek)}
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">#{texts.day}</f:facet>
-                        #{contract.time}
-                    </h:column>
-                    <h:column>
-                        <f:facet name="header">#{texts.contract_time}</f:facet>
-                        #{contract.delivery}
-                    </h:column>
-                    <h:column>
-                        <h:commandButton styleClass="menu_add_button" value="#{texts.product_delete}"  action="#{shoppingBean.setNewContractInactive(contract)}"/>
-                    </h:column>
-                </h:dataTable>
-                <p><h:outputText rendered="#{!shoppingBean.hasContracts()}" value="#{texts.no_contracts}" /></p>
-                <p:messages />
+                <h:form>
+                    <h:dataTable rendered="#{shoppingBean.hasContracts()}" var="contract" value="#{shoppingBean.contracts}" >
+                        <h:column>
+                            <f:facet name="header">ID</f:facet>
+                            #{contract.contractId}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">#{texts.products}</f:facet>
+                            <h:dataTable var="product" value="#{contract.order.products}" >
+                                <h:column>
+                                    #{product.getName(localeHandler.getLang())}
+                                </h:column>
+                                <h:column>
+
+                                </h:column>
+                            </h:dataTable>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">#{texts.day}</f:facet>
+                            #{shoppingBean.getDayLocalString(contract.dayOfWeek)}
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">#{texts.contract_time}</f:facet>
+                            #{contract.time}
+                        </h:column>
+                        <h:column>
+                            <h:commandButton styleClass="menu_add_button" value="#{texts.product_delete}"  action="#{shoppingBean.setNewContractInactive(contract)}"/>
+                        </h:column>
+                    </h:dataTable>
+                    <p><h:outputText rendered="#{!shoppingBean.hasContracts()}" value="#{texts.no_contracts}" /></p>
+                    <p:messages />
+                </h:form>
             </ui:define>
         </ui:composition>
     </h:body>
