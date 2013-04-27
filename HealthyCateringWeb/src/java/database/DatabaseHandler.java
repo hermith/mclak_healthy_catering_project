@@ -91,7 +91,7 @@ public class DatabaseHandler {
     private static final String STM_UPDATE_ORDER_SET_IS_ACTIVE = "UPDATE Order_Table SET is_active = ? WHERE order_id = ?";
     private static final String STM_DELETE_ORDER_PRODUCTS = "DELETE FROM Order_Product_Table WHERE order_id = ?";
     private static final String STM_DELETE_ORDER = "DELETE FROM Order_Table WHERE order_id = ?";
-    private static final String STM_SELECT_CONTRACT = "SELECT order_id AS order_id, customer_id AS customer_id, day_of_the_week AS day_of_the_week, is_active AS is_active WHERE contract_id = ?";
+    private static final String STM_SELECT_CONTRACT = "SELECT order_id AS order_id, customer_id AS customer_id, day_of_the_week AS day_of_the_week, is_active AS is_active FROM Contract_Table WHERE contract_id = ?";
     private static final String STM_SELECT_CONTRACT_IDS = "SELECT contract_id AS contract_id FROM Contract_Table";
     private static final String STM_SELECT_CONTRACT_IDS_BASED_ON_CUSTOMER_ID = "SELECT contract_id AS contract_id FROM Contract_Table WHERE customer_id = ?";
     private static final String STM_INSERT_CONTRACT = "INSERT INTO Contract_Table(order_id, customer_id, day_of_the_week, time_of_delivery, is_active) VALUES(?, ?, ?, ?, ?)";
