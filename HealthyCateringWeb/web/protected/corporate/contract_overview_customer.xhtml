@@ -31,12 +31,9 @@ Contains:
                         </h:column>
                         <h:column>
                             <f:facet name="header">#{texts.products}</f:facet>
-                            <h:dataTable var="product" value="#{contract.order.products}" >
+                            <h:dataTable var="product" value="#{shoppingBean.getContractProducts(contract)}" >
                                 <h:column>
-                                    #{product.getName(localeHandler.getLang())}
-                                </h:column>
-                                <h:column>
-
+                                    #{shoppingBean.findQuantityNewContractProducts(product, contract)} x #{product.getName(localeHandler.getLang())}
                                 </h:column>
                             </h:dataTable>
                         </h:column>
@@ -46,10 +43,12 @@ Contains:
                         </h:column>
                         <h:column>
                             <f:facet name="header">#{texts.contract_time}</f:facet>
-                            #{contract.time}
+                            <h:outputText value="#{contract.time}" >
+                                <f:convertDateTime pattern="HH:mm" />
+                            </h:outputText>
                         </h:column>
                         <h:column>
-                            <h:commandButton styleClass="menu_add_button" value="#{texts.product_delete}"  action="#{shoppingBean.setNewContractInactive(contract)}"/>
+                            <h:commandButton styleClass="cart_delete_button" image="/resources/img/info_icon.png"  action="#{shoppingBean.setContractInactive(contract)}"/>
                         </h:column>
                     </h:dataTable>
                     <p><h:outputText rendered="#{!shoppingBean.hasContracts()}" value="#{texts.no_contracts}" /></p>
