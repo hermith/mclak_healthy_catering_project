@@ -1,3 +1,9 @@
+<!--
+    The login UI for chefs and drivers, a toucn friendly UI.
+
+    @author Karl
+-->
+
 <f:view xmlns="http://www.w3.org/1999/xhtml"
         xmlns:f="http://java.sun.com/jsf/core"
         xmlns:h="http://java.sun.com/jsf/html"
@@ -19,9 +25,11 @@
 
         <pm:view id="main">
             <pm:header title="#{texts.mobile_title}">
+
                 <h:form class="ui-btn-right">
                     <p:button value="#{texts.settings}" icon="gear" href="#settings"/>
                 </h:form>
+
             </pm:header>
 
             <pm:content>
@@ -30,18 +38,23 @@
                     <p:outputLabel value="#{texts.login_username}" />
                     <p:inputText value="#{userBean.username}"
                                  required="true"/>
+
                     <p:outputLabel value="#{texts.login_password}" />
                     <p:password value="#{userBean.password}"
                                 required="true"/>
 
                     <h:commandButton value="#{texts.login_login}" action="#{userBean.loginMobile()}"/>
+
                     <p:messages/>
+
                 </h:form>
+
                 <pm:buttonGroup rendered="#{userBean.loggedInAsEmployee}">
                     <p:outputLabel value="#{texts.are_you}" styleClass="header_label"/>
                     <p:button value="#{texts.driver}" href="/protected/employee/touch_driver.xhtml"/>
                     <p:button value="#{texts.chef}" href="/protected/employee/touch_chef.xhtml"/>
                 </pm:buttonGroup>
+
             </pm:content>
 
         </pm:view>

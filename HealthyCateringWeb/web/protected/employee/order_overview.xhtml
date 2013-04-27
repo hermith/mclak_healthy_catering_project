@@ -1,10 +1,9 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 
 <!--
-template.xhtml
-
 Contains:
-    Copy this when you want to create a new subsite and replace any content.
+    List out all the orders, employee can chose between active undelivered
+    orders or all orders.
 
 @author Karl
 -->
@@ -17,6 +16,7 @@ Contains:
 
     <h:body>
         <ui:composition template="/resources/template/template_master.xhtml">
+
             <ui:define name="subscript">
                 <h:outputScript library="js" name="/active_orders_jq.js" />
             </ui:define>
@@ -32,87 +32,107 @@ Contains:
             </ui:define>
 
             <ui:define name="subsite_content">
+
                 <h:form id="active_orders_form">
                     <h:inputHidden value="#{infoBean.customerOrder}" id="show_customer_detail"/>
                 </h:form>
 
                 <h:form styleClass="active_orders_main_form">
 
+                    <!-- "Tabs" on top of the table -->
                     <div id="order_tab_left"><h3>#{texts.active_order}</h3></div>
                     <div id="order_tab_right"><h3>#{texts.menu_order_history}</h3></div>
+
+                    <!-- Active orders table -->
                     <div id="order_active_orders">
                         <h:dataTable value="#{infoBean.undeliveredOrders}"
                                      var="order"
                                      styleClass="active_orders_table"
                                      columnClasses="customer_id, product_ids, placed_on, deliver_on, delivery, details">
+
                             <h:column>
                                 <f:facet name="header">#{texts.id_customer}</f:facet>
                                     #{order.customerID}
                             </h:column>
+
                             <h:column>
                                 <f:facet name="header">#{texts.id_products}</f:facet>
                                     #{order.productIds}
                             </h:column>
+
                             <h:column>
                                 <f:facet name="header">#{texts.order_placed}</f:facet>
                                 <h:outputText value="#{order.convertDateToString(order.getPlacedDate())}" >
                                     <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
                                 </h:outputText>
                             </h:column>
+
                             <h:column>
                                 <f:facet name="header">#{texts.menu_delivered_on}</f:facet>
                                 <h:outputText value="#{order.convertDateToString(order.getDeliveryDate())}" >
                                     <f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
                                 </h:outputText>
                             </h:column>
+
                             <h:column>
                                 <f:facet name="header">#{texts.menu_delivery}</f:facet>
                                 <h:outputText value="#{texts.no}" rendered="#{!order.delivery}" />
                                 <h:outputText value="#{texts.yes}" rendered="#{order.delivery}" />
                             </h:column>
+
                             <h:column>
                                 <f:facet name="header">#{texts.detail}</f:facet>
                                 <h:commandButton image="/resources/img/info_icon.png"
                                                  action="#{infoBean.lookUpOrder(order.getOrderID())}"/></h:column>
+
                         </h:dataTable>
                     </div>
 
+                    <!-- Order history table -->
                     <div id="order_order_history">
                         <h:dataTable value="#{infoBean.orderHistory}"
                                      var="order"
                                      styleClass="active_orders_table"
                                      columnClasses="customer_id, product_ids, placed_on, deliver_on, delivered ,delivery, details">
+
                             <h:column>
                                 <f:facet name="header">#{texts.id_customer}</f:facet>
                                     #{order.customerID}
                             </h:column>
+
                             <h:column>
                                 <f:facet name="header">#{texts.id_products}</f:facet>
                                     #{order.productIds}
                             </h:column>
+
                             <h:column>
                                 <f:facet name="header">#{texts.order_placed}</f:facet>
                                     #{order.convertDateToString(order.getPlacedDate())}
                             </h:column>
+
                             <h:column>
                                 <f:facet name="header">#{texts.menu_delivered_on}</f:facet>
                                     #{order.convertDateToString(order.getDeliveredDate())}
                             </h:column>
+
                             <h:column>
                                 <f:facet name="header">#{texts.menu_delivered}</f:facet>
                                 <h:outputText value="#{texts.no}" rendered="#{!order.delivered}" />
                                 <h:outputText value="#{texts.yes}" rendered="#{order.delivered}" />
                             </h:column>
+
                             <h:column>
                                 <f:facet name="header">#{texts.menu_delivery}</f:facet>
                                 <h:outputText value="#{texts.no}" rendered="#{!order.delivery}" />
                                 <h:outputText value="#{texts.yes}" rendered="#{order.delivery}" />
                             </h:column>
+
                             <h:column>
                                 <f:facet name="header">#{texts.detail}</f:facet>
                                 <h:commandButton image="/resources/img/info_icon.png"
                                                  action="#{infoBean.lookUpOrder(order.getOrderID())}"/>
                             </h:column>
+
                         </h:dataTable>
                     </div>
 

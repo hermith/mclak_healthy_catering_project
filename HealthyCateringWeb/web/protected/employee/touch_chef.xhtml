@@ -1,3 +1,9 @@
+<!--
+    The UI presented to chefs, a touch friendly interface.
+
+    @author Karl
+-->
+
 <f:view xmlns="http://www.w3.org/1999/xhtml"
         xmlns:f="http://java.sun.com/jsf/core"
         xmlns:h="http://java.sun.com/jsf/html"
@@ -19,12 +25,15 @@
 
         <pm:view id="main">
             <pm:header title="#{texts.chef_title}">
+
                 <h:form class="ui-btn-right">
                     <p:button value="#{texts.settings}" icon="gear" href="#settings"/>
                 </h:form>
+
                 <h:form class="ui-btn-left">
                     <p:button value="#{texts.back}" icon="back" href="/touch"/>
                 </h:form>
+
             </pm:header>
 
             <pm:content>
@@ -32,15 +41,19 @@
                     <p:panel collapsed="true"
                              header="ID: #{order.orderID}, delivery on: #{order.deliveryDateAsString}">
                         <div style="display: inline-block; width: 63%;">
+
                             <p:dataList value="#{infoBean.getUniqueOrdersFromList(order.getProducts())}"
                                         var="prod">
                                 #{infoBean.findQuantityProductsFromList(prod, order.products)} &#215; #{prod.getName(localeHandler.getLang())} (#{prod.id})
                             </p:dataList>
+
                         </div>
+
                         <h:form class="ui-btn-right" style="width: 35%;">
                             <h:commandButton value="#{texts.done}"
                                              action="#{infoBean.markOrderAsPrepared(order.getOrderID())}"/>
                         </h:form>
+
                     </p:panel>
                 </p:dataList>
             </pm:content>

@@ -17,6 +17,7 @@ Contains:
 
     <h:body>
         <ui:composition template="/resources/template/template_master.xhtml">
+
             <ui:define name="subsite_header">
                 <h1>
                     <h:form id="control_panel_path_link">
@@ -28,6 +29,7 @@ Contains:
             </ui:define>
 
             <ui:define name="subsite_content">
+
                 <h:form>
                     <!--Array with all contracts -->
                     <h:dataTable var="contract" value="#{shoppingBean.allContracts}"
@@ -35,25 +37,36 @@ Contains:
                                  columnClasses="contract_id, products, customer_id, active">
                         <h:column>
                             <f:facet name="header">ID</f:facet>
-                            #{contract.contractId}
+                                #{contract.contractId}
                         </h:column>
+
                         <h:column>
-                            <f:facet name="header">#{texts.products}</f:facet>
-                            <h:dataTable var="product" value="#{shoppingBean.getContractProducts(contract)}" >
+                            <f:facet name="header">
+                                #{texts.products}
+                            </f:facet>
+
+                            <h:dataTable var="product"
+                                         value="#{shoppingBean.getContractProducts(contract)}" >
                                 <h:column>
                                     #{shoppingBean.findQuantityNewContractProducts(product, contract)} x #{product.getName(localeHandler.getLang())}
                                 </h:column>
+
                             </h:dataTable>
                         </h:column>
+
                         <h:column>
-                            <f:facet name="header">#{texts.contract_customerId}</f:facet>
+                            <f:facet name="header">
+                                #{texts.contract_customerId}
+                            </f:facet>
                             #{contract.order.customerID}
                         </h:column>
+
                         <h:column>
                             <f:facet name="header">#{texts.order_active}</f:facet>
                             <h:commandButton value="#{texts.no}" rendered="#{!contract.active}" action="#{shoppingBean.setContractInactive(contract)}"/>
                             <h:commandButton value="#{texts.yes}" rendered="#{contract.active}" action="#{shoppingBean.setContractInactive(contract)}" />
                         </h:column>
+
                     </h:dataTable>
                 </h:form>
             </ui:define>

@@ -1,3 +1,9 @@
+<!--
+    The UI presented to drivers, a touch friendly interface.
+
+    @author Karl
+-->
+
 <f:view xmlns="http://www.w3.org/1999/xhtml"
         xmlns:f="http://java.sun.com/jsf/core"
         xmlns:h="http://java.sun.com/jsf/html"
@@ -33,36 +39,47 @@
 
         <pm:view id="main">
             <pm:header title="#{texts.driver_title}">
+
                 <h:form class="ui-btn-right">
                     <p:button value="#{texts.settings}" icon="gear" href="#settings"/>
                 </h:form>
+
                 <h:form class="ui-btn-left">
                     <p:button value="#{texts.back}" icon="back" href="/touch"/>
                 </h:form>
+
             </pm:header>
 
             <pm:content>
                 <p:dataList value="#{infoBean.undeliveredOrders}" var="order">
+
                     <h:panelGroup rendered="#{order.prepared}"
                                   styleClass="prepared_order">
                         <p>#{texts.ready_pickup}</p>
                     </h:panelGroup>
+
                     <h:panelGroup rendered="#{!order.prepared}"
                                   styleClass="unprepared_order">
                         <p>#{texts.not_ready}</p>
                     </h:panelGroup>
+
                     <p:panel collapsed="true"
                              header="ID: #{order.orderID}, delivery on: #{order.deliveryDateAsString}">
+
                         <div style="display: inline-block; width: 63%;">
                             #{infoBean.getCustomer(order.getCustomerID()).getDriverInformation()}
                         </div>
+
                         <h:form class="ui-btn-right" style="width: 35%;">
                             <h:commandButton value="#{texts.done}"
                                              rendered="#{order.prepared}"
                                              action="#{infoBean.markOrderAsDelivered(order.getOrderID())}"/>
                         </h:form>
+
                     </p:panel>
+
                 </p:dataList>
+
             </pm:content>
         </pm:view>
 

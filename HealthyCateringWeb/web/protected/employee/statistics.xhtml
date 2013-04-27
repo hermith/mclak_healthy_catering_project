@@ -1,25 +1,25 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 
 <!--
-template.xhtml
-
 Contains:
-    Copy this when you want to create a new subsite and replace any content.
+    Presents employees with some statistics about sales and products.
 
-@author Karl
+@author Aleks
 -->
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
     <h:body>
         <ui:composition template="/resources/template/template_master.xhtml">
+
             <ui:define name="subscript">
                 <h:outputScript library="js" name="/jscharts.js" />
                 <h:outputScript library="js" name="/statistics_visuals.js" />
             </ui:define>
+
             <ui:define name="subsite_header">
                 <h1>
                     <h:form id="control_panel_path_link">
@@ -31,6 +31,7 @@ Contains:
             </ui:define>
 
             <ui:define name="subsite_content">
+
                 <h:form id="stat_form">
                     <h:inputHidden id="orderstring" value="#{statisticsBean.allOrdersAsString}"/>
                     <h:inputHidden id="productstring" value="#{statisticsBean.productFrequency}"/>
@@ -49,6 +50,7 @@ Contains:
                     <h:outputText value="#{statisticsBean.highestOrderPrice}"
                                   styleClass="output_stat"/>
                 </div>
+
                 <div id="statistics_col_right">
                     <label>#{texts.stats_lowest_price}</label>
                     <h:outputText value="#{statisticsBean.lowestOrderPrice}"
@@ -64,18 +66,21 @@ Contains:
                 </div>
 
                 <div id="statistics_graphs">
-                    <div id="graph_price_per_id" class="noko"></div>
+                    <div id="graph_price_per_id" class="noko"/>
+
                     <script type="text/javascript">
                         drawGraph();
                     </script>
 
-                    <div id="chart_pie_popularity"></div>
+                    <div id="chart_pie_popularity" />
+
                     <script type="text/javascript">
                         drawPieChart();
                     </script>
+
                 </div>
+
             </ui:define>
         </ui:composition>
-
     </h:body>
 </html>
