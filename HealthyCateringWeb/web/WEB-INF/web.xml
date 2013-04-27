@@ -56,19 +56,6 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Protected Pages</web-resource-name>
-            <url-pattern>/faces/protected/private/*</url-pattern>
-            <url-pattern>/protected/private/*</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>private_customer</role-name>
-            <role-name>employee</role-name>
-            <role-name>system</role-name>
-        </auth-constraint>
-    </security-constraint>
-    
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>Protected Pages</web-resource-name>
             <url-pattern>/faces/protected/employee/*</url-pattern>
             <url-pattern>/protected/employee/*</url-pattern>
         </web-resource-collection>
