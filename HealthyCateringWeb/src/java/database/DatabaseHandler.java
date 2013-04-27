@@ -91,11 +91,11 @@ public class DatabaseHandler {
     private static final String STM_UPDATE_ORDER_SET_IS_ACTIVE = "UPDATE Order_Table SET is_active = ? WHERE order_id = ?";
     private static final String STM_DELETE_ORDER_PRODUCTS = "DELETE FROM Order_Product_Table WHERE order_id = ?";
     private static final String STM_DELETE_ORDER = "DELETE FROM Order_Table WHERE order_id = ?";
-    private static final String STM_SELECT_CONTRACT = "SELECT order_id AS order_id, day_of_the_week AS day_of_the_week, is_active AS is_active WHERE contract_id = ?";
+    private static final String STM_SELECT_CONTRACT = "SELECT order_id AS order_id, customer_id AS customer_id, day_of_the_week AS day_of_the_week, is_active AS is_active WHERE contract_id = ?";
     private static final String STM_SELECT_CONTRACT_IDS = "SELECT contract_id AS contract_id FROM Contract_Table";
-    private static final String STM_SELECT_CONTRACT_IDS_BASED_ON_CUSTOMER_ID = "SELECT contract_id AS contract_id FROM Contract_Table WHERE order_id = (SELECT DISTINCT order_id FROM Order_Table WHERE customer_id = ?)";
-    private static final String STM_INSERT_CONTRACT = "INSERT INTO Contract_Table(order_id, day_of_the_week, time_of_delivery, is_active) VALUES(?, ?, ?, ?)";
-    private static final String STM_UPDATE_CONTRACT = "UPDATE Contract_Table SET order_id = ?, day_of_the_week = ?, time_of_delivery = ?, is_active = ? WHERE contract_id = ?";
+    private static final String STM_SELECT_CONTRACT_IDS_BASED_ON_CUSTOMER_ID = "SELECT contract_id AS contract_id FROM Contract_Table WHERE customer_id";
+    private static final String STM_INSERT_CONTRACT = "INSERT INTO Contract_Table(order_id, customer_id, day_of_the_week, time_of_delivery, is_active) VALUES(?, ?, ?, ?, ?)";
+    private static final String STM_UPDATE_CONTRACT = "UPDATE Contract_Table SET order_id = ?, customer_id = ?, day_of_the_week = ?, time_of_delivery = ?, is_active = ? WHERE contract_id = ?";
     private static final String STM_UPDATE_CONTRACT_SET_IS_ACTIVE = "UPDATE Contract_Table SET is_active = ? WHERE order_id = ?";
     // Below are column names used in this class for retrieving data from ResultSet objects.
     private static final String COLUMN_USERNAME = "username";
@@ -1818,9 +1818,10 @@ public class DatabaseHandler {
             if (insertOrder(contract.getOrder())) {
                 stm = conn.prepareStatement(STM_INSERT_CONTRACT);
                 stm.setInt(1, contract.getOrder().getOrderID());
-                stm.setInt(2, contract.getDayOfWeek());
-                stm.setTime(3, contract.getTime());
-                stm.setInt(4, ((contract.isActive()) ? 1 : 0));
+                stm.setInt(2, contract.getOrder().getCustomerID());
+                stm.setInt(3, contract.getDayOfWeek());
+                stm.setTime(4, contract.getTime());
+                stm.setInt(5, ((contract.isActive()) ? 1 : 0));
                 numberOfRowsUpdated = stm.executeUpdate();
                 if (numberOfRowsUpdated == 1) {
                     Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Successfully inserted contract {0}.", contract);
@@ -1857,10 +1858,11 @@ public class DatabaseHandler {
             if (updateOrder(contract.getOrder())) {
                 stm = conn.prepareStatement(STM_UPDATE_CONTRACT);
                 stm.setInt(1, contract.getOrder().getOrderID());
-                stm.setInt(2, contract.getDayOfWeek());
-                stm.setTime(3, contract.getTime());
-                stm.setInt(4, ((contract.isActive()) ? 1 : 0));
-                stm.setInt(5, contract.getContractId());
+                stm.setInt(2, contract.getOrder().getCustomerID());
+                stm.setInt(3, contract.getDayOfWeek());
+                stm.setTime(4, contract.getTime());
+                stm.setInt(5, ((contract.isActive()) ? 1 : 0));
+                stm.setInt(6, contract.getContractId());
                 numberOfRowsUpdated = stm.executeUpdate();
                 if (numberOfRowsUpdated == 1) {
                     Logger.getLogger(DatabaseHandler.class.getName()).log(Level.INFO, "Successfully updated contract {0}.", contract);
