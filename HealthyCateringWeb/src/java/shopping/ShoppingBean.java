@@ -365,13 +365,8 @@ public class ShoppingBean implements Serializable {
      * @param contract
      */
     public void setContractInactive(Contract contract) {
-        String msg;
-        if (shoppingHandler.updateContractSetActive(false, contract.getContractId())) {
-            msg = MessageHandler.getLocalizedText(MessageType.TEKST, "contract_removed");
-        } else {
-            msg = MessageHandler.getLocalizedText(MessageType.ERROR, "contract_not_removed");
+        if (shoppingHandler.updateContractSetActive(!contract.isActive(), contract.getContractId())) {
         }
-        MessageHandler.addErrorMessage(msg);
     }
 
     /**
