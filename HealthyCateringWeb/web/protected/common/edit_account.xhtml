@@ -1,12 +1,10 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 
 <!--
-template.xhtml
-
 Contains:
-    Copy this when you want to create a new subsite and replace any content.
+    Lets users edit their account, settings such as info and password.
 
-@author Karl
+@author linnk
 -->
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -18,6 +16,7 @@ Contains:
 
     <h:body>
         <ui:composition template="/resources/template/template_master.xhtml">
+
             <ui:define name="subsite_header">
                 <h1>
                     <h:form id="control_panel_path_link">
@@ -35,88 +34,139 @@ Contains:
                         <!--Only corporate-->
                         <h:panelGroup rendered="#{userBean.loggedInAsCorporateCustomer}">
                             <label>#{texts.edit_account_company_name}:</label>
-                            <p:inputText required="true" requiredMessage="#{texts.user_reg_company_error}" value="#{shoppingBean.companyName}"/>
+                            <p:inputText required="true"
+                                         requiredMessage="#{texts.user_reg_company_error}"
+                                         value="#{shoppingBean.companyName}"/>
                             <br/>
+
                             <label>#{texts.edit_account_address}:</label>
-                            <p:inputText required="true" requiredMessage="#{texts.user_reg_address_error}" value="#{shoppingBean.corporateAddress}"/>
+                            <p:inputText required="true"
+                                         requiredMessage="#{texts.user_reg_address_error}"
+                                         value="#{shoppingBean.corporateAddress}"/>
                             <br/>
+
                             <label>#{texts.edit_account_zipcode}:</label>
-                            <p:inputText required="true" converterMessage="#{error.zip_code_invalid}" requiredMessage="#{texts.user_reg_zip_error}" value="#{shoppingBean.corporateZipCode}">
+                            <p:inputText required="true"
+                                         converterMessage="#{error.zip_code_invalid}"
+                                         requiredMessage="#{texts.user_reg_zip_error}"
+                                         value="#{shoppingBean.corporateZipCode}">
                                 <f:validator validatorId="ZipCodeValidator" />
                             </p:inputText>
                             <br/>
+
                             <label>#{texts.edit_account_city}:</label>
-                            <p:inputText required="true" requiredMessage="#{texts.user_reg_city_error}" value="#{shoppingBean.corporateCity}">
+                            <p:inputText required="true"
+                                         requiredMessage="#{texts.user_reg_city_error}"
+                                         value="#{shoppingBean.corporateCity}">
                             </p:inputText>
                             <br/>
+
                             <label>#{texts.edit_account_phone}:</label>
-                            <p:inputText required="true" converterMessage="#{error.invalid_phone_number}" requiredMessage="#{texts.user_reg_phone_error}" value="#{shoppingBean.corporatePhoneNumber}">
+                            <p:inputText required="true"
+                                         converterMessage="#{error.invalid_phone_number}"
+                                         requiredMessage="#{texts.user_reg_phone_error}"
+                                         value="#{shoppingBean.corporatePhoneNumber}">
                                 <f:validator validatorId="PhoneNumberValidator" />
                             </p:inputText>
                             <br/>
+
                             <label>#{texts.edit_account_email}:</label>
-                            <p:inputText required="true" requiredMessage="#{texts.user_reg_email_error}" id="edit_account_email1" value="#{shoppingBean.corporateEmail}">
+                            <p:inputText required="true"
+                                         requiredMessage="#{texts.user_reg_email_error}"
+                                         id="edit_account_email1" value="#{shoppingBean.corporateEmail}">
                                 <f:validator validatorId="EmailValidator"/>
                             </p:inputText>
                             <br/><br/>
+
                         </h:panelGroup>
+
                         <!--Only private-->
                         <h:panelGroup rendered="#{userBean.loggedInAsPrivateCustomer}">
+
                             <label>#{texts.edit_account_firstname}:</label>
-                            <p:inputText required="true" requiredMessage="#{texts.user_reg_firstname_error}" value="#{shoppingBean.firstName}"/>
+                            <p:inputText required="true"
+                                         requiredMessage="#{texts.user_reg_firstname_error}"
+                                         value="#{shoppingBean.firstName}"/>
                             <br/>
+
                             <label>#{texts.edit_account_lastname}:</label>
-                            <p:inputText required="true" requiredMessage="#{texts.user_reg_lastname_error}" value="#{shoppingBean.lastName}"/>
+                            <p:inputText required="true"
+                                         requiredMessage="#{texts.user_reg_lastname_error}"
+                                         value="#{shoppingBean.lastName}"/>
                             <br/>
+
                             <label>#{texts.edit_account_address}:</label>
-                            <p:inputText required="true" requiredMessage="#{texts.user_reg_address_error}" value="#{shoppingBean.privateAddress}"/>
+                            <p:inputText required="true"
+                                         requiredMessage="#{texts.user_reg_address_error}"
+                                         value="#{shoppingBean.privateAddress}"/>
                             <br/>
+
                             <label>#{texts.edit_account_zipcode}:</label>
-                            <p:inputText required="true" converterMessage="#{error.zip_code_invalid}" requiredMessage="#{texts.user_reg_zip_error}" value="#{shoppingBean.privateZipCode}">
+                            <p:inputText required="true" converterMessage="#{error.zip_code_invalid}"
+                                         requiredMessage="#{texts.user_reg_zip_error}"
+                                         value="#{shoppingBean.privateZipCode}">
                                 <f:validator validatorId="ZipCodeValidator" />
                             </p:inputText>
                             <br/>
+
                             <label>#{texts.edit_account_city}:</label>
-                            <p:inputText required="true" requiredMessage="#{texts.user_reg_city_error}" value="#{shoppingBean.privateCity}"/>
+                            <p:inputText required="true"
+                                         requiredMessage="#{texts.user_reg_city_error}"
+                                         value="#{shoppingBean.privateCity}"/>
                             <br/>
+
                             <label>#{texts.edit_account_phone}:</label>
-                            <p:inputText converterMessage="#{error.invalid_phone_number}" required="true" requiredMessage="#{texts.user_reg_phone_error}" value="#{shoppingBean.privatePhoneNumber}">
+                            <p:inputText converterMessage="#{error.invalid_phone_number}"
+                                         required="true" requiredMessage="#{texts.user_reg_phone_error}"
+                                         value="#{shoppingBean.privatePhoneNumber}">
                                 <f:validator validatorId="PhoneNumberValidator" />
                             </p:inputText>
                             <br/>
+
                             <label>#{texts.edit_account_email}:</label>
-                            <p:inputText required="true" requiredMessage="#{texts.user_reg_email_error}" id="edit_account_email" value="#{shoppingBean.privateEmail}">
+                            <p:inputText required="true"
+                                         requiredMessage="#{texts.user_reg_email_error}"
+                                         id="edit_account_email" value="#{shoppingBean.privateEmail}">
                                 <f:validator validatorId="EmailValidator"/>
                             </p:inputText>
                             <br/>
+
                             <p:messages for="edit_account_email"/>
                             <p:messages for="edit_account_email1"/>
                             <br/>
+
                         </h:panelGroup>
                         <h:commandButton styleClass="button_style"
                                          value="#{texts.edit_account_save_changes}"
                                          action="#{shoppingBean.saveChangesAccount()}"/>
+
                     </h:panelGroup>
                 </h:form>
+
+                <!--Password-->
                 <h:form>
-                    <!--Password-->
                     <h3>#{texts.edit_account_change_password}</h3>
                     <h:panelGroup styleClass="edit_account_employee">
+
                         <label>#{texts.edit_account_old_password}:</label>
                         <p:password value="#{userBean.password}" id="edit_account_old_pw" required="true" requiredMessage="#{error.login_required_password}"/>
                         <br/>
+
                         <label>#{texts.edit_account_new_password}:</label>
                         <p:password value="#{userBean.newPassword}" required="true" id="newPassword" requiredMessage="#{error.edit_account_required}" />
                         <br/>
+
                         <label>#{texts.edit_account_repeat_password}:</label>
                         <p:password required="true" requiredMessage="#{error.edit_account_required}" id="newPassword1"/>
                         <br/>
+
                         <h:inputHidden id="msg" validator="PasswordValidator" value="needed" />
 
                     </h:panelGroup>
                     <h:commandButton styleClass="button_style" action="#{userBean.changePassword()}" value="#{texts.edit_account_save_changes}"/>
                     <p:messages />
                 </h:form>
+
             </ui:define>
         </ui:composition>
     </h:body>

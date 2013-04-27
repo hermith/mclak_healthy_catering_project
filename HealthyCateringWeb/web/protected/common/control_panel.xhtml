@@ -1,10 +1,9 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 
 <!--
-template.xhtml
-
 Contains:
-    Copy this when you want to create a new subsite and replace any content.
+    Overview of all control panel functions. It displays different functions for
+    different accounts, depending on role on the logged in user.
 
 @author Karl
 -->
@@ -16,14 +15,17 @@ Contains:
 
     <h:body>
         <ui:composition template="/resources/template/template_master.xhtml">
+
             <ui:define name="subsite_header">
                 <h1>#{texts.title_control_panel}</h1>
             </ui:define>
 
             <ui:define name="subsite_content">
                 <h:form>
+
+                    <!-- Control panel functions for system users -->
                     <h:panelGroup class="control_panel_section"
-                                  rendered="#{userBean.loggedInAsSystem}"><!-- Only to be rendered for system) -->
+                                  rendered="#{userBean.loggedInAsSystem}">
                         <div class="control_panel_header"><h3>#{texts.con_pan_sys}</h3></div>
 
                         <div class="control_panel_button_section">  
@@ -33,6 +35,7 @@ Contains:
                                 action="/protected/system/add_new_user.xhtml"/>
                             <label class="control_panel_label">#{texts.con_pan_add}</label>
                         </div>
+
                         <div class="control_panel_button_section">
                             <h:commandButton
                                 styleClass="control_panel_button"
@@ -40,11 +43,13 @@ Contains:
                                 action="/protected/system/edit_users.xhtml"/>
                             <label class="control_panel_label">#{texts.edit_users_title}</label>
                         </div>
+
                     </h:panelGroup>
 
+                    <!-- Control panel functions for emplpyees (and above) users -->
                     <h:panelGroup class="control_panel_section"
                                   rendered="#{userBean.loggedInAsEmployee
-                                              or userBean.loggedInAsSystem}"> <!-- Only to be rendered for employees (and system) -->
+                                              or userBean.loggedInAsSystem}">
                         <div class="control_panel_header"><h3>#{texts.con_pan_employee}</h3></div>
 
                         <div class="control_panel_button_section">  
@@ -54,6 +59,7 @@ Contains:
                                 action="/protected/employee/order_overview.xhtml"/>
                             <label class="control_panel_label">#{texts.order_overview}</label>
                         </div>
+
                         <div class="control_panel_button_section">  
                             <h:commandButton
                                 styleClass="control_panel_button"
@@ -61,6 +67,7 @@ Contains:
                                 action="/protected/employee/statistics.xhtml"/>
                             <label class="control_panel_label">#{texts.order_stat}</label>
                         </div>
+
                         <div class="control_panel_button_section">
                             <h:commandButton
                                 styleClass="control_panel_button"
@@ -68,6 +75,7 @@ Contains:
                                 action="/protected/employee/view_customers.xhtml"/>
                             <label class="control_panel_label">#{texts.all_customers}</label>
                         </div>
+
                         <div class="control_panel_button_section">
                             <h:commandButton
                                 styleClass="control_panel_button"
@@ -75,6 +83,7 @@ Contains:
                                 action="/protected/employee/product_overview.xhtml"/>
                             <label class="control_panel_label">#{texts.products}</label>
                         </div>
+
                         <div class="control_panel_button_section">
                             <h:commandButton
                                 styleClass="control_panel_button"
@@ -82,10 +91,14 @@ Contains:
                                 action="/protected/employee/contract_overview.xhtml"/>
                             <label class="control_panel_label">#{texts.contract_overview_title}</label>
                         </div>
+
                     </h:panelGroup>
 
+                    <!-- Control panel for customers (and above),
+                    with some specific functions for corporate  -->
                     <h:panelGroup class="control_panel_section"> 
                         <div class="control_panel_header"><h3>#{texts.account_set}</h3></div>
+                        
                         <div class="control_panel_button_section">  
                             <h:commandButton
                                 styleClass="control_panel_button"
@@ -93,6 +106,7 @@ Contains:
                                 action="/protected/common/edit_account.xhtml"/>
                             <label class="control_panel_label">#{texts.account_edit}</label>
                         </div>
+                        
                         <div class="control_panel_button_section">
                             <h:panelGroup rendered="#{userBean.loggedInAsCorporateCustomer || userBean.loggedInAsPrivateCustomer}">
                                 <h:commandButton
@@ -102,6 +116,7 @@ Contains:
                                 <label class="control_panel_label">#{texts.menu_order_history}</label>
                             </h:panelGroup>
                         </div>
+                        
                         <div class="control_panel_button_section">
                             <h:panelGroup rendered="#{userBean.loggedInAsCorporateCustomer}">
                                 <h:commandButton
@@ -111,6 +126,7 @@ Contains:
                                 <label class="control_panel_label">#{texts.contracts_title}</label>
                             </h:panelGroup>
                         </div>
+                        
                     </h:panelGroup>
                 </h:form>
             </ui:define>
