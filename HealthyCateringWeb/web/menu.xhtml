@@ -24,27 +24,33 @@ Contains:
 
             <ui:define name="subsite_content">
                 <h:form>
-                    
+
                     <!--Table with all products -->
-                    <h:dataTable var="product" value="#{shoppingBean.getMenu(userBean.loggedInAsCorporateCustomer)}">
+                    <h:dataTable var="product"
+                                 value="#{shoppingBean.getMenu(userBean.loggedInAsCorporateCustomer)}">
                         <h:column>
                             <f:facet name="header">#{texts.menu_product}</f:facet>
-                            #{product.getName(localeHandler.getLang())}
+                                #{product.getName(localeHandler.getLang())}
                         </h:column>
+
                         <h:column>
                             <f:facet name="header">#{texts.menu_description}</f:facet>
-                            #{product.getDescription(localeHandler.getLang())}
+                                #{product.getDescription(localeHandler.getLang())}
                         </h:column>
+
                         <h:column>
                             <f:facet name="header">#{texts.menu_price}</f:facet>
-                            #{product.price}
+                                #{product.price}
                         </h:column>
+
                         <h:column rendered="#{userBean.loggedInAsCorporateCustomer or userBean.loggedInAsPrivateCustomer}">
                             <f:facet name="header"></f:facet>
                             <h:commandButton value="#{texts.menu_add}" action="#{shoppingBean.addProduct(product)}" styleClass="menu_add_button"/>
                         </h:column>
+
                     </h:dataTable>
                     <p:messages />
+
                 </h:form>
             </ui:define>
         </ui:composition>
