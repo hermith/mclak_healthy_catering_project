@@ -11,6 +11,7 @@ import shopping.customer.CorporateCustomer;
 import shopping.customer.Customer;
 import shopping.customer.PrivateCustomer;
 import shopping.product.Product;
+import shopping.product.SingleProduct;
 
 /**
  * @author colsen91
@@ -49,10 +50,17 @@ public class ShoppingHandler implements Serializable {
             products = database.selectProducts();
             database.setProductsTableChanged(false);
         }
-        for (Product p : products) {
-            if (p.isActive()) {
-                activeProducts.add(p);
+        if (products != null) {
+            for (Product p : products) {
+                if (p.isActive()) {
+                    activeProducts.add(p);
+                }
             }
+        } else {
+            activeProducts.add(new SingleProduct(-1,
+                    "Databaseproblemer", "Database problems", "Beklager, vi har litt problemer med databasen, prøv på nytt senere.",
+                    "Sorry, we are currently experiencing some problems with the database, please try again later.",
+                    -6, 3000));
         }
         return activeProducts;
     }
@@ -138,16 +146,16 @@ public class ShoppingHandler implements Serializable {
     public ArrayList<Order> getOrderHistory(int customerId) {
         return database.selectOrders(customerId);
     }
-    
-    public boolean updateContractSetActive(boolean active, int contractId){
+
+    public boolean updateContractSetActive(boolean active, int contractId) {
         return database.updateContractSetActive(true, contractId);
     }
-    
-    public boolean insertContract(Contract contract){
+
+    public boolean insertContract(Contract contract) {
         return database.insertContract(contract);
     }
-    
-    public ArrayList<Contract> selectContracts(int customerId){
+
+    public ArrayList<Contract> selectContracts(int customerId) {
         return database.selectContracts(customerId);
     }
 }
