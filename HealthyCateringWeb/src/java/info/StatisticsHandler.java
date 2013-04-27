@@ -8,13 +8,14 @@ import javax.inject.Inject;
 import shopping.product.Product;
 
 /**
+ * Used to handle logic related to statistics.
+ *
  * @author aleksalr
  */
 @ApplicationScoped
 public class StatisticsHandler {
 
     private ArrayList<Order> allorders;
-    private ArrayList<Product> allproducts;
     @Inject
     DatabaseHandler dbhandler;
 
@@ -23,9 +24,8 @@ public class StatisticsHandler {
     }
 
     /**
-     * Gets the running total of all orders ever registered.
-     *
-     * Includes both delivered and undelivered orders.
+     * Gets the running total of all orders ever registered. Includes both
+     * delivered and undelivered orders.
      *
      * @return Total price for all orders.
      */
@@ -38,9 +38,8 @@ public class StatisticsHandler {
     }
 
     /**
-     * Gets the number of orders registered.
-     *
-     * Includes both delivered and undelivered.
+     * Gets the number of orders registered. Includes both delivered and
+     * undelivered.
      *
      * @return Total number of orders.
      */
@@ -100,7 +99,7 @@ public class StatisticsHandler {
     /**
      * Gets the standard deviation for all orders
      *
-     * @return
+     * @return standard deviation
      */
     public double getStandardDeviation() {
         allorders = filterInactiveOrders(dbhandler.selectOrders());

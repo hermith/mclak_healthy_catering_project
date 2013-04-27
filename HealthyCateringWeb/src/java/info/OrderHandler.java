@@ -12,7 +12,9 @@ import shopping.customer.Contract;
 import shopping.customer.Customer;
 
 /**
- * @author colsen91
+ * OrderHandler is used to handle everything related to orders.
+ *
+ * @author colsen91, Karl
  */
 @ApplicationScoped
 public class OrderHandler {
@@ -23,6 +25,12 @@ public class OrderHandler {
     private ArrayList<Contract> contractsCheckedToday;
     private static final long MILLIS_IN_A_DAY = 86401000l;
 
+    /**
+     * Calls selectUndeliveredOrders() in DatabaseHandler.java. Removes inactice
+     * (active=false) orders.
+     *
+     * @return Array with active and undelivered orders.
+     */
     public ArrayList<Order> getUndeliveredOrders() {
         checkContracts();
         ArrayList<Order> orders = db.selectUndeliveredOrders();
@@ -41,30 +49,69 @@ public class OrderHandler {
         return orders;
     }
 
+    /**
+     * Calls selectOrders() in DatabaseHandler.java.
+     *
+     * @return Array with all orders in the database.
+     */
     public ArrayList<Order> getOrderHistory() {
         return db.selectOrders();
     }
 
+    /**
+     * Calls selectOrder(orderID) in DatabaseHandler.java.
+     *
+     * @param orderID
+     * @return Order with the correct orderID.
+     */
     public Order getOrderFromID(int orderID) {
         return db.selectOrder(orderID);
     }
 
+    /**
+     * Calls selectCustomer(customerID) in DatabaseHandler.java.
+     *
+     * @param customerID
+     * @return Customer with the correct customerID.
+     */
     public Customer getCustomerFromID(int customerID) {
         return db.selectCustomer(customerID);
     }
 
+    /**
+     * Calls selectOrders(customerId) in DatabaseHandler.java.
+     *
+     * @param customerId
+     * @return Array with all orders on the given customerId.
+     */
     public ArrayList<Order> getOrderHistory(int customerId) {
         return db.selectOrders(customerId);
     }
 
+    /**
+     * Calls updateOrderSetDateDelivered(orderID, stamp) in
+     * DatabaseHandler.java. Used mark an order as delivered.
+     *
+     * @param orderID
+     * @param stamp
+     */
     public void markOrderAsDelivered(int orderID, Timestamp stamp) {
         db.updateOrderSetDateDelivered(orderID, stamp);
     }
 
+    /**
+     * Calls updateOrderSetPrepared(orderID, true) in DatabaseHandler.java. Used
+     * to mark an order as prepared.
+     *
+     * @param orderID
+     */
     public void markOrderAsPrepared(int orderID) {
         db.updateOrderSetPrepared(orderID, true);
     }
 
+    /**
+     * Checks for any contracts to be delivered on current date.
+     */
     private void checkContracts() {
         if (contractsLastChecked == null) {
             contractsCheckedToday = db.selectContracts();
@@ -88,6 +135,12 @@ public class OrderHandler {
         }
     }
 
+    /**
+     * Inserts the order to a given contract in the database.
+     *
+     * @param contract
+     * @return Whether the order was inserted.
+     */
     private boolean insertOrderFromContract(Contract contract) {
         Order orderCopy = contract.getOrder();
         orderCopy.setActive(true);

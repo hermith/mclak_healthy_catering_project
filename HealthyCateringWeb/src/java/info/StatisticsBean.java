@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 /**
+ * Used to display statistics.
  *
  * @author aleksalr
  */
@@ -29,9 +30,8 @@ public class StatisticsBean implements Serializable {
     }
 
     /**
-     * Gets the number of orders registered.
-     *
-     * Includes both delivered and undelivered.
+     * Gets the number of registered orders. Includes both delivered and
+     * undelivered.
      *
      * @return Total number of orders.
      */
@@ -40,9 +40,8 @@ public class StatisticsBean implements Serializable {
     }
 
     /**
-     * Gets the running total of all orders ever registered.
-     *
-     * Includes both delivered and undelivered orders.
+     * Gets the running total of all orders ever registered. Includes both
+     * delivered and undelivered orders.
      *
      * @return Total price for all orders.
      */
@@ -82,9 +81,9 @@ public class StatisticsBean implements Serializable {
     }
 
     /**
-     * Gets the standard deviation for all orders
+     * Gets the standard deviation for all orders.
      *
-     * @return
+     * @return Standard deviation
      */
     public String getStandardDeviation() {
         DecimalFormat df = new DecimalFormat("#.##");
