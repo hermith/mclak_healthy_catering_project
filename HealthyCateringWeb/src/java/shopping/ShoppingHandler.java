@@ -14,7 +14,9 @@ import shopping.product.Product;
 import shopping.product.SingleProduct;
 
 /**
- * @author colsen91
+ * ShoppingHandler handles the logic related to customers and shopping.
+ *
+ * @author Linn Kristin
  */
 @ApplicationScoped
 public class ShoppingHandler implements Serializable {
@@ -145,8 +147,8 @@ public class ShoppingHandler implements Serializable {
      */
     public ArrayList<Order> getOrderHistory(int customerId) {
         ArrayList<Order> orders = new ArrayList<Order>();
-        for(Order o : database.selectOrders(customerId)){
-            if(o.isActive()){
+        for (Order o : database.selectOrders(customerId)) {
+            if (o.isActive()) {
                 orders.add(o);
             }
         }

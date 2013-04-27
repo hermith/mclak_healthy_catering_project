@@ -21,6 +21,8 @@ import shopping.product.Product;
 import shopping.product.SingleProduct;
 
 /**
+ * ShoppingBean handles everything related to customers and shopping.
+ *
  * @author aleksalr, Linn
  */
 @Named
