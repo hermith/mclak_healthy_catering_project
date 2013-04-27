@@ -397,6 +397,15 @@ public class ShoppingBean implements Serializable {
         return productHandler.getUniqueProductsList(contract.getOrder().getProducts());
     }
 
+    /**
+     * Calls selectAllContracts() in ShoppingHandler.java.
+     *
+     * @return all contracts in the database.
+     */
+    public ArrayList<Contract> getAllContracts() {
+        return shoppingHandler.selectAllContracts();
+    }
+
     //Getters and setters for the order-object
     public Date getDeliveryDate() {
         return order.getDeliveryDate();

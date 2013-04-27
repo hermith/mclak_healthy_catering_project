@@ -148,7 +148,7 @@ public class ShoppingHandler implements Serializable {
     }
 
     /**
-     * Updates contract with id like contractId. 
+     * Updates contract with id like contractId.
      *
      * @param active
      * @param contractId
@@ -182,5 +182,14 @@ public class ShoppingHandler implements Serializable {
             }
         }
         return contracts;
+    }
+
+    /**
+     * Calls selectContracts() in DatabaseHandler.java.
+     *
+     * @return all contracts in the database.
+     */
+    public ArrayList<Contract> selectAllContracts() {
+        return database.selectContracts();
     }
 }

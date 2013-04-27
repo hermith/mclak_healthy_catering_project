@@ -75,6 +75,13 @@ Contains:
                                 action="/protected/employee/product_overview.xhtml"/>
                             <label class="control_panel_label">#{texts.products}</label>
                         </div>
+                        <div class="control_panel_button_section">
+                            <h:commandButton
+                                styleClass="control_panel_button"
+                                image="/resources/img/control_panel_icons/icon_products.png"
+                                action="/protected/employee/contract_overview.xhtml"/>
+                            <label class="control_panel_label">#{texts.contract_overview_title}</label>
+                        </div>
                     </h:panelGroup>
 
                     <h:panelGroup class="control_panel_section"> 
@@ -96,7 +103,7 @@ Contains:
                             </h:panelGroup>
                         </div>
                         <div class="control_panel_button_section">
-                            <h:panelGroup rendered="#{userBean.loggedInAsCorporateCustomer || userBean.loggedInAsSystem}">
+                            <h:panelGroup rendered="#{userBean.loggedInAsCorporateCustomer}">
                                 <h:commandButton
                                     styleClass="control_panel_button"
                                     image="/resources/img/control_panel_icons/icon_order_history.png"

@@ -1,14 +1,51 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8' ?>
+
 <!--
-To change this template, choose Tools | Templates
-and open the template in the editor.
+contract_overview.xhtml
+
+Contains:
+    Displays all contracts.
+
+@author Linn
 -->
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head>
-        <title>TODO supply a title</title>
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <h:body>
+        <ui:composition template="/resources/template/template_master.xhtml">
+            <ui:define name="subsite_header">
+                <h1>#{texts.contracts_title}</h1>
+            </ui:define>
+            
+            <ui:define name="subsite_content">
+                <h:dataTable var="contract" value="#{shoppingBean.allContracts}" >
+                    <h:column>
+                        <f:facet name="header">ID</f:facet>
+                        #{contract.contractId}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">#{texts.products}</f:facet>
+                        <h:dataTable var="product" value="#{shoppingBean.getContractProducts(contract)}" >
+                            <h:column>
+                                #{shoppingBean.findQuantityNewContractProducts(product, contract)} x #{product.getName(localeHandler.getLang())}
+                            </h:column>
+                        </h:dataTable>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">#{texts.contract_customerId}</f:facet>
+                        #{contract.order.customerID}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">#{texts.order_active}</f:facet>
+                        <h:outputText rendered="#{contract.active}" value="#{texts.yes}" />
+                        <h:outputText rendered="#{contract.active}" value="#{texts.no}" />
+                    </h:column>
+                </h:dataTable>
+            </ui:define>
+        </ui:composition>
+    </h:body>
 </html>
