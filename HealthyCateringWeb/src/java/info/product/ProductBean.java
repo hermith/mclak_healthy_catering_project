@@ -18,6 +18,7 @@ import shopping.product.Product;
 import shopping.product.SingleProduct;
 
 /**
+ * The ProductBean class is used to handle and manage products.
  *
  * @author Linn
  */
@@ -45,7 +46,7 @@ public class ProductBean implements Serializable {
     }
 
     /**
-     * Reinitialize the newProduct-object
+     * Reinitialize the newProduct-object. Used to reset the values.
      */
     public void reInitializeNewProduct() {
         newProduct = (newProductIsSingle == true) ? new SingleProduct() : new PackageProduct();
@@ -442,7 +443,7 @@ public class ProductBean implements Serializable {
             selectedProduct.setActive(active);
         }
     }
-    
+
     public String getProductName() {
         if (localeHandler.getLang().equals(new Locale("no"))) {
             return selectedProduct.getNameNo();

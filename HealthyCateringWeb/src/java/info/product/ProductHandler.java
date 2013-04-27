@@ -9,6 +9,7 @@ import shopping.product.Product;
 import shopping.product.SingleProduct;
 
 /**
+ * The ProductHandler class is used to handle logic relating to products.
  *
  * @author linnk
  */
@@ -151,7 +152,7 @@ public class ProductHandler {
     }
 
     /**
-     * Deletes all singleProduct from packageProduct
+     * Deletes all occurrences of singleProduct from packageProduct.
      *
      * @param singleProduct
      * @param packageProduct
