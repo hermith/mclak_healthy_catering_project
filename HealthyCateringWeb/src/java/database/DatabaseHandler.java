@@ -96,7 +96,7 @@ public class DatabaseHandler {
     private static final String STM_SELECT_CONTRACT_IDS_BASED_ON_CUSTOMER_ID = "SELECT contract_id AS contract_id FROM Contract_Table WHERE customer_id = ?";
     private static final String STM_INSERT_CONTRACT = "INSERT INTO Contract_Table(order_id, customer_id, day_of_the_week, time_of_delivery, is_active) VALUES(?, ?, ?, ?, ?)";
     private static final String STM_UPDATE_CONTRACT = "UPDATE Contract_Table SET order_id = ?, customer_id = ?, day_of_the_week = ?, time_of_delivery = ?, is_active = ? WHERE contract_id = ?";
-    private static final String STM_UPDATE_CONTRACT_SET_IS_ACTIVE = "UPDATE Contract_Table SET is_active = ? WHERE order_id = ?";
+    private static final String STM_UPDATE_CONTRACT_SET_IS_ACTIVE = "UPDATE Contract_Table SET is_active = ? WHERE contract_id = ?";
     // Below are column names used in this class for retrieving data from ResultSet objects.
     private static final String COLUMN_USERNAME = "username";
     private static final String COLUMN_PASSWORD = "password";
@@ -1905,7 +1905,7 @@ public class DatabaseHandler {
             Logger.getLogger(DatabaseHandler.class.getName()).log(Level.WARNING, "Failed to set new status for contract with contract id {0} to {1}.", new Object[]{contractId, active});
             return false;
         } catch (SQLException ex) {
-            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Successfully set new status for contract with contract id" + contractId + " to " + active + ".", ex);
+            Logger.getLogger(DatabaseHandler.class.getName()).log(Level.SEVERE, "Faield to set new status for contract with contract id" + contractId + " to " + active + ".", ex);
             return false;
         } finally {
             closeStatement(stm);
