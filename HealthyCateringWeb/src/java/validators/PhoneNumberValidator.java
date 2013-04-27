@@ -36,7 +36,7 @@ public class PhoneNumberValidator implements Validator {
             return;
         }
         matcher = pattern.matcher(value.toString());
-        if (!matcher.matches() || !(phoneNumber.length() > 8 && phoneNumber.length() < 13)) {
+        if (!matcher.matches() || !(phoneNumber.length() >= 8 && phoneNumber.length() < 13)) {
             FacesMessage msg = MessageHandler.getMessage("invalid_phone_number", MessageType.ERROR);
             throw new ValidatorException(msg);
         }

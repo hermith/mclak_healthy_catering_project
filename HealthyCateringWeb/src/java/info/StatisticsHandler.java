@@ -24,9 +24,9 @@ public class StatisticsHandler {
 
     /**
      * Gets the running total of all orders ever registered.
-     * 
+     *
      * Includes both delivered and undelivered orders.
-     * 
+     *
      * @return Total price for all orders.
      */
     public double getTotalPriceAllOrders() {
@@ -39,23 +39,23 @@ public class StatisticsHandler {
 
     /**
      * Gets the number of orders registered.
-     * 
+     *
      * Includes both delivered and undelivered.
-     * 
+     *
      * @return Total number of orders.
      */
     public int getNumOfOrders() {
-        allorders = dbhandler.selectOrders();
+        allorders = filterInactiveOrders(dbhandler.selectOrders());
         return allorders.size();
     }
 
     /**
      * Gets the price of the most expensive order registered.
-     * 
+     *
      * @return Highest order price registered.
      */
     public double getHighestOrder() {
-        allorders = dbhandler.selectOrders();
+        allorders = filterInactiveOrders(dbhandler.selectOrders());
         double currentHigh = 0;
         for (Order o : allorders) {
             if (o.getPrice() > currentHigh) {
@@ -68,11 +68,11 @@ public class StatisticsHandler {
 
     /**
      * Gets the price of the least expensive order registered.
-     * 
+     *
      * @return Lowest order price registered.
      */
     public double getLowestOrder() {
-        allorders = dbhandler.selectOrders();
+        allorders = filterInactiveOrders(dbhandler.selectOrders());
         double currentLow = allorders.get(0).getPrice();
         for (Order o : allorders) {
             if (o.getPrice() < currentLow) {
@@ -84,11 +84,11 @@ public class StatisticsHandler {
 
     /**
      * Gets the arithmetic mean price of all orders registered.
-     * 
+     *
      * @return Average price of all orders.
      */
     public double getAverageOrderPrice() {
-        allorders = dbhandler.selectOrders();
+        allorders = filterInactiveOrders(dbhandler.selectOrders());
         double sum = 0;
         for (Order o : allorders) {
             sum += o.getPrice();
@@ -99,10 +99,11 @@ public class StatisticsHandler {
 
     /**
      * Gets the standard deviation for all orders
-     * @return 
+     *
+     * @return
      */
     public double getStandardDeviation() {
-        allorders = dbhandler.selectOrders();
+        allorders = filterInactiveOrders(dbhandler.selectOrders());
         double sum = 0;
         double avg = getAverageOrderPrice();
         for (Order o : allorders) {
@@ -115,9 +116,11 @@ public class StatisticsHandler {
 
     /**
      * Helper method for checking whether an int is contained in an int array
+     *
      * @param check - Int to be checked towards an array
-     * @param array - The array towards which to check whether or not contains the int
-     * @return 
+     * @param array - The array towards which to check whether or not contains
+     * the int
+     * @return
      */
     public boolean isInArray(int check, int[] array) {
         for (int i : array) {
@@ -130,11 +133,11 @@ public class StatisticsHandler {
 
     /**
      * Gets the ID's and price of every order registered as a string.
-     * 
+     *
      * @return String containing ID's and price of every order registered.
      */
     public String getAllOrdersAsString() {
-        allorders = dbhandler.selectOrders();
+        allorders = filterInactiveOrders(dbhandler.selectOrders());
         String so = "";
 
         for (int i = 0; i < allorders.size(); i++) {
@@ -149,12 +152,13 @@ public class StatisticsHandler {
     }
 
     /**
-     * Gets product ID's along with how many times each product has been ordered.
-     * 
+     * Gets product ID's along with how many times each product has been
+     * ordered.
+     *
      * @return String containing each product ID and frequency of order.
      */
     public String getProductFrequency() {
-        allorders = dbhandler.selectOrders();
+        allorders = filterInactiveOrders(dbhandler.selectOrders());
         ArrayList<ProductFreq> pf = new ArrayList<ProductFreq>();
         String idString;
         String[] idArrayString;
@@ -186,11 +190,32 @@ public class StatisticsHandler {
         String pfAsString = "";
         for (int i = 1; i < pf.size(); i++) {
             if (pf.get(i).getFrequency() != 0) {
-                pfAsString += pf.get(i).getId()+ " ";
+                pfAsString += pf.get(i).getId() + " ";
                 pfAsString += pf.get(i).getFrequency() + " ";
             }
         }
 
         return pfAsString;
+    }
+
+    /**
+     * Method which removes inactive orders from an original ArrayList of
+     * Orders.
+     *
+     * @param orders The orders to filter.
+     * @return The initial ArrayList of orders without the inactive ones.
+     */
+    private ArrayList<Order> filterInactiveOrders(ArrayList<Order> orders) {
+        ArrayList<Order> toRemove = new ArrayList<Order>();
+        for (Order o : orders) {
+            if (!o.isActive()) {
+                toRemove.add(o);
+            }
+        }
+
+        for (Order o : toRemove) {
+            orders.remove(o);
+        }
+        return orders;
     }
 }
