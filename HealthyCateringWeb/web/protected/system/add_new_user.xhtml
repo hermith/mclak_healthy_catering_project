@@ -1,10 +1,8 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 
 <!--
-template.xhtml
-
 Contains:
-    Copy this when you want to create a new subsite and replace any content.
+    Lets system users add new accounts with system or employee rights.
 
 @author Karl
 -->
@@ -18,6 +16,7 @@ Contains:
 
     <h:body>
         <ui:composition template="/resources/template/template_master.xhtml">
+
             <ui:define name="subsite_header">
                 <h1>
                     <h:form id="control_panel_path_link">
@@ -30,23 +29,34 @@ Contains:
 
             <ui:define name="subsite_content">
                 <h:form id="create_account_system_form">
-                    <label>#{texts.login_username}</label><p:inputText value="#{userBean.dummyUsername}"
-                                                        required="true"
-                                                        requiredMessage="#{error.login_required_username}"/><br/>
-                    <label>#{texts.edit_account_email}</label><p:inputText value="#{userBean.dummyEmail}"
-                                                     required="true"
-                                                     requiredMessage="#{error.login_required_email}">
+
+                    <label>#{texts.login_username}</label>
+                    <p:inputText value="#{userBean.dummyUsername}"
+                                 required="true"
+                                 requiredMessage="#{error.login_required_username}"/>
+                    <br/>
+
+                    <label>#{texts.edit_account_email}</label>
+                    <p:inputText value="#{userBean.dummyEmail}"
+                                 required="true"
+                                 requiredMessage="#{error.login_required_email}">
                         <f:validator validatorId="EmailValidator" />
-                    </p:inputText><br/>
+                    </p:inputText>
+                    <br/>
+
                     <label>#{texts.role}</label>
                     <h:selectOneRadio id="create_account_system_radio"
                                       value="#{userBean.dummyRoleId}">
                         <f:selectItem itemLabel="#{texts.system}" itemValue="system" />
                         <f:selectItem itemLabel="#{texts.employee}" itemValue="employee" />
-                    </h:selectOneRadio><br/>
+                    </h:selectOneRadio>
+                    <br/>
+
                     <h:commandButton value="#{texts.button_send_password}"
                                      action="#{userBean.createNewUser()}"
-                                     styleClass="button_style"/><br/><br/>
+                                     styleClass="button_style"/>
+                    <br/><br/>
+
                     <p:messages />
 
                 </h:form>

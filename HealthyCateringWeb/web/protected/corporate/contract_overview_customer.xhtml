@@ -18,6 +18,7 @@ Contains:
 
     <h:body>
         <ui:composition template="/resources/template/template_master.xhtml">
+
             <ui:define name="subsite_header">
                 <h1>
                     <h:form id="control_panel_path_link">
@@ -30,35 +31,54 @@ Contains:
 
             <ui:define name="subsite_content">
                 <h:form>
-                    <h:dataTable rendered="#{shoppingBean.hasContracts()}" var="contract" value="#{shoppingBean.contracts}" >
+                    <h:dataTable rendered="#{shoppingBean.hasContracts()}"
+                                 var="contract"
+                                 value="#{shoppingBean.contracts}" >
+
                         <h:column>
                             <f:facet name="header">ID</f:facet>
-                            #{contract.contractId}
+                                #{contract.contractId}
                         </h:column>
+
                         <h:column>
-                            <f:facet name="header">#{texts.products}</f:facet>
-                            <h:dataTable var="product" value="#{shoppingBean.getContractProducts(contract)}" >
+                            <f:facet name="header">
+                                #{texts.products}
+                            </f:facet>
+                            <h:dataTable var="product"
+                                         value="#{shoppingBean.getContractProducts(contract)}" >
                                 <h:column>
                                     #{shoppingBean.findQuantityNewContractProducts(product, contract)} x #{product.getName(localeHandler.getLang())}
                                 </h:column>
+
                             </h:dataTable>
+
                         </h:column>
+
                         <h:column>
                             <f:facet name="header">#{texts.day}</f:facet>
-                            #{shoppingBean.getDayLocalString(contract.dayOfWeek)}
+                                #{shoppingBean.getDayLocalString(contract.dayOfWeek)}
                         </h:column>
+
                         <h:column>
                             <f:facet name="header">#{texts.contract_time}</f:facet>
                             <h:outputText value="#{contract.time}" >
                                 <f:convertDateTime pattern="HH:mm" />
                             </h:outputText>
                         </h:column>
+
                         <h:column>
                             <h:commandButton styleClass="cart_delete_button" image="/resources/img/info_icon.png"  action="#{shoppingBean.setContractInactive(contract)}"/>
                         </h:column>
+
                     </h:dataTable>
-                    <p><h:outputText rendered="#{!shoppingBean.hasContracts()}" value="#{texts.no_contracts}" /></p>
+
+                    <p>
+                        <h:outputText rendered="#{!shoppingBean.hasContracts()}"
+                                      value="#{texts.no_contracts}" />
+                    </p>
+
                     <p:messages />
+
                 </h:form>
             </ui:define>
         </ui:composition>

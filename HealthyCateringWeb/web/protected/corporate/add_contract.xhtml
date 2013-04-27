@@ -1,12 +1,10 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 
 <!--
-template.xhtml
-
 Contains:
-    Copy this when you want to create a new subsite and replace any content.
+    Lets the corporate customers add new contracts with weekly deliveries.
 
-@author Karl
+@author Linn
 -->
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -18,53 +16,70 @@ Contains:
 
     <h:body>
         <ui:composition template="/resources/template/template_master.xhtml">
-            <ui:define name="subscript">
-                <style>
-                    #contract_overview label{
-                        padding: 4px;
-                    }
-                    
-                     .select_day_of_week_dropdown {
-                        font-size: 16px;
-                    }
-                </style>
-            </ui:define>
-            
+
             <ui:define name="subsite_header">
                 <h1>#{texts.add_contract_title}</h1>
             </ui:define>
 
             <ui:define name="subsite_content">
+
                 <h:panelGroup styleClass="edit_account_customer" id="contract_overview" >
                     <h:form>
+
                         <h:dataTable var="product" value="#{shoppingBean.shoppingCartProducts}" >
+
                             <h:column>
-                                <f:facet name="header">#{texts.product_name}</f:facet>
-                                    #{product.getName(localeHandler.getLang())}
+                                <f:facet name="header">
+                                    #{texts.product_name}
+                                </f:facet>
+                                #{product.getName(localeHandler.getLang())}
                             </h:column>
+
                             <h:column>
-                                <f:facet name="header">#{texts.product_description}</f:facet>
-                                    #{product.getDescription(localeHandler.getLang())}
+                                <f:facet name="header">
+                                    #{texts.product_description}
+                                </f:facet>
+                                #{product.getDescription(localeHandler.getLang())}
                             </h:column>
+
                             <h:column>
-                                <f:facet name="header">#{texts.product_quantity}</f:facet>
-                                    #{shoppingBean.findQuantityProduct(product)}
+                                <f:facet name="header">
+                                    #{texts.product_quantity}
+                                </f:facet>
+                                #{shoppingBean.findQuantityProduct(product)}
                             </h:column>
+
                         </h:dataTable>
+
                         <label>#{texts.menu_delivery}:</label>
-                        <p:selectBooleanCheckbox value="#{shoppingBean.newContractDelivery}" /><br/>
+                        <p:selectBooleanCheckbox value="#{shoppingBean.newContractDelivery}" />
+                        <br/>
+
                         <label>#{texts.day}:</label>
                         <h:selectOneMenu required="true"
                                          value="#{shoppingBean.newContractDayOfWeek}"
                                          styleClass="select_day_of_week_dropdown">
-                            <f:selectItems value="#{shoppingBean.daysOfWeek}" var="day" itemLabel="#{shoppingBean.getDayLocalString(day)}"/>
-                        </h:selectOneMenu><br/>
+                            <f:selectItems value="#{shoppingBean.daysOfWeek}"
+                                           var="day"
+                                           itemLabel="#{shoppingBean.getDayLocalString(day)}"/>
+                        </h:selectOneMenu>
+                        <br/>
+
                         <label>#{texts.contract_time}: </label>
-                        <p:inputText converterMessage="#{error.time_invalid}" required="true" requiredMessage="#{error.time_required}" value="#{shoppingBean.newContractTime}" >
+                        <p:inputText converterMessage="#{error.time_invalid}"
+                                     required="true"
+                                     requiredMessage="#{error.time_required}"
+                                     value="#{shoppingBean.newContractTime}" >
                             <f:convertDateTime pattern="HH:mm" />
-                        </p:inputText><br/>
-                        <h:commandButton action="#{shoppingBean.saveNewContract()}" styleClass="button_style" value="#{texts.product_save}" />
+                        </p:inputText>
+                        <br/>
+
+                        <h:commandButton action="#{shoppingBean.saveNewContract()}"
+                                         styleClass="button_style"
+                                         value="#{texts.product_save}" />
+
                         <p:messages />
+
                     </h:form>
                 </h:panelGroup>
             </ui:define>

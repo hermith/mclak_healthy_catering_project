@@ -18,6 +18,7 @@ Contains:
 
     <h:body>
         <ui:composition template="/resources/template/template_master.xhtml">
+
             <ui:define name="subsite_header">
                 <h1>
                     <h:form id="control_panel_path_link">
@@ -30,29 +31,42 @@ Contains:
 
             <ui:define name="subsite_content">
                 <h:form>
-                    
+
                     <!--Table with all users-->
                     <h:dataTable var="user" value="#{userBean.allUsers}">
+
                         <h:column>
-                            <f:facet name="header">#{texts.edit_users_usertype}</f:facet>
+                            <f:facet name="header">
+                                #{texts.edit_users_usertype}
+                            </f:facet>
                             <h:outputText value="#{user.roleId}" />
                         </h:column>
+
                         <h:column>
-                            <f:facet name="header">#{texts.edit_users_username}</f:facet>
+                            <f:facet name="header">
+                                #{texts.edit_users_username}
+                            </f:facet>
                             <h:outputText value="#{user.username}" />
                         </h:column>
+
                         <h:column>
-                            <f:facet name="header">#{texts.edit_users_email}</f:facet>
+                            <f:facet name="header">
+                                #{texts.edit_users_email}
+                            </f:facet>
                             <h:outputText value="#{user.email}" />
                         </h:column>
+
                         <h:column>
                             <f:facet name="header">#{texts.edit_users_password}</f:facet>
                             <h:commandButton styleClass="menu_add_button"
                                              value="#{texts.edit_users_generate_new_password}"
                                              action="#{userBean.updateUserPassword(user)}" />
                         </h:column>
+
                     </h:dataTable>
+
                     <p:messages  />
+
                 </h:form>
             </ui:define>
         </ui:composition>
