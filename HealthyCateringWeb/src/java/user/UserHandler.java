@@ -3,6 +3,8 @@ package user;
 import database.DatabaseHandler;
 import email.EmailHandler;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -11,6 +13,7 @@ import locale.MessageType;
 import shopping.ShoppingBean;
 
 /**
+ * UserHandler contains all the logic relating to user management.
  *
  * @author aleksalr, Linn
  */
@@ -47,11 +50,16 @@ public class UserHandler {
      * @return - True if registration was successful. False if an error occured.
      */
     public boolean registerCorporateUser(User user) {
-        System.out.println("Got this user: " + user.getUsername() + " - " + user.getPassword() + " - "
-                + user.getEmail() + " - " + user.getNewPassword() + " - " + user.getRoleId());
         return (db.insertUser(user));
     }
 
+    /**
+     * Register a new user. Generates a password and sends it by email to the
+     * user.
+     *
+     * @param user
+     * @return Whether the process was successful
+     */
     public boolean registerUser(User user) {
         try {
             String pw = email.generatePassword();
@@ -63,13 +71,13 @@ public class UserHandler {
                 return false;
             }
         } catch (Exception e) {
-            System.out.println(e.toString());
+            Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, e.toString());
             return false;
         }
     }
 
     /**
-     * Updates user's password in the database, and sends the password on email
+     * Updates user's password in the database, and sends the password by email
      * to the user.
      *
      * @param user
@@ -86,13 +94,18 @@ public class UserHandler {
                 return false;
             }
         } catch (Exception e) {
-            System.out.println(e.toString());
+            Logger.getLogger(UserHandler.class.getName()).log(Level.SEVERE, e.toString());
             return false;
         }
     }
 
+    /**
+     * Calls selectUser(userName) in DatabaseHandler.java.
+     *
+     * @param userName
+     * @return User with the correct username
+     */
     public User getUser(String userName) {
-        //TODO Sjekk noko
         return db.selectUser(userName);
     }
 
@@ -103,7 +116,7 @@ public class UserHandler {
      * @param password
      * @param username
      * @param oldPassword
-     * @return password changed (true/false)
+     * @return True if password was changed
      */
     public boolean changePassword(String password, String username, String oldPassword) {
         if (db.selectUserPassword(username).equals(oldPassword)) {
@@ -120,6 +133,11 @@ public class UserHandler {
         return true;
     }
 
+    /**
+     * Calls selectUsers() in DatabaseHandler.java.
+     *
+     * @return Array with all the users in the database.
+     */
     public ArrayList<User> getAllUsers() {
         return db.selectUsers();
     }

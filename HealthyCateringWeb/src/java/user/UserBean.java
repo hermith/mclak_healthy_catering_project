@@ -16,7 +16,7 @@ import locale.MessageType;
 import shopping.ShoppingBean;
 
 /**
- * The UserBean class handler everything that has to do with login and user
+ * The UserBean class handles everything that has to do with login and user
  * access. It stores information about the current user, temporarily variables
  * for changing user information as well as logic for doing so.
  *
@@ -196,7 +196,7 @@ public class UserBean implements Serializable {
     /**
      * Checks whether or not user is logged in as private customer
      *
-     * @return - True if logged in as corporate private
+     * @return - True if user is logged in as corporate private
      */
     public boolean isLoggedInAsPrivateCustomer() {
         FacesContext context = FacesContext.getCurrentInstance();
@@ -210,7 +210,7 @@ public class UserBean implements Serializable {
     /**
      * Checks whether or not user is logged in as corporate customer
      *
-     * @return - True if logged in as corporate customer
+     * @return - True if user is logged in as corporate customer
      */
     public boolean isLoggedInAsCorporateCustomer() {
         FacesContext context = FacesContext.getCurrentInstance();
@@ -224,7 +224,7 @@ public class UserBean implements Serializable {
     /**
      * Checks whether or not user is logged in as employee
      *
-     * @return - True if logged in as employee
+     * @return - True if user is logged in as employee
      */
     public boolean isLoggedInAsEmployee() {
         FacesContext context = FacesContext.getCurrentInstance();
@@ -238,7 +238,7 @@ public class UserBean implements Serializable {
     /**
      * Checks whether or not user is logged in as System/Administrator
      *
-     * @return - True if logged in as System
+     * @return - True if user is logged in as System
      */
     public boolean isLoggedInAsSystem() {
         FacesContext context = FacesContext.getCurrentInstance();
@@ -275,6 +275,101 @@ public class UserBean implements Serializable {
     }
 
     /**
+     * Retrives all users from the database.
+     *
+     * @return array with all users
+     */
+    public ArrayList<User> getAllUsers() {
+        ArrayList<User> users = userhandler.getAllUsers();
+        Collections.sort(users);
+        return users;
+    }
+
+    /**
+     * Calls updateUserPassword(user) in UserHandler.java. Updates user password
+     * and send a email to the user.
+     *
+     * @param user
+     */
+    public void updateUserPassword(User user) {
+        if (userhandler.updateUserPassword(user)) {
+            String msg = MessageHandler.getLocalizedText(MessageType.TEKST, "edit_users_email_sent") + user.getEmail();
+            MessageHandler.addErrorMessage(msg);
+        } else {
+            String msg = MessageHandler.getLocalizedText(MessageType.ERROR, "edit_users_error_sending_email");
+            MessageHandler.addErrorMessage(msg);
+        }
+    }
+
+    /**
+     * Calls changePassword() in UserHandler.java. Updates current users
+     * password.
+     */
+    public void changePassword() {
+        if (userhandler.changePassword(getNewPassword(), getUsername(), getPassword())) {
+            String msg = MessageHandler.getLocalizedText(MessageType.TEKST, "edit_account_password_changed");
+            MessageHandler.addErrorMessage(msg);
+        }
+        setPassword(null);
+        setNewPassword(null);
+    }
+
+    /*
+     * Getters and setters for dummyUser below, used to create new employee and
+     * system users.
+     */
+    public String getDummyUsername() {
+        if (dummyUser != null) {
+            return dummyUser.getUsername();
+        }
+        return null;
+    }
+
+    public void setDummyUsername(String username) {
+        if (dummyUser != null) {
+            this.dummyUser.setUsername(username);
+        }
+    }
+
+    public String getDummyPassword() {
+        if (dummyUser != null) {
+            return dummyUser.getPassword();
+        }
+        return null;
+    }
+
+    public void setDummyPassword(String password) {
+        if (dummyUser != null) {
+            this.dummyUser.setPassword(password);
+        }
+    }
+
+    public String getDummyRoleId() {
+        if (dummyUser != null) {
+            if (dummyUser.getRoleId() != null) {
+                return dummyUser.getRoleId();
+            }
+        }
+        return UserRoleHandler.USER_ROLE_ID_EMPLOYEE;
+    }
+
+    public void setDummyRoleId(String roleId) {
+        if (dummyUser != null) {
+            this.dummyUser.setRoleId(roleId);
+        }
+    }
+
+    public void setDummyEmail(String email) {
+        if (email != null) {
+            this.dummyUser.setEmail(email);
+        }
+    }
+
+    public String getDummyEmail() {
+        return this.dummyUser.getEmail();
+    }
+
+    /*
      * Getters and setters for User object contained in the bean
      */
     public String getUsername() {
@@ -337,100 +432,5 @@ public class UserBean implements Serializable {
 
     public String getEmail() {
         return this.user.getEmail();
-    }
-
-    /**
-     *
-     * Getters and setters for dummyUser below, used to create new employee and
-     * system users.
-     *
-     */
-    public String getDummyUsername() {
-        if (dummyUser != null) {
-            return dummyUser.getUsername();
-        }
-        return null;
-    }
-
-    public void setDummyUsername(String username) {
-        if (dummyUser != null) {
-            this.dummyUser.setUsername(username);
-        }
-    }
-
-    public String getDummyPassword() {
-        if (dummyUser != null) {
-            return dummyUser.getPassword();
-        }
-        return null;
-    }
-
-    public void setDummyPassword(String password) {
-        if (dummyUser != null) {
-            this.dummyUser.setPassword(password);
-        }
-    }
-
-    public String getDummyRoleId() {
-        if (dummyUser != null) {
-            if (dummyUser.getRoleId() != null) {
-                return dummyUser.getRoleId();
-            }
-        }
-        return UserRoleHandler.USER_ROLE_ID_EMPLOYEE;
-    }
-
-    public void setDummyRoleId(String roleId) {
-        System.out.println("ID: " + roleId);
-        if (dummyUser != null) {
-            this.dummyUser.setRoleId(roleId);
-        }
-    }
-
-    public void setDummyEmail(String email) {
-        if (email != null) {
-            this.dummyUser.setEmail(email);
-        }
-    }
-
-    public String getDummyEmail() {
-        return this.dummyUser.getEmail();
-    }
-
-    public ArrayList<User> getAllUsers() {
-        ArrayList<User> users = userhandler.getAllUsers();
-        Collections.sort(users);
-        return users;
-    }
-
-    /**
-     * Calls updateUserPassword(user) in UserHandler.java. Updates user password
-     * and sends email to the user.
-     *
-     * @param user
-     */
-    public void updateUserPassword(User user) {
-        if (userhandler.updateUserPassword(user)) {
-            String msg = MessageHandler.getLocalizedText(MessageType.TEKST, "edit_users_email_sent") + user.getEmail();
-            MessageHandler.addErrorMessage(msg);
-        } else {
-            String msg = MessageHandler.getLocalizedText(MessageType.ERROR, "edit_users_error_sending_email");
-            MessageHandler.addErrorMessage(msg);
-        }
-    }
-
-    /**
-     * Calls changePassword() in UserHandler.java. Updates current user
-     * password.
-     *
-     * @return
-     */
-    public void changePassword() {
-        if (userhandler.changePassword(getNewPassword(), getUsername(), getPassword())) {
-            String msg = MessageHandler.getLocalizedText(MessageType.TEKST, "edit_account_password_changed");
-            MessageHandler.addErrorMessage(msg);
-        }
-        setPassword(null);
-        setNewPassword(null);
     }
 }
