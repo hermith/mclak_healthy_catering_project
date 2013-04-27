@@ -1,12 +1,10 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 
 <!--
-template.xhtml
-
 Contains:
-    Copy this when you want to create a new subsite and replace any content.
+    Shows the logged in customer's order history.
 
-@author Karl
+@author Maria
 -->
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -17,6 +15,7 @@ Contains:
 
     <h:body>
         <ui:composition template="/resources/template/template_master.xhtml">
+
             <ui:define name="subsite_header">
                 <h1>
                     <h:form id="control_panel_path_link">
@@ -28,29 +27,36 @@ Contains:
             </ui:define>
 
             <ui:define name="subsite_content">
+
                 <h:form id="order_history">
                     <h:dataTable var="order" value="#{shoppingBean.orderHistory}" >
+
                         <h:column>
                             <f:facet name="header">#{texts.order_id}</f:facet>
                                 #{order.orderID}
                         </h:column>
+
                         <h:column>
                             <f:facet name="header">#{texts.order_placed_date}</f:facet>
                                 #{order.convertDateToString(order.getPlacedDate())}
                         </h:column>
+
                         <h:column>
                             <f:facet name="header">#{texts.menu_deliveryDate}</f:facet>
-                            #{order.convertDateToString(order.getDeliveryDate())}
+                                #{order.convertDateToString(order.getDeliveryDate())}
                         </h:column>
+
                         <h:column>
                             <f:facet name="header">#{texts.order_date_delivered}</f:facet>
                                 #{order.convertDateToString(order.getDeliveredDate())}
                         </h:column>
+
                         <h:column>
                             <f:facet name="header">#{texts.menu_delivery}</f:facet>
                             <h:outputText value="#{texts.no}" rendered="#{!order.delivery}" />
                             <h:outputText value="#{texts.yes}" rendered="#{order.delivery}" />
                         </h:column>
+
                     </h:dataTable>
                 </h:form>
             </ui:define>
