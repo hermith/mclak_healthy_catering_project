@@ -1,6 +1,7 @@
 package info;
 
 import database.DatabaseHandler;
+import info.product.ProductFreq;
 import java.util.ArrayList;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;

@@ -1,12 +1,12 @@
 package shopping;
 
 import database.DatabaseHandler;
-import info.Contract;
 import info.Order;
 import java.io.Serializable;
 import java.util.ArrayList;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import shopping.customer.Contract;
 import shopping.customer.CorporateCustomer;
 import shopping.customer.Customer;
 import shopping.customer.PrivateCustomer;
@@ -19,9 +19,9 @@ import shopping.product.SingleProduct;
 @ApplicationScoped
 public class ShoppingHandler implements Serializable {
 
+    private ArrayList<Product> products;
     @Inject
     private DatabaseHandler database;
-    private ArrayList<Product> products;
 
     public ShoppingHandler() {
         products = new ArrayList<Product>();

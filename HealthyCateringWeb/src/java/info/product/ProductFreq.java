@@ -1,8 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-package info;
+package info.product;
 
 /**
  * Helper class for dealing with the frequency of orders on a product

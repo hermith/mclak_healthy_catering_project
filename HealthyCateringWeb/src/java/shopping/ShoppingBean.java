@@ -1,8 +1,7 @@
 package shopping;
 
-import info.Contract;
 import info.Order;
-import info.ProductHandler;
+import info.product.ProductHandler;
 import java.io.Serializable;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -14,6 +13,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import locale.MessageHandler;
 import locale.MessageType;
+import shopping.customer.Contract;
 import shopping.customer.CorporateCustomer;
 import shopping.customer.Customer;
 import shopping.customer.PrivateCustomer;

@@ -2,10 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package shopping;
+package shopping.customer;
 
 
-import info.CustomerHandler;
 import info.Order;
 import info.OrderHandler;
 import java.io.Serializable;
@@ -21,9 +20,7 @@ import javax.inject.Named;
 @SessionScoped
 public class CustomerBean implements Serializable {
     
-    private Order order;
     private OrderHandler orderHandler;
-    private CustomerHandler customerHandler;
             
     public CustomerBean(){
         
@@ -32,8 +29,5 @@ public class CustomerBean implements Serializable {
     public ArrayList<Order> getOrderHistory(){
         return orderHandler.getOrderHistory();
     }
-    
-    
-    
     
 }

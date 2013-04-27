@@ -1,9 +1,10 @@
 package info;
 
+import info.customer.CustomerHandler;
+import info.product.ProductHandler;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.inject.Any;

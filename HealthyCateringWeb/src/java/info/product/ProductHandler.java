@@ -1,4 +1,4 @@
-package info;
+package info.product;
 
 import database.DatabaseHandler;
 import java.util.ArrayList;

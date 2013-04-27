@@ -1,4 +1,4 @@
-package info;
+package info.product;
 
 import java.io.Serializable;
 import java.util.ArrayList;

@@ -1,5 +1,6 @@
-package info;
+package shopping.customer;
 
+import info.Order;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
