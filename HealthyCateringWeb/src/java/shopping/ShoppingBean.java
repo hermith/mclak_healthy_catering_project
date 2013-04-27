@@ -97,6 +97,319 @@ public class ShoppingBean implements Serializable {
         order = new Order();
     }
 
+    /**
+     *
+     * @return the menu (includes PackageProducts if logged in user is a
+     * corporateCustomer)
+     */
+    public ArrayList<Product> getMenu(boolean isCorporate) {
+        ArrayList<Product> products = shoppingHandler.getMenu();
+        ArrayList<Product> productList = new ArrayList<Product>();
+        if (isCorporate) {
+            return products;
+        } else {
+            for (Product p : products) {
+                if (p instanceof SingleProduct) {
+                    productList.add(p);
+                }
+            }
+        }
+        return productList;
+    }
+
+    /**
+     * Calls addProduct(product) in ShoppingCart.java. Adds the product to the
+     * shoppingCart.
+     *
+     * @return
+     */
+    public void addProduct(Product product) {
+        shoppingCart.addProduct(product);
+    }
+
+    /**
+     * Calls isEmpty() in ShoppingCart.java.
+     *
+     * @return if the current shoppingCart is empty.
+     */
+    public boolean shoppingCartIsEmpty() {
+        return shoppingCart.isEmpty();
+    }
+
+    /**
+     * Calls getProducts() in ShoppingCart.java
+     *
+     * @return products in the shoppingCart
+     */
+    public ArrayList<Product> getProducts() {
+        return shoppingCart.getProducts();
+    }
+
+    /**
+     * Calls deleteProduct(product) in ShoppingCart.java. Deletes the product
+     * from the shoppingCart.
+     *
+     * @param product
+     */
+    public void deleteProduct(Product product) {
+        shoppingCart.deleteProduct(product);
+    }
+
+    /**
+     * Calls insertOrder() in ShoppingHandler.java. Places the order in the
+     * database.
+     *
+     * @return String to viewId
+     */
+    public String placeOrder() {
+        if (!getProducts().isEmpty()) {
+            if (privateCustomer.getCustomerId() != -1) {
+                order.setCustomerID(privateCustomer.getCustomerId());
+            } else if (corporateCustomer.getCustomerId() != -1) {
+                order.setCustomerID(corporateCustomer.getCustomerId());
+            }
+            order.setProducts(getProducts());
+            java.sql.Timestamp date = new java.sql.Timestamp(new Date().getTime());
+            order.setPlacedDate(date);
+            if (shoppingHandler.insertOrder(order)) {
+                shoppingCart = new ShoppingCart();
+                order = new Order();
+                String msg = MessageHandler.getLocalizedText(MessageType.TEKST, "order_placed");
+                MessageHandler.addErrorMessage(msg);
+                return "to_menu";
+            }
+        }
+        String msg = MessageHandler.getLocalizedText(MessageType.ERROR, "order_failed_to_place");
+        MessageHandler.addErrorMessage(msg);
+        return "";
+    }
+
+    /**
+     * @return total price of the shoppingCart
+     */
+    public float getTotalPrice() {
+        return shoppingCart.getTotalPrice();
+    }
+
+    /**
+     * Converts java.util.Date to java.sql.Timestamp, and passes it to the
+     * order-object.
+     *
+     * @param dato
+     */
+    public void setDeliveryDate(Date date) {
+        if (date != null) {
+            java.sql.Timestamp sqlDate = new java.sql.Timestamp(date.getTime());
+            order.setDeliveryDate(sqlDate);
+        }
+    }
+
+    /**
+     * Calls fixCustomer() in ShoppingHandler.java. Saves changes to logged in
+     * customer.
+     */
+    public void saveChangesAccount() {
+        Customer customer = shoppingHandler.getCustomer(username);
+        boolean status = false;
+        if (customer instanceof PrivateCustomer) {
+            int zipCode = Integer.parseInt(getPrivateZipCodeString());
+            PrivateCustomer newCustomer = new PrivateCustomer(customer.getCustomerId(), getPrivateEmail(), getPrivateAddress(), getPrivatePhoneNumber(), zipCode, getPrivateCity(), getFirstName(), getLastName());
+            if (shoppingHandler.fixCustomer(customer, newCustomer)) {
+                status = true;
+            }
+        } else if (customer instanceof CorporateCustomer) {
+            int zipCode = Integer.parseInt(getCorporateZipCodeString());
+            CorporateCustomer newCustomer = new CorporateCustomer(customer.getCustomerId(), getCorporateEmail(), getCorporateAddress(), getCorporatePhoneNumber(), zipCode, getCorporateCity(), getCompanyName());
+            if (shoppingHandler.fixCustomer(customer, newCustomer)) {
+                status = true;
+            }
+        }
+        if (status) {
+            String msg = MessageHandler.getLocalizedText(MessageType.TEKST, "edit_account_changes_saved");
+            MessageHandler.addErrorMessage(msg);
+        } else {
+            String msg = MessageHandler.getLocalizedText(MessageType.ERROR, "edit_account_changes_not_saved");
+            MessageHandler.addErrorMessage(msg);
+        }
+        initiateCustomer(username);
+    }
+
+    /**
+     * Calls getOrderHistory(CustomerId) in ShoppingHandler.java.
+     *
+     * @return Order history for current customer.
+     */
+    public ArrayList<Order> getOrderHistory() {
+        if (privateCustomer.getCustomerId() != -1) {
+            return shoppingHandler.getOrderHistory(privateCustomer.getCustomerId());
+        } else if (corporateCustomer.getCustomerId() != -1) {
+            return shoppingHandler.getOrderHistory(corporateCustomer.getCustomerId());
+        }
+        return null;
+    }
+
+    /**
+     * Calls findQuantity(product, getProducts()).
+     *
+     * @param product
+     * @return quantity of the current product in the shoppingCart
+     */
+    public int findQuantityProduct(Product product) {
+        if (product != null) {
+            return productHandler.findQuantity(product, getProducts());
+        }
+        return 0;
+    }
+
+    /**
+     * Calls getUniqueProductsList(getProducts()). Sort the products in
+     * selectedOrder with only one of each product.
+     *
+     * @return Unique product list
+     */
+    public ArrayList<Product> getShoppingCartProducts() {
+        return productHandler.getUniqueProductsList(getProducts());
+    }
+
+    /**
+     * Calls insertContract(newContract) in ShoppingHandler.java. Saves a new
+     * contract in the database.
+     *
+     * @return navigation case string
+     */
+    public String saveNewContract() {
+        String msg;
+        if (!shoppingCartIsEmpty()) {
+            if (corporateCustomer.getCustomerId() != -1) {
+                newContract.setCustomerId(corporateCustomer.getCustomerId());
+            }
+            newContract.setProducts(getProducts());
+            newContract.setPlacedDate(new Timestamp(new Date().getTime()));
+            newContract.setActive(true);
+            if (shoppingHandler.insertContract(newContract)) {
+                shoppingCart = new ShoppingCart();
+                order = new Order();
+                newContract = new Contract();
+                msg = MessageHandler.getLocalizedText(MessageType.TEKST, "contract_saved");
+                MessageHandler.addErrorMessage(msg);
+                return "contract_overview_customer";
+            } else {
+                msg = MessageHandler.getLocalizedText(MessageType.TEKST, "contract_not_saved");
+            }
+        } else {
+            msg = MessageHandler.getLocalizedText(MessageType.TEKST, "menu_noproducts");
+        }
+        MessageHandler.addErrorMessage(msg);
+        return "";
+    }
+
+    /**
+     * Calls selectContracts(customerId) in ShoppingHandler.java. Finds active
+     * contracts on the logged in customer.
+     *
+     * @return contracts
+     */
+    public ArrayList<Contract> getContracts() {
+        if (corporateCustomer.getCustomerId() != -1) {
+            return shoppingHandler.selectContracts(corporateCustomer.getCustomerId());
+        }
+        return null;
+    }
+
+    /**
+     *
+     * @return whether the customer has active contracts.
+     */
+    public boolean hasContracts() {
+        ArrayList<Contract> contracts = getContracts();
+        if (contracts != null) {
+            if (!contracts.isEmpty()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Used to display days of week.
+     *
+     * @return int[] with Calendar days
+     */
+    public int[] getDaysOfWeek() {
+        int days[] = new int[7];
+        days[0] = Calendar.SUNDAY;
+        days[1] = Calendar.MONDAY;
+        days[2] = Calendar.TUESDAY;
+        days[3] = Calendar.WEDNESDAY;
+        days[4] = Calendar.THURSDAY;
+        days[5] = Calendar.FRIDAY;
+        days[6] = Calendar.SATURDAY;
+        return days;
+    }
+
+    /**
+     * Used to display days of week.
+     *
+     * @param day
+     * @return The local string of day.
+     */
+    public String getDayLocalString(int day) {
+        String dayString = MessageHandler.getLocalizedText(MessageType.TEKST, "day" + day);
+        return dayString;
+    }
+
+    /**
+     * Calls updateContractSetActiv(false, contract.getContractId()) in
+     * ShoppingHandler.java. Sets active to false.
+     *
+     * @param contract
+     */
+    public void setContractInactive(Contract contract) {
+        String msg;
+        if (shoppingHandler.updateContractSetActive(false, contract.getContractId())) {
+            msg = MessageHandler.getLocalizedText(MessageType.TEKST, "contract_removed");
+        } else {
+            msg = MessageHandler.getLocalizedText(MessageType.ERROR, "contract_not_removed");
+        }
+        MessageHandler.addErrorMessage(msg);
+    }
+
+    /**
+     * Calls findQuantity(product,contract.getOrder().getProducts()) in
+     * ProductHandler.java. Used to display products in a contract by quantity.
+     *
+     * @param product
+     * @param contract
+     * @return quantity
+     */
+    public int findQuantityNewContractProducts(Product product, Contract contract) {
+        return productHandler.findQuantity(product, contract.getOrder().getProducts());
+    }
+
+    /**
+     * Calls getUniqueProductsList(contract.getOrder().getProducts()) in
+     * ProductHandler.java. Used to display products in a contract by quantity.
+     *
+     * @param contract
+     * @return list with unique products
+     */
+    public ArrayList<Product> getContractProducts(Contract contract) {
+        return productHandler.getUniqueProductsList(contract.getOrder().getProducts());
+    }
+
+    //Getters and setters for the order-object
+    public Date getDeliveryDate() {
+        return order.getDeliveryDate();
+    }
+
+    public boolean isDelivery() {
+        return order.isDelivery();
+    }
+
+    public void setDelivery(boolean del) {
+        order.setDelivery(del);
+    }
+
     //Getters and setters for private customer object. 
     public String getFirstName() {
         if (privateCustomer != null) {
@@ -297,194 +610,7 @@ public class ShoppingBean implements Serializable {
         return null;
     }
 
-    /**
-     *
-     * @return the menu (includes PackageProducts if logged in user is a
-     * corporateCustomer)
-     */
-    public ArrayList<Product> getMenu(boolean isCorporate) {
-        ArrayList<Product> products = shoppingHandler.getMenu();
-        ArrayList<Product> productList = new ArrayList<Product>();
-        if (isCorporate) {
-            return products;
-        } else {
-            for (Product p : products) {
-                if (p instanceof SingleProduct) {
-                    productList.add(p);
-                }
-            }
-        }
-        return productList;
-    }
-
-    /**
-     * Calls addProduct(product) in ShoppingCart.java. Adds the product to the
-     * shoppingCart.
-     *
-     * @return
-     */
-    public void addProduct(Product product) {
-        shoppingCart.addProduct(product);
-    }
-
-    /**
-     * Calls isEmpty() in ShoppingCart.java.
-     *
-     * @return if the current shoppingCart is empty.
-     */
-    public boolean shoppingCartIsEmpty() {
-        return shoppingCart.isEmpty();
-    }
-
-    /**
-     * Calls getProducts() in ShoppingCart.java
-     *
-     * @return products in the shoppingCart
-     */
-    public ArrayList<Product> getProducts() {
-        return shoppingCart.getProducts();
-    }
-
-    /**
-     * Calls deleteProduct(product) in ShoppingCart.java. Deletes the product
-     * from the shoppingCart.
-     *
-     * @param product
-     */
-    public void deleteProduct(Product product) {
-        shoppingCart.deleteProduct(product);
-    }
-
-    /**
-     * Calls insertOrder() in ShoppingHandler.java. Places the order in the
-     * database.
-     *
-     * @return String to viewId
-     */
-    public String placeOrder() {
-        if (!getProducts().isEmpty()) {
-            if (privateCustomer.getCustomerId() != -1) {
-                order.setCustomerID(privateCustomer.getCustomerId());
-            } else if (corporateCustomer.getCustomerId() != -1) {
-                order.setCustomerID(corporateCustomer.getCustomerId());
-            }
-            order.setProducts(getProducts());
-            java.sql.Timestamp date = new java.sql.Timestamp(new Date().getTime());
-            order.setPlacedDate(date);
-            if (shoppingHandler.insertOrder(order)) {
-                shoppingCart = new ShoppingCart();
-                order = new Order();
-                String msg = MessageHandler.getLocalizedText(MessageType.TEKST, "order_placed");
-                MessageHandler.addErrorMessage(msg);
-                return "to_menu";
-            }
-        }
-        String msg = MessageHandler.getLocalizedText(MessageType.ERROR, "order_failed_to_place");
-        MessageHandler.addErrorMessage(msg);
-        return "";
-    }
-
-    /**
-     * @return total price of the shoppingCart
-     */
-    public float getTotalPrice() {
-        return shoppingCart.getTotalPrice();
-    }
-
-    /**
-     * Converts java.util.Date to java.sql.Timestamp, and passes it to the
-     * order-object.
-     *
-     * @param dato
-     */
-    public void setDeliveryDate(Date date) {
-        if (date != null) {
-            java.sql.Timestamp sqlDate = new java.sql.Timestamp(date.getTime());
-            order.setDeliveryDate(sqlDate);
-        }
-    }
-
-    //GETTER AND SETTER for order
-    public Date getDeliveryDate() {
-        return order.getDeliveryDate();
-    }
-
-    public boolean isDelivery() {
-        return order.isDelivery();
-    }
-
-    public void setDelivery(boolean del) {
-        order.setDelivery(del);
-    }
-
-    /**
-     * Calls fixCustomer() in ShoppingHandler.java. Saves changes to logged in
-     * customer.
-     */
-    public void saveChangesAccount() {
-        Customer customer = shoppingHandler.getCustomer(username);
-        boolean status = false;
-        if (customer instanceof PrivateCustomer) {
-            int zipCode = Integer.parseInt(getPrivateZipCodeString());
-            PrivateCustomer newCustomer = new PrivateCustomer(customer.getCustomerId(), getPrivateEmail(), getPrivateAddress(), getPrivatePhoneNumber(), zipCode, getPrivateCity(), getFirstName(), getLastName());
-            if (shoppingHandler.fixCustomer(customer, newCustomer)) {
-                status = true;
-            }
-        } else if (customer instanceof CorporateCustomer) {
-            int zipCode = Integer.parseInt(getCorporateZipCodeString());
-            CorporateCustomer newCustomer = new CorporateCustomer(customer.getCustomerId(), getCorporateEmail(), getCorporateAddress(), getCorporatePhoneNumber(), zipCode, getCorporateCity(), getCompanyName());
-            if (shoppingHandler.fixCustomer(customer, newCustomer)) {
-                status = true;
-            }
-        }
-        if (status) {
-            String msg = MessageHandler.getLocalizedText(MessageType.TEKST, "edit_account_changes_saved");
-            MessageHandler.addErrorMessage(msg);
-        } else {
-            String msg = MessageHandler.getLocalizedText(MessageType.ERROR, "edit_account_changes_not_saved");
-            MessageHandler.addErrorMessage(msg);
-        }
-        initiateCustomer(username);
-    }
-
-    /**
-     * Calls getOrderHistory(CustomerId) in ShoppingHandler.java.
-     *
-     * @return Order history for current customer.
-     */
-    public ArrayList<Order> getOrderHistory() {
-        if (privateCustomer.getCustomerId() != -1) {
-            return shoppingHandler.getOrderHistory(privateCustomer.getCustomerId());
-        } else if (corporateCustomer.getCustomerId() != -1) {
-            return shoppingHandler.getOrderHistory(corporateCustomer.getCustomerId());
-        }
-        return null;
-    }
-
-    /**
-     * Calls findQuantity(product, getProducts()).
-     *
-     * @param product
-     * @return quantity of the current product in the shoppingCart
-     */
-    public int findQuantityProduct(Product product) {
-        if (product != null) {
-            return productHandler.findQuantity(product, getProducts());
-        }
-        return 0;
-    }
-
-    /**
-     * Calls getUniqueProductsList(getProducts()). Sort the products in
-     * selectedOrder with only one of each product.
-     *
-     * @return Unique product list
-     */
-    public ArrayList<Product> getShoppingCartProducts() {
-        return productHandler.getUniqueProductsList(getProducts());
-    }
-
-    //Getters and setters for new contract
+    //Getters and setters for newContract-object
     public boolean isNewContractDelivery() {
         return newContract.isDelivery();
     }
@@ -507,100 +633,5 @@ public class ShoppingBean implements Serializable {
 
     public Date getNewContractTime() {
         return newContract.getTime();
-    }
-
-    /**
-     * Calls insertContract(newContract) in ShoppingHandler.java. Saves a new
-     * contract in the database.
-     *
-     * @return navigation case string
-     */
-    public String saveNewContract() {
-        String msg;
-        if (!shoppingCartIsEmpty()) {
-            if (corporateCustomer.getCustomerId() != -1) {
-                newContract.setCustomerId(corporateCustomer.getCustomerId());
-            }
-            newContract.setProducts(getProducts());
-            newContract.setPlacedDate(new Timestamp(new Date().getTime()));
-            newContract.setActive(true);
-            if (shoppingHandler.insertContract(newContract)) {
-                shoppingCart = new ShoppingCart();
-                order = new Order();
-                newContract = new Contract();
-                msg = MessageHandler.getLocalizedText(MessageType.TEKST, "contract_saved");
-                MessageHandler.addErrorMessage(msg);
-                return "contract_overview_customer";
-            } else {
-                msg = MessageHandler.getLocalizedText(MessageType.TEKST, "contract_not_saved");
-            }
-        } else {
-            msg = MessageHandler.getLocalizedText(MessageType.TEKST, "menu_noproducts");
-        }
-        MessageHandler.addErrorMessage(msg);
-        return "";
-    }
-
-    /**
-     * Calls selectContracts(customerId) in ShoppingHandler.java. Finds active
-     * contracts on the logged in customer.
-     *
-     * @return contracts
-     */
-    public ArrayList<Contract> getContracts() {
-        if (corporateCustomer.getCustomerId() != -1) {
-            return shoppingHandler.selectContracts(corporateCustomer.getCustomerId());
-        }
-        return null;
-    }
-
-    /**
-     *
-     * @return whether the customer has active contracts.
-     */
-    public boolean hasContracts() {
-        ArrayList<Contract> contracts = getContracts();
-        if (contracts != null) {
-            if (!contracts.isEmpty()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Used to display days of week.
-     *
-     * @return int[] with Calendar days
-     */
-    public int[] getDaysOfWeek() {
-        int days[] = new int[7];
-        days[0] = Calendar.SUNDAY;
-        days[1] = Calendar.MONDAY;
-        days[2] = Calendar.TUESDAY;
-        days[3] = Calendar.WEDNESDAY;
-        days[4] = Calendar.THURSDAY;
-        days[5] = Calendar.FRIDAY;
-        days[6] = Calendar.SATURDAY;
-        return days;
-    }
-
-    /**
-     * Used to display days of week.
-     *
-     * @param day
-     * @return The local string of day.
-     */
-    public String getDayLocalString(int day) {
-        String dayString = MessageHandler.getLocalizedText(MessageType.TEKST, "day" + day);
-        return dayString;
-    }
-
-    public void setNewContractInactive(Contract contract) {
-        if (shoppingHandler.updateContractSetActive(false, contract.getContractId())) {
-            MessageHandler.addErrorMessage("JANK");
-        } else {
-            MessageHandler.addErrorMessage("NE");
-        }
     }
 }
