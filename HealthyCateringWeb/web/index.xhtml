@@ -1,4 +1,11 @@
 <?xml version='1.0' encoding='UTF-8' ?>
+<!--
+Contains:
+   This is the front page with a gallery
+
+@author Maria, Karl
+-->
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
@@ -11,6 +18,8 @@
                 <h:outputScript library="js" name="/supersized.core.3.2.1.js" />
             </ui:define>
             <ui:define name="subsite_content">
+                
+                <!--View the gallery with english text-->
                 <p:galleria value="#{galleriaBean.images_en}"
                             var="image"
                             id='galleria_front'
@@ -22,6 +31,8 @@
                             rendered="#{!galleriaBean.no}">  
                     <p:graphicImage value="/resources/img/galleria/#{image.path}" title="#{image.name}" />  
                 </p:galleria>
+                
+                <!--View the gallery with norwegian text-->
                 <p:galleria value="#{galleriaBean.images_no}"
                             var="image"
                             id='galleria_front_two'
