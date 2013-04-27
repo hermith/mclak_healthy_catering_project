@@ -50,7 +50,7 @@ Contains:
                         #{contract.delivery}
                     </h:column>
                     <h:column>
-                        <h:commandButton styleClass="menu_add_button" value="#{texts.product_delete}" />
+                        <h:commandButton styleClass="menu_add_button" value="#{texts.product_delete}"  action="#{shoppingBean.setNewContractInactive(contract)}"/>
                     </h:column>
                 </h:dataTable>
                 <p><h:outputText rendered="#{!shoppingBean.hasContracts()}" value="#{texts.no_contracts}" /></p>

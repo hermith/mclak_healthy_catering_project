@@ -147,15 +147,40 @@ public class ShoppingHandler implements Serializable {
         return database.selectOrders(customerId);
     }
 
+    /**
+     * Updates contract with id like contractId. 
+     *
+     * @param active
+     * @param contractId
+     * @return if the contract was updated.
+     */
     public boolean updateContractSetActive(boolean active, int contractId) {
-        return database.updateContractSetActive(true, contractId);
+        return database.updateContractSetActive(active, contractId);
     }
 
+    /**
+     * Calls insertContract(contract) in DatabaseHandler.java. Inserts contract
+     * in the database.
+     *
+     * @param contract
+     * @return whether the contract was inserted.
+     */
     public boolean insertContract(Contract contract) {
         return database.insertContract(contract);
     }
 
+    /**
+     *
+     * @param customerId
+     * @return active contracts on the given customerId
+     */
     public ArrayList<Contract> selectContracts(int customerId) {
-        return database.selectContracts(customerId);
+        ArrayList<Contract> contracts = new ArrayList<Contract>();
+        for (Contract c : database.selectContracts(customerId)) {
+            if (c.isActive()) {
+                contracts.add(c);
+            }
+        }
+        return contracts;
     }
 }
