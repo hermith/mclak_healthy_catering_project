@@ -1,12 +1,10 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 
 <!--
-place_order.xhtml
-
 Contains:
     Final site in the ordering process. 
 
-@author Linn Kristin
+@author Linn
 -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
@@ -17,6 +15,7 @@ Contains:
 
     <h:body>
         <ui:composition template="/resources/template/template_master.xhtml">
+
             <ui:define name="subsite_header">
                 <h1>#{texts.menu_place_order}</h1>
             </ui:define>
@@ -26,40 +25,61 @@ Contains:
 
                     <!--Table with all products--> 
                     <h:dataTable var="product" value="#{shoppingBean.shoppingCartProducts}" >
+
                         <h:column>
                             <f:facet name="header">#{texts.menu_product}</f:facet>
-                            #{product.getName(localeHandler.getLang())}
+                                #{product.getName(localeHandler.getLang())}
                         </h:column>
+
                         <h:column>
                             <f:facet name="header">#{texts.menu_description}</f:facet>
-                            #{product.getDescription(localeHandler.getLang())}
+                                #{product.getDescription(localeHandler.getLang())}
                         </h:column>
+
                         <h:column>
                             <f:facet name="header">#{texts.menu_price}</f:facet>
-                            #{product.price}
+                                #{product.price}
                         </h:column>
+
                         <h:column>
                             <f:facet name="header" >#{texts.product_quantity}</f:facet>
-                            #{shoppingBean.findQuantityProduct(product)}
+                                #{shoppingBean.findQuantityProduct(product)}
                         </h:column>
+
                     </h:dataTable>
                     <p>#{texts.menu_total}: #{shoppingBean.totalPrice},- </p>
 
                     <!--Choose delivery method-->
                     <p>#{texts.menu_deliveryMethod}:</p>
-                    <h:selectOneRadio id="place_order_radio" value="#{shoppingBean.delivery}" >
-                        <f:selectItem itemValue="#{false}" itemLabel="#{texts.menu_pickup}"/>
-                        <f:selectItem itemValue="#{true}" itemLabel="#{texts.menu_delivery}"/>
+                    <h:selectOneRadio id="place_order_radio"
+                                      value="#{shoppingBean.delivery}" >
+
+                        <f:selectItem itemValue="#{false}"
+                                      itemLabel="#{texts.menu_pickup}"/>
+
+                        <f:selectItem itemValue="#{true}"
+                                      itemLabel="#{texts.menu_delivery}"/>
+
                     </h:selectOneRadio>
 
                     <!--Choose delivery date-->
                     <h:outputText value="#{texts.menu_deliveryDate} (dd/MM/yyyy HH:mm): " />
-                    <p:inputText converterMessage="#{error.order_date_incorrect}" required="true" requiredMessage="#{error.order_required_date}" value="#{shoppingBean.deliveryDate}" >
+                    <p:inputText converterMessage="#{error.order_date_incorrect}"
+                                 required="true"
+                                 requiredMessage="#{error.order_required_date}"
+                                 value="#{shoppingBean.deliveryDate}" >
+
                         <f:convertDateTime pattern="dd/MM/yyyy HH:mm" dateStyle="short" />
                     </p:inputText>
 
-                    <p:messages /><br/><br/>
-                    <h:commandButton value="#{texts.menu_place_order}" action="#{shoppingBean.placeOrder()}" styleClass="button_style"/>
+                    <p:messages />
+
+                    <br/><br/>
+
+                    <h:commandButton value="#{texts.menu_place_order}"
+                                     action="#{shoppingBean.placeOrder()}"
+                                     styleClass="button_style"/>
+
                 </h:form>
             </ui:define>
         </ui:composition>
