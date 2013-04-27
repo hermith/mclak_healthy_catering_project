@@ -12,12 +12,16 @@ import locale.MessageHandler;
 import locale.MessageType;
 
 /**
+ * A validator to check if the zip-code is input correctly. Checks if it
+ * contains only numbers and is of the length 4. Currently only works for
+ * Norwegian zip-codes.
  *
  * @author linnk
  */
 @FacesValidator("ZipCodeValidator")
 public class ZipCodeValidator implements Validator {
 
+    //Regex pattern
     private static final String ZIP_PATTERN = "[0-9]+";
     private Pattern pattern;
     private Matcher matcher;

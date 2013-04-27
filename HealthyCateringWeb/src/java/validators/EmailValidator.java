@@ -12,12 +12,15 @@ import locale.MessageHandler;
 import locale.MessageType;
 
 /**
+ * A validator to check that emails are input coorect. It checks for acceptable
+ * characters and that the AT is correct.
  *
  * @author linnk
  */
 @FacesValidator("EmailValidator")
 public class EmailValidator implements Validator {
 
+    //Regex pattern
     private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-]+(\\."
             + "[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*"
             + "(\\.[A-Za-z]{2,})$";

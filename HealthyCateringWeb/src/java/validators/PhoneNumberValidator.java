@@ -12,12 +12,15 @@ import locale.MessageHandler;
 import locale.MessageType;
 
 /**
+ * A validator that checks that phonenumbers are input correct. It checks that
+ * it contains numbers, between 8 and 13 numbers.
  *
  * @author linnk
  */
 @FacesValidator("PhoneNumberValidator")
 public class PhoneNumberValidator implements Validator {
 
+    //Regex pattern
     private static final String PHONE_NUMBER_PATTERN = "[0-9]+";
     private Pattern pattern;
     private Matcher matcher;
@@ -33,7 +36,7 @@ public class PhoneNumberValidator implements Validator {
             return;
         }
         matcher = pattern.matcher(value.toString());
-        if (!matcher.matches() || phoneNumber.length() != 8) {
+        if (!matcher.matches() || !(phoneNumber.length() > 8 && phoneNumber.length() < 13)) {
             FacesMessage msg = MessageHandler.getMessage("invalid_phone_number", MessageType.ERROR);
             throw new ValidatorException(msg);
         }

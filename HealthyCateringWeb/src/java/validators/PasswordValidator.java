@@ -13,12 +13,16 @@ import locale.MessageHandler;
 import locale.MessageType;
 
 /**
+ * A validator that checks if passwords are input correct. It checks for minimum
+ * length of 8, and that it has no whitespaces, only accepted characters and
+ * atleast one capital, non-capital and a number.
  *
  * @author linnk
  */
 @FacesValidator("PasswordValidator")
 public class PasswordValidator implements Validator {
 
+    //Regex pattern
     private static final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$";
     private Pattern pattern;
     private Matcher matcher;
