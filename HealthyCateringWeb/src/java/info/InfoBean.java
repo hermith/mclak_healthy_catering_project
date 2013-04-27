@@ -46,15 +46,15 @@ public class InfoBean implements Serializable {
     public InfoBean() {
     }
 
-    public ArrayList<Order> getActiveOrders() {
-        ArrayList<Order> orders = orderHandler.getActiveOrders();
+    public ArrayList<Order> getUndeliveredOrders() {
+        ArrayList<Order> orders = orderHandler.getUndeliveredOrders();
         Collections.sort(orders);
         return orders;
     }
 
     public ArrayList<Order> getUnpreparedOrders() {
         ArrayList<Order> puorder = new ArrayList<Order>();
-        for (Order o : orderHandler.getActiveOrders()) {
+        for (Order o : orderHandler.getUndeliveredOrders()) {
             if (!o.isPrepared()) {
                 puorder.add(o);
             }
@@ -304,8 +304,8 @@ public class InfoBean implements Serializable {
         }
         return 0;
     }
-    
-        /**
+
+    /**
      * Calls findQuantity(product, selectedOrder.getProducts()).
      *
      * @param product
@@ -327,14 +327,14 @@ public class InfoBean implements Serializable {
         }
         return null;
     }
-    
+
     public ArrayList<Product> getUniqueOrdersFromList(ArrayList<Product> products) {
         return productHandler.getUniqueProductsList(products);
     }
 
     /**
      * Marks an order as delivered with the timestamp of the current time.
-     * 
+     *
      * @param orderID Order to set as delivered
      */
     public void markOrderAsDelivered(int orderID) {
@@ -344,7 +344,7 @@ public class InfoBean implements Serializable {
 
     /**
      * Marks and order as prepared.
-     * 
+     *
      * @param orderID Order to be marked as prepared
      */
     public void markOrderAsPrepared(int orderID) {

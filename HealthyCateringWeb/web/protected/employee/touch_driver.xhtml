@@ -42,7 +42,7 @@
             </pm:header>
 
             <pm:content>
-                <p:dataList value="#{infoBean.activeOrders}" var="order">
+                <p:dataList value="#{infoBean.undeliveredOrders}" var="order">
                     <h:panelGroup rendered="#{order.prepared}"
                                   styleClass="prepared_order">
                         <p>#{texts.ready_pickup}</p>

@@ -50,7 +50,12 @@ public class UserHandler {
      * @return - True if registration was successful. False if an error occured.
      */
     public boolean registerCorporateUser(User user) {
-        return (db.insertUser(user));
+        if (db.insertUser(user)) {
+            FacesContext context = FacesContext.getCurrentInstance();
+            ((ShoppingBean) context.getApplication().evaluateExpressionGet(context, "#{shoppingBean}", ShoppingBean.class)).registerCorporateCustomer(user.getUsername());
+            return true;
+        }
+        return false;
     }
 
     /**
