@@ -59,7 +59,7 @@
                                 <label>#{texts.edit_account_address}</label>
                                 <br/><br/>
 
-                                <p:inputText value="#{shoppingBean.privateZipCode}" required="true" requiredMessage="#{texts.user_reg_zip_error}">
+                                <p:inputText value="#{shoppingBean.privateZipCode}" required="true" requiredMessage="#{texts.user_reg_zip_error}" converterMessage="#{error.zip_code_invalid}">
                                     <f:validator validatorId="ZipCodeValidator"/>
                                 </p:inputText>
                                 <label>#{texts.edit_account_zipcode}</label>

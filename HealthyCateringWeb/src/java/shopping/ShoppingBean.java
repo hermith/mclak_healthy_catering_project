@@ -171,6 +171,7 @@ public class ShoppingBean implements Serializable {
             order.setProducts(getProducts());
             java.sql.Timestamp date = new java.sql.Timestamp(new Date().getTime());
             order.setPlacedDate(date);
+            order.setActive(true);
             if (shoppingHandler.insertOrder(order)) {
                 shoppingCart = new ShoppingCart();
                 order = new Order();

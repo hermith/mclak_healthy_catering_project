@@ -35,22 +35,27 @@ Contains:
                         <!--Only corporate-->
                         <h:panelGroup rendered="#{userBean.loggedInAsCorporateCustomer}">
                             <label>#{texts.edit_account_company_name}:</label>
-                            <p:inputText value="#{shoppingBean.companyName}"/>
+                            <p:inputText required="true" requiredMessage="#{texts.user_reg_company_error}" value="#{shoppingBean.companyName}"/>
                             <br/>
                             <label>#{texts.edit_account_address}:</label>
-                            <p:inputText value="#{shoppingBean.corporateAddress}"/>
+                            <p:inputText required="true" requiredMessage="#{texts.user_reg_address_error}" value="#{shoppingBean.corporateAddress}"/>
                             <br/>
                             <label>#{texts.edit_account_zipcode}:</label>
-                            <p:inputText value="#{shoppingBean.corporateZipCode}"/>
+                            <p:inputText required="true" converterMessage="#{error.zip_code_invalid}" requiredMessage="#{texts.user_reg_zip_error}" value="#{shoppingBean.corporateZipCode}">
+                                <f:validator validatorId="ZipCodeValidator" />
+                            </p:inputText>
                             <br/>
                             <label>#{texts.edit_account_city}:</label>
-                            <p:inputText value="#{shoppingBean.corporateCity}"/>
+                            <p:inputText required="true" requiredMessage="#{texts.user_reg_city_error}" value="#{shoppingBean.corporateCity}">
+                            </p:inputText>
                             <br/>
                             <label>#{texts.edit_account_phone}:</label>
-                            <p:inputText value="#{shoppingBean.corporatePhoneNumber}"/>
+                            <p:inputText required="true" converterMessage="#{error.invalid_phone_number}" requiredMessage="#{texts.user_reg_phone_error}" value="#{shoppingBean.corporatePhoneNumber}">
+                                <f:validator validatorId="PhoneNumberValidator" />
+                            </p:inputText>
                             <br/>
                             <label>#{texts.edit_account_email}:</label>
-                            <p:inputText id="edit_account_email1" value="#{shoppingBean.corporateEmail}">
+                            <p:inputText required="true" requiredMessage="#{texts.user_reg_email_error}" id="edit_account_email1" value="#{shoppingBean.corporateEmail}">
                                 <f:validator validatorId="EmailValidator"/>
                             </p:inputText>
                             <br/><br/>
@@ -58,27 +63,29 @@ Contains:
                         <!--Only private-->
                         <h:panelGroup rendered="#{userBean.loggedInAsPrivateCustomer}">
                             <label>#{texts.edit_account_firstname}:</label>
-                            <p:inputText value="#{shoppingBean.firstName}"/>
+                            <p:inputText required="true" requiredMessage="#{texts.user_reg_firstname_error}" value="#{shoppingBean.firstName}"/>
                             <br/>
                             <label>#{texts.edit_account_lastname}:</label>
-                            <p:inputText value="#{shoppingBean.lastName}"/>
+                            <p:inputText required="true" requiredMessage="#{texts.user_reg_lastname_error}" value="#{shoppingBean.lastName}"/>
                             <br/>
                             <label>#{texts.edit_account_address}:</label>
-                            <p:inputText value="#{shoppingBean.privateAddress}"/>
+                            <p:inputText required="true" requiredMessage="#{texts.user_reg_address_error}" value="#{shoppingBean.privateAddress}"/>
                             <br/>
                             <label>#{texts.edit_account_zipcode}:</label>
-                            <p:inputText value="#{shoppingBean.privateZipCode}"/>
+                            <p:inputText required="true" converterMessage="#{error.zip_code_invalid}" requiredMessage="#{texts.user_reg_zip_error}" value="#{shoppingBean.privateZipCode}">
+                                <f:validator validatorId="ZipCodeValidator" />
+                            </p:inputText>
                             <br/>
                             <label>#{texts.edit_account_city}:</label>
-                            <p:inputText value="#{shoppingBean.privateCity}"/>
+                            <p:inputText required="true" requiredMessage="#{texts.user_reg_city_error}" value="#{shoppingBean.privateCity}"/>
                             <br/>
                             <label>#{texts.edit_account_phone}:</label>
-                            <p:inputText value="#{shoppingBean.privatePhoneNumber}">
+                            <p:inputText converterMessage="#{error.invalid_phone_number}" required="true" requiredMessage="#{texts.user_reg_phone_error}" value="#{shoppingBean.privatePhoneNumber}">
                                 <f:validator validatorId="PhoneNumberValidator" />
                             </p:inputText>
                             <br/>
                             <label>#{texts.edit_account_email}:</label>
-                            <p:inputText id="edit_account_email" value="#{shoppingBean.privateEmail}">
+                            <p:inputText required="true" requiredMessage="#{texts.user_reg_email_error}" id="edit_account_email" value="#{shoppingBean.privateEmail}">
                                 <f:validator validatorId="EmailValidator"/>
                             </p:inputText>
                             <br/>
