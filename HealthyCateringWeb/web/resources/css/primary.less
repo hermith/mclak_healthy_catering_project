@@ -18,6 +18,7 @@
 
 /* Primary definitions */
 * {
+    font-size: 13px;
     color: @font_color;
     font-family: Arial, Helvetica, sans-serif;
     margin: 0;
@@ -32,8 +33,14 @@ input {
     color: black;
 }
 
+
 h1, h2 {
+    font-size: 24px;
     background-color: @accent_heavy;
+}
+
+h3 {
+    font-size: 18px;
 }
 
 h1, h2, h3, h4, h5 {
@@ -91,6 +98,7 @@ table {
 
 /* The sliding login-bar at the top */
 #top_bar_span_login_always_show {
+    font-size: 16px;
     padding: 4px 0;
     text-align: center;
     background-color: @accent_heavy;
@@ -327,6 +335,7 @@ td {
 }
 
 th {
+    font-size: 18px;
     color: @font_header;
     text-align:center;
     background:none repeat scroll 0 0 @table_header;
@@ -349,6 +358,7 @@ tr:nth-child(even){
 /* common/control_panel.xhtml */
 
 #control_panel_path_link, #control_panel_path_link a {
+    font-size: 24px;
     display: inline;
     color: white;
 }
@@ -778,5 +788,6 @@ tr:nth-child(even){
 
 // Used to set the general size of PrimeFaces inputs slightly smaller.
 .ui-widget {
-    font-size: 0.8em;
+    margin: 2px;
+    font-size: 1em;
 }
