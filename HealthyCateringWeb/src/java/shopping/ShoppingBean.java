@@ -122,8 +122,6 @@ public class ShoppingBean implements Serializable {
     /**
      * Calls addProduct(product) in ShoppingCart.java. Adds the product to the
      * shoppingCart.
-     *
-     * @return
      */
     public void addProduct(Product product) {
         shoppingCart.addProduct(product);
@@ -198,7 +196,7 @@ public class ShoppingBean implements Serializable {
      * Converts java.util.Date to java.sql.Timestamp, and passes it to the
      * order-object.
      *
-     * @param dato
+     * @param date The date when the order is to be delivered.
      */
     public void setDeliveryDate(Date date) {
         if (date != null) {

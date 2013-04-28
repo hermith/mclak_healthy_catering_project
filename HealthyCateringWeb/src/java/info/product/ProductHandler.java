@@ -171,7 +171,7 @@ public class ProductHandler {
      * @param singleProduct
      * @param packageProduct
      * @param quantity
-     * @return
+     * @return True if the product was added successfully, false if not.
      */
     public boolean addProductToPackage(SingleProduct singleProduct, PackageProduct packageProduct, int quantity) {
         if ((singleProduct != null) && (packageProduct != null)) {

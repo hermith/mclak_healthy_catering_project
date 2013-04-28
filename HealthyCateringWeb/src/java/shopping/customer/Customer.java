@@ -29,7 +29,7 @@ public abstract class Customer {
     /**
      * Constructor for creating new customer with appropriate information.
      *
-     * @param companyId Customer ID
+     * @param customerId Customer ID
      * @param email Customer email
      * @param address Customer address
      * @param phoneNumber Customer phone number
@@ -57,7 +57,7 @@ public abstract class Customer {
      * A "toString" method used in the drivers UI, to give relevant customer
      * information to the drivers.
      *
-     * @return
+     * @return Information about a given customer in string format.
      */
     public String getDriverInformation() {
         return getName().toUpperCase() + ", " + address + ", " + city + " " + zipCode + ", " + phoneNumber;
@@ -65,7 +65,7 @@ public abstract class Customer {
 
     /**
      * Standard generated toString
-     * 
+     *
      * @return All variables as string
      */
     @Override

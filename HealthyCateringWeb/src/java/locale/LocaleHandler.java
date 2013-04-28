@@ -7,10 +7,10 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 /**
- * LocaleHandler.java is used to set the current language for the user. This
- * has the ability to switch between Norwegian and English. these methods are
- * called directly from xhtml buttoms.
- * 
+ * LocaleHandler.java is used to set the current language for the user. This has
+ * the ability to switch between Norwegian and English. these methods are called
+ * directly from xhtml buttoms.
+ *
  * @author Karl
  */
 @Named
@@ -21,20 +21,19 @@ public class LocaleHandler implements Serializable {
 
     /**
      * Changes to English language.
-     * 
-     * @return 
+     *
+     * @return null.
      */
     public String setEnglish() {
         locale = new Locale("en");
         FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
         return null;
-        
     }
 
     /**
      * Changes to Norwegian language
-     * 
-     * @return 
+     *
+     * @return null.
      */
     public String setNorwegian() {
         locale = new Locale("no");
@@ -51,7 +50,7 @@ public class LocaleHandler implements Serializable {
 
     /**
      * Sets the current locale from a Locale object
-     * 
+     *
      * @param spraak Language to change to
      */
     public void setLang(Locale spraak) {

@@ -119,7 +119,7 @@ public class StatisticsHandler {
      * @param check - Int to be checked towards an array
      * @param array - The array towards which to check whether or not contains
      * the int
-     * @return
+     * @return True if the int is contained in the given array, false if not.
      */
     public boolean isInArray(int check, int[] array) {
         for (int i : array) {
