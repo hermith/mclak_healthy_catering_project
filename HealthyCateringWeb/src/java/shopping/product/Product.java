@@ -3,7 +3,11 @@ package shopping.product;
 import java.util.Locale;
 
 /**
- * @author aleksalr
+ * This class is used for storing information about a product. This class is
+ * abstract, and therefore any product object needs to be of the type
+ * SingleProduct or PackageProduct.
+ *
+ * @author Aleksander L. Rasch
  */
 public abstract class Product {
 
@@ -14,6 +18,9 @@ public abstract class Product {
     private String descriptionEn;
     private boolean active;
 
+    /**
+     * Initiates an empty product.
+     */
     public Product() {
         this.id = -1;
         this.nameNo = null;
@@ -23,6 +30,15 @@ public abstract class Product {
         active = false;
     }
 
+    /**
+     * Initiates a product with given parameters.
+     *
+     * @param id The product id.
+     * @param nameNo The product name in Norwegian.
+     * @param nameEn The product name in English.
+     * @param descriptionNo The product description in Norwegian.
+     * @param descriptionEn The product description in English.
+     */
     public Product(int id, String nameNo, String nameEn, String descriptionNo, String descriptionEn) {
         this.id = id;
         this.nameNo = nameNo;
@@ -34,6 +50,7 @@ public abstract class Product {
 
     /**
      * toString-method.
+     *
      * @return a readable text representation of this object
      */
     @Override
@@ -61,7 +78,7 @@ public abstract class Product {
         }
         return true;
     }
-    
+
     //Getters and setters below
     public boolean isActive() {
         return active;
@@ -71,7 +88,6 @@ public abstract class Product {
         this.active = activ;
     }
 
-    
     public int getId() {
         return id;
     }
@@ -127,7 +143,7 @@ public abstract class Product {
     public void setDescriptionEn(String descriptionEn) {
         this.descriptionEn = descriptionEn;
     }
-    
+
     /**
      * @return the price
      */

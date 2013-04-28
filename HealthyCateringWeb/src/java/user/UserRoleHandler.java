@@ -7,7 +7,8 @@ import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 /**
- * UserRoleHandler is used to show user role in a human readable manner and in the correct language.
+ * UserRoleHandler is used to show user role in a human readable manner and in
+ * the correct language.
  *
  * @author Christer Olsen
  */
@@ -37,9 +38,7 @@ public class UserRoleHandler {
         return name;
     }
 
-    /*
-     * Getters and setters below
-     */
+    // Getters and setters below
     public synchronized String getUserRoleIdPrivateCustomer() {
         return USER_ROLE_ID_PRIVATE_CUSTOMER;
     }

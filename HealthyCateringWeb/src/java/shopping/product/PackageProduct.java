@@ -4,19 +4,37 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /**
- * @author colsen91
+ * This class is used for storing information about a package product. This
+ * class extends the class shopping.product.Product.
+ *
+ * @author Christer Olsen
  */
 public class PackageProduct extends Product {
 
     private int discount;
     private ArrayList<SingleProduct> products;
 
+    /**
+     * Initiates an empty package product.
+     */
     public PackageProduct() {
         super();
         this.discount = 0;
         this.products = new ArrayList<SingleProduct>();
     }
 
+    /**
+     * Initiates a package product with given parameters.
+     *
+     * @param id The product id.
+     * @param nameNo The name in Norwegian.
+     * @param nameEn The name in English
+     * @param descriptionNo The description in Norwegian.
+     * @param descriptionEn The description in English.
+     * @param discount The discount in NOK.
+     * @param products The single products that this package product consists
+     * of.
+     */
     public PackageProduct(int id, String nameNo, String nameEn, String descriptionNo, String descriptionEn, int discount, ArrayList<SingleProduct> products) {
         super(id, nameNo, nameEn, descriptionNo, descriptionEn);
         this.discount = discount;
@@ -25,7 +43,8 @@ public class PackageProduct extends Product {
 
     /**
      * Add product to the list products.
-     * @param product 
+     *
+     * @param product The product to add.
      */
     public void addProduct(SingleProduct product) {
         this.products.add(product);
@@ -33,16 +52,13 @@ public class PackageProduct extends Product {
 
     /**
      * Remove product from the list products.
-     * @param product 
+     *
+     * @param product The product to remove.
      */
     public void removeProduct(SingleProduct product) {
         this.products.remove(product);
     }
 
-    /**
-     * toString-method.
-     * @return a readable text representation of this object
-     */
     @Override
     public String toString() {
         return "PackageProduct{" + super.toString() + "discount=" + discount + ", products=" + products + '}';
@@ -60,7 +76,8 @@ public class PackageProduct extends Product {
 
     /**
      * Finds the price of the PackageProduct.
-     * @return total price 
+     *
+     * @return The total price.
      */
     @Override
     public float getPrice() {
@@ -71,8 +88,8 @@ public class PackageProduct extends Product {
         return Float.parseFloat(new DecimalFormat("#.##").format(sum - discount).replace(",", "."));
 
     }
-    
-     //Getters and setters
+
+    // Getters and setters
     public int getDiscount() {
         return discount;
     }
